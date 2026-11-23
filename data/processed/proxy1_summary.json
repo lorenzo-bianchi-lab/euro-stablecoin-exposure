@@ -22,6 +22,16 @@
   "eur_share_excl_usd": 0.4126991811728964,
   "leave_one_out_min": 0.20651032858099655,
   "leave_one_out_max": 0.26663291207114165,
+  "coingecko": {
+    "n_tickers": 142,
+    "n_exchanges": 48,
+    "n_excluded_anomaly_or_stale": 6,
+    "total_volume_usd_24h": 1026032717.0,
+    "eur_share": 0.24311573097722186,
+    "eur_share_incl_flagged": 0.20548680485143273,
+    "timestamp_min": "2026-11-23T07:16:35+00:00",
+    "timestamp_max": "2026-11-23T09:38:46+00:00"
+  },
   "interval": [
     0.11911845646044002,
     0.504361874787901
