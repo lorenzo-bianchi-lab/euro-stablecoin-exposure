@@ -1,0 +1,53 @@
+{
+  "window": [
+    "2026-10-12",
+    "2026-11-22"
+  ],
+  "coverage": [
+    {
+      "chain": "eth",
+      "token": "USDT",
+      "blocks": 6029,
+      "transfers_sampled": 589996,
+      "days": 42,
+      "first": "2026-10-12",
+      "last": "2026-11-22"
+    },
+    {
+      "chain": "eth",
+      "token": "USDC",
+      "blocks": 6029,
+      "transfers_sampled": 492681,
+      "days": 42,
+      "first": "2026-10-12",
+      "last": "2026-11-22"
+    },
+    {
+      "chain": "tron",
+      "token": "USDT",
+      "blocks": 6046,
+      "transfers_sampled": 489934,
+      "days": 42,
+      "first": "2026-10-12",
+      "last": "2026-11-22"
+    }
+  ],
+  "central": 0.5240439519629589,
+  "central_by_series": {
+    "eth-USDT": 0.6357217925434,
+    "eth-USDC": 0.32311211929899175,
+    "tron-USDT": 0.6132979440464851
+  },
+  "central_bootstrap_p2.5_p97.5": [
+    0.4541364260539984,
+    0.609656057125429
+  ],
+  "interval": [
+    0.27322362665207095,
+    0.8497145097926513
+  ],
+  "interval_main_metric_only": [
+    0.27322362665207095,
+    0.6357217925434
+  ]
+}

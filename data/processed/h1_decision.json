@@ -1,0 +1,17 @@
+{
+  "proxy1_central": 0.24263258621690068,
+  "proxy1_interval": [
+    0.11911845646044002,
+    0.504361874787901
+  ],
+  "proxy2_central": 0.5240439519629589,
+  "proxy2_interval": [
+    0.27322362665207095,
+    0.8497145097926513
+  ],
+  "R": 2.1598251089591547,
+  "verdict": "GO CON RISERVA",
+  "intervals_overlap": true,
+  "R_min_from_intervals": 1.0,
+  "R_max_from_intervals": 7.133357290226866
+}
