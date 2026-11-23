@@ -8,6 +8,7 @@ Per ogni blocco di lavoro salva gli aggregati per giorno, token, exchange e dire
 Lo script riprende da dove si era fermato.
 
 Uso: python src/cex_flows_fetch.py [eth|tron]
+     python src/cex_flows_fetch.py compact   # rigenera solo le tabelle giornaliere
 """
 from __future__ import annotations
 
@@ -241,8 +242,31 @@ def run(chain: str) -> None:
             for (addr, exch, tok, direction), (value, n) in sorted(by_address.items(), key=lambda kv: -kv[1][0]):
                 wa.writerow([addr, exch, tok, direction, round(value, 2), n])
     print(f"[{chain}] finito, falliti {fails}", flush=True)
+    if not fails:
+        compact(chain)
+
+
+def compact(chain: str) -> None:
+    """Riduce il file di lavoro (una riga per blocco di lavoro) a una tabella giornaliera da committare."""
+    agg = defaultdict(lambda: [0.0, 0])
+    with (RAW / f"cex_flows_{chain}.csv").open() as f:
+        for r in csv.DictReader(f):
+            if r["exchange"] != "_done":
+                a = agg[(r["date"], r["token"], r["exchange"], r["direction"])]
+                a[0] += float(r["value"])
+                a[1] += int(r["n"])
+    with (RAW / f"cex_flows_{chain}_daily.csv").open("w", newline="") as g:
+        w = csv.writer(g)
+        w.writerow(["date", "token", "exchange", "direction", "value", "n"])
+        for key in sorted(agg):
+            w.writerow([*key, round(agg[key][0], 2), agg[key][1]])
 
 
 if __name__ == "__main__":
-    for c in sys.argv[1:] or ["eth"]:
-        run(c)
+    args = sys.argv[1:] or ["eth", "tron"]
+    if args[0] == "compact":
+        for c in args[1:] or ["eth", "tron"]:
+            compact(c)
+    else:
+        for c in args:
+            run(c)

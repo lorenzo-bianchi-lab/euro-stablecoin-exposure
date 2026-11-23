@@ -1,0 +1,96 @@
+{
+  "window": [
+    "2026-10-12",
+    "2026-11-22"
+  ],
+  "proxy3_total": 0.38443015722152785,
+  "coverage_total": 0.9102877624222508,
+  "proxy3_by_token": {
+    "USDC": 0.5294266235344405,
+    "USDT": 0.295828974013311
+  },
+  "coverage_by_token": {
+    "USDC": 0.8884202095458733,
+    "USDT": 0.9241880637422661
+  },
+  "proxy3_by_chain": {
+    "eth": 0.4160586286439996,
+    "tron": 0.29655340117886875
+  },
+  "coverage_by_chain": {
+    "eth": 0.8858747143375219,
+    "tron": 0.9857655479581604
+  },
+  "proxy3_by_chain_token": {
+    "eth-USDC": 0.5294266235344405,
+    "eth-USDT": 0.295290484933398,
+    "tron-USDT": 0.29655340117886875
+  },
+  "proxy3_weekly": {
+    "2026-10-12": 0.334907007992844,
+    "2026-10-19": 0.33106977354491934,
+    "2026-10-26": 0.35348867897971853,
+    "2026-11-02": 0.400479724653834,
+    "2026-11-09": 0.44994210204643587,
+    "2026-11-16": 0.46301776734855
+  },
+  "coverage_weekly": {
+    "2026-10-12": 0.9216869327686045,
+    "2026-10-19": 0.9387548571811695,
+    "2026-10-26": 0.9267745006639673,
+    "2026-11-02": 0.9060624179744636,
+    "2026-11-09": 0.8426063204393756,
+    "2026-11-16": 0.9088507513805204
+  },
+  "weekly_mean": 0.38881750909438356,
+  "weekly_deviation_from_mean": {
+    "2026-10-12": -0.13865245221879408,
+    "2026-10-19": -0.14852143794647432,
+    "2026-10-26": -0.09086224073846716,
+    "2026-11-02": 0.029994059646679894,
+    "2026-11-09": 0.1572063796571841,
+    "2026-11-16": 0.19083569159987257
+  },
+  "conditions": {
+    "coverage_ge_30pct": true,
+    "proxy3_between_5_and_30pct": false,
+    "weekly_within_25pct_of_mean": true
+  },
+  "verdict": "SOLO ANDAMENTO",
+  "sensitivity": {
+    "unmatched_exchanges_at_zero": 0.34994206762481866,
+    "inflows_only": 0.38408071646528863,
+    "outflows_only": 0.3847752341977362,
+    "token_specific_eur_share": 0.4439123916226775,
+    "without_coinbase_prime": 0.36849764875784213,
+    "leave_one_out_min": [
+      "Coinbase",
+      0.28354206097860424
+    ],
+    "leave_one_out_max": [
+      "Binance",
+      0.4761409659508351
+    ]
+  },
+  "gross_flow_all_labelled": 359484017807.72,
+  "gross_flow_defined": 327233902196.75,
+  "internal_transfers_excluded": 84502659079.54999,
+  "n_transfers": 13868941,
+  "n_labelled_entities_with_flows": 121,
+  "n_panel_exchanges_with_flows": 24,
+  "panel_exchanges_without_flows": [
+    "Coinone"
+  ],
+  "labelled_flows_vs_total_onchain": {
+    "eth": {
+      "labelled_gross_flow": 271627101468.82,
+      "estimated_total_transfer_value": 2481790355547.9995,
+      "ratio": 0.10944804457862539
+    },
+    "tron": {
+      "labelled_gross_flow": 87856916338.9,
+      "estimated_total_transfer_value": 1091297255474.0001,
+      "ratio": 0.0805068608925803
+    }
+  }
+}

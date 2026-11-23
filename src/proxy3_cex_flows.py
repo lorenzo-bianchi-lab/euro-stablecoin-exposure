@@ -50,11 +50,10 @@ def main() -> None:
     share, share_tok, fiat_vol = eur_shares()
     frames = []
     for chain in ("eth", "tron"):
-        p = RAW / f"cex_flows_{chain}.csv"
+        p = RAW / f"cex_flows_{chain}_daily.csv"
         if p.exists():
             frames.append(pd.read_csv(p).assign(chain=chain))
     raw = pd.concat(frames, ignore_index=True)
-    raw = raw[raw.exchange != "_done"]
     internal = raw[raw.direction == "internal"].value.sum()
     f = raw[raw.direction.isin(["in", "out"])].copy()
     f = f[(f.date >= "2026-10-12") & (f.date <= "2026-11-22")]

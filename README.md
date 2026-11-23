@@ -16,6 +16,10 @@ Risultato (2026-11-23): **GO CON RISERVA**, con R = 2,16. La proxy sugli exchang
 24,3%, quella sugli orari on-chain 52,4%. Dettagli, limiti e benchmark in
 [reports/00_test_H1.md](reports/00_test_H1.md).
 
+Test della proxy 3 (2026-11-24): **SOLO ANDAMENTO**. I flussi verso exchange pesati per
+quota EUR danno 38,4%, sopra il tetto del 30%, e risentono di etichette incomplete.
+Dettagli in [reports/01_test_proxy3.md](reports/01_test_proxy3.md).
+
 ## Struttura
 
 | Percorso | Contenuto |
@@ -37,6 +41,8 @@ python3 -m venv .venv
 .venv/bin/python src/proxy1_exchange.py
 .venv/bin/python src/proxy2_onchain.py
 .venv/bin/python src/h1_decision.py
+.venv/bin/python src/cex_flows_fetch.py
+.venv/bin/python src/proxy3_cex_flows.py
 ```
 
 ## Chiavi API
