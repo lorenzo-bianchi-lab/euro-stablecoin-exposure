@@ -12,7 +12,9 @@ Fase 0: test di fattibilità "go / no-go" dell'ipotesi H1.
 > H1: indicatori pubblici indipendenti danno stime tra loro coerenti della quota
 > di attività in stablecoin in dollari attribuibile all'area euro.
 
-Il risultato è in [reports/00_test_H1.md](reports/00_test_H1.md).
+Risultato (2026-11-23): **GO CON RISERVA**, con R = 2,16. La proxy sugli exchange dà
+24,3%, quella sugli orari on-chain 52,4%. Dettagli, limiti e benchmark in
+[reports/00_test_H1.md](reports/00_test_H1.md).
 
 ## Struttura
 
@@ -29,6 +31,9 @@ Il risultato è in [reports/00_test_H1.md](reports/00_test_H1.md).
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
+.venv/bin/python src/exchange_fetch.py
+.venv/bin/python src/coingecko_snapshot.py
+.venv/bin/python src/onchain_fetch.py
 .venv/bin/python src/proxy1_exchange.py
 .venv/bin/python src/proxy2_onchain.py
 .venv/bin/python src/h1_decision.py
