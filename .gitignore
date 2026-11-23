@@ -1,0 +1,20 @@
+# Segreti: le chiavi API vivono solo in .env
+.env
+.env.*
+!.env.example
+
+# Ambiente Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+
+# Dati: i file grezzi voluminosi non vanno nel repository (limite 50 MB)
+data/raw/**/*.jsonl
+data/raw/**/*.json.gz
+data/raw/**/*.parquet
+*.zip
