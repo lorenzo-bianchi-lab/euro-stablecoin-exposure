@@ -199,6 +199,8 @@ def main() -> None:
     plot(idx_main, "03_indice_principale.png", "Quota EUR dei volumi stablecoin/fiat, indice principale (25 exchange)")
     plot(idx_long, "03_indice_lungo.png", "Quota EUR dei volumi stablecoin/fiat, indice lungo (senza Kraken e Gemini)")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
+    if fetch_info.get("modalita") != "offline" and fetch_info.get("pairs_ok", 1) == 0:
+        sys.exit("nessun exchange ha risposto: indice ricalcolato dall'archivio, nessun dato nuovo")
 
 
 def plot(idx: pd.DataFrame, filename: str, title: str) -> None:

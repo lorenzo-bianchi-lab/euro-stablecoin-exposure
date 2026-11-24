@@ -48,7 +48,6 @@ def download() -> tuple[pd.DataFrame, dict]:
     circ = pd.DataFrame({"usd_tutte": chart(None), "usdt": chart(ids["tether"]), "usdc": chart(ids["usd-coin"])})
     circ = circ[circ.index >= START].dropna(subset=["usd_tutte"])
     circ.index.name = "data"
-    circ.round(6).to_csv(CIRC)
 
     cg = {x["id"]: x for x in get_json("https://api.coingecko.com/api/v3/coins/markets", vs_currency="usd", ids="tether,usd-coin")}
     r = requests.get("https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A",
@@ -73,6 +72,7 @@ def download() -> tuple[pd.DataFrame, dict]:
         "cambio": {str(k): float(v) for k, v in fx.items()},
         "famiglie": hh,
     }
+    circ.round(6).to_csv(CIRC)  # si scrive solo qui, dopo che tutti gli scarichi sono riusciti
     AUX.write_text(json.dumps(aux, indent=1))
     return circ, aux
 
