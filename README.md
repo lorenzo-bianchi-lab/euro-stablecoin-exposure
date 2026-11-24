@@ -7,6 +7,9 @@ sostituzione dei depositi. Riferimento: ECB Working Paper n. 3199 (marzo 2026).
 
 ## Stato
 
+Il progetto è definito in [SPEC.md](SPEC.md): quattro moduli, fonti confermate, cosa
+il programma non promette e metodi scartati. Va letto per primo.
+
 Fase 0: test di fattibilità "go / no-go" dell'ipotesi H1.
 
 > H1: indicatori pubblici indipendenti danno stime tra loro coerenti della quota
@@ -19,6 +22,11 @@ Risultato (2026-11-23): **GO CON RISERVA**, con R = 2,16. La proxy sugli exchang
 Test della proxy 3 (2026-11-24): **SOLO ANDAMENTO**. I flussi verso exchange pesati per
 quota EUR danno 38,4%, sopra il tetto del 30%, e risentono di etichette incomplete.
 Dettagli in [reports/01_test_proxy3.md](reports/01_test_proxy3.md).
+
+Verifica dei benchmark e delle serie BCE per il modulo 3 (2026-11-24): tutte le cifre
+esterne ritrovate negli originali; 12 serie di bilancio bancario scaricabili per i 21
+paesi dell'area euro. Dettagli in
+[reports/02_benchmark_e_modulo3.md](reports/02_benchmark_e_modulo3.md).
 
 ## Struttura
 
@@ -43,6 +51,7 @@ python3 -m venv .venv
 .venv/bin/python src/h1_decision.py
 .venv/bin/python src/cex_flows_fetch.py
 .venv/bin/python src/proxy3_cex_flows.py
+.venv/bin/python src/ecb_bsi_probe.py
 ```
 
 ## Chiavi API
