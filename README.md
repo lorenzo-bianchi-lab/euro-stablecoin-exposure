@@ -45,6 +45,12 @@ per arrivare al 5% servirebbero 464 miliardi di dollari. Dettagli in
 [reports/05_modulo4_scenari.md](reports/05_modulo4_scenari.md). Un livello qualsiasi:
 `.venv/bin/python src/module4_scenarios.py --importo-usd 250`.
 
+Modulo 1 (2026-11-24): livello attribuibile all'area euro applicando le quote assunte
+dall'ESM alla circolazione corrente di USDT e USDC. Al 24 novembre 2026: 16,7 miliardi di
+euro (quota 7,5%) e 33,4 (quota 15%). È un'ipotesi esterna applicata, non una stima.
+Dettagli in [reports/06_modulo1_livello.md](reports/06_modulo1_livello.md).
+Aggiornamento: `.venv/bin/python src/module1_level.py`.
+
 ## Struttura
 
 | Percorso | Contenuto |

@@ -306,6 +306,11 @@ che conta di più non è nessuna di queste, ma la regola di ripartizione tra pae
 | `data/processed/m4_rule_comparison.csv` | Confronto tra R1 e R2 nello scenario S2 |
 | `data/processed/m4_custom.csv` | Risultato dell'ultimo importo libero richiesto |
 
+Aggiornamento del 2026-11-24: completato il modulo 1, i file contengono anche gli
+scenari `M1_oggi_base` (18,3 miliardi di dollari) e `M1_oggi_alto` (36,6), calcolati
+sulla circolazione corrente. Vedi [06_modulo1_livello.md](06_modulo1_livello.md),
+sezione 3.6. Le tabelle di questo report non cambiano.
+
 ---
 
 **Cosa aggiunge questo al programma finale**: lo strumento di scenario. Dato un

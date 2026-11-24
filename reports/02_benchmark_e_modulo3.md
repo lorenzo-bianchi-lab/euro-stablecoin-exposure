@@ -49,7 +49,10 @@ La BCE stessa definisce i dati "sperimentali".
 | 600 miliardi di dollari | 15% di una circolazione di 4.000 miliardi, scenario D | proiezione al 2030 | Nessuno: ipotesi | Sezione 5.2, p. 56 (PDF 58) |
 
 Gli autori motivano il 7,5% scontando le stime di Reuter (2025), la cui "Europa" include
-Russia, Ucraina, Turchia e Regno Unito. Non è una stima empirica e non ha un intervallo
+Russia, Ucraina, Turchia e Regno Unito. La circolazione a cui applicano la quota è la
+somma di USDT e USDC (174 + 74 miliardi, sezione 4.4.1, p. 39), che assumono
+rappresentare tutte le stablecoin in dollari: precisazione aggiunta dopo il modulo 1
+([report 06](06_modulo1_livello.md), sezione 3.2). Non è una stima empirica e non ha un intervallo
 di confidenza.
 
 **Conseguenza per il modulo 1**: le due fonti misurano cose diverse e nessuna delle due

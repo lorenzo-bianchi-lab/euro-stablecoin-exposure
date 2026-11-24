@@ -62,7 +62,10 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   scarica la circolazione corrente di USDT e USDC da una fonte gratuita verificata e
   produce il livello nei due scenari, con data; (c) il risultato è etichettato come
   applicazione di un'ipotesi esterna, non come stima.
-- **Da verificare prima di iniziare**: la fonte gratuita della circolazione corrente.
+- **Stato**: completato il 2026-11-24 (`reports/06_modulo1_livello.md`,
+  `src/module1_level.py`). La base a cui si applicano le quote è USDT più USDC, la
+  stessa dell'ESM (verificato: 247,8 contro 248 miliardi al 30 settembre 2025).
+  Circolazione da DefiLlama, controllata con CoinGecko. Il livello alimenta il modulo 4.
 
 ### Modulo 2 - Andamento (indice settimanale)
 
@@ -138,6 +141,9 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 | API pubbliche di 25 exchange (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso, Binance.US) | Modulo 2 | Gratis, senza chiave | Confermata. Storico: almeno dal 2023 per 18 exchange; Kraken solo dal 2024-12 (ultime 720 candele) |
 | CoinGecko, ticker a 24 ore | Controllo di copertura del modulo 2 | Gratis, senza chiave, solo istantanea | Confermata |
 | ECB Data Portal, dataset BSI | Modulo 3 | Gratis, senza chiave | Confermata: 12 serie, 21 paesi (20 per i depositi da altre banche), mensile, fino a 2026-09 |
+| DefiLlama, API delle stablecoin | Modulo 1: circolazione di USDT, USDC e totale | Gratis, senza chiave | Confermata; coincide con CoinGecko entro lo 0,4% |
+| CoinGecko, `circulating_supply` | Modulo 1: controllo | Gratis, senza chiave | Confermata |
+| Eurostat, famiglie (`lfst_hhnhtych`) | Modulo 1: controllo di coerenza | Gratis, senza chiave | Confermata: 21 paesi, 2025 |
 | BRI, statistiche bancarie territoriali (LBS) | Modulo 3: passività in valuta estera e in dollari | Gratis, senza chiave | Confermata: 4 serie, 13 paesi su 21, trimestrale, fino a 2026-Q2 |
 | ECB Data Portal, tasso di cambio di riferimento (EXR) | Modulo 4: conversione degli importi in dollari | Gratis, senza chiave | Confermata |
 | Eurostat, popolazione al 1° gennaio (`demo_pjan`) | Modulo 4: ripartizione pro capite | Gratis, senza chiave | Confermata: 21 paesi, 2025 |
@@ -147,8 +153,7 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 | RPC pubblici Ethereum e Tron; etichette Dune Spellbook | Solo test 00 e 01 | Gratis, senza chiave | Non più usate |
 
 Non disponibile: passività bancarie in valuta estera a frequenza mensile, e per otto
-paesi dell'area euro a qualsiasi frequenza. Da verificare: fonte gratuita della
-circolazione corrente di USDT e USDC per il modulo 1.
+paesi dell'area euro a qualsiasi frequenza.
 
 ## 4. Cosa il programma NON promette
 
@@ -199,3 +204,4 @@ circolazione corrente di USDT e USDC per il modulo 1.
 | 2026-11-24 | Modulo 2 completato (`reports/03_modulo2_indice.md`): indice settimanale in quattro serie, riproducibile |
 | 2026-11-24 | Modulo 3 completato (`reports/04_modulo3_classifica.md`): classifica dei 21 paesi, stabile a cinque pesature |
 | 2026-11-24 | Modulo 4 completato (`reports/05_modulo4_scenari.md`): scenari per paese, soglie e strumento con importo libero. Resta il modulo 1 |
+| 2026-11-24 | Modulo 1 completato (`reports/06_modulo1_livello.md`): livello di base 16,7 miliardi di euro, alto 33,4. Tutti e quattro i moduli sono completi |
