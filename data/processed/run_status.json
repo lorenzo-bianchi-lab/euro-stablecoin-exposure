@@ -1,0 +1,22 @@
+{
+  "eseguito_il": "2026-11-24T17:18:53+00:00",
+  "modalita": "con scarico dalle fonti",
+  "moduli": {
+    "modulo3": {
+      "esito": "ok",
+      "secondi": 47.2
+    },
+    "modulo1": {
+      "esito": "ok",
+      "secondi": 11.6
+    },
+    "modulo2": {
+      "esito": "ok",
+      "secondi": 241.3
+    },
+    "modulo4": {
+      "esito": "ok",
+      "secondi": 11.6
+    }
+  }
+}

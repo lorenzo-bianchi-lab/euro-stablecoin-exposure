@@ -1,12 +1,12 @@
 {
-  "calcolato_il": "2026-11-24T16:52:41+00:00",
+  "calcolato_il": "2026-11-24T17:23:52+00:00",
   "scarico": {
     "fetched_from": "2026-10-20",
     "fetched_to_excl": "2026-11-23",
     "rows_fetched": 4730,
     "rows_compared": 4730,
-    "rows_revised": 1,
-    "max_relative_revision": 0.009312261883873952,
+    "rows_revised": 0,
+    "max_relative_revision": 0.0,
     "rows_added": 0,
     "pairs_ok": 142,
     "pairs_error": [
