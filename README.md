@@ -1,9 +1,14 @@
 # euro-stablecoin-exposure
 
-Progetto universitario (ESCP, economia e finanza). Obiettivo finale: stimare quanta
-parte delle stablecoin in dollari (USDT, USDC) è detenuta o usata da residenti
-dell'area euro, e quali sistemi bancari nazionali sarebbero più vulnerabili a una
-sostituzione dei depositi. Riferimento: ECB Working Paper n. 3199 (marzo 2026).
+Progetto universitario (ESCP, economia e finanza) destinato alla BCE. Dato un livello
+di adozione delle stablecoin in dollari (USDT, USDC) preso da fonti esterne, il
+programma mostra come si muove l'attività in euro, quali sistemi bancari nazionali
+dell'area euro hanno la raccolta più esposta a una sostituzione dei depositi e quanto
+peserebbe ogni livello di adozione, paese per paese. Riferimento: ECB Working Paper
+n. 3199 (marzo 2026).
+
+L'obiettivo iniziale, stimare la quota detenuta da residenti dell'area euro, è stato
+abbandonato: i test preliminari hanno mostrato che con dati gratuiti non è stimabile.
 
 ## In breve
 
@@ -14,10 +19,9 @@ sostituzione dei depositi. Riferimento: ECB Working Paper n. 3199 (marzo 2026).
 I report numerati in `reports/` sono fotografie alla data indicata; la sintesi e i file
 in `data/processed/` riflettono l'ultimo aggiornamento.
 
-## Stato
+## Cronologia
 
-Il progetto è definito in [SPEC.md](SPEC.md): quattro moduli, fonti confermate, cosa
-il programma non promette e metodi scartati.
+Test preliminari e moduli, nell'ordine in cui sono stati fatti.
 
 Fase 0: test di fattibilità "go / no-go" dell'ipotesi H1.
 
