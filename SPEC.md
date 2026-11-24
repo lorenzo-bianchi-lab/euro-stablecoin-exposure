@@ -6,6 +6,21 @@ qui e viene annotata nel registro in fondo.
 
 Ultimo aggiornamento: 2026-11-24.
 
+## 0. Obiettivo non negoziabile
+
+Il prodotto finale è un programma utile, potente e innovativo per la BCE, non una
+raccolta di report prudenti.
+
+- Ogni modulo deve produrre un risultato che un analista della BCE possa usare: un
+  numero, una classifica, uno scenario.
+- Dichiarare i limiti è obbligatorio, ma non sostituisce il risultato.
+- Se un metodo fallisce, si propone e si prova subito un'alternativa.
+- Ogni report termina con la riga "Cosa aggiunge questo al programma finale".
+
+Questa sezione prevale sulle altre in caso di dubbio su quanto spingersi. Non prevale
+sulla sezione 4 né sulla regola di non inventare dati: un risultato utile è un risultato
+vero, con il suo perimetro dichiarato.
+
 ## 1. Obiettivo
 
 Progetto universitario (ESCP, economia e finanza) destinato alla BCE. Riferimento:
@@ -27,8 +42,13 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 
 ### Modulo 1 - Livello (da fonti esterne, non stimato)
 
+- **Risultato per l'analista**: un numero. Il valore in dollari e in euro delle
+  stablecoin in dollari attribuibile all'area euro secondo le ipotesi esterne, aggiornato
+  alla circolazione corrente (circolazione mondiale × 7,5% nello scenario di base, × 15%
+  nello scenario alto), affiancato dalla diffusione tra i consumatori.
 - **Cosa fa**: riporta i riferimenti esterni sul livello di adozione nell'area euro, con
-  la definizione esatta di ciascuno. Non produce stime proprie.
+  la definizione esatta di ciascuno, e li applica alla circolazione corrente. Non stima
+  quote proprie.
 - **Fonti**: riquadro del Bollettino economico BCE 7/2026 (5% dei consumatori dichiara di
   possedere stablecoin, agosto 2025, indagine CES in 11 paesi); ESM Working Paper 79
   (7,5% della circolazione di stablecoin in dollari assunto in mano a famiglie dell'area
@@ -36,12 +56,18 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 - **Avvertenza**: le due cifre non misurano la stessa cosa. Quella BCE è una diffusione
   tra i consumatori, quella ESM è un'ipotesi di calibrazione. Nessuna delle due è una
   misura del valore detenuto.
-- **Completato quando**: esiste una tabella con, per ogni riferimento, valore, grandezza
-  misurata, periodo, campione, pagina e link, e ogni valore è stato riletto
-  sull'originale. Stato: fatto in `reports/02_benchmark_e_modulo3.md`, parte A.
+- **Completato quando**: (a) esiste una tabella con, per ogni riferimento, valore,
+  grandezza misurata, periodo, campione, pagina e link, e ogni valore è stato riletto
+  sull'originale (fatto in `reports/02_benchmark_e_modulo3.md`, parte A); (b) uno script
+  scarica la circolazione corrente di USDT e USDC da una fonte gratuita verificata e
+  produce il livello nei due scenari, con data; (c) il risultato è etichettato come
+  applicazione di un'ipotesi esterna, non come stima.
+- **Da verificare prima di iniziare**: la fonte gratuita della circolazione corrente.
 
 ### Modulo 2 - Andamento (indice settimanale)
 
+- **Risultato per l'analista**: un numero per settimana e la sua variazione. Quattro
+  serie storiche aggiornabili con un comando, più l'ultimo valore e lo scarto dalla media.
 - **Cosa fa**: indice settimanale della quota EUR dei volumi spot stablecoin/fiat sugli
   exchange centralizzati (ex proxy 1). Quattro serie: USDT e USDC, ciascuna con e senza
   Coinbase.
@@ -58,22 +84,31 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 
 ### Modulo 3 - Vulnerabilità (struttura della raccolta bancaria per paese)
 
+- **Risultato per l'analista**: una classifica. I paesi dell'area euro ordinati per
+  esposizione strutturale della raccolta a una sostituzione dei depositi, con le
+  componenti che spiegano la posizione di ciascuno e la sua evoluzione nel tempo.
 - **Cosa fa**: descrive, per ciascuno dei 21 paesi dell'area euro e per mese, com'è
   composta la raccolta delle banche: depositi a vista e totali di famiglie e imprese,
   depositi interbancari, titoli di debito emessi, passività verso l'estero, capitale.
-- **Fonti**: ECB Data Portal, dataset BSI, 12 serie confermate (`src/ecb_bsi_probe.py`,
-  elenco in `reports/02_benchmark_e_modulo3.md`, parte B).
-- **Limite noto**: le passività in valuta estera per paese non sono pubblicate a
-  frequenza mensile. Il modulo le omette, salvo trovare una fonte alternativa verificata.
+  Aggiunge, per i paesi coperti, la quota di passività in valuta estera e in dollari.
+- **Fonti**: ECB Data Portal, dataset BSI, 12 serie confermate (`src/ecb_bsi_probe.py`);
+  statistiche bancarie territoriali della BRI per le passività in valuta estera
+  (`src/bis_lbs_probe.py`). Elenco in `reports/02_benchmark_e_modulo3.md`, parte B.
+- **Limite noto**: le passività in valuta estera sono trimestrali e coprono 13 paesi su
+  21 (mancano BG, EE, HR, LT, LV, MT, SI, SK, che non dichiarano alla BRI).
 - **Completato quando**: (a) esiste una tabella paese per mese con le quote di
   composizione della raccolta, calcolate con formule scritte nel report; (b) le quote
   sommano al totale del passivo entro una tolleranza dichiarata, o lo scarto è spiegato;
-  (c) ogni eventuale indicatore sintetico ha pesi motivati prima di guardare la
-  classifica dei paesi; (d) il report dichiara che si tratta di struttura della
-  raccolta, non di probabilità di deflusso.
+  (c) la classifica è prodotta da un indicatore con componenti e pesi scritti e motivati
+  prima di guardare l'ordine dei paesi, e accompagnata da almeno una pesatura
+  alternativa per mostrare quanto l'ordine è stabile; (d) il report dichiara che la
+  classifica ordina la struttura della raccolta, non la probabilità di deflusso.
 
 ### Modulo 4 - Scenari (effetto sulla raccolta per paese)
 
+- **Risultato per l'analista**: uno scenario. Per ogni livello di adozione, la variazione
+  della raccolta di ciascun paese in miliardi di euro e in punti percentuali, e quanta
+  raccolta all'ingrosso servirebbe per compensarla.
 - **Cosa fa**: calcolo contabile di quanto cambierebbe la raccolta di ciascun paese per
   diversi livelli di adozione, usando i livelli del modulo 1 come punti di partenza e la
   struttura del modulo 3 come base.
@@ -90,12 +125,15 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 | API pubbliche di 25 exchange (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso, Binance.US) | Modulo 2 | Gratis, senza chiave | Confermata per 2026-10-12 / 2026-11-22; storico più lungo da verificare |
 | CoinGecko, ticker a 24 ore | Controllo di copertura del modulo 2 | Gratis, senza chiave, solo istantanea | Confermata |
 | ECB Data Portal, dataset BSI | Modulo 3 | Gratis, senza chiave | Confermata: 12 serie, 21 paesi (20 per i depositi da altre banche), mensile, fino a 2026-09 |
+| BRI, statistiche bancarie territoriali (LBS) | Modulo 3: passività in valuta estera e in dollari | Gratis, senza chiave | Confermata: 4 serie, 13 paesi su 21, trimestrale, fino a 2026-Q2 |
 | BCE, Bollettino economico 7/2026, riquadro sulle stablecoin | Modulo 1 | Pagina pubblica | Verificata sull'originale |
 | ESM Working Paper 79 | Moduli 1 e 4 | PDF pubblico | Verificata sull'originale |
 | ESMA, Kaiko, Chainalysis, IMF WP/25/141, Bruegel PB 09/2026 | Confronto | Pubblici | Verificate sugli originali |
 | RPC pubblici Ethereum e Tron; etichette Dune Spellbook | Solo test 00 e 01 | Gratis, senza chiave | Non più usate |
 
-Non disponibile: passività bancarie in valuta estera per paese a frequenza mensile.
+Non disponibile: passività bancarie in valuta estera a frequenza mensile, e per otto
+paesi dell'area euro a qualsiasi frequenza. Da verificare: fonte gratuita della
+circolazione corrente di USDT e USDC per il modulo 1.
 
 ## 4. Cosa il programma NON promette
 
@@ -107,8 +145,8 @@ Non disponibile: passività bancarie in valuta estera per paese a frequenza mens
 - **Nessun "early warning".** L'indice del modulo 2 e la struttura del modulo 3 non sono
   segnali anticipatori di deflussi né indicatori di rischio validati.
 - Nessuna previsione dell'adozione futura: gli scenari sono ipotesi.
-- Nessuna classifica di "paesi a rischio": il modulo 3 descrive la composizione della
-  raccolta, non la probabilità che i depositi escano.
+- La classifica del modulo 3 ordina i paesi per struttura della raccolta. Non è una
+  probabilità che i depositi escano né un giudizio sulla solidità delle banche.
 - Nessuna copertura di OTC, P2P, finanza decentralizzata o reti diverse da quelle
   dichiarate in ciascun report.
 
@@ -121,6 +159,7 @@ Non disponibile: passività bancarie in valuta estera per paese a frequenza mens
 | Proxy 3: flussi verso exchange pesati per quota EUR | `reports/01_test_proxy3.md` | Esito 38,4%, sopra il tetto pre-registrato del 30%; Coinbase vale metà del risultato per un artefatto; etichette incomplete (Kraken e exchange coreani assenti); andamento dovuto al calo dei flussi etichettati di Binance |
 | Proxy 1 usata come livello | `reports/00_test_H1.md` | Misura la quota di trading in euro, non le detenzioni; va dal 12% (USDT) al 50% (USDC). Resta in uso solo come andamento, nel modulo 2 |
 | Chiave Dune per migliorare le etichette | `reports/01_test_proxy3.md` | La tabella di Dune usa le stesse liste pubbliche già provate |
+| Dataset BSI per le passività in valuta estera | `reports/02_benchmark_e_modulo3.md` | La scomposizione per valuta non è pubblicata per depositi, titoli e totale del passivo. Sostituito dalle statistiche BRI |
 | Istantanea CoinGecko come serie storica | `reports/00_test_H1.md` | L'API gratuita restituisce solo le ultime 24 ore |
 
 ## 6. Regole di lavoro
@@ -131,6 +170,8 @@ Non disponibile: passività bancarie in valuta estera per paese a frequenza mens
 - Le chiavi API stanno solo in `.env`, escluso da git. Nessun file di dati oltre 50 MB.
 - Commit piccoli con messaggi chiari; push alla fine di ogni sessione.
 - Ogni report dichiara i propri limiti e cosa non è stato possibile fare.
+- Se un metodo fallisce, nello stesso report si propone e si prova un'alternativa.
+- Ogni report termina con la riga "Cosa aggiunge questo al programma finale".
 
 ## 7. Registro
 
@@ -139,3 +180,4 @@ Non disponibile: passività bancarie in valuta estera per paese a frequenza mens
 | 2026-11-23 | Test H1 (`reports/00_test_H1.md`): R = 2,16, GO CON RISERVA |
 | 2026-11-24 | Test proxy 3 (`reports/01_test_proxy3.md`): 38,4%, SOLO ANDAMENTO; proxy 2 e 3 scartate |
 | 2026-11-24 | Progetto ridefinito in quattro moduli; benchmark verificati e serie BCE confermate (`reports/02_benchmark_e_modulo3.md`) |
+| 2026-11-24 | Aggiunta la sezione 0 (obiettivo non negoziabile); ogni modulo ha ora un risultato dichiarato per l'analista; passività in valuta estera recuperate dalle statistiche BRI |
