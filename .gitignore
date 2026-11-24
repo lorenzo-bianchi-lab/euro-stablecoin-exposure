@@ -26,3 +26,6 @@ data/raw/labels/
 data/raw/cex_flows_eth.csv
 data/raw/cex_flows_tron.csv
 data/raw/cex_flows_*_by_address.csv
+
+# Risultato dell'ultimo importo libero richiesto al modulo 4
+data/processed/m4_custom.csv
