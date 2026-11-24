@@ -1,0 +1,351 @@
+{
+  "ultimo_mese": "2026-09",
+  "paesi": 21,
+  "primo_mese": "2003-01",
+  "classifica": [
+    {
+      "posizione": 1,
+      "paese": "SI",
+      "nome": "Slovenia",
+      "indicatore": 1.4045197547674406,
+      "C1": 0.5900683864080984,
+      "C2": 0.8415310609509721,
+      "C3": 0.9083879825513987,
+      "posizione_min_tra_varianti": 1,
+      "posizione_max_tra_varianti": 1
+    },
+    {
+      "posizione": 2,
+      "paese": "LV",
+      "nome": "Lettonia",
+      "indicatore": 1.0345087238417707,
+      "C1": 0.5032446270167292,
+      "C2": 0.7483842408145197,
+      "C3": 0.9522404417653754,
+      "posizione_min_tra_varianti": 2,
+      "posizione_max_tra_varianti": 6
+    },
+    {
+      "posizione": 3,
+      "paese": "BG",
+      "nome": "Bulgaria",
+      "indicatore": 1.01506719991185,
+      "C1": 0.5145601947369698,
+      "C2": 0.7597420980556587,
+      "C3": 0.8948467577924725,
+      "posizione_min_tra_varianti": 2,
+      "posizione_max_tra_varianti": 5
+    },
+    {
+      "posizione": 4,
+      "paese": "MT",
+      "nome": "Malta",
+      "indicatore": 0.9355604421085509,
+      "C1": 0.4556078564948347,
+      "C2": 0.8232665716198665,
+      "C3": 0.8993933480178785,
+      "posizione_min_tra_varianti": 2,
+      "posizione_max_tra_varianti": 6
+    },
+    {
+      "posizione": 5,
+      "paese": "HR",
+      "nome": "Croazia",
+      "indicatore": 0.92446540456662,
+      "C1": 0.4856563314981165,
+      "C2": 0.7570244844557972,
+      "C3": 0.8993416444880236,
+      "posizione_min_tra_varianti": 3,
+      "posizione_max_tra_varianti": 5
+    },
+    {
+      "posizione": 6,
+      "paese": "GR",
+      "nome": "Grecia",
+      "indicatore": 0.8265245409849722,
+      "C1": 0.4781126512000088,
+      "C2": 0.7714279397784803,
+      "C3": 0.8237571616409218,
+      "posizione_min_tra_varianti": 4,
+      "posizione_max_tra_varianti": 6
+    },
+    {
+      "posizione": 7,
+      "paese": "LT",
+      "nome": "Lituania",
+      "indicatore": 0.6219568486270413,
+      "C1": 0.374264645711532,
+      "C2": 0.7818340677708555,
+      "C3": 0.9087582421376048,
+      "posizione_min_tra_varianti": 6,
+      "posizione_max_tra_varianti": 9
+    },
+    {
+      "posizione": 8,
+      "paese": "CY",
+      "nome": "Cipro",
+      "indicatore": 0.5297859649201564,
+      "C1": 0.4058909656909947,
+      "C2": 0.6636400888562987,
+      "C3": 0.906809825549558,
+      "posizione_min_tra_varianti": 7,
+      "posizione_max_tra_varianti": 10
+    },
+    {
+      "posizione": 9,
+      "paese": "SK",
+      "nome": "Slovacchia",
+      "indicatore": 0.3771145849531478,
+      "C1": 0.394425785880666,
+      "C2": 0.7114071718093754,
+      "C3": 0.7565345196057769,
+      "posizione_min_tra_varianti": 8,
+      "posizione_max_tra_varianti": 10
+    },
+    {
+      "posizione": 10,
+      "paese": "ES",
+      "nome": "Spagna",
+      "indicatore": 0.3484185575071803,
+      "C1": 0.3616854925049676,
+      "C2": 0.8275511913098408,
+      "C3": 0.6697494852891169,
+      "posizione_min_tra_varianti": 9,
+      "posizione_max_tra_varianti": 10
+    },
+    {
+      "posizione": 11,
+      "paese": "EE",
+      "nome": "Estonia",
+      "indicatore": 0.17135988765188168,
+      "C1": 0.3542048990664645,
+      "C2": 0.5993519424848955,
+      "C3": 0.8364719500832887,
+      "posizione_min_tra_varianti": 11,
+      "posizione_max_tra_varianti": 11
+    },
+    {
+      "posizione": 12,
+      "paese": "IT",
+      "nome": "Italia",
+      "indicatore": 0.002673889187566905,
+      "C1": 0.30725904565570517,
+      "C2": 0.7381321472504442,
+      "C3": 0.6475634132129607,
+      "posizione_min_tra_varianti": 12,
+      "posizione_max_tra_varianti": 12
+    },
+    {
+      "posizione": 13,
+      "paese": "PT",
+      "nome": "Portogallo",
+      "indicatore": -0.3383527462990352,
+      "C1": 0.28142925966246163,
+      "C2": 0.4771603243922823,
+      "C3": 0.7732056917409793,
+      "posizione_min_tra_varianti": 13,
+      "posizione_max_tra_varianti": 14
+    },
+    {
+      "posizione": 14,
+      "paese": "AT",
+      "nome": "Austria",
+      "indicatore": -0.44366326316618987,
+      "C1": 0.2546448229476024,
+      "C2": 0.6326910967230017,
+      "C3": 0.5626835703930402,
+      "posizione_min_tra_varianti": 13,
+      "posizione_max_tra_varianti": 15
+    },
+    {
+      "posizione": 15,
+      "paese": "DE",
+      "nome": "Germania",
+      "indicatore": -0.5229170769256459,
+      "C1": 0.21447835070126092,
+      "C2": 0.6543418147023488,
+      "C3": 0.5733695227012882,
+      "posizione_min_tra_varianti": 15,
+      "posizione_max_tra_varianti": 16
+    },
+    {
+      "posizione": 16,
+      "paese": "IE",
+      "nome": "Irlanda",
+      "indicatore": -0.65319318308737,
+      "C1": 0.1096053848974373,
+      "C2": 0.8332358442196177,
+      "C3": 0.5075726649418316,
+      "posizione_min_tra_varianti": 14,
+      "posizione_max_tra_varianti": 19
+    },
+    {
+      "posizione": 17,
+      "paese": "FI",
+      "nome": "Finlandia",
+      "indicatore": -0.811087715967967,
+      "C1": 0.18028551784781627,
+      "C2": 0.6957088606874249,
+      "C3": 0.38196443949582026,
+      "posizione_min_tra_varianti": 16,
+      "posizione_max_tra_varianti": 17
+    },
+    {
+      "posizione": 18,
+      "paese": "BE",
+      "nome": "Belgio",
+      "indicatore": -1.1066287414995237,
+      "C1": 0.14102831988142886,
+      "C2": 0.33599852734024843,
+      "C3": 0.7000071712861702,
+      "posizione_min_tra_varianti": 17,
+      "posizione_max_tra_varianti": 18
+    },
+    {
+      "posizione": 19,
+      "paese": "NL",
+      "nome": "Paesi Bassi",
+      "indicatore": -1.3110638879362597,
+      "C1": 0.11385294017216063,
+      "C2": 0.3282824485558032,
+      "C3": 0.6178963810483199,
+      "posizione_min_tra_varianti": 18,
+      "posizione_max_tra_varianti": 20
+    },
+    {
+      "posizione": 20,
+      "paese": "LU",
+      "nome": "Lussemburgo",
+      "indicatore": -1.3488546451278598,
+      "C1": 0.04862518380567344,
+      "C2": 0.6589800040854309,
+      "C3": 0.3356253951648329,
+      "posizione_min_tra_varianti": 19,
+      "posizione_max_tra_varianti": 21
+    },
+    {
+      "posizione": 21,
+      "paese": "FR",
+      "nome": "Francia",
+      "indicatore": -1.6561945390183288,
+      "C1": 0.08460548343757796,
+      "C2": 0.3908441891810741,
+      "C3": 0.3433516022170563,
+      "posizione_min_tra_varianti": 20,
+      "posizione_max_tra_varianti": 21
+    }
+  ],
+  "stabilita_varianti": {
+    "A1_pesi_uguali": {
+      "paesi": 21,
+      "spearman": 0.9922077922077923,
+      "paesi_spostati_piu_di_3_posizioni": 0,
+      "spostamento_massimo": 2,
+      "primi_cinque_in_comune": 5
+    },
+    "A2_solo_quantita": {
+      "paesi": 21,
+      "spearman": 0.981818181818182,
+      "paesi_spostati_piu_di_3_posizioni": 0,
+      "spostamento_massimo": 3,
+      "primi_cinque_in_comune": 4
+    },
+    "A3_solo_famiglie": {
+      "paesi": 21,
+      "spearman": 0.9727272727272728,
+      "paesi_spostati_piu_di_3_posizioni": 1,
+      "spostamento_massimo": 4,
+      "primi_cinque_in_comune": 4
+    },
+    "A4_ranghi": {
+      "paesi": 21,
+      "spearman": 0.994152256651379,
+      "paesi_spostati_piu_di_3_posizioni": 0,
+      "spostamento_massimo": 2,
+      "primi_cinque_in_comune": 5
+    }
+  },
+  "variante_A5": {
+    "trimestre": "2026-Q2",
+    "mese_bsi": "2026-06",
+    "paesi": 13,
+    "spearman": 0.9395604395604396,
+    "paesi_spostati_piu_di_3_posizioni": 0,
+    "spostamento_massimo": 3,
+    "primi_cinque_in_comune": 4,
+    "classifica": [
+      "GR",
+      "CY",
+      "ES",
+      "IT",
+      "DE",
+      "PT",
+      "IE",
+      "AT",
+      "LU",
+      "FI",
+      "BE",
+      "NL",
+      "FR"
+    ]
+  },
+  "evoluzione": {
+    "1_anno": {
+      "mese": "2025-09",
+      "paesi": 21
+    },
+    "5_anni": {
+      "mese": "2021-09",
+      "paesi": 20
+    },
+    "10_anni": {
+      "mese": "2016-09",
+      "paesi": 20
+    }
+  },
+  "stabilita_nel_tempo": {
+    "1_anno": {
+      "paesi": 21,
+      "spearman": 0.9974025974025974
+    },
+    "5_anni": {
+      "paesi": 20,
+      "spearman": 0.9203007518796992
+    },
+    "10_anni": {
+      "paesi": 20,
+      "spearman": 0.750375939849624
+    }
+  },
+  "correlazioni_tra_componenti": {
+    "C1": {
+      "C1": 1.0,
+      "C2": 0.612,
+      "C3": 0.876
+    },
+    "C2": {
+      "C1": 0.612,
+      "C2": 1.0,
+      "C3": 0.355
+    },
+    "C3": {
+      "C1": 0.876,
+      "C2": 0.355,
+      "C3": 1.0
+    }
+  },
+  "composizione": {
+    "righe": 5387,
+    "tolleranza": 0.005,
+    "righe_fuori_tolleranza": 0,
+    "quota_fuori_tolleranza": 0.0,
+    "scarto_massimo_assoluto": 4.034592943844412e-16,
+    "scarto_ultimo_mese_max": 2.0810613332142614e-16,
+    "paesi_con_mesi_fuori_tolleranza": {}
+  },
+  "media_area_ultimo_mese": {
+    "C1": 0.3168350545342146,
+    "C2": 0.6681207673830589,
+    "C3": 0.7095014862439865
+  }
+}
