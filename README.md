@@ -33,6 +33,12 @@ quattro serie su 102 settimane. Ultima settimana: USDT 11,9%, USDC 54,9%. Dettag
 [reports/03_modulo2_indice.md](reports/03_modulo2_indice.md). Aggiornamento:
 `.venv/bin/python src/module2_index.py`.
 
+Modulo 3 (2026-11-24): classifica dei 21 paesi dell'area euro per esposizione
+strutturale della raccolta bancaria (dati di settembre 2026). In testa Slovenia,
+Lettonia e Bulgaria; in coda Francia, Lussemburgo e Paesi Bassi. Dettagli in
+[reports/04_modulo3_classifica.md](reports/04_modulo3_classifica.md). Aggiornamento:
+`.venv/bin/python src/module3_ranking.py`.
+
 ## Struttura
 
 | Percorso | Contenuto |

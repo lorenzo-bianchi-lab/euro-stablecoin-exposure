@@ -100,6 +100,11 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   (`src/bis_lbs_probe.py`). Elenco in `reports/02_benchmark_e_modulo3.md`, parte B.
 - **Limite noto**: le passività in valuta estera sono trimestrali e coprono 13 paesi su
   21 (mancano BG, EE, HR, LT, LV, MT, SI, SK, che non dichiarano alla BRI).
+- **Stato**: completato il 2026-11-24 (`reports/04_modulo3_classifica.md`,
+  `src/module3_ranking.py`). Indicatore: 0,50 z(C1) + 0,25 z(C2) + 0,25 z(C3), con
+  C1 = depositi a vista di famiglie e imprese sul passivo, C2 = quota a vista dei
+  depositi della clientela, C3 = dipendenza dai depositi rispetto alla raccolta
+  all'ingrosso. La raccolta in dollari resta una seconda mappa, non una componente.
 - **Completato quando**: (a) esiste una tabella paese per mese con le quote di
   composizione della raccolta, calcolate con formule scritte nel report; (b) le quote
   sommano al totale del passivo entro una tolleranza dichiarata, o lo scarto è spiegato;
@@ -186,3 +191,4 @@ circolazione corrente di USDT e USDC per il modulo 1.
 | 2026-11-24 | Progetto ridefinito in quattro moduli; benchmark verificati e serie BCE confermate (`reports/02_benchmark_e_modulo3.md`) |
 | 2026-11-24 | Aggiunta la sezione 0 (obiettivo non negoziabile); ogni modulo ha ora un risultato dichiarato per l'analista; passività in valuta estera recuperate dalle statistiche BRI |
 | 2026-11-24 | Modulo 2 completato (`reports/03_modulo2_indice.md`): indice settimanale in quattro serie, riproducibile |
+| 2026-11-24 | Modulo 3 completato (`reports/04_modulo3_classifica.md`): classifica dei 21 paesi, stabile a cinque pesature |
