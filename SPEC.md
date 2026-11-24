@@ -126,6 +126,10 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   paesi e tra tipi di deposito è dichiarata, con almeno una regola alternativa di
   confronto; (c) i risultati sono presentati come esercizio meccanico, con la
   sensibilità ai parametri; (d) il codice riproduce le tabelle del report.
+- **Stato**: completato il 2026-11-24 (`reports/05_modulo4_scenari.md`,
+  `src/module4_scenarios.py`). Scenari ESM da 19 a 600 miliardi di dollari; ripartizione
+  tra paesi pro quota sui depositi a vista (R1) o pro capite (R2); lo script accetta
+  anche un importo libero, che sarà il livello prodotto dal modulo 1.
 
 ## 3. Fonti dati confermate
 
@@ -135,6 +139,8 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 | CoinGecko, ticker a 24 ore | Controllo di copertura del modulo 2 | Gratis, senza chiave, solo istantanea | Confermata |
 | ECB Data Portal, dataset BSI | Modulo 3 | Gratis, senza chiave | Confermata: 12 serie, 21 paesi (20 per i depositi da altre banche), mensile, fino a 2026-09 |
 | BRI, statistiche bancarie territoriali (LBS) | Modulo 3: passività in valuta estera e in dollari | Gratis, senza chiave | Confermata: 4 serie, 13 paesi su 21, trimestrale, fino a 2026-Q2 |
+| ECB Data Portal, tasso di cambio di riferimento (EXR) | Modulo 4: conversione degli importi in dollari | Gratis, senza chiave | Confermata |
+| Eurostat, popolazione al 1° gennaio (`demo_pjan`) | Modulo 4: ripartizione pro capite | Gratis, senza chiave | Confermata: 21 paesi, 2025 |
 | BCE, Bollettino economico 7/2026, riquadro sulle stablecoin | Modulo 1 | Pagina pubblica | Verificata sull'originale |
 | ESM Working Paper 79 | Moduli 1 e 4 | PDF pubblico | Verificata sull'originale |
 | ESMA, Kaiko, Chainalysis, IMF WP/25/141, Bruegel PB 09/2026 | Confronto | Pubblici | Verificate sugli originali |
@@ -192,3 +198,4 @@ circolazione corrente di USDT e USDC per il modulo 1.
 | 2026-11-24 | Aggiunta la sezione 0 (obiettivo non negoziabile); ogni modulo ha ora un risultato dichiarato per l'analista; passività in valuta estera recuperate dalle statistiche BRI |
 | 2026-11-24 | Modulo 2 completato (`reports/03_modulo2_indice.md`): indice settimanale in quattro serie, riproducibile |
 | 2026-11-24 | Modulo 3 completato (`reports/04_modulo3_classifica.md`): classifica dei 21 paesi, stabile a cinque pesature |
+| 2026-11-24 | Modulo 4 completato (`reports/05_modulo4_scenari.md`): scenari per paese, soglie e strumento con importo libero. Resta il modulo 1 |

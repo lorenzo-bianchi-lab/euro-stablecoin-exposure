@@ -39,6 +39,12 @@ Lettonia e Bulgaria; in coda Francia, Lussemburgo e Paesi Bassi. Dettagli in
 [reports/04_modulo3_classifica.md](reports/04_modulo3_classifica.md). Aggiornamento:
 `.venv/bin/python src/module3_ranking.py`.
 
+Modulo 4 (2026-11-24): scenari di adozione per paese. Al livello ipotizzato dall'ESM
+per oggi (19 miliardi di dollari) l'effetto è lo 0,2% dei depositi a vista dell'area;
+per arrivare al 5% servirebbero 464 miliardi di dollari. Dettagli in
+[reports/05_modulo4_scenari.md](reports/05_modulo4_scenari.md). Un livello qualsiasi:
+`.venv/bin/python src/module4_scenarios.py --importo-usd 250`.
+
 ## Struttura
 
 | Percorso | Contenuto |
