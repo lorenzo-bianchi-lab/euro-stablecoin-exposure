@@ -5,10 +5,19 @@ parte delle stablecoin in dollari (USDT, USDC) è detenuta o usata da residenti
 dell'area euro, e quali sistemi bancari nazionali sarebbero più vulnerabili a una
 sostituzione dei depositi. Riferimento: ECB Working Paper n. 3199 (marzo 2026).
 
+## In breve
+
+- **Risultati in una pagina**: [SINTESI.md](SINTESI.md), generata dal codice.
+- **Aggiornare tutto**: `.venv/bin/python src/run_all.py` (circa cinque minuti, nessuna chiave API).
+- **Cosa fa e cosa non promette**: [SPEC.md](SPEC.md). Va letto per primo.
+
+I report numerati in `reports/` sono fotografie alla data indicata; la sintesi e i file
+in `data/processed/` riflettono l'ultimo aggiornamento.
+
 ## Stato
 
 Il progetto è definito in [SPEC.md](SPEC.md): quattro moduli, fonti confermate, cosa
-il programma non promette e metodi scartati. Va letto per primo.
+il programma non promette e metodi scartati.
 
 Fase 0: test di fattibilità "go / no-go" dell'ipotesi H1.
 
@@ -66,22 +75,18 @@ Aggiornamento: `.venv/bin/python src/module1_level.py`.
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/python src/exchange_fetch.py
-.venv/bin/python src/coingecko_snapshot.py
-.venv/bin/python src/onchain_fetch.py
-.venv/bin/python src/proxy1_exchange.py
-.venv/bin/python src/proxy2_onchain.py
-.venv/bin/python src/h1_decision.py
-.venv/bin/python src/cex_flows_fetch.py
-.venv/bin/python src/proxy3_cex_flows.py
-.venv/bin/python src/ecb_bsi_probe.py
-.venv/bin/python src/bis_lbs_probe.py
+.venv/bin/python src/run_all.py            # i quattro moduli e la sintesi
+.venv/bin/python src/run_all.py --offline  # ricalcolo dai dati già scaricati
 ```
+
+Ogni modulo si può eseguire da solo: `src/module1_level.py`, `src/module2_index.py`,
+`src/module3_ranking.py`, `src/module4_scenarios.py`. Gli script dei test preliminari
+(report 00, 01 e 02) restano in `src/` e sono descritti nei rispettivi report.
 
 ## Chiavi API
 
 Le chiavi vanno solo nel file `.env` (escluso da git); `.env.example` elenca i nomi
-attesi. Il test H1 usa esclusivamente endpoint pubblici senza chiave.
+attesi. Tutto il programma usa esclusivamente endpoint pubblici senza chiave.
 
 ## Regole sui dati
 

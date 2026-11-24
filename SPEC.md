@@ -134,6 +134,22 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   tra paesi pro quota sui depositi a vista (R1) o pro capite (R2); lo script accetta
   anche un importo libero, che sarà il livello prodotto dal modulo 1.
 
+### Aggiornamento e sintesi
+
+Un solo comando aggiorna i quattro moduli nell'ordine giusto e rigenera la pagina di
+sintesi:
+
+    .venv/bin/python src/run_all.py
+
+- Ordine: modulo 3, modulo 1, modulo 2, modulo 4, sintesi. Circa cinque minuti.
+- `SINTESI.md` è generata da `src/summary.py` a partire dai file in `data/processed`:
+  non si modifica a mano.
+- Se una fonte non risponde, il modulo corrispondente fallisce senza toccare i dati
+  esistenti, gli altri proseguono, la sintesi indica quali dati sono quelli precedenti e
+  il comando esce con codice di errore.
+- I report numerati sono fotografie alla data indicata. I file in `data/processed` e la
+  sintesi riflettono l'ultimo aggiornamento.
+
 ## 3. Fonti dati confermate
 
 | Fonte | Uso | Accesso | Stato |
@@ -205,3 +221,4 @@ paesi dell'area euro a qualsiasi frequenza.
 | 2026-11-24 | Modulo 3 completato (`reports/04_modulo3_classifica.md`): classifica dei 21 paesi, stabile a cinque pesature |
 | 2026-11-24 | Modulo 4 completato (`reports/05_modulo4_scenari.md`): scenari per paese, soglie e strumento con importo libero. Resta il modulo 1 |
 | 2026-11-24 | Modulo 1 completato (`reports/06_modulo1_livello.md`): livello di base 16,7 miliardi di euro, alto 33,4. Tutti e quattro i moduli sono completi |
+| 2026-11-24 | Aggiunti il comando unico `src/run_all.py` e la sintesi generata `SINTESI.md` |
