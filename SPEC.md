@@ -4,7 +4,7 @@ Documento di riferimento del progetto. Va riletto all'inizio di ogni sessione di
 prima di scrivere codice o report. Ogni modifica a obiettivo, moduli o criteri passa da
 qui e viene annotata nel registro in fondo.
 
-Ultimo aggiornamento: 2026-11-24.
+Ultimo aggiornamento: 2026-11-25.
 
 ## 0. Obiettivo non negoziabile
 
@@ -134,6 +134,48 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   tra paesi pro quota sui depositi a vista (R1) o pro capite (R2); lo script accetta
   anche un importo libero, che sarà il livello prodotto dal modulo 1.
 
+### Modulo 5 - Credito e trasmissione (aggiunto il 2026-11-25)
+
+- **Risultato per l'analista**: un numero e una mappa. Per ogni scenario e paese del
+  modulo 4, i prestiti in meno a famiglie e imprese in miliardi e in percentuale, con un
+  intervallo; e la collocazione di ogni paese su due canali, depositi a vista e raccolta
+  in dollari, con ciò che ciascun quadrante implica per la trasmissione.
+- **Cosa fa**: applica ai deflussi del modulo 4 i coefficienti pubblicati nel Working
+  Paper BCE 3199, trascritti e verificati sull'originale. Non stima nulla di proprio.
+- **Avvertenza obbligatoria**: sono coefficienti stimati su singole banche e applicati
+  ad aggregati nazionali. Danno ordini di grandezza, non previsioni.
+- **Completato quando**: (a) i coefficienti sono in una tabella con sezione e tabella di
+  origine, verificati sul PDF; (b) soglie e regole di applicazione sono scritte prima
+  dei risultati (`reports/07_modulo5_credito.md`, sezione 2); (c) per ogni scenario e
+  paese esistono prestiti in meno con intervallo, variante a soglia e variante uniforme;
+  (d) la mappa a due canali copre i 21 paesi o dichiara quali mancano e perché.
+
+### Estensioni dei moduli 1, 2 e 4 (aggiunte il 2026-11-25)
+
+- **Modulo 1, livello proprio**: tre stime indipendenti del valore detenuto dai residenti
+  (B1 dal basso con l'indagine BCE; B2 dalle riserve dei clienti degli exchange; B3 da
+  dati nazionali). Criterio fissato prima: se almeno due delle tre stime centrali stanno
+  entro un fattore 3, il modulo 1 pubblica un intervallo proprio accanto all'ipotesi
+  ESM; altrimenti pubblica il minimo di B1. Metodo in `reports/08_livello_proprio.md`.
+- **Modulo 4, regola R3**: ripartizione tra paesi basata sulla quota di possessori di
+  cripto-attività, se un'indagine la dà per almeno 15 paesi dell'area euro.
+- **Modulo 2, collegamento e segnalazione**: test pre-registrato sul contenuto predittivo
+  dei volumi stablecoin contro euro per i depositi a vista delle famiglie, riportato
+  anche se nullo; regola di segnalazione esplicita sull'indice. Metodo in
+  `reports/09_modulo2_segnale.md`.
+
+### Cruscotto e test (aggiunti il 2026-11-25)
+
+- **Cruscotto**: una pagina HTML unica (`docs/index.html`), generata da
+  `src/dashboard.py`, senza server e senza dipendenze esterne, pubblicata con GitHub
+  Pages. Cursore sull'importo detenuto, scelta della regola di ripartizione e del tasso
+  di sostituzione; per paese mostra deflusso, raccolta all'ingrosso necessaria e credito
+  in meno; mostra la mappa a due canali e l'indice settimanale.
+- **Test automatici** (`tests/`): quadratura dei bilanci, linearità degli scenari,
+  somma delle ripartizioni, riproducibilità senza rete.
+- **Completato quando**: il cruscotto ricalcola nel browser gli stessi numeri degli
+  script per almeno uno scenario di controllo, e tutti i test passano.
+
 ### Aggiornamento e sintesi
 
 Un solo comando aggiorna i quattro moduli nell'ordine giusto e rigenera la pagina di
@@ -173,13 +215,21 @@ paesi dell'area euro a qualsiasi frequenza.
 
 ## 4. Cosa il programma NON promette
 
-- **Nessuna stima della residenza.** Il programma non dice quante stablecoin sono
-  detenute da residenti dell'area euro, né in totale né per paese.
-- **Nessun effetto causale sul pass-through.** Il programma non stima l'effetto delle
-  stablecoin sulla trasmissione dei tassi alla raccolta o ai prestiti. Per quello il
-  riferimento resta il Working Paper BCE 3199.
-- **Nessun "early warning".** L'indice del modulo 2 e la struttura del modulo 3 non sono
-  segnali anticipatori di deflussi né indicatori di rischio validati.
+Tre impegni fissati il 2026-11-24 sono stati ridefiniti il 2026-11-25 su richiesta
+esplicita. Restano veri nella forma qui sotto.
+
+- **Nessuna misura della residenza.** Il programma non osserva quante stablecoin
+  detengono i residenti dell'area euro. Può pubblicare un intervallo proprio solo come
+  triangolazione di fonti indirette, e solo se il criterio del modulo 1 è soddisfatto;
+  in caso contrario pubblica un minimo. Non produce stime per paese: la regola R3
+  ripartisce un totale ipotizzato, non misura le detenzioni nazionali.
+- **Nessun effetto causale stimato dal programma.** Il modulo 5 non stima l'effetto
+  delle stablecoin su credito e tassi: applica coefficienti pubblicati dal Working Paper
+  BCE 3199, stimati su singole banche, ad aggregati nazionali. Sono ordini di grandezza.
+- **Nessun "early warning" validato.** La regola di segnalazione del modulo 2 marca
+  valori insoliti dell'indice. Non è un segnale anticipatore di deflussi, a meno che il
+  test pre-registrato non mostri un contenuto predittivo; l'esito del test è riportato
+  comunque.
 - Nessuna previsione dell'adozione futura: gli scenari sono ipotesi.
 - La classifica del modulo 3 ordina i paesi per struttura della raccolta. Non è una
   probabilità che i depositi escano né un giudizio sulla solidità delle banche.
@@ -206,7 +256,8 @@ paesi dell'area euro a qualsiasi frequenza.
 - Le chiavi API stanno solo in `.env`, escluso da git. Nessun file di dati oltre 50 MB.
 - Commit piccoli con messaggi chiari; push alla fine di ogni sessione.
 - Ogni report dichiara i propri limiti e cosa non è stato possibile fare.
-- Se un metodo fallisce, nello stesso report si propone e si prova un'alternativa.
+- Se un metodo fallisce, nello stesso report si propone e si prova un'alternativa: due
+  righe sul motivo e si passa alla strada successiva.
 - Ogni report termina con la riga "Cosa aggiunge questo al programma finale".
 
 ## 7. Registro
@@ -222,3 +273,4 @@ paesi dell'area euro a qualsiasi frequenza.
 | 2026-11-24 | Modulo 4 completato (`reports/05_modulo4_scenari.md`): scenari per paese, soglie e strumento con importo libero. Resta il modulo 1 |
 | 2026-11-24 | Modulo 1 completato (`reports/06_modulo1_livello.md`): livello di base 16,7 miliardi di euro, alto 33,4. Tutti e quattro i moduli sono completi |
 | 2026-11-24 | Aggiunti il comando unico `src/run_all.py` e la sintesi generata `SINTESI.md` |
+| 2026-11-25 | Aggiunti il modulo 5 (credito e trasmissione), il livello proprio, la regola R3, il test e la segnalazione del modulo 2, il cruscotto e i test automatici. Ridefinite le tre non-promesse della sezione 4 |
