@@ -97,6 +97,32 @@ def weekly_index(d: pd.DataFrame, excluded: list[str] | None = None) -> pd.DataF
     return out
 
 
+def signals(d: pd.DataFrame) -> pd.DataFrame:
+    """Regola di segnalazione (reports/09_modulo2_segnale.md, sezione 2.5).
+
+    Per ogni serie e settimana: scarto della quota EUR e scarto del volume contro EUR
+    rispetto alle 52 settimane precedenti, esclusa quella osservata.
+    """
+    frames = []
+    for name, (stable, drop) in SERIES.items():
+        if stable is None:
+            continue
+        sub = d[(d.stable == stable) & ~d.exchange.isin(drop)]
+        tot = sub.groupby("week").volume_stable.sum()
+        eur = sub[sub.fiat == "EUR"].groupby("week").volume_stable.sum().reindex(tot.index, fill_value=0)
+        f = pd.DataFrame({"serie": name, "quota_eur": eur / tot, "volume_eur_mld": eur / 1e9})
+        for col, z in (("quota_eur", "scarto_quota"), ("volume_eur_mld", "scarto_volume")):
+            past = f[col].shift(1).rolling(52, min_periods=52)
+            f[z] = (f[col] - past.mean()) / past.std(ddof=1)
+        both = (f.scarto_quota.abs() > 2) & (f.scarto_volume.abs() > 2)
+        same = np.sign(f.scarto_quota) == np.sign(f.scarto_volume)
+        one = (f.scarto_quota.abs() > 2) | (f.scarto_volume.abs() > 2)
+        f["stato"] = np.where(f.scarto_quota.isna(), "storico insufficiente",
+                              np.where(both & same, "segnale", np.where(one, "da verificare", "nessuno")))
+        frames.append(f.reset_index())
+    return pd.concat(frames, ignore_index=True)
+
+
 def stats(series: pd.Series) -> dict:
     s = series.dropna()
     last52 = s.iloc[-52:]
@@ -168,6 +194,20 @@ def main() -> None:
         repro["solo_dati_riscaricati"] = {"settimane": int(len(common)), "differenza_massima_pp": float(gap.max().max()),
                                           "settimane_con_differenza_oltre_0_01_pp": int((gap.max(axis=1) > 0.01).sum())}
 
+    flags = signals(main_d)
+    flags.round(6).to_csv(PROC / "m2_flags.csv", index=False)
+    judged = flags[flags.stato != "storico insufficiente"]
+    last_week = flags.week.max()
+    segnalazione = {
+        "regola": "scarto oltre 2 deviazioni standard sulle 52 settimane precedenti, sia della quota EUR sia del volume contro EUR, con lo stesso segno",
+        "settimane_valutate": int(judged.week.nunique()),
+        "ultima_settimana": {r.serie: {"stato": r.stato, "scarto_quota": float(r.scarto_quota), "scarto_volume": float(r.scarto_volume),
+                                       "quota_eur": float(r.quota_eur), "volume_eur_mld": float(r.volume_eur_mld)}
+                             for r in flags[flags.week == last_week].itertuples()},
+        "storico": {name: {k: int(v) for k, v in g.stato.value_counts().items()} for name, g in judged.groupby("serie")},
+        "settimane_con_segnale": {name: g.week[g.stato == "segnale"].tolist() for name, g in judged.groupby("serie")},
+    }
+
     idx_main.round(6).to_csv(PROC / "m2_weekly_index.csv")
     idx_long.round(6).to_csv(PROC / "m2_weekly_index_long.csv")
     idx_const.round(6).to_csv(PROC / "m2_weekly_index_constant_panel.csv")
@@ -178,6 +218,7 @@ def main() -> None:
         "calcolato_il": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "scarico": fetch_info,
         "riproducibilita": repro,
+        "segnalazione": segnalazione,
         "indice_principale": {"prima_settimana": weeks_main[0], "ultima_settimana": weeks_main[-1], "settimane": len(weeks_main),
                               "serie": {n: stats(idx_main[n]) for n in names}},
         "indice_lungo": {"esclusi": LONG_EXCLUDED, "prima_settimana": idx_long.index[0], "settimane": int(len(idx_long)),

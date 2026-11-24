@@ -1,0 +1,409 @@
+week,serie,quota_eur,volume_eur_mld,scarto_quota,scarto_volume,stato
+2024-12-09,usdt,0.126392,2.174802,,,storico insufficiente
+2024-12-16,usdt,0.1098,2.084649,,,storico insufficiente
+2024-12-23,usdt,0.147733,1.69391,,,storico insufficiente
+2024-12-30,usdt,0.160291,1.615219,,,storico insufficiente
+2025-01-06,usdt,0.154792,1.846569,,,storico insufficiente
+2025-01-13,usdt,0.140548,2.326628,,,storico insufficiente
+2025-01-20,usdt,0.116868,1.783132,,,storico insufficiente
+2025-01-27,usdt,0.132636,1.732938,,,storico insufficiente
+2025-02-03,usdt,0.11171,1.823159,,,storico insufficiente
+2025-02-10,usdt,0.147267,1.503977,,,storico insufficiente
+2025-02-17,usdt,0.122621,1.251546,,,storico insufficiente
+2025-02-24,usdt,0.123243,1.582762,,,storico insufficiente
+2025-03-03,usdt,0.14456,1.366184,,,storico insufficiente
+2025-03-10,usdt,0.145869,1.252212,,,storico insufficiente
+2025-03-17,usdt,0.174448,1.093046,,,storico insufficiente
+2025-03-24,usdt,0.148396,0.893141,,,storico insufficiente
+2025-03-31,usdt,0.191301,1.299692,,,storico insufficiente
+2025-04-07,usdt,0.197089,1.634272,,,storico insufficiente
+2025-04-14,usdt,0.173949,0.966686,,,storico insufficiente
+2025-04-21,usdt,0.118753,1.0704,,,storico insufficiente
+2025-04-28,usdt,0.146932,0.915854,,,storico insufficiente
+2025-05-05,usdt,0.156321,0.939091,,,storico insufficiente
+2025-05-12,usdt,0.167803,1.022037,,,storico insufficiente
+2025-05-19,usdt,0.125178,0.831782,,,storico insufficiente
+2025-05-26,usdt,0.140851,0.853644,,,storico insufficiente
+2025-06-02,usdt,0.120419,0.704791,,,storico insufficiente
+2025-06-09,usdt,0.14051,0.744283,,,storico insufficiente
+2025-06-16,usdt,0.163652,0.811704,,,storico insufficiente
+2025-06-23,usdt,0.144517,0.777012,,,storico insufficiente
+2025-06-30,usdt,0.13219,0.651449,,,storico insufficiente
+2025-07-07,usdt,0.146686,0.966361,,,storico insufficiente
+2025-07-14,usdt,0.091188,0.77312,,,storico insufficiente
+2025-07-21,usdt,0.084269,0.65896,,,storico insufficiente
+2025-07-28,usdt,0.116308,0.648379,,,storico insufficiente
+2025-08-04,usdt,0.117398,0.632007,,,storico insufficiente
+2025-08-11,usdt,0.09898,0.752545,,,storico insufficiente
+2025-08-18,usdt,0.096146,0.603504,,,storico insufficiente
+2025-08-25,usdt,0.096234,0.59394,,,storico insufficiente
+2025-09-01,usdt,0.0946,0.512959,,,storico insufficiente
+2025-09-08,usdt,0.075315,0.590648,,,storico insufficiente
+2025-09-15,usdt,0.086795,0.599699,,,storico insufficiente
+2025-09-22,usdt,0.071352,0.598848,,,storico insufficiente
+2025-09-29,usdt,0.089609,0.682724,,,storico insufficiente
+2025-10-06,usdt,0.116712,1.404577,,,storico insufficiente
+2025-10-13,usdt,0.097716,0.864587,,,storico insufficiente
+2025-10-20,usdt,0.145524,1.047562,,,storico insufficiente
+2025-10-27,usdt,0.161272,1.152045,,,storico insufficiente
+2025-11-03,usdt,0.085351,0.75221,,,storico insufficiente
+2025-11-10,usdt,0.082067,0.610779,,,storico insufficiente
+2025-11-17,usdt,0.083114,0.665636,,,storico insufficiente
+2025-11-24,usdt,0.105462,0.558942,,,storico insufficiente
+2025-12-01,usdt,0.120294,0.620114,,,storico insufficiente
+2025-12-08,usdt,0.126687,0.594482,-0.00083,-0.985173,nessuno
+2025-12-15,usdt,0.14318,0.686818,0.535502,-0.764668,nessuno
+2025-12-22,usdt,0.122447,0.479206,-0.159867,-1.217348,nessuno
+2025-12-29,usdt,0.112444,0.508975,-0.471514,-1.107846,nessuno
+2026-01-05,usdt,0.125425,0.531681,-0.017437,-1.016142,nessuno
+2026-01-12,usdt,0.121139,0.572981,-0.141565,-0.890504,nessuno
+2026-01-19,usdt,0.1275,0.650444,0.082971,-0.699912,nessuno
+2026-01-26,usdt,0.162595,0.998453,1.248875,0.326295,nessuno
+2026-02-02,usdt,0.128037,0.925945,0.073805,0.168031,nessuno
+2026-02-09,usdt,0.146596,0.87354,0.676244,0.066021,nessuno
+2026-02-16,usdt,0.158642,0.604988,1.074632,-0.838652,nessuno
+2026-02-23,usdt,0.148162,0.929798,0.698109,0.360965,nessuno
+2026-03-02,usdt,0.211975,1.246924,2.754483,1.670367,da verificare
+2026-03-09,usdt,0.161997,0.78886,1.017857,-0.10146,nessuno
+2026-03-16,usdt,0.170165,0.802343,1.247903,-0.013348,nessuno
+2026-03-23,usdt,0.186654,0.855765,1.7546,0.230391,nessuno
+2026-03-30,usdt,0.151962,0.645524,0.662947,-0.636259,nessuno
+2026-04-06,usdt,0.15557,0.74055,0.815629,-0.199067,nessuno
+2026-04-13,usdt,0.1193,0.767703,-0.274103,-0.009254,nessuno
+2026-04-20,usdt,0.1319,0.70835,0.160598,-0.291633,nessuno
+2026-04-27,usdt,0.133416,0.573408,0.201479,-0.965046,nessuno
+2026-05-04,usdt,0.130313,0.61364,0.110084,-0.719862,nessuno
+2026-05-11,usdt,0.134248,0.596486,0.256085,-0.780159,nessuno
+2026-05-18,usdt,0.185149,0.831485,1.976395,0.497228,nessuno
+2026-05-25,usdt,0.156412,0.76232,0.946601,0.130467,nessuno
+2026-06-01,usdt,0.154144,1.075359,0.858411,1.80639,nessuno
+2026-06-08,usdt,0.173114,0.937543,1.43323,1.004301,nessuno
+2026-06-15,usdt,0.163588,0.727357,1.091723,-0.099484,nessuno
+2026-06-22,usdt,0.183515,0.947079,1.711841,1.03382,nessuno
+2026-06-29,usdt,0.175612,0.848988,1.406485,0.509684,nessuno
+2026-07-06,usdt,0.180536,0.760826,1.502248,0.043463,nessuno
+2026-07-13,usdt,0.192429,0.782737,1.802107,0.176675,nessuno
+2026-07-20,usdt,0.172237,0.714665,1.136162,-0.173484,nessuno
+2026-07-27,usdt,0.202913,0.985892,1.983613,1.214487,nessuno
+2026-08-03,usdt,0.136807,0.587128,0.021536,-0.858448,nessuno
+2026-08-10,usdt,0.134722,0.549239,-0.047373,-1.043156,nessuno
+2026-08-17,usdt,0.124543,0.883983,-0.356237,0.665276,nessuno
+2026-08-24,usdt,0.110024,0.671267,-0.793384,-0.428723,nessuno
+2026-08-31,usdt,0.140849,0.884657,0.085103,0.638105,nessuno
+2026-09-07,usdt,0.107533,0.758861,-0.919681,-0.032882,nessuno
+2026-09-14,usdt,0.09037,0.740698,-1.481867,-0.143239,nessuno
+2026-09-21,usdt,0.104501,0.757771,-1.060478,-0.069859,nessuno
+2026-09-28,usdt,0.122969,0.859656,-0.536914,0.445911,nessuno
+2026-10-05,usdt,0.108085,0.860237,-1.045959,0.431371,nessuno
+2026-10-12,usdt,0.143495,0.821488,0.092186,0.318998,nessuno
+2026-10-19,usdt,0.109857,0.551829,-1.02646,-1.264645,nessuno
+2026-10-26,usdt,0.11887,0.76708,-0.704692,0.060912,nessuno
+2026-11-02,usdt,0.104661,0.652332,-1.134886,-0.615183,nessuno
+2026-11-09,usdt,0.118791,0.726218,-0.705353,-0.134627,nessuno
+2026-11-16,usdt,0.119188,0.825695,-0.738747,0.48255,nessuno
+2024-12-09,usdt_senza_coinbase,0.173454,2.018765,,,storico insufficiente
+2024-12-16,usdt_senza_coinbase,0.157211,1.998448,,,storico insufficiente
+2024-12-23,usdt_senza_coinbase,0.203071,1.636215,,,storico insufficiente
+2024-12-30,usdt_senza_coinbase,0.217117,1.559309,,,storico insufficiente
+2025-01-06,usdt_senza_coinbase,0.206,1.765926,,,storico insufficiente
+2025-01-13,usdt_senza_coinbase,0.18784,2.23977,,,storico insufficiente
+2025-01-20,usdt_senza_coinbase,0.156593,1.684211,,,storico insufficiente
+2025-01-27,usdt_senza_coinbase,0.176672,1.637954,,,storico insufficiente
+2025-02-03,usdt_senza_coinbase,0.154584,1.734464,,,storico insufficiente
+2025-02-10,usdt_senza_coinbase,0.188524,1.439716,,,storico insufficiente
+2025-02-17,usdt_senza_coinbase,0.183017,1.197877,,,storico insufficiente
+2025-02-24,usdt_senza_coinbase,0.155421,1.508232,,,storico insufficiente
+2025-03-03,usdt_senza_coinbase,0.190516,1.290514,,,storico insufficiente
+2025-03-10,usdt_senza_coinbase,0.221928,1.201621,,,storico insufficiente
+2025-03-17,usdt_senza_coinbase,0.221533,1.060333,,,storico insufficiente
+2025-03-24,usdt_senza_coinbase,0.195904,0.846683,,,storico insufficiente
+2025-03-31,usdt_senza_coinbase,0.233563,1.202596,,,storico insufficiente
+2025-04-07,usdt_senza_coinbase,0.246554,1.484365,,,storico insufficiente
+2025-04-14,usdt_senza_coinbase,0.212712,0.923583,,,storico insufficiente
+2025-04-21,usdt_senza_coinbase,0.178724,1.028482,,,storico insufficiente
+2025-04-28,usdt_senza_coinbase,0.174606,0.875541,,,storico insufficiente
+2025-05-05,usdt_senza_coinbase,0.158919,0.87553,,,storico insufficiente
+2025-05-12,usdt_senza_coinbase,0.168258,0.935503,,,storico insufficiente
+2025-05-19,usdt_senza_coinbase,0.125961,0.783814,,,storico insufficiente
+2025-05-26,usdt_senza_coinbase,0.145811,0.819539,,,storico insufficiente
+2025-06-02,usdt_senza_coinbase,0.124009,0.684815,,,storico insufficiente
+2025-06-09,usdt_senza_coinbase,0.145215,0.717293,,,storico insufficiente
+2025-06-16,usdt_senza_coinbase,0.166352,0.769189,,,storico insufficiente
+2025-06-23,usdt_senza_coinbase,0.146141,0.731709,,,storico insufficiente
+2025-06-30,usdt_senza_coinbase,0.131081,0.599857,,,storico insufficiente
+2025-07-07,usdt_senza_coinbase,0.149424,0.904515,,,storico insufficiente
+2025-07-14,usdt_senza_coinbase,0.100091,0.73827,,,storico insufficiente
+2025-07-21,usdt_senza_coinbase,0.092678,0.618486,,,storico insufficiente
+2025-07-28,usdt_senza_coinbase,0.12649,0.623236,,,storico insufficiente
+2025-08-04,usdt_senza_coinbase,0.12148,0.596627,,,storico insufficiente
+2025-08-11,usdt_senza_coinbase,0.102277,0.729399,,,storico insufficiente
+2025-08-18,usdt_senza_coinbase,0.099364,0.57346,,,storico insufficiente
+2025-08-25,usdt_senza_coinbase,0.09833,0.554181,,,storico insufficiente
+2025-09-01,usdt_senza_coinbase,0.093984,0.484052,,,storico insufficiente
+2025-09-08,usdt_senza_coinbase,0.074262,0.555642,,,storico insufficiente
+2025-09-15,usdt_senza_coinbase,0.085881,0.566329,,,storico insufficiente
+2025-09-22,usdt_senza_coinbase,0.070366,0.566748,,,storico insufficiente
+2025-09-29,usdt_senza_coinbase,0.088758,0.639544,,,storico insufficiente
+2025-10-06,usdt_senza_coinbase,0.116996,1.335594,,,storico insufficiente
+2025-10-13,usdt_senza_coinbase,0.098021,0.837353,,,storico insufficiente
+2025-10-20,usdt_senza_coinbase,0.143923,0.994048,,,storico insufficiente
+2025-10-27,usdt_senza_coinbase,0.160017,1.097434,,,storico insufficiente
+2025-11-03,usdt_senza_coinbase,0.085909,0.726583,,,storico insufficiente
+2025-11-10,usdt_senza_coinbase,0.082207,0.583011,,,storico insufficiente
+2025-11-17,usdt_senza_coinbase,0.082533,0.632484,,,storico insufficiente
+2025-11-24,usdt_senza_coinbase,0.106031,0.53703,,,storico insufficiente
+2025-12-01,usdt_senza_coinbase,0.12226,0.598416,,,storico insufficiente
+2025-12-08,usdt_senza_coinbase,0.126063,0.5627,-0.450455,-0.988581,nessuno
+2025-12-15,usdt_senza_coinbase,0.145437,0.655396,-0.015862,-0.754993,nessuno
+2025-12-22,usdt_senza_coinbase,0.124909,0.448873,-0.451658,-1.228292,nessuno
+2025-12-29,usdt_senza_coinbase,0.115113,0.475233,-0.638209,-1.12438,nessuno
+2026-01-05,usdt_senza_coinbase,0.127661,0.510755,-0.329667,-0.998682,nessuno
+2026-01-12,usdt_senza_coinbase,0.124233,0.555619,-0.379712,-0.859399,nessuno
+2026-01-19,usdt_senza_coinbase,0.127951,0.616622,-0.270391,-0.705174,nessuno
+2026-01-26,usdt_senza_coinbase,0.159817,0.926436,0.472524,0.265249,nessuno
+2026-02-02,usdt_senza_coinbase,0.12784,0.875614,-0.254404,0.16138,nessuno
+2026-02-09,usdt_senza_coinbase,0.145587,0.82477,0.16649,0.054552,nessuno
+2026-02-16,usdt_senza_coinbase,0.159498,0.567714,0.51304,-0.869722,nessuno
+2026-02-23,usdt_senza_coinbase,0.142027,0.844208,0.116383,0.225255,nessuno
+2026-03-02,usdt_senza_coinbase,0.211474,1.175886,1.762188,1.683048,nessuno
+2026-03-09,usdt_senza_coinbase,0.163294,0.75235,0.606401,-0.07775,nessuno
+2026-03-16,usdt_senza_coinbase,0.171198,0.766289,0.846579,0.018932,nessuno
+2026-03-23,usdt_senza_coinbase,0.185059,0.802398,1.248703,0.206443,nessuno
+2026-03-30,usdt_senza_coinbase,0.155946,0.62921,0.529606,-0.566601,nessuno
+2026-04-06,usdt_senza_coinbase,0.16056,0.720711,0.727416,-0.110793,nessuno
+2026-04-13,usdt_senza_coinbase,0.119928,0.736249,-0.34943,0.034634,nessuno
+2026-04-20,usdt_senza_coinbase,0.135784,0.691708,0.180935,-0.186225,nessuno
+2026-04-27,usdt_senza_coinbase,0.138399,0.560038,0.295368,-0.886532,nessuno
+2026-05-04,usdt_senza_coinbase,0.134137,0.596633,0.184974,-0.649779,nessuno
+2026-05-11,usdt_senza_coinbase,0.137166,0.576581,0.302438,-0.734481,nessuno
+2026-05-18,usdt_senza_coinbase,0.184276,0.78432,1.908546,0.468019,nessuno
+2026-05-25,usdt_senza_coinbase,0.154584,0.718813,0.845449,0.098409,nessuno
+2026-06-01,usdt_senza_coinbase,0.156426,1.048904,0.896253,1.980039,nessuno
+2026-06-08,usdt_senza_coinbase,0.175561,0.906645,1.483462,1.094002,nessuno
+2026-06-15,usdt_senza_coinbase,0.162847,0.692636,1.037542,-0.09421,nessuno
+2026-06-22,usdt_senza_coinbase,0.182605,0.902367,1.665791,1.047801,nessuno
+2026-06-29,usdt_senza_coinbase,0.167991,0.764752,1.154586,0.282944,nessuno
+2026-07-06,usdt_senza_coinbase,0.160885,0.631184,0.902156,-0.450176,nessuno
+2026-07-13,usdt_senza_coinbase,0.174317,0.663578,1.297861,-0.250242,nessuno
+2026-07-20,usdt_senza_coinbase,0.164215,0.638787,0.942388,-0.376549,nessuno
+2026-07-27,usdt_senza_coinbase,0.181385,0.814637,1.426886,0.573589,nessuno
+2026-08-03,usdt_senza_coinbase,0.133846,0.532396,-0.043899,-0.974395,nessuno
+2026-08-10,usdt_senza_coinbase,0.133434,0.513402,-0.063325,-1.064737,nessuno
+2026-08-17,usdt_senza_coinbase,0.115401,0.78006,-0.624217,0.388878,nessuno
+2026-08-24,usdt_senza_coinbase,0.10321,0.6001,-1.008425,-0.592948,nessuno
+2026-08-31,usdt_senza_coinbase,0.139988,0.757411,0.104208,0.244137,nessuno
+2026-09-07,usdt_senza_coinbase,0.103666,0.620185,-1.045123,-0.527893,nessuno
+2026-09-14,usdt_senza_coinbase,0.094864,0.604835,-1.372372,-0.621244,nessuno
+2026-09-21,usdt_senza_coinbase,0.105879,0.672017,-1.036369,-0.258559,nessuno
+2026-09-28,usdt_senza_coinbase,0.117512,0.741304,-0.711255,0.111206,nessuno
+2026-10-05,usdt_senza_coinbase,0.114869,0.688044,-0.836779,-0.194054,nessuno
+2026-10-12,usdt_senza_coinbase,0.116909,0.611296,-0.764979,-0.626193,nessuno
+2026-10-19,usdt_senza_coinbase,0.09894,0.464241,-1.408626,-1.529745,nessuno
+2026-10-26,usdt_senza_coinbase,0.106198,0.640757,-1.107568,-0.354049,nessuno
+2026-11-02,usdt_senza_coinbase,0.088137,0.510263,-1.673958,-1.213766,nessuno
+2026-11-09,usdt_senza_coinbase,0.105568,0.597994,-1.091138,-0.576314,nessuno
+2026-11-16,usdt_senza_coinbase,0.108556,0.70923,-1.029456,0.174419,nessuno
+2024-12-09,usdc,0.521604,0.581567,,,storico insufficiente
+2024-12-16,usdc,0.495207,0.664541,,,storico insufficiente
+2024-12-23,usdc,0.551766,0.410415,,,storico insufficiente
+2024-12-30,usdc,0.524785,0.428583,,,storico insufficiente
+2025-01-06,usdc,0.49903,0.479065,,,storico insufficiente
+2025-01-13,usdc,0.43987,0.560866,,,storico insufficiente
+2025-01-20,usdc,0.424607,0.516039,,,storico insufficiente
+2025-01-27,usdc,0.462313,0.54556,,,storico insufficiente
+2025-02-03,usdc,0.484097,0.649491,,,storico insufficiente
+2025-02-10,usdc,0.504401,0.434059,,,storico insufficiente
+2025-02-17,usdc,0.528882,0.455856,,,storico insufficiente
+2025-02-24,usdc,0.504208,0.671428,,,storico insufficiente
+2025-03-03,usdc,0.600196,1.076869,,,storico insufficiente
+2025-03-10,usdc,0.617642,1.061591,,,storico insufficiente
+2025-03-17,usdc,0.613468,0.88529,,,storico insufficiente
+2025-03-24,usdc,0.595106,0.979599,,,storico insufficiente
+2025-03-31,usdc,0.653872,1.253751,,,storico insufficiente
+2025-04-07,usdc,0.696347,1.452778,,,storico insufficiente
+2025-04-14,usdc,0.687958,0.925225,,,storico insufficiente
+2025-04-21,usdc,0.691063,1.065811,,,storico insufficiente
+2025-04-28,usdc,0.694543,0.995983,,,storico insufficiente
+2025-05-05,usdc,0.667724,1.026932,,,storico insufficiente
+2025-05-12,usdc,0.651894,0.909715,,,storico insufficiente
+2025-05-19,usdc,0.637976,0.946364,,,storico insufficiente
+2025-05-26,usdc,0.705115,0.967149,,,storico insufficiente
+2025-06-02,usdc,0.614276,0.917297,,,storico insufficiente
+2025-06-09,usdc,0.628456,0.908004,,,storico insufficiente
+2025-06-16,usdc,0.630976,1.05714,,,storico insufficiente
+2025-06-23,usdc,0.660546,1.107206,,,storico insufficiente
+2025-06-30,usdc,0.696052,1.143471,,,storico insufficiente
+2025-07-07,usdc,0.670177,1.372634,,,storico insufficiente
+2025-07-14,usdc,0.570109,1.180523,,,storico insufficiente
+2025-07-21,usdc,0.575362,1.070531,,,storico insufficiente
+2025-07-28,usdc,0.630625,1.141791,,,storico insufficiente
+2025-08-04,usdc,0.618577,1.041669,,,storico insufficiente
+2025-08-11,usdc,0.57043,1.063948,,,storico insufficiente
+2025-08-18,usdc,0.612355,1.048531,,,storico insufficiente
+2025-08-25,usdc,0.631736,0.977882,,,storico insufficiente
+2025-09-01,usdc,0.638378,1.014981,,,storico insufficiente
+2025-09-08,usdc,0.628019,1.029484,,,storico insufficiente
+2025-09-15,usdc,0.575142,1.034423,,,storico insufficiente
+2025-09-22,usdc,0.545027,1.036831,,,storico insufficiente
+2025-09-29,usdc,0.593371,1.195404,,,storico insufficiente
+2025-10-06,usdc,0.532283,1.603057,,,storico insufficiente
+2025-10-13,usdc,0.510607,1.14874,,,storico insufficiente
+2025-10-20,usdc,0.639623,1.310245,,,storico insufficiente
+2025-10-27,usdc,0.641429,1.288142,,,storico insufficiente
+2025-11-03,usdc,0.559204,1.310032,,,storico insufficiente
+2025-11-10,usdc,0.61112,1.128612,,,storico insufficiente
+2025-11-17,usdc,0.545754,1.151692,,,storico insufficiente
+2025-11-24,usdc,0.570404,1.123272,,,storico insufficiente
+2025-12-01,usdc,0.53219,1.12527,,,storico insufficiente
+2025-12-08,usdc,0.534961,1.00556,-0.777772,0.124331,nessuno
+2025-12-15,usdc,0.548789,1.171949,-0.588287,0.701927,nessuno
+2025-12-22,usdc,0.508766,0.945755,-1.186422,-0.157058,nessuno
+2025-12-29,usdc,0.487843,1.110319,-1.459625,0.428075,nessuno
+2026-01-05,usdc,0.414192,1.126733,-2.465909,0.46284,da verificare
+2026-01-12,usdc,0.42986,1.021358,-2.132426,-0.013074,da verificare
+2026-01-19,usdc,0.404625,1.177654,-2.456256,0.634893,da verificare
+2026-01-26,usdc,0.491744,1.715534,-1.269077,3.098503,da verificare
+2026-02-02,usdc,0.410896,1.390663,-2.37306,1.439914,da verificare
+2026-02-09,usdc,0.322,1.171033,-3.422825,0.400995,da verificare
+2026-02-16,usdc,0.253845,0.971818,-3.878712,-0.624678,da verificare
+2026-02-23,usdc,0.289531,1.163584,-2.998454,0.31563,da verificare
+2026-03-02,usdc,0.385267,1.380314,-1.818015,1.562779,nessuno
+2026-03-09,usdc,0.407397,1.102071,-1.518563,-0.116417,nessuno
+2026-03-16,usdc,0.414432,1.101917,-1.387586,-0.121945,nessuno
+2026-03-23,usdc,0.385071,1.095763,-1.595879,-0.185269,nessuno
+2026-03-30,usdc,0.348156,0.87294,-1.849799,-1.525903,nessuno
+2026-04-06,usdc,0.349745,0.978061,-1.740698,-0.842978,nessuno
+2026-04-13,usdc,0.463464,0.892099,-0.695536,-1.335246,nessuno
+2026-04-20,usdc,0.573851,0.900888,0.282282,-1.2721,nessuno
+2026-04-27,usdc,0.58466,0.875226,0.400821,-1.386918,nessuno
+2026-05-04,usdc,0.597452,0.975707,0.539998,-0.766346,nessuno
+2026-05-11,usdc,0.558049,0.928298,0.204398,-1.034065,nessuno
+2026-05-18,usdc,0.608574,0.933676,0.681001,-1.007148,nessuno
+2026-05-25,usdc,0.523614,0.869201,-0.084504,-1.380285,nessuno
+2026-06-01,usdc,0.474272,1.142183,-0.514787,0.21989,nessuno
+2026-06-08,usdc,0.498988,1.022569,-0.259878,-0.499806,nessuno
+2026-06-15,usdc,0.545922,0.936314,0.20517,-1.026612,nessuno
+2026-06-22,usdc,0.553153,1.007871,0.291845,-0.585888,nessuno
+2026-06-29,usdc,0.572544,0.999032,0.505041,-0.624282,nessuno
+2026-07-06,usdc,0.560336,0.863699,0.420779,-1.391161,nessuno
+2026-07-13,usdc,0.567308,0.996842,0.522484,-0.565819,nessuno
+2026-07-20,usdc,0.60577,0.97918,0.915232,-0.648056,nessuno
+2026-07-27,usdc,0.560947,1.181745,0.450326,0.542343,nessuno
+2026-08-03,usdc,0.563942,0.900011,0.499952,-1.09792,nessuno
+2026-08-10,usdc,0.620319,0.853414,1.09883,-1.337932,nessuno
+2026-08-17,usdc,0.510299,1.089027,-0.04963,0.037103,nessuno
+2026-08-24,usdc,0.473401,0.897543,-0.412379,-1.048452,nessuno
+2026-08-31,usdc,0.488928,1.046611,-0.222872,-0.196623,nessuno
+2026-09-07,usdc,0.489457,0.951078,-0.19051,-0.736294,nessuno
+2026-09-14,usdc,0.468582,1.055401,-0.391983,-0.141826,nessuno
+2026-09-21,usdc,0.480385,1.145796,-0.242276,0.361092,nessuno
+2026-09-28,usdc,0.473166,1.308689,-0.30814,1.259065,nessuno
+2026-10-05,usdc,0.480256,1.289565,-0.207092,1.127047,nessuno
+2026-10-12,usdc,0.506554,1.222416,0.094887,0.849607,nessuno
+2026-10-19,usdc,0.489945,1.060778,-0.088117,-0.118655,nessuno
+2026-10-26,usdc,0.508506,1.701474,0.153041,3.766041,da verificare
+2026-11-02,usdc,0.450265,1.536392,-0.492783,2.442602,da verificare
+2026-11-09,usdc,0.527236,1.544377,0.432065,2.361385,da verificare
+2026-11-16,usdc,0.548583,1.617893,0.714162,2.567138,da verificare
+2024-12-09,usdc_senza_coinbase,0.428886,0.372936,,,storico insufficiente
+2024-12-16,usdc_senza_coinbase,0.412292,0.44411,,,storico insufficiente
+2024-12-23,usdc_senza_coinbase,0.46963,0.275212,,,storico insufficiente
+2024-12-30,usdc_senza_coinbase,0.437988,0.280884,,,storico insufficiente
+2025-01-06,usdc_senza_coinbase,0.430446,0.338136,,,storico insufficiente
+2025-01-13,usdc_senza_coinbase,0.369702,0.395408,,,storico insufficiente
+2025-01-20,usdc_senza_coinbase,0.348244,0.348839,,,storico insufficiente
+2025-01-27,usdc_senza_coinbase,0.396192,0.387881,,,storico insufficiente
+2025-02-03,usdc_senza_coinbase,0.42609,0.4896,,,storico insufficiente
+2025-02-10,usdc_senza_coinbase,0.447586,0.328519,,,storico insufficiente
+2025-02-17,usdc_senza_coinbase,0.458479,0.322998,,,storico insufficiente
+2025-02-24,usdc_senza_coinbase,0.4568,0.524708,,,storico insufficiente
+2025-03-03,usdc_senza_coinbase,0.567343,0.893533,,,storico insufficiente
+2025-03-10,usdc_senza_coinbase,0.58554,0.890536,,,storico insufficiente
+2025-03-17,usdc_senza_coinbase,0.580184,0.744974,,,storico insufficiente
+2025-03-24,usdc_senza_coinbase,0.563955,0.833923,,,storico insufficiente
+2025-03-31,usdc_senza_coinbase,0.631426,1.073236,,,storico insufficiente
+2025-04-07,usdc_senza_coinbase,0.676833,1.255487,,,storico insufficiente
+2025-04-14,usdc_senza_coinbase,0.666668,0.805015,,,storico insufficiente
+2025-04-21,usdc_senza_coinbase,0.662537,0.892694,,,storico insufficiente
+2025-04-28,usdc_senza_coinbase,0.664212,0.826469,,,storico insufficiente
+2025-05-05,usdc_senza_coinbase,0.64205,0.867807,,,storico insufficiente
+2025-05-12,usdc_senza_coinbase,0.627216,0.766266,,,storico insufficiente
+2025-05-19,usdc_senza_coinbase,0.611117,0.795281,,,storico insufficiente
+2025-05-26,usdc_senza_coinbase,0.68237,0.808878,,,storico insufficiente
+2025-06-02,usdc_senza_coinbase,0.58241,0.774704,,,storico insufficiente
+2025-06-09,usdc_senza_coinbase,0.595227,0.752026,,,storico insufficiente
+2025-06-16,usdc_senza_coinbase,0.601569,0.889905,,,storico insufficiente
+2025-06-23,usdc_senza_coinbase,0.637729,0.965012,,,storico insufficiente
+2025-06-30,usdc_senza_coinbase,0.67589,0.994328,,,storico insufficiente
+2025-07-07,usdc_senza_coinbase,0.646744,1.185657,,,storico insufficiente
+2025-07-14,usdc_senza_coinbase,0.53996,1.002345,,,storico insufficiente
+2025-07-21,usdc_senza_coinbase,0.532751,0.87129,,,storico insufficiente
+2025-07-28,usdc_senza_coinbase,0.597868,0.953944,,,storico insufficiente
+2025-08-04,usdc_senza_coinbase,0.584177,0.875402,,,storico insufficiente
+2025-08-11,usdc_senza_coinbase,0.535175,0.896617,,,storico insufficiente
+2025-08-18,usdc_senza_coinbase,0.578508,0.881635,,,storico insufficiente
+2025-08-25,usdc_senza_coinbase,0.600109,0.821877,,,storico insufficiente
+2025-09-01,usdc_senza_coinbase,0.60171,0.839285,,,storico insufficiente
+2025-09-08,usdc_senza_coinbase,0.594781,0.853473,,,storico insufficiente
+2025-09-15,usdc_senza_coinbase,0.541235,0.86277,,,storico insufficiente
+2025-09-22,usdc_senza_coinbase,0.501744,0.839253,,,storico insufficiente
+2025-09-29,usdc_senza_coinbase,0.547106,0.952597,,,storico insufficiente
+2025-10-06,usdc_senza_coinbase,0.496736,1.347334,,,storico insufficiente
+2025-10-13,usdc_senza_coinbase,0.470577,0.955622,,,storico insufficiente
+2025-10-20,usdc_senza_coinbase,0.587554,1.019499,,,storico insufficiente
+2025-10-27,usdc_senza_coinbase,0.5987,1.024859,,,storico insufficiente
+2025-11-03,usdc_senza_coinbase,0.509352,1.033797,,,storico insufficiente
+2025-11-10,usdc_senza_coinbase,0.578207,0.928612,,,storico insufficiente
+2025-11-17,usdc_senza_coinbase,0.501654,0.920543,,,storico insufficiente
+2025-11-24,usdc_senza_coinbase,0.516984,0.86171,,,storico insufficiente
+2025-12-01,usdc_senza_coinbase,0.490094,0.898406,,,storico insufficiente
+2025-12-08,usdc_senza_coinbase,0.523756,0.810899,-0.278274,0.074412,nessuno
+2025-12-15,usdc_senza_coinbase,0.526733,0.934834,-0.269865,0.535155,nessuno
+2025-12-22,usdc_senza_coinbase,0.477933,0.725013,-0.892519,-0.341581,nessuno
+2025-12-29,usdc_senza_coinbase,0.464631,0.921097,-1.056966,0.436322,nessuno
+2026-01-05,usdc_senza_coinbase,0.391985,0.936953,-1.956787,0.475953,nessuno
+2026-01-12,usdc_senza_coinbase,0.408252,0.856586,-1.722545,0.068527,nessuno
+2026-01-19,usdc_senza_coinbase,0.375942,0.957119,-2.157808,0.522258,da verificare
+2026-01-26,usdc_senza_coinbase,0.476177,1.424384,-0.954526,2.939153,da verificare
+2026-02-02,usdc_senza_coinbase,0.378649,1.119038,-2.248938,1.214985,da verificare
+2026-02-09,usdc_senza_coinbase,0.288424,0.913214,-3.314756,0.098387,da verificare
+2026-02-16,usdc_senza_coinbase,0.214223,0.738483,-3.870639,-0.975655,da verificare
+2026-02-23,usdc_senza_coinbase,0.249762,0.881793,-3.025365,-0.210102,da verificare
+2026-03-02,usdc_senza_coinbase,0.369007,1.136011,-1.63926,1.513169,nessuno
+2026-03-09,usdc_senza_coinbase,0.390227,0.901326,-1.368069,-0.165345,nessuno
+2026-03-16,usdc_senza_coinbase,0.383247,0.890106,-1.376236,-0.244051,nessuno
+2026-03-23,usdc_senza_coinbase,0.357481,0.918983,-1.551331,-0.065476,nessuno
+2026-03-30,usdc_senza_coinbase,0.304362,0.70082,-1.949161,-1.608075,nessuno
+2026-04-06,usdc_senza_coinbase,0.313053,0.811549,-1.769911,-0.770016,nessuno
+2026-04-13,usdc_senza_coinbase,0.42062,0.727705,-0.782912,-1.35781,nessuno
+2026-04-20,usdc_senza_coinbase,0.533323,0.73465,0.210889,-1.281395,nessuno
+2026-04-27,usdc_senza_coinbase,0.541956,0.705443,0.311062,-1.447139,nessuno
+2026-05-04,usdc_senza_coinbase,0.562574,0.802083,0.519867,-0.733831,nessuno
+2026-05-11,usdc_senza_coinbase,0.521059,0.76416,0.168286,-0.984759,nessuno
+2026-05-18,usdc_senza_coinbase,0.566455,0.751312,0.600325,-1.073271,nessuno
+2026-05-25,usdc_senza_coinbase,0.482879,0.712362,-0.150347,-1.330149,nessuno
+2026-06-01,usdc_senza_coinbase,0.437832,0.948733,-0.541496,0.308376,nessuno
+2026-06-08,usdc_senza_coinbase,0.458373,0.831153,-0.323899,-0.51836,nessuno
+2026-06-15,usdc_senza_coinbase,0.511909,0.785428,0.20716,-0.849413,nessuno
+2026-06-22,usdc_senza_coinbase,0.514604,0.832273,0.25188,-0.508232,nessuno
+2026-06-29,usdc_senza_coinbase,0.532332,0.806597,0.454045,-0.666487,nessuno
+2026-07-06,usdc_senza_coinbase,0.506474,0.662397,0.235329,-1.630657,nessuno
+2026-07-13,usdc_senza_coinbase,0.522948,0.79601,0.441656,-0.654353,nessuno
+2026-07-20,usdc_senza_coinbase,0.560164,0.767244,0.834391,-0.828676,nessuno
+2026-07-27,usdc_senza_coinbase,0.517956,0.954311,0.386786,0.486392,nessuno
+2026-08-03,usdc_senza_coinbase,0.521404,0.733906,0.444529,-1.040417,nessuno
+2026-08-10,usdc_senza_coinbase,0.5923,0.715488,1.216835,-1.137387,nessuno
+2026-08-17,usdc_senza_coinbase,0.470117,0.898438,-0.094802,0.139124,nessuno
+2026-08-24,usdc_senza_coinbase,0.429409,0.727871,-0.507236,-1.018202,nessuno
+2026-08-31,usdc_senza_coinbase,0.450369,0.868674,-0.252834,-0.051972,nessuno
+2026-09-07,usdc_senza_coinbase,0.453443,0.800887,-0.191731,-0.511204,nessuno
+2026-09-14,usdc_senza_coinbase,0.429349,0.876974,-0.435411,0.00674,nessuno
+2026-09-21,usdc_senza_coinbase,0.427082,0.89495,-0.438923,0.125414,nessuno
+2026-09-28,usdc_senza_coinbase,0.421286,1.029966,-0.488065,1.023788,nessuno
+2026-10-05,usdc_senza_coinbase,0.438455,1.061361,-0.268773,1.215014,nessuno
+2026-10-12,usdc_senza_coinbase,0.44188,0.917186,-0.217324,0.319265,nessuno
+2026-10-19,usdc_senza_coinbase,0.420865,0.773787,-0.449842,-0.720404,nessuno
+2026-10-26,usdc_senza_coinbase,0.461834,1.366255,0.053296,3.66008,da verificare
+2026-11-02,usdc_senza_coinbase,0.388214,1.156091,-0.791001,1.861957,nessuno
+2026-11-09,usdc_senza_coinbase,0.459065,1.117797,0.080779,1.557884,nessuno
+2026-11-16,usdc_senza_coinbase,0.485054,1.188881,0.426842,1.950561,nessuno

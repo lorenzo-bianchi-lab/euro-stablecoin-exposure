@@ -1,22 +1,68 @@
 {
-  "calcolato_il": "2026-11-24T17:23:52+00:00",
+  "calcolato_il": "2026-11-24T23:53:05+00:00",
   "scarico": {
-    "fetched_from": "2026-10-20",
-    "fetched_to_excl": "2026-11-23",
-    "rows_fetched": 4730,
-    "rows_compared": 4730,
-    "rows_revised": 0,
-    "max_relative_revision": 0.0,
-    "rows_added": 0,
-    "pairs_ok": 142,
-    "pairs_error": [
-      "Bitget RONUSDT"
-    ],
-    "modalita": "incrementale"
+    "modalita": "offline"
   },
   "riproducibilita": {
     "settimane_confrontate_con_esecuzione_precedente": 102,
     "differenza_massima_pp": 0.0
+  },
+  "segnalazione": {
+    "regola": "scarto oltre 2 deviazioni standard sulle 52 settimane precedenti, sia della quota EUR sia del volume contro EUR, con lo stesso segno",
+    "settimane_valutate": 50,
+    "ultima_settimana": {
+      "usdt": {
+        "stato": "nessuno",
+        "scarto_quota": -0.7387466470098951,
+        "scarto_volume": 0.4825502310626768,
+        "quota_eur": 0.11918831934624446,
+        "volume_eur_mld": 0.82569461606
+      },
+      "usdt_senza_coinbase": {
+        "stato": "nessuno",
+        "scarto_quota": -1.0294557816902528,
+        "scarto_volume": 0.17441878616162962,
+        "quota_eur": 0.10855639929375958,
+        "volume_eur_mld": 0.7092298744300001
+      },
+      "usdc": {
+        "stato": "da verificare",
+        "scarto_quota": 0.7141619036986196,
+        "scarto_volume": 2.567137719455424,
+        "quota_eur": 0.5485827821574959,
+        "volume_eur_mld": 1.61789301559
+      },
+      "usdc_senza_coinbase": {
+        "stato": "nessuno",
+        "scarto_quota": 0.42684213804332316,
+        "scarto_volume": 1.9505614997575724,
+        "quota_eur": 0.485054428482599,
+        "volume_eur_mld": 1.18888143189
+      }
+    },
+    "storico": {
+      "usdc": {
+        "nessuno": 38,
+        "da verificare": 12
+      },
+      "usdc_senza_coinbase": {
+        "nessuno": 43,
+        "da verificare": 7
+      },
+      "usdt": {
+        "nessuno": 49,
+        "da verificare": 1
+      },
+      "usdt_senza_coinbase": {
+        "nessuno": 50
+      }
+    },
+    "settimane_con_segnale": {
+      "usdc": [],
+      "usdc_senza_coinbase": [],
+      "usdt": [],
+      "usdt_senza_coinbase": []
+    }
   },
   "indice_principale": {
     "prima_settimana": "2024-12-09",
