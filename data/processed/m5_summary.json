@@ -1,0 +1,809 @@
+{
+  "mese_bilanci": "2026-09",
+  "avvertenza": "Coefficienti stimati su singole banche (ECB WP 3199) applicati ad aggregati nazionali: ordini di grandezza, non previsioni.",
+  "coefficienti": {
+    "regola_uniforme": 0.5,
+    "deviazione_standard_pp": 0.8,
+    "col3": {
+      "basso": 0.441,
+      "alto": 3.089
+    },
+    "col4": {
+      "basso": 0.342,
+      "alto": 4.173
+    }
+  },
+  "soglia_quota_retail": {
+    "percentile": 75,
+    "valore": 0.9244667883658675,
+    "paesi_sopra": [
+      "BG",
+      "HR",
+      "LT",
+      "SI",
+      "SK"
+    ],
+    "quota_retail_area": 0.7718847620126363
+  },
+  "prestiti_area_mld": 12502.126524677979,
+  "prestiti_su_passivo_area": 0.2782994840859833,
+  "area_euro_R1": {
+    "M1_oggi_alto": {
+      "importo_mld_usd": 36.634167,
+      "deflusso_mld": 32.262586,
+      "prestiti_mld": 12502.12652467798,
+      "uniforme_mld": 16.131293,
+      "basso_mld": 5.513793021921481,
+      "alto_mld": 38.62155701749537,
+      "soglia_mld": 7.107371803388144,
+      "soglia_mld_col4": 6.581516464609159,
+      "basso_mld_col4": 4.27600275169421,
+      "alto_mld_col4": 52.17473532988286,
+      "uniforme_pct_prestiti": 0.12902839343497605,
+      "uniforme_per_euro_di_deflusso": 0.5,
+      "basso_pct_prestiti": 0.044102841312938165,
+      "basso_per_euro_di_deflusso": 0.17090362880153132,
+      "alto_pct_prestiti": 0.3089199020763402,
+      "alto_per_euro_di_deflusso": 1.1971004747572116,
+      "soglia_pct_prestiti": 0.056849303111425754,
+      "soglia_per_euro_di_deflusso": 0.22029764766494986
+    },
+    "M1_oggi_base": {
+      "importo_mld_usd": 18.317083,
+      "deflusso_mld": 16.131294,
+      "prestiti_mld": 12502.12652467798,
+      "uniforme_mld": 8.065647,
+      "basso_mld": 2.7568967092135184,
+      "alto_mld": 19.310779897416232,
+      "soglia_mld": 3.553687423991767,
+      "soglia_mld_col4": 3.290760301616616,
+      "basso_mld_col4": 2.138001529594157,
+      "alto_mld_col4": 26.087369540925195,
+      "uniforme_pct_prestiti": 0.06451420071680765,
+      "uniforme_per_euro_di_deflusso": 0.5,
+      "basso_pct_prestiti": 0.022051422242221532,
+      "basso_per_euro_di_deflusso": 0.17090363049694082,
+      "alto_pct_prestiti": 0.15445996214562885,
+      "alto_per_euro_di_deflusso": 1.1971004866327668,
+      "soglia_pct_prestiti": 0.028424663732022983,
+      "soglia_per_euro_di_deflusso": 0.22029772837763462
+    },
+    "S0_oggi": {
+      "importo_mld_usd": 19.0,
+      "deflusso_mld": 16.732719,
+      "prestiti_mld": 12502.12652467798,
+      "uniforme_mld": 8.3663595,
+      "basso_mld": 2.85968240143147,
+      "alto_mld": 20.03074589120592,
+      "soglia_mld": 3.6861804812840204,
+      "soglia_mld_col4": 3.4134508524992384,
+      "basso_mld_col4": 2.2177128827427732,
+      "alto_mld_col4": 27.05998789381752,
+      "uniforme_pct_prestiti": 0.06691949152398691,
+      "uniforme_per_euro_di_deflusso": 0.5,
+      "basso_pct_prestiti": 0.022873567914920196,
+      "basso_per_euro_di_deflusso": 0.17090362907734663,
+      "alto_pct_prestiti": 0.1602187104063231,
+      "alto_per_euro_di_deflusso": 1.1971004766891693,
+      "soglia_pct_prestiti": 0.029484427901188322,
+      "soglia_per_euro_di_deflusso": 0.2202977580203206
+    },
+    "S1_base_2030": {
+      "importo_mld_usd": 143.0,
+      "deflusso_mld": 125.935711,
+      "prestiti_mld": 12502.12652467798,
+      "uniforme_mld": 62.9678555,
+      "basso_mld": 21.522869901778655,
+      "alto_mld": 150.75769869976023,
+      "soglia_mld": 27.74334104645559,
+      "soglia_mld_col4": 25.690685953235285,
+      "basso_mld_col4": 16.691205229950793,
+      "alto_mld_col4": 203.66198662159258,
+      "uniforme_pct_prestiti": 0.5036571608494569,
+      "uniforme_per_euro_di_deflusso": 0.5,
+      "basso_pct_prestiti": 0.1721536720916606,
+      "basso_per_euro_di_deflusso": 0.1709036279771244,
+      "alto_pct_prestiti": 1.2058564469186839,
+      "alto_per_euro_di_deflusso": 1.1971004689826241,
+      "soglia_pct_prestiti": 0.22190897677841395,
+      "soglia_per_euro_di_deflusso": 0.22029764890480977
+    },
+    "S2_alto_2030": {
+      "importo_mld_usd": 300.0,
+      "deflusso_mld": 264.200792,
+      "prestiti_mld": 12502.12652467798,
+      "uniforme_mld": 132.100396,
+      "basso_mld": 45.1528739501521,
+      "alto_mld": 316.2748925896142,
+      "soglia_mld": 58.202816773646674,
+      "soglia_mld_col4": 53.89654884120232,
+      "basso_mld_col4": 35.016514491954695,
+      "alto_mld_col4": 427.26290928341206,
+      "uniforme_pct_prestiti": 1.05662341313893,
+      "uniforme_per_euro_di_deflusso": 0.5,
+      "basso_pct_prestiti": 0.36116155008529727,
+      "basso_per_euro_di_deflusso": 0.170903628290986,
+      "alto_pct_prestiti": 2.529768771459146,
+      "alto_per_euro_di_deflusso": 1.1971004711810789,
+      "soglia_pct_prestiti": 0.46554333503792317,
+      "soglia_per_euro_di_deflusso": 0.22029766199053136
+    },
+    "S3_alto_2030_quota_doppia": {
+      "importo_mld_usd": 600.0,
+      "deflusso_mld": 528.401583,
+      "prestiti_mld": 12502.12652467798,
+      "uniforme_mld": 264.2007915,
+      "basso_mld": 90.30574789690684,
+      "alto_mld": 632.5497851554313,
+      "soglia_mld": 116.40563306853754,
+      "soglia_mld_col4": 107.79309699204404,
+      "basso_mld_col4": 70.0330289812747,
+      "alto_mld_col4": 854.5258185346762,
+      "uniforme_pct_prestiti": 2.1132468222785405,
+      "uniforme_per_euro_di_deflusso": 0.5,
+      "basso_pct_prestiti": 0.7223231001434203,
+      "basso_per_euro_di_deflusso": 0.1709036286079916,
+      "alto_pct_prestiti": 5.0595375427279485,
+      "alto_per_euro_di_deflusso": 1.1971004734015556,
+      "soglia_pct_prestiti": 0.9310866662464513,
+      "soglia_per_euro_di_deflusso": 0.22029766150139932
+    }
+  },
+  "primi_cinque_per_mld": {
+    "M1_oggi_base": [
+      {
+        "paese": "DE",
+        "nome": "Germania",
+        "soglia_mld": 0.8204984455042501,
+        "soglia_pct_prestiti": 0.023314344031836288,
+        "uniforme_mld": 2.529781,
+        "basso_mld": 0.8204984455042501,
+        "alto_mld": 5.747210199915257
+      },
+      {
+        "paese": "ES",
+        "nome": "Spagna",
+        "soglia_mld": 0.4813340653444437,
+        "soglia_pct_prestiti": 0.039316134348617346,
+        "uniforme_mld": 1.2374205,
+        "basso_mld": 0.4813340653444437,
+        "alto_mld": 3.3715213783423725
+      },
+      {
+        "paese": "IT",
+        "nome": "Italia",
+        "soglia_mld": 0.4469362563413414,
+        "soglia_pct_prestiti": 0.03339983785999372,
+        "uniforme_mld": 1.277909,
+        "basso_mld": 0.4469362563413414,
+        "alto_mld": 3.130580716186856
+      },
+      {
+        "paese": "FR",
+        "nome": "Francia",
+        "soglia_mld": 0.28133979083496735,
+        "soglia_pct_prestiti": 0.009196830789333687,
+        "uniforme_mld": 1.110163,
+        "basso_mld": 0.28133979083496735,
+        "alto_mld": 1.9706544532635242
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 0.2655076473452645,
+        "soglia_pct_prestiti": 0.3003196548921794,
+        "uniforme_mld": 0.0543865,
+        "basso_mld": 0.037905106014652516,
+        "alto_mld": 0.2655076473452645
+      }
+    ],
+    "M1_oggi_alto": [
+      {
+        "paese": "DE",
+        "nome": "Germania",
+        "soglia_mld": 1.6409967288406198,
+        "soglia_pct_prestiti": 0.04662868345569584,
+        "uniforme_mld": 5.0595615,
+        "basso_mld": 1.6409967288406198,
+        "alto_mld": 11.494419263919898
+      },
+      {
+        "paese": "ES",
+        "nome": "Spagna",
+        "soglia_mld": 0.9626681306888873,
+        "soglia_pct_prestiti": 0.07863226869723469,
+        "uniforme_mld": 2.474841,
+        "basso_mld": 0.9626681306888873,
+        "alto_mld": 6.743042756684745
+      },
+      {
+        "paese": "IT",
+        "nome": "Italia",
+        "soglia_mld": 0.8938725126826828,
+        "soglia_pct_prestiti": 0.06679967571998743,
+        "uniforme_mld": 2.555818,
+        "basso_mld": 0.8938725126826828,
+        "alto_mld": 6.261161432373712
+      },
+      {
+        "paese": "FR",
+        "nome": "Francia",
+        "soglia_mld": 0.5626795816699347,
+        "soglia_pct_prestiti": 0.018393661578667373,
+        "uniforme_mld": 2.220326,
+        "basso_mld": 0.5626795816699347,
+        "alto_mld": 3.9413089065270484
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 0.531015294690529,
+        "soglia_pct_prestiti": 0.6006393097843588,
+        "uniforme_mld": 0.108773,
+        "basso_mld": 0.07581021202930503,
+        "alto_mld": 0.531015294690529
+      }
+    ],
+    "S0_oggi": [
+      {
+        "paese": "DE",
+        "nome": "Germania",
+        "soglia_mld": 0.8510891457992835,
+        "soglia_pct_prestiti": 0.024183574332955135,
+        "uniforme_mld": 2.624099,
+        "basso_mld": 0.8510891457992835,
+        "alto_mld": 5.961483835315163
+      },
+      {
+        "paese": "ES",
+        "nome": "Spagna",
+        "soglia_mld": 0.49927974113102214,
+        "soglia_pct_prestiti": 0.04078196577631186,
+        "uniforme_mld": 1.2835555,
+        "basso_mld": 0.49927974113102214,
+        "alto_mld": 3.497222495133169
+      },
+      {
+        "paese": "IT",
+        "nome": "Italia",
+        "soglia_mld": 0.463599457293252,
+        "soglia_pct_prestiti": 0.03464508973232616,
+        "uniforme_mld": 1.3255535,
+        "basso_mld": 0.463599457293252,
+        "alto_mld": 3.247298692922575
+      },
+      {
+        "paese": "FR",
+        "nome": "Francia",
+        "soglia_mld": 0.29182905647663854,
+        "soglia_pct_prestiti": 0.009539718657859221,
+        "uniforme_mld": 1.1515535,
+        "basso_mld": 0.29182905647663854,
+        "alto_mld": 2.0441268831209447
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 0.2754080731644695,
+        "soglia_pct_prestiti": 0.31151817401220616,
+        "uniforme_mld": 0.0564145,
+        "basso_mld": 0.03931853682924282,
+        "alto_mld": 0.2754080731644695
+      }
+    ],
+    "S1_base_2030": [
+      {
+        "paese": "DE",
+        "nome": "Germania",
+        "soglia_mld": 6.405565112958813,
+        "soglia_pct_prestiti": 0.18201320134137475,
+        "uniforme_mld": 19.749796,
+        "basso_mld": 6.405565112958813,
+        "alto_mld": 44.86800597262987
+      },
+      {
+        "paese": "ES",
+        "nome": "Spagna",
+        "soglia_mld": 3.7577364053296685,
+        "soglia_pct_prestiti": 0.30693790445292674,
+        "uniforme_mld": 9.6604425,
+        "basso_mld": 3.7577364053296685,
+        "alto_mld": 26.321196725767223
+      },
+      {
+        "paese": "IT",
+        "nome": "Italia",
+        "soglia_mld": 3.489195657714266,
+        "soglia_pct_prestiti": 0.26074986662179833,
+        "uniforme_mld": 9.9765335,
+        "basso_mld": 3.489195657714266,
+        "alto_mld": 24.440193620588136
+      },
+      {
+        "paese": "FR",
+        "nome": "Francia",
+        "soglia_mld": 2.1963973088062594,
+        "soglia_pct_prestiti": 0.07179892447950323,
+        "uniforme_mld": 8.666954,
+        "basso_mld": 2.1963973088062594,
+        "alto_mld": 15.384742147171279
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 2.0727991366937912,
+        "soglia_pct_prestiti": 2.344573979758815,
+        "uniforme_mld": 0.4245915,
+        "basso_mld": 0.2959224406869414,
+        "alto_mld": 2.0727991366937912
+      }
+    ],
+    "S2_alto_2030": [
+      {
+        "paese": "DE",
+        "nome": "Germania",
+        "soglia_mld": 13.438248501199233,
+        "soglia_pct_prestiti": 0.38184587729440667,
+        "uniforme_mld": 41.4331385,
+        "basso_mld": 13.438248501199233,
+        "alto_mld": 94.12868394604179
+      },
+      {
+        "paese": "ES",
+        "nome": "Spagna",
+        "soglia_mld": 7.8833630541022925,
+        "soglia_pct_prestiti": 0.6439256709001386,
+        "uniforme_mld": 20.2666625,
+        "basso_mld": 7.8833630541022925,
+        "alto_mld": 55.219293592113345
+      },
+      {
+        "paese": "IT",
+        "nome": "Italia",
+        "soglia_mld": 7.319991044391034,
+        "soglia_pct_prestiti": 0.5470277037281652,
+        "uniforme_mld": 20.929791,
+        "basso_mld": 7.319991044391034,
+        "alto_mld": 51.27313454903379
+      },
+      {
+        "paese": "FR",
+        "nome": "Francia",
+        "soglia_mld": 4.6078265272877195,
+        "soglia_pct_prestiti": 0.15062711446645885,
+        "uniforme_mld": 18.182421,
+        "basso_mld": 4.6078265272877195,
+        "alto_mld": 32.2756828634734
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 4.348530152414025,
+        "soglia_pct_prestiti": 4.918687230740922,
+        "uniforme_mld": 0.8907515,
+        "basso_mld": 0.6208163798040094,
+        "alto_mld": 4.348530152414025
+      }
+    ],
+    "S3_alto_2030_quota_doppia": [
+      {
+        "paese": "DE",
+        "nome": "Germania",
+        "soglia_mld": 26.876497002398466,
+        "soglia_pct_prestiti": 0.7636917545888133,
+        "uniforme_mld": 82.866277,
+        "basso_mld": 26.876497002398466,
+        "alto_mld": 188.25736789208358
+      },
+      {
+        "paese": "ES",
+        "nome": "Spagna",
+        "soglia_mld": 15.766725913713676,
+        "soglia_pct_prestiti": 1.2878513259139497,
+        "uniforme_mld": 40.5333245,
+        "basso_mld": 15.766725913713676,
+        "alto_mld": 110.43858582190828
+      },
+      {
+        "paese": "IT",
+        "nome": "Italia",
+        "soglia_mld": 14.639982088782068,
+        "soglia_pct_prestiti": 1.0940554074563305,
+        "uniforme_mld": 41.859582,
+        "basso_mld": 14.639982088782068,
+        "alto_mld": 102.54626909806758
+      },
+      {
+        "paese": "FR",
+        "nome": "Francia",
+        "soglia_mld": 9.215653054575439,
+        "soglia_pct_prestiti": 0.3012542289329177,
+        "uniforme_mld": 36.364842,
+        "basso_mld": 9.215653054575439,
+        "alto_mld": 64.5513657269468
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 8.69706030482805,
+        "soglia_pct_prestiti": 9.837374461481843,
+        "uniforme_mld": 1.781503,
+        "basso_mld": 1.2416327596080188,
+        "alto_mld": 8.69706030482805
+      }
+    ]
+  },
+  "primi_cinque_per_pct": {
+    "M1_oggi_base": [
+      {
+        "paese": "SI",
+        "nome": "Slovenia",
+        "soglia_mld": 0.12552858941265235,
+        "soglia_pct_prestiti": 0.4492875579078589,
+        "uniforme_mld": 0.0353735,
+        "basso_mld": 0.01792104497603745,
+        "alto_mld": 0.12552858941265235
+      },
+      {
+        "paese": "BG",
+        "nome": "Bulgaria",
+        "soglia_mld": 0.24797338084947937,
+        "soglia_pct_prestiti": 0.39179050869264653,
+        "uniforme_mld": 0.0643765,
+        "basso_mld": 0.03540183261722901,
+        "alto_mld": 0.24797338084947937
+      },
+      {
+        "paese": "HR",
+        "nome": "Croazia",
+        "soglia_mld": 0.17916108174791917,
+        "soglia_pct_prestiti": 0.3697855144435896,
+        "uniforme_mld": 0.047922,
+        "basso_mld": 0.025577868906064213,
+        "alto_mld": 0.17916108174791917
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 0.2655076473452645,
+        "soglia_pct_prestiti": 0.3003196548921794,
+        "uniforme_mld": 0.0543865,
+        "basso_mld": 0.037905106014652516,
+        "alto_mld": 0.2655076473452645
+      },
+      {
+        "paese": "LT",
+        "nome": "Lituania",
+        "soglia_mld": 0.11131816694000558,
+        "soglia_pct_prestiti": 0.2849708597394096,
+        "uniforme_mld": 0.0405845,
+        "basso_mld": 0.015892299003089173,
+        "alto_mld": 0.11131816694000558
+      }
+    ],
+    "M1_oggi_alto": [
+      {
+        "paese": "SI",
+        "nome": "Slovenia",
+        "soglia_mld": 0.25105540449438735,
+        "soglia_pct_prestiti": 0.8985687651922581,
+        "uniforme_mld": 0.0707465,
+        "basso_mld": 0.03584183664034471,
+        "alto_mld": 0.25105540449438735
+      },
+      {
+        "paese": "BG",
+        "nome": "Bulgaria",
+        "soglia_mld": 0.4959486876609235,
+        "soglia_pct_prestiti": 0.7835840603474662,
+        "uniforme_mld": 0.1287535,
+        "basso_mld": 0.07080394019374142,
+        "alto_mld": 0.4959486876609235
+      },
+      {
+        "paese": "HR",
+        "nome": "Croazia",
+        "soglia_mld": 0.3583202941969595,
+        "soglia_pct_prestiti": 0.7395671706851589,
+        "uniforme_mld": 0.0958435,
+        "basso_mld": 0.05115547094233056,
+        "alto_mld": 0.3583202941969595
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 0.531015294690529,
+        "soglia_pct_prestiti": 0.6006393097843588,
+        "uniforme_mld": 0.108773,
+        "basso_mld": 0.07581021202930503,
+        "alto_mld": 0.531015294690529
+      },
+      {
+        "paese": "LT",
+        "nome": "Lituania",
+        "soglia_mld": 0.22263496244304706,
+        "soglia_pct_prestiti": 0.5699382086451298,
+        "uniforme_mld": 0.0811685,
+        "basso_mld": 0.031784402213461876,
+        "alto_mld": 0.22263496244304706
+      }
+    ],
+    "S0_oggi": [
+      {
+        "paese": "SI",
+        "nome": "Slovenia",
+        "soglia_mld": 0.13020750004181209,
+        "soglia_pct_prestiti": 0.4660341519712541,
+        "uniforme_mld": 0.036692,
+        "basso_mld": 0.018589028008559123,
+        "alto_mld": 0.13020750004181209
+      },
+      {
+        "paese": "BG",
+        "nome": "Bulgaria",
+        "soglia_mld": 0.25721992424231954,
+        "soglia_pct_prestiti": 0.4063997700864268,
+        "uniforme_mld": 0.066777,
+        "basso_mld": 0.036721912136893145,
+        "alto_mld": 0.25721992424231954
+      },
+      {
+        "paese": "HR",
+        "nome": "Croazia",
+        "soglia_mld": 0.1858400866421777,
+        "soglia_pct_prestiti": 0.38357087026249265,
+        "uniforme_mld": 0.0497085,
+        "basso_mld": 0.026531394693816882,
+        "alto_mld": 0.1858400866421777
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 0.2754080731644695,
+        "soglia_pct_prestiti": 0.31151817401220616,
+        "uniforme_mld": 0.0564145,
+        "basso_mld": 0.03931853682924282,
+        "alto_mld": 0.2754080731644695
+      },
+      {
+        "paese": "LT",
+        "nome": "Lituania",
+        "soglia_mld": 0.11546813519340841,
+        "soglia_pct_prestiti": 0.2955946424837017,
+        "uniforme_mld": 0.0420975,
+        "basso_mld": 0.016484767763124995,
+        "alto_mld": 0.11546813519340841
+      }
+    ],
+    "S1_base_2030": [
+      {
+        "paese": "SI",
+        "nome": "Slovenia",
+        "soglia_mld": 0.9799842576459897,
+        "soglia_pct_prestiti": 3.507525544308668,
+        "uniforme_mld": 0.276156,
+        "basso_mld": 0.1399071083269283,
+        "alto_mld": 0.9799842576459897
+      },
+      {
+        "paese": "BG",
+        "nome": "Bulgaria",
+        "soglia_mld": 1.9359134102376536,
+        "soglia_pct_prestiti": 3.05868515880066,
+        "uniforme_mld": 0.5025835,
+        "basso_mld": 0.27637999803004376,
+        "alto_mld": 1.9359134102376536
+      },
+      {
+        "paese": "HR",
+        "nome": "Croazia",
+        "soglia_mld": 1.398689801034058,
+        "soglia_pct_prestiti": 2.886872654353061,
+        "uniforme_mld": 0.3741215,
+        "basso_mld": 0.19968345815992863,
+        "alto_mld": 1.398689801034058
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 2.0727991366937912,
+        "soglia_pct_prestiti": 2.344573979758815,
+        "uniforme_mld": 0.4245915,
+        "basso_mld": 0.2959224406869414,
+        "alto_mld": 2.0727991366937912
+      },
+      {
+        "paese": "LT",
+        "nome": "Lituania",
+        "soglia_mld": 0.869046689670625,
+        "soglia_pct_prestiti": 2.224731048999373,
+        "uniforme_mld": 0.316838,
+        "basso_mld": 0.12406914540134206,
+        "alto_mld": 0.869046689670625
+      }
+    ],
+    "S2_alto_2030": [
+      {
+        "paese": "SI",
+        "nome": "Slovenia",
+        "soglia_mld": 2.0559119109880566,
+        "soglia_pct_prestiti": 7.358448350957106,
+        "uniforme_mld": 0.5793485,
+        "basso_mld": 0.2935115418406387,
+        "alto_mld": 2.0559119109880566
+      },
+      {
+        "paese": "BG",
+        "nome": "Bulgaria",
+        "soglia_mld": 4.0613588114659365,
+        "soglia_pct_prestiti": 6.416825182108825,
+        "uniforme_mld": 1.0543715,
+        "basso_mld": 0.5798184641814431,
+        "alto_mld": 4.0613588114659365
+      },
+      {
+        "paese": "HR",
+        "nome": "Croazia",
+        "soglia_mld": 2.934315091440886,
+        "soglia_pct_prestiti": 6.056377897710807,
+        "uniforme_mld": 0.7848705,
+        "basso_mld": 0.41891646336206895,
+        "alto_mld": 2.934315091440886
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 4.348530152414025,
+        "soglia_pct_prestiti": 4.918687230740922,
+        "uniforme_mld": 0.8907515,
+        "basso_mld": 0.6208163798040094,
+        "alto_mld": 4.348530152414025
+      },
+      {
+        "paese": "LT",
+        "nome": "Lituania",
+        "soglia_mld": 1.8231745857208292,
+        "soglia_pct_prestiti": 4.667267198425183,
+        "uniforme_mld": 0.664695,
+        "basso_mld": 0.26028487934700084,
+        "alto_mld": 1.8231745857208292
+      }
+    ],
+    "S3_alto_2030_quota_doppia": [
+      {
+        "paese": "SI",
+        "nome": "Slovenia",
+        "soglia_mld": 4.111823821976113,
+        "soglia_pct_prestiti": 14.716896701914212,
+        "uniforme_mld": 1.158697,
+        "basso_mld": 0.5870230836812774,
+        "alto_mld": 4.111823821976113
+      },
+      {
+        "paese": "BG",
+        "nome": "Bulgaria",
+        "soglia_mld": 8.122715696969905,
+        "soglia_pct_prestiti": 12.833647321255473,
+        "uniforme_mld": 2.1087425,
+        "basso_mld": 1.1596366534036027,
+        "alto_mld": 8.122715696969905
+      },
+      {
+        "paese": "HR",
+        "nome": "Croazia",
+        "soglia_mld": 5.868630182881772,
+        "soglia_pct_prestiti": 12.112755795421615,
+        "uniforme_mld": 1.569741,
+        "basso_mld": 0.8378329267241379,
+        "alto_mld": 5.868630182881772
+      },
+      {
+        "paese": "SK",
+        "nome": "Slovacchia",
+        "soglia_mld": 8.69706030482805,
+        "soglia_pct_prestiti": 9.837374461481843,
+        "uniforme_mld": 1.781503,
+        "basso_mld": 1.2416327596080188,
+        "alto_mld": 8.69706030482805
+      },
+      {
+        "paese": "LT",
+        "nome": "Lituania",
+        "soglia_mld": 3.646350542878622,
+        "soglia_pct_prestiti": 9.334537907684053,
+        "uniforme_mld": 1.3293905,
+        "basso_mld": 0.5205699544867182,
+        "alto_mld": 3.646350542878622
+      }
+    ]
+  },
+  "mappa": {
+    "trimestre_bri": "2026-Q2",
+    "trimestre_bsi": "2026-Q2",
+    "mediana_depositi_a_vista": 0.354205,
+    "mediana_dollari": 0.04869230423864979,
+    "quadranti": {
+      "A": [
+        "BG",
+        "HR",
+        "LT",
+        "LV",
+        "MT",
+        "SI",
+        "SK"
+      ],
+      "B": [
+        "CY",
+        "ES",
+        "GR"
+      ],
+      "C": [
+        "BE",
+        "DE",
+        "FI",
+        "FR",
+        "IE",
+        "LU",
+        "NL"
+      ],
+      "D": [
+        "AT",
+        "EE",
+        "IT",
+        "PT"
+      ]
+    },
+    "quadranti_riscalati": {
+      "A": [
+        "BG",
+        "GR",
+        "HR",
+        "LT",
+        "LV",
+        "SI",
+        "SK"
+      ],
+      "B": [
+        "CY",
+        "ES",
+        "MT"
+      ],
+      "C": [
+        "BE",
+        "DE",
+        "FI",
+        "FR",
+        "IE",
+        "LU",
+        "NL"
+      ],
+      "D": [
+        "AT",
+        "EE",
+        "IT",
+        "PT"
+      ]
+    },
+    "paesi_che_cambiano_con_riscalatura": [
+      "GR",
+      "MT"
+    ],
+    "confronto_fonti": {
+      "paesi_con_entrambe": 13,
+      "paesi_con_bsi_completo": 6,
+      "rapporto_mediano_bsi_su_bri": 0.7896442714759744,
+      "correlazione_di_rango": 0.7714285714285716
+    },
+    "paesi_fonte_bsi": [
+      "BG",
+      "EE",
+      "HR",
+      "LT",
+      "LV",
+      "MT",
+      "SI",
+      "SK"
+    ],
+    "correlazione_di_rango_assi": -0.6714285714285714
+  }
+}
