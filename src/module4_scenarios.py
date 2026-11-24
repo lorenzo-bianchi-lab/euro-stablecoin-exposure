@@ -115,8 +115,14 @@ def main() -> None:
         print(table.sort_values("effetto_sulla_raccolta_pp", ascending=False).round(3).to_string())
         return
 
+    scenarios = dict(SCENARIOS)
+    m1 = PROC / "m1_level.json"
+    if m1.exists():  # livello corrente prodotto dal modulo 1
+        lv = json.loads(m1.read_text())
+        scenarios = {"M1_oggi_base": lv["livello"]["base_mld_usd"], "M1_oggi_alto": lv["livello"]["alto_mld_usd"], **SCENARIOS}
+
     rows, ea = [], []
-    for name, usd in SCENARIOS.items():
+    for name, usd in scenarios.items():
         eur = usd / fx * SUBSTITUTION
         for cr in ("R1", "R2"):
             for dr in ("T1", "T2", "T3"):
@@ -131,7 +137,7 @@ def main() -> None:
 
     base_cols = ["nome", "deflusso_mld", "perdita_depositi_a_vista", "perdita_depositi_clientela", "effetto_sulla_raccolta_pp", "aumento_raccolta_ingrosso"]
     wide = pd.DataFrame({"nome": pd.Series(NAMES)}).reindex(b.index)
-    for name in SCENARIOS:
+    for name in scenarios:
         for cr in ("R1", "R2"):
             sel = allr[(allr.scenario == name) & (allr.regola_paesi == cr) & (allr.regola_depositi == "T1")].set_index("paese")
             for col in base_cols[1:]:

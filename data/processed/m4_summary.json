@@ -12,6 +12,26 @@
     "popolazione": 358714466.0
   },
   "scenari_area_euro_R1_T1": {
+    "M1_oggi_base": {
+      "importo_mld_usd": 18.317083425,
+      "importo_mld_eur": 16.131293196829592,
+      "deflusso_mld_eur": 16.131293196829596,
+      "perdita_depositi_a_vista": 0.0019719282633057916,
+      "perdita_depositi_clientela": 0.0011689955124643454,
+      "effetto_sulla_raccolta_pp": 0.03590853576354317,
+      "aumento_raccolta_ingrosso": 0.0012966582698038785,
+      "eccedenza_mld": 0.0
+    },
+    "M1_oggi_alto": {
+      "importo_mld_usd": 36.63416685,
+      "importo_mld_eur": 32.262586393659184,
+      "deflusso_mld_eur": 32.26258639365919,
+      "perdita_depositi_a_vista": 0.003943856526611583,
+      "perdita_depositi_clientela": 0.002337991024928691,
+      "effetto_sulla_raccolta_pp": 0.07181707152708634,
+      "aumento_raccolta_ingrosso": 0.002593316539607757,
+      "eccedenza_mld": 0.0
+    },
     "S0_oggi": {
       "importo_mld_usd": 19.0,
       "importo_mld_eur": 16.732716864817263,
