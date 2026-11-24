@@ -1,0 +1,14 @@
+serie,descrizione,codice,paesi_area_euro,paesi,mancanti,inizio_piu_antico,inizio_piu_recente,paese_inizio_piu_recente,ultimo_dato,paesi_aggiornati_all_ultimo_dato,osservazioni
+dep_vista_famiglie,"Depositi a vista, famiglie",BSI.M.{paese}.N.A.L21.A.1.U2.2250.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2003-01,2022-01,BG,2026-09,21,5387
+dep_vista_imprese,"Depositi a vista, società non finanziarie",BSI.M.{paese}.N.A.L21.A.1.U2.2240.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2003-01,2022-01,BG,2026-09,21,5387
+dep_tot_famiglie,"Depositi totali, famiglie",BSI.M.{paese}.N.A.L20.A.1.U2.2250.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2003-01,2022-01,BG,2026-09,21,5387
+dep_tot_imprese,"Depositi totali, società non finanziarie",BSI.M.{paese}.N.A.L20.A.1.U2.2240.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2003-01,2022-01,BG,2026-09,21,5387
+dep_tot_non_ifm,"Depositi totali, non-IFM escluso governo centrale",BSI.M.{paese}.N.A.L20.A.1.U2.2300.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,1997-09,2022-01,BG,2026-09,21,6149
+dep_ifm,"Depositi da IFM dell'area euro (interbancario, include la banca centrale)",BSI.M.{paese}.N.A.L20.A.1.U2.1000.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,1997-09,2022-01,BG,2026-09,21,6149
+dep_banche,Depositi da altre banche dell'area euro (esclusa la banca centrale),BSI.M.{paese}.N.A.L20.A.1.U2.1210.Z01.E,20,AT BE BG CY DE EE ES FI GR HR IE IT LT LU LV MT NL PT SI SK,FR,2014-12,2022-01,BG,2026-09,20,2755
+titoli_debito,"Titoli di debito emessi, totale",BSI.M.{paese}.N.A.L40.A.1.U2.0000.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,1997-09,2022-01,BG,2026-09,21,6149
+titoli_debito_oltre_2a,"Titoli di debito emessi, oltre 2 anni",BSI.M.{paese}.N.A.L40.H.1.Z5.0000.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,1997-09,2022-01,BG,2026-09,21,6149
+passivita_estere,Passività verso non residenti dell'area euro,BSI.M.{paese}.N.A.LXG.A.1.U4.0000.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,1997-09,2022-01,BG,2026-09,21,6149
+capitale_riserve,Capitale e riserve,BSI.M.{paese}.N.A.L60.X.1.Z5.0000.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,1997-09,2022-01,BG,2026-09,21,6149
+totale_passivo,Totale attivo/passivo,BSI.M.{paese}.N.A.T00.A.1.Z5.0000.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,1997-09,2022-01,BG,2026-09,21,6149
+dep_vista_non_euro_ofi,"Depositi a vista in valute diverse dall'euro, altri intermediari finanziari (S.125)",BSI.M.{paese}.N.A.L21.A.1.U2.227A.Z06.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2022-01,2022-01,AT,2026-09,21,1197
