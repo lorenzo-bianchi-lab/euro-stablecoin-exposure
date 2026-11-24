@@ -196,26 +196,27 @@ Lettura, in ordine di importanza:
 
 ### 3.5 Benchmark esterno
 
-Le cifre qui sotto vengono da una ricerca documentale svolta in parallelo. "Fonte
-primaria" significa che il numero è stato letto nel documento originale; "seconda
-mano" significa che va ricontrollato sull'originale prima di citarlo. Nessuna fonte
-pubblica una quota **misurata** dell'area euro sulle stablecoin in dollari.
+Aggiornamento del 2026-11-24: tutte le cifre di questa tabella sono state rilette sui
+documenti originali. Valore, periodo, campione e pagina di ciascuna sono in
+[02_benchmark_e_modulo3.md](02_benchmark_e_modulo3.md), parte A. Nessuna fonte pubblica
+una quota **misurata** dell'area euro sulle stablecoin in dollari.
 
-| Fonte | Cifra | Cosa misura | Verifica |
+| Fonte | Cifra | Cosa misura | Dove |
 |---|---|---|---|
-| [ESM Working Paper 79](https://ideas.repec.org/p/stm/wpaper/79.html), ott 2026 | 7,5% (scenario alto 15%) | Area euro sulla circolazione mondiale di stablecoin in dollari. È un'ipotesi di calibrazione, non una stima | fonte primaria |
-| [ESMA, "Crypto assets: market structures and EU relevance"](https://www.esma.europa.eu/sites/default/files/2024-04/ESMA50-524821-3153_risk_article_crypto_assets_market_structures_and_eu_relevance.pdf), apr 2024 | circa 10% | EUR sui volumi fiat-crypto, tutte le crypto, dati Kaiko fino a dic 2023 | fonte primaria |
-| Kaiko, "State of the European Crypto Market", mag 2026 | 9,0% | EUR sui volumi crypto-fiat, primo trimestre 2026 | seconda mano |
-| [Chainalysis](https://www.chainalysis.com/?p=30780), nov 2026 | circa 11,8% | EUR sul trading crypto contro 33 valute fiat, metà 2026 | pagina letta, non il rapporto completo |
-| [Chainalysis](https://www.chainalysis.com/blog/2024-western-europe-crypto-adoption/), ott 2024 | 24% | EUR sugli acquisti di stablecoin con valuta fiat. Unica cifra specifica per le stablecoin | pagina letta; periodo e denominatore non dichiarati |
-| [IMF WP/25/141](https://www.imf.org/en/publications/wp/issues/2025/07/11/decrypting-crypto-how-to-estimate-international-stablecoin-flows-568260), Reuter, lug 2025 | 21,4% | "Europa" in senso largo sui flussi USDT e USDC del 2024 (calcolo dalla tabella 6). Usa anche profili orari | fonte primaria |
-| [Bruegel Policy Brief 09/2026](https://www.bruegel.org/policy-brief/new-strategy-contain-stablecoin-risks-european-union), mag 2026 | 38% | Transazioni in stablecoin attribuite all'Europa per fuso orario, quarto trimestre 2025, dati Artemis | fonte primaria |
-| Chainalysis, Geography of Crypto 2026 | 5,1% | Europa occidentale (con Regno Unito) sui saldi mondiali in stablecoin | pagina letta |
-| [BCE, Bollettino economico 7/2026](https://www.ecb.europa.eu/press/economic-bulletin/focus/2026/html/ecb.ebbox202607_08~f4ddf0117c.en.html), nov 2026 | 5% | Consumatori dell'area euro che detengono stablecoin (indagine, 11 paesi) | fonte primaria |
+| [ESM Working Paper 79](https://www.esm.europa.eu/system/files/document/2026-10/WP%2079.pdf), 2026 | 7,5% (scenario alto 15%) | Area euro sulla circolazione mondiale di stablecoin in dollari. È un'ipotesi di calibrazione, non una stima | Sezione 5.1, pp. 47-48 |
+| [ESMA, "Crypto assets: Market structures and EU relevance"](https://www.esma.europa.eu/sites/default/files/2024-04/ESMA50-524821-3153_risk_article_crypto_assets_market_structures_and_eu_relevance.pdf), 2024 | circa 10% | EUR sui volumi fiat-crypto, tutte le crypto, dati Kaiko da dic 2020 a dic 2023 | p. 7, grafico 5 |
+| [Kaiko, "The State of the European Crypto Market 2025-2026"](https://resources.kaiko.com/hubfs/Research/The%20State%20of%20the%20European%20Crypto%20Market%20-%202025%20-%202026%20Trends%20in%20Trading%20Activity.pdf), mag 2026 | 9,0% | EUR sul volume mondiale crypto-fiat, primo trimestre 2026 | Parte 1, p. 2 |
+| [Chainalysis](https://www.chainalysis.com/blog/western-europe-crypto-adoption-2026/), nov 2026 | 11,8% | Scambi in euro sul volume crypto contro 33 valute fiat, fine del periodo luglio 2025 - giugno 2026 | Testo dell'articolo |
+| [Chainalysis](https://www.chainalysis.com/blog/2024-western-europe-crypto-adoption/), ott 2024 | 24% | EUR sugli acquisti di stablecoin contro valute fiat. Unica cifra specifica per le stablecoin; periodo e campione non dichiarati | Testo dell'articolo |
+| [IMF WP/25/141](https://www.elibrary.imf.org/view/journals/001/2025/141/article-A001-en.xml), Reuter, 2025 | 21,4% | "Europa" in senso largo sui flussi USDT e USDC del 2024 (nostro calcolo: 334 su 1.561 miliardi). Usa anche profili orari | Tabella 6 |
+| [Bruegel Policy Brief 09/2026](https://www.bruegel.org/policy-brief/new-strategy-contain-stablecoin-risks-european-union), 2026 | 38% | Transazioni in stablecoin attribuite all'Europa per fuso orario, quarto trimestre 2025, dati Artemis | Figura 3b |
+| [Chainalysis](https://www.chainalysis.com/blog/western-europe-crypto-adoption-2026/), nov 2026 | 5,1% | Europa occidentale sui saldi mondiali in stablecoin, luglio 2025 - giugno 2026 | Testo dell'articolo |
+| [BCE, Bollettino economico 7/2026](https://www.ecb.europa.eu/press/economic-bulletin/focus/2026/html/ecb.ebbox202607_08~f4ddf0117c.en.html) | 5% | Consumatori dell'area euro che dichiarano di possedere stablecoin, agosto 2025, indagine CES in 11 paesi. È una diffusione, non una quota dell'offerta | Grafico B, riquadro a |
 
 Il documento di riferimento del progetto, [ECB Working Paper 3199](https://www.ecb.europa.eu/pub/pdf/scpwps/ecb.wp3199~ad552b59ec.en.pdf)
-("Stablecoins and monetary policy transmission", marzo 2026), non contiene una quota
-dell'area euro: stima la sostituzione dei depositi con un modello BVAR e dati bancari.
+("Stablecoins and monetary policy transmission", marzo 2026), studia la sostituzione dei
+depositi con dati granulari sulle banche dell'area euro. Una ricerca nel testo non
+trova alcuna quota dell'area euro sulle stablecoin.
 
 Confronto:
 
@@ -225,7 +226,8 @@ Confronto:
 - La proxy 2, metodo B (36% - 46%), è nello stesso ordine di grandezza dell'altra
   stima per fuso orario (Bruegel/Artemis: 38%). Il metodo A (52,4%) è sopra ogni
   benchmark.
-- Entrambe sono ben sopra le cifre riferite alla sola area euro (5% - 15%).
+- Entrambe sono ben sopra le quote di offerta riferite all'area euro o all'Europa
+  occidentale (5,1% - 15%).
 
 ## 4. Limiti
 

@@ -200,8 +200,8 @@ Varianti di sensibilità (non cambiano il verdetto):
 - Rispetto ai benchmark del test H1 ([00_test_H1.md](00_test_H1.md), sezione 3.5) la
   proxy 3 è sopra la quota EUR del trading crypto (9% - 12%), sopra l'unica cifra
   specifica per le stablecoin (Chainalysis 2024: 24%), sopra la quota dell'Europa in
-  senso largo nei flussi (IMF: 21%) e ben sopra le cifre per la sola area euro
-  (5% - 15%). Coincide con la stima per fuso orario di Bruegel/Artemis (38%), ma le due
+  senso largo nei flussi (IMF: 21%) e ben sopra le quote di offerta riferite all'area euro
+  o all'Europa occidentale (5,1% - 15%). Coincide con la stima per fuso orario di Bruegel/Artemis (38%), ma le due
   misure non hanno nulla in comune e la coincidenza non va letta come conferma.
 
 ### 3.5 Perché né il livello né l'andamento sono affidabili
