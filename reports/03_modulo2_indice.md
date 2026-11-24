@@ -136,15 +136,16 @@ Tre fatti che l'indice mostra:
 - **La quota totale sale per composizione, non perché l'euro guadagni.** In media
   settimanale, tra i primi e gli ultimi sei mesi i volumi USDT contro fiat sono scesi da
   10,0 a 5,8 miliardi di dollari e quelli USDC sono saliti da 1,4 a 2,2. Poiché USDC è
-  scambiata contro euro molto più di USDT, il totale sale da 16% a 22%. È il motivo per
+  scambiata contro euro molto più di USDT, il totale sale (da 16% a 22% tra le prime e
+  le ultime 13 settimane). È il motivo per
   cui le due stablecoin vanno lette separatamente.
 - **In valore assoluto**: i volumi settimanali USDT contro euro sono passati da 1,4 a
-  0,8 miliardi; quelli USDC contro euro da 0,8 a 1,1 miliardi. Su USDC l'euro ha
-  superato USDT in volume scambiato.
+  0,8 miliardi; quelli USDC contro euro da 0,8 a 1,1 miliardi. Contro euro oggi si
+  scambia più USDC che USDT.
 
 Il peso di Coinbase: 14,3% dei volumi USDT e 12,6% dei volumi USDC del pannello.
-Toglierla abbassa l'indice USDC di 4-6 punti in tutto il periodo, senza cambiarne
-l'andamento.
+Toglierla abbassa l'indice USDC di 1-9 punti a seconda della settimana (mediana 4),
+senza cambiarne l'andamento.
 
 ### 3.3 Un avvertimento che l'indice stesso ha rivelato
 
