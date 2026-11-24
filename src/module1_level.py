@@ -72,7 +72,8 @@ def download() -> tuple[pd.DataFrame, dict]:
         "cambio": {str(k): float(v) for k, v in fx.items()},
         "famiglie": hh,
     }
-    circ.round(6).to_csv(CIRC)  # si scrive solo qui, dopo che tutti gli scarichi sono riusciti
+    circ = circ.round(6)  # stessi valori arrotondati con e senza rete, così i risultati coincidono
+    circ.to_csv(CIRC)     # si scrive solo qui, dopo che tutti gli scarichi sono riusciti
     AUX.write_text(json.dumps(aux, indent=1))
     return circ, aux
 

@@ -1,0 +1,122 @@
+{
+  "avvertenza": "Triangolazione di fonti indirette, non una misura delle detenzioni dei residenti.",
+  "B1": {
+    "somma_percentuali_lette": 99.43,
+    "importo_medio_per_detentore_eur": {
+      "minimo": 1809.8360655737704,
+      "centrale": 2692.92864326662,
+      "massimo": 3575.8208790103586
+    },
+    "quota_ultima_fascia_sul_totale_centrale": 0.5209930411202254,
+    "unita": {
+      "famiglie": 163485600.0,
+      "individui": 296446137.0
+    },
+    "famiglie": {
+      "detentori": 8174280.0,
+      "minimo_mld_eur": 8.938106163934425,
+      "centrale_mld_eur": 15.363067023494356,
+      "massimo_mld_eur": 23.140227533444126,
+      "minimo_tutte_le_stablecoin_mld_eur": 14.79410675409836,
+      "centrale_tutte_le_stablecoin_mld_eur": 22.012752750081468,
+      "massimo_tutte_le_stablecoin_mld_eur": 29.229761094876793
+    },
+    "individui": {
+      "detentori": 14822306.850000001,
+      "minimo_mld_eur": 16.2073420802459,
+      "centrale_mld_eur": 27.857633159048813,
+      "massimo_mld_eur": 41.959848828218206,
+      "minimo_tutte_le_stablecoin_mld_eur": 26.82594551213115,
+      "centrale_tutte_le_stablecoin_mld_eur": 39.91541467565203,
+      "massimo_tutte_le_stablecoin_mld_eur": 53.001914309328264
+    }
+  },
+  "B2": {
+    "esito": "non calcolata"
+  },
+  "B3": {
+    "esito": "non calcolata"
+  },
+  "valori_centrali_mld_eur": {
+    "B1": 15.363067023494356
+  },
+  "confronti": [],
+  "fattore_massimo_ammesso": 3.0,
+  "verdetto": {
+    "esito": "solo minimo di B1",
+    "minimo_mld_eur": 8.938106163934425
+  },
+  "parametri": {
+    "quota_detentori": 0.05,
+    "quota_in_dollari": {
+      "minimo": 0.6041666666666666,
+      "centrale": 0.6979166666666666,
+      "massimo": 0.7916666666666666
+    },
+    "fasce": [
+      {
+        "fascia": "fino a 99 €",
+        "minimo": 0,
+        "centrale": 50,
+        "massimo": 99,
+        "percentuale": 19.92
+      },
+      {
+        "fascia": "100-299 €",
+        "minimo": 100,
+        "centrale": 199.5,
+        "massimo": 299,
+        "percentuale": 17.2
+      },
+      {
+        "fascia": "300-599 €",
+        "minimo": 300,
+        "centrale": 449.5,
+        "massimo": 599,
+        "percentuale": 14.47
+      },
+      {
+        "fascia": "600-999 €",
+        "minimo": 600,
+        "centrale": 799.5,
+        "massimo": 999,
+        "percentuale": 10.06
+      },
+      {
+        "fascia": "1.000-1.499 €",
+        "minimo": 1000,
+        "centrale": 1249.5,
+        "massimo": 1499,
+        "percentuale": 6.86
+      },
+      {
+        "fascia": "1.500-2.499 €",
+        "minimo": 1500,
+        "centrale": 1999.5,
+        "massimo": 2499,
+        "percentuale": 5.08
+      },
+      {
+        "fascia": "2.500-4.999 €",
+        "minimo": 2500,
+        "centrale": 3749.5,
+        "massimo": 4999,
+        "percentuale": 8.93
+      },
+      {
+        "fascia": "5.000-9.999 €",
+        "minimo": 5000,
+        "centrale": 7499.5,
+        "massimo": 9999,
+        "percentuale": 7.61
+      },
+      {
+        "fascia": "10.000 € o più",
+        "minimo": 10000,
+        "centrale": 15000,
+        "massimo": 20000,
+        "percentuale": 9.3
+      }
+    ]
+  }
+}
