@@ -307,3 +307,10 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 Rieseguire gli script di raccolta in un altro giorno cambia l'istantanea CoinGecko;
 i dati della finestra 12 ottobre - 22 novembre restano gli stessi.
+
+---
+
+**Cosa aggiunge questo al programma finale**: la quota EUR dei volumi stablecoin/fiat
+(24,3%, stabile tra 22,4% e 25,2% nelle sei settimane), che diventa l'indice del modulo
+2 con la raccolta dati già funzionante su 25 exchange, e la prova che il profilo orario
+on-chain non distingue l'Europa e non va usato.

@@ -285,3 +285,10 @@ Altri limiti:
 Le etichette vengono scaricate da GitHub a una versione fissata (commit `9f61b0dd2b`
 per Ethereum, `447a87c906` per Tron) e non sono incluse in questo repository, perché
 sono distribuite da Dune con licenza Business Source License.
+
+---
+
+**Cosa aggiunge questo al programma finale**: la scoperta che la quota EUR di Coinbase
+è un artefatto, da cui la variante "senza Coinbase" dell'indice del modulo 2; il
+censimento dei flussi di USDT e USDC di 121 exchange su Ethereum e Tron, riutilizzabile
+come dato di contesto; e l'esclusione motivata dei metodi basati su etichette gratuite.

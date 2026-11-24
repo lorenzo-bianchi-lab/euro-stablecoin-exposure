@@ -111,8 +111,8 @@ AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK.
 | Passività verso non residenti dell'area euro | `BSI.M.{paese}.N.A.LXG.A.1.U4.0000.Z01.E` | 21 su 21 | 1997-09 - 2026-09 |
 | Capitale e riserve | `BSI.M.{paese}.N.A.L60.X.1.Z5.0000.Z01.E` | 21 su 21 | 1997-09 - 2026-09 |
 | Totale passivo | `BSI.M.{paese}.N.A.T00.A.1.Z5.0000.Z01.E` | 21 su 21 | 1997-09 - 2026-09 |
-| **Passività in valuta estera** | **non disponibile come aggregato** | | |
-| di cui, unico spezzone: depositi a vista non in euro degli altri intermediari finanziari | `BSI.M.{paese}.N.A.L21.A.1.U2.227A.Z06.E` | 21 su 21 | 2022-01 - 2026-09 |
+| **Passività in valuta estera** | **non disponibile nel dataset BSI; recuperata dalla BRI, vedi sotto** | | |
+| unico spezzone BSI: depositi a vista non in euro degli altri intermediari finanziari | `BSI.M.{paese}.N.A.L21.A.1.U2.227A.Z06.E` | 21 su 21 | 2022-01 - 2026-09 |
 
 Note sulla copertura:
 
@@ -127,23 +127,72 @@ Note sulla copertura:
 - I depositi sono quelli dei residenti dell'area euro (codice `U2`), non dei soli
   residenti del paese; esiste anche la variante domestica (`U6`).
 
-**Passività in valuta estera.** È l'unica grandezza richiesta che non si riesce a
-ottenere. Nel dataset BSI la scomposizione per valuta (`EUR`, `Z06` = tutte tranne
-l'euro) esiste solo per i prestiti e per i depositi di tre sottosettori finanziari
-(S.125, S.126, S.127), dal 2022. Non esiste per i depositi di famiglie e imprese, per i
-titoli emessi né per il totale del passivo. Le passività verso non residenti dell'area
-euro sono un sostituto imperfetto: misurano la residenza della controparte, non la valuta.
+**Passività in valuta estera: metodo fallito e alternativa provata.** Nel dataset BSI
+la scomposizione per valuta (`EUR`, `Z06` = tutte tranne l'euro) esiste solo per i
+prestiti e per i depositi di tre sottosettori finanziari (S.125, S.126, S.127), dal
+2022. Non esiste per i depositi di famiglie e imprese, per i titoli emessi né per il
+totale del passivo.
 
-**Campione salvato**: `data/raw/ecb_bsi_sample.csv`, 35.580 osservazioni, tutte le 13
-serie, tutti i paesi coperti, da 2015-01 a 2026-09. Si rigenera con
-`python src/ecb_bsi_probe.py`. L'indice di vulnerabilità non è stato costruito.
+L'alternativa funziona: le statistiche bancarie territoriali della BRI (Locational
+Banking Statistics), API pubblica senza chiave
+(`https://stats.bis.org/api/v2/data/dataflow/BIS/WS_LBS_D_PUB/1.0/...`), pubblicano le
+passività delle banche residenti in ciascun paese per valuta. Importi in milioni di
+dollari, consistenze di fine trimestre, tutte le controparti e tutti gli strumenti.
+
+| Grandezza | Codice della serie BRI | Paesi coperti | Periodo disponibile |
+|---|---|---|---|
+| Passività totali, tutte le valute | `Q.S.L.A.TO1.A.5J.A.{paese}.A.5J.A` | 13 su 21 | 1977-Q4 - 2026-Q2 |
+| Passività in valuta nazionale (euro) | `Q.S.L.A.TO1.D.5J.A.{paese}.A.5J.A` | 13 su 21 | 1977-Q4 - 2026-Q2 |
+| Passività in valuta estera, totale | `Q.S.L.A.TO1.F.5J.A.{paese}.A.5J.A` | 13 su 21 | 1977-Q4 - 2026-Q2 |
+| Passività in dollari | `Q.S.L.A.USD.F.5J.A.{paese}.A.5J.A` | 13 su 21 | 1977-Q4 - 2026-Q2 |
+
+- Paesi coperti: AT BE CY DE ES FI FR GR IE IT LU NL PT. Mancano BG EE HR LT LV MT SI SK,
+  che non dichiarano alla BRI.
+- La data di inizio è la più antica. La serie in dollari parte più tardi per alcuni
+  paesi: Paesi Bassi 2014-Q4, Austria 2013-Q4, Spagna 2012-Q2, Portogallo 2009-Q3,
+  Cipro 2008-Q4, Francia e Italia 2007-Q3. Dettaglio in
+  `data/processed/bis_lbs_coverage_by_country.csv`.
+- La frequenza è trimestrale, non mensile come richiesto.
+- Per Austria e Finlandia valuta nazionale ed estera non sommano al totale: una parte
+  delle passività non è attribuita a una valuta.
+
+Primo risultato già leggibile, secondo trimestre 2026: quota delle passività bancarie
+in dollari sul totale, per paese.
+
+| Paese | Passività totali (mld $) | In valuta estera | In dollari |
+|---|---|---|---|
+| Lussemburgo | 1.104 | 38,8% | 27,2% |
+| Francia | 15.522 | 21,6% | 14,9% |
+| Irlanda | 1.178 | 20,9% | 14,8% |
+| Paesi Bassi | 2.862 | 19,8% | 14,3% |
+| Cipro | 73 | 12,7% | 10,4% |
+| Germania | 11.630 | 13,5% | 9,4% |
+| Spagna | 3.386 | 12,1% | 9,4% |
+| Finlandia | 800 | 20,5% | 9,3% |
+| Belgio | 1.660 | 14,6% | 8,2% |
+| Grecia | 316 | 6,1% | 5,4% |
+| Austria | 1.171 | 6,3% | 4,2% |
+| Italia | 4.785 | 3,6% | 2,8% |
+| Portogallo | 565 | 2,2% | 2,0% |
+
+Questa tabella è una lettura diretta dei dati BRI, non l'indice del modulo 3. Dice
+quali sistemi bancari si finanziano già oggi in dollari, che è il canale indicato dal
+Working Paper BCE 3199 per le stablecoin in valuta estera.
+
+**Campioni salvati**:
+
+- `data/raw/ecb_bsi_sample.csv`: 35.580 osservazioni, le 13 serie BCE, tutti i paesi
+  coperti, da 2015-01 a 2026-09. Si rigenera con `python src/ecb_bsi_probe.py`.
+- `data/raw/bis_lbs_fx_liabilities_sample.csv`: 2.392 osservazioni, le 4 serie BRI,
+  13 paesi, da 2015-Q1 a 2026-Q2. Si rigenera con `python src/bis_lbs_probe.py`.
+
+L'indice di vulnerabilità non è stato costruito.
 
 ## Cosa non è stato possibile fare
 
-- **Trovare le passività in valuta estera per paese a frequenza mensile**: non sono
-  pubblicate nel dataset BSI. Fonti alternative da verificare, non ancora provate: le
-  statistiche bancarie territoriali della BRI e i dati bancari consolidati della BCE,
-  entrambi trimestrali.
+- **Avere le passività in valuta estera a frequenza mensile e per tutti i 21 paesi**:
+  la fonte trovata (BRI) è trimestrale e copre 13 paesi. Per gli altri otto non ho
+  ancora una fonte; i dati bancari consolidati della BCE sono la prossima da provare.
 - **Scaricare il working paper IMF da imf.org**: il sito restituisce HTTP 403 alle
   richieste automatiche. Letto dalla IMF eLibrary, che riporta il testo integrale.
 - **Confermare la data esatta di pubblicazione** del riquadro BCE e del working paper
@@ -154,3 +203,11 @@ serie, tutti i paesi coperti, da 2015-01 a 2026-09. Si rigenera con
 - **Verificare definizioni che gli originali non danno**: i paesi inclusi
   nell'"Europa occidentale" di Chainalysis, gli exchange coperti da Kaiko, le reti e i
   fusi usati da Bruegel/Artemis, il periodo della cifra Chainalysis del 2024.
+
+---
+
+**Cosa aggiunge questo al programma finale**: i livelli di riferimento del modulo 1
+riletti sugli originali (5% dei consumatori; 7,5% - 15% della circolazione, cioè 19
+miliardi di dollari al terzo trimestre 2025), le 12 serie BCE e le 4 serie BRI già
+scaricabili con uno script per il modulo 3, e una prima classifica utilizzabile: la
+quota di passività bancarie in dollari per paese.

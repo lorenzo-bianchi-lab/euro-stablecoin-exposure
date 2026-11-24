@@ -25,7 +25,7 @@ Dettagli in [reports/01_test_proxy3.md](reports/01_test_proxy3.md).
 
 Verifica dei benchmark e delle serie BCE per il modulo 3 (2026-11-24): tutte le cifre
 esterne ritrovate negli originali; 12 serie di bilancio bancario scaricabili per i 21
-paesi dell'area euro. Dettagli in
+paesi dell'area euro, più le passività in valuta estera e in dollari dalla BRI per 13 paesi. Dettagli in
 [reports/02_benchmark_e_modulo3.md](reports/02_benchmark_e_modulo3.md).
 
 ## Struttura
@@ -52,6 +52,7 @@ python3 -m venv .venv
 .venv/bin/python src/cex_flows_fetch.py
 .venv/bin/python src/proxy3_cex_flows.py
 .venv/bin/python src/ecb_bsi_probe.py
+.venv/bin/python src/bis_lbs_probe.py
 ```
 
 ## Chiavi API
