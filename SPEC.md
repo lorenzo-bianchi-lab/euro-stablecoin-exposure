@@ -80,7 +80,11 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   di exchange è fisso oppure ogni ingresso e uscita è documentato; (d) una seconda
   esecuzione riproduce gli stessi valori per le settimane già chiuse; (e) il report
   dichiara che l'indice misura trading in euro, non detenzioni né residenza.
-- **Da verificare prima di iniziare**: la profondità dello storico exchange per exchange.
+- **Stato**: completato il 2026-11-24 (`reports/03_modulo2_indice.md`, `src/module2_index.py`).
+  Indice principale su 102 settimane dal 2024-12-09; indice lungo su 203 settimane dal
+  2023-01-02 senza Kraken e Gemini. Lo storico cresce a ogni aggiornamento settimanale.
+- **Limite noto**: il pannello contiene solo le coppie quotate il 2026-11-23; quelle
+  eliminate prima mancano dallo storico.
 
 ### Modulo 3 - Vulnerabilità (struttura della raccolta bancaria per paese)
 
@@ -122,7 +126,7 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 
 | Fonte | Uso | Accesso | Stato |
 |---|---|---|---|
-| API pubbliche di 25 exchange (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso, Binance.US) | Modulo 2 | Gratis, senza chiave | Confermata per 2026-10-12 / 2026-11-22; storico più lungo da verificare |
+| API pubbliche di 25 exchange (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso, Binance.US) | Modulo 2 | Gratis, senza chiave | Confermata. Storico: almeno dal 2023 per 18 exchange; Kraken solo dal 2024-12 (ultime 720 candele) |
 | CoinGecko, ticker a 24 ore | Controllo di copertura del modulo 2 | Gratis, senza chiave, solo istantanea | Confermata |
 | ECB Data Portal, dataset BSI | Modulo 3 | Gratis, senza chiave | Confermata: 12 serie, 21 paesi (20 per i depositi da altre banche), mensile, fino a 2026-09 |
 | BRI, statistiche bancarie territoriali (LBS) | Modulo 3: passività in valuta estera e in dollari | Gratis, senza chiave | Confermata: 4 serie, 13 paesi su 21, trimestrale, fino a 2026-Q2 |
@@ -181,3 +185,4 @@ circolazione corrente di USDT e USDC per il modulo 1.
 | 2026-11-24 | Test proxy 3 (`reports/01_test_proxy3.md`): 38,4%, SOLO ANDAMENTO; proxy 2 e 3 scartate |
 | 2026-11-24 | Progetto ridefinito in quattro moduli; benchmark verificati e serie BCE confermate (`reports/02_benchmark_e_modulo3.md`) |
 | 2026-11-24 | Aggiunta la sezione 0 (obiettivo non negoziabile); ogni modulo ha ora un risultato dichiarato per l'analista; passività in valuta estera recuperate dalle statistiche BRI |
+| 2026-11-24 | Modulo 2 completato (`reports/03_modulo2_indice.md`): indice settimanale in quattro serie, riproducibile |

@@ -28,6 +28,11 @@ esterne ritrovate negli originali; 12 serie di bilancio bancario scaricabili per
 paesi dell'area euro, più le passività in valuta estera e in dollari dalla BRI per 13 paesi. Dettagli in
 [reports/02_benchmark_e_modulo3.md](reports/02_benchmark_e_modulo3.md).
 
+Modulo 2 (2026-11-24): indice settimanale della quota EUR dei volumi stablecoin/fiat,
+quattro serie su 102 settimane. Ultima settimana: USDT 11,9%, USDC 54,9%. Dettagli in
+[reports/03_modulo2_indice.md](reports/03_modulo2_indice.md). Aggiornamento:
+`.venv/bin/python src/module2_index.py`.
+
 ## Struttura
 
 | Percorso | Contenuto |
