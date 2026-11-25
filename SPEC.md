@@ -4,12 +4,15 @@ Documento di riferimento del progetto. Va riletto all'inizio di ogni sessione di
 prima di scrivere codice o report. Ogni modifica a obiettivo, moduli o criteri passa da
 qui e viene annotata nel registro in fondo.
 
-Ultimo aggiornamento: 2026-11-25.
+Ultimo aggiornamento: 2026-11-25 (prompt 5).
 
 ## 0. Obiettivo non negoziabile
 
 Il prodotto finale è un programma utile, potente e innovativo per la BCE, non una
-raccolta di report prudenti.
+raccolta di report prudenti. **È un'applicazione web completa**, non una pagina di
+sintesi: statica, senza server, pubblicata su GitHub Pages, con tutti i calcoli di
+scenario eseguiti nel browser. In questa fase conta il funzionamento: grafica pulita ma
+essenziale.
 
 - Ogni modulo deve produrre un risultato che un analista della BCE possa usare: un
   numero, una classifica, uno scenario.
@@ -187,6 +190,50 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 - **Stato**: completato il 2026-11-25 (`reports/10_cruscotto_e_test.md`). Indirizzo:
   https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
 
+### Correzioni al motore (2026-11-25, prompt 5)
+
+- **Livello di riferimento.** Il livello di riferimento del programma è la stima propria
+  dal basso (B1, variante famiglie): 15,4 miliardi di euro, intervallo 8,9 - 23,1.
+  L'ipotesi ESM diventa il confronto. La variante individui è l'estremo superiore
+  dichiarato. **Questa è una decisione presa dopo aver visto i risultati**: il criterio
+  fissato nel report 08 non era soddisfatto e prevedeva di pubblicare solo il minimo.
+  Il criterio non viene riscritto: resta agli atti, con il suo esito, e la decisione di
+  superarlo è annotata qui e nel registro.
+- **Credito.** Il valore in evidenza è la regola uniforme del Working Paper BCE 3199
+  (0,5 euro di prestiti per euro di depositi), con l'intervallo tra coefficiente basso e
+  alto. La variante a soglia resta come sensibilità. Si aggiunge una **variante
+  continua**, definita prima di calcolarla:
+
+      coefficiente(q) = basso + (alto - basso) × t,   t = (q - qL) / (qH - qL), limitato tra 0 e 1
+
+  dove q è la quota retail del paese, qL la mediana della quota retail dei paesi sotto
+  la soglia del 75° percentile e qH la mediana di quelli sopra. I due gruppi del paper
+  diventano i due punti di ancoraggio e in mezzo si interpola, senza salto.
+- **Riproducibilità.** Versioni delle librerie bloccate in `requirements.txt`; il test
+  di riproducibilità confronta i valori con una tolleranza sull'ultima cifra decimale.
+
+### Strato dati e applicazione (2026-11-25, prompt 5)
+
+- **Strato dati**: `src/export_app_data.py` esporta tutti i risultati in file JSON
+  versionati e documentati, uno per sezione, in `web/public/data/`, ciascuno con la data
+  dei dati; `meta.json` riporta lo stato di ogni fonte. L'applicazione legge solo quei
+  file. I confini dei 21 paesi vengono da Eurostat GISCO.
+- **Aggiornamento automatico**: una GitHub Action esegue l'aggiornamento ogni lunedì,
+  rigenera i dati e ripubblica. Se una fonte fallisce si tiene l'ultimo dato valido e
+  l'applicazione lo segnala.
+- **Applicazione** (`web/`, pubblicata da `docs/`): React, Vite, TypeScript, ECharts.
+  Navigazione laterale, indirizzi condivisibili che conservano lo scenario, tema chiaro e
+  scuro, utilizzabile da 390 pixel. Nove sezioni: panoramica, simulatore, mappa d'Europa,
+  scheda paese, mappa a due canali, monitor settimanale, stima del livello, confronto ed
+  esportazione, metodo e dati.
+- **Completato quando**: (a) ogni sezione funziona e mostra accanto ai numeri le
+  avvertenze che li riguardano; (b) i calcoli dell'applicazione coincidono con gli script
+  Python su almeno tre scenari per ogni regola; (c) ogni sezione si carica senza errori
+  in console; (d) nessuno sbordo orizzontale a 390 pixel; (e) esiste uno screenshot di
+  ogni sezione in `reports/figures/app/`.
+- Il cruscotto a pagina unica del 2026-11-25 (`src/dashboard.py`) è sostituito
+  dall'applicazione.
+
 ### Aggiornamento e sintesi
 
 Un solo comando aggiorna i quattro moduli nell'ordine giusto e rigenera la pagina di
@@ -237,10 +284,11 @@ Tre impegni fissati il 2026-11-24 sono stati ridefiniti il 2026-11-25 su richies
 esplicita. Restano veri nella forma qui sotto.
 
 - **Nessuna misura della residenza.** Il programma non osserva quante stablecoin
-  detengono i residenti dell'area euro. Può pubblicare un intervallo proprio solo come
-  triangolazione di fonti indirette, e solo se il criterio del modulo 1 è soddisfatto;
-  in caso contrario pubblica un minimo. Non produce stime per paese: la regola R3
-  ripartisce un totale ipotizzato, non misura le detenzioni nazionali.
+  detengono i residenti dell'area euro. **Stima un intervallo** (ridefinito il
+  2026-11-25, prompt 5): 8,9 - 23,1 miliardi di euro, centro 15,4, ricavato dall'indagine
+  BCE sui consumatori con ipotesi dichiarate. È una stima da indagine, non una misura, e
+  le altre due strade tentate non l'hanno confermata. Non produce stime per paese: la
+  regola R3 ripartisce un totale, non misura le detenzioni nazionali.
 - **Nessun effetto causale stimato dal programma.** Il modulo 5 non stima l'effetto
   delle stablecoin su credito e tassi: applica coefficienti pubblicati dal Working Paper
   BCE 3199, stimati su singole banche, ad aggregati nazionali. Sono ordini di grandezza.
@@ -297,3 +345,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-24 | Aggiunti il comando unico `src/run_all.py` e la sintesi generata `SINTESI.md` |
 | 2026-11-25 | Aggiunti il modulo 5 (credito e trasmissione), il livello proprio, la regola R3, il test e la segnalazione del modulo 2, il cruscotto e i test automatici. Ridefinite le tre non-promesse della sezione 4 |
 | 2026-11-25 | Modulo 5 completato; livello proprio: criterio non soddisfatto, pubblicato il minimo di B1; regola R3 aggiunta; test del modulo 2 nullo; cruscotto pubblicato e test automatici superati |
+| 2026-11-25 | Prompt 5. Sezione 0: il prodotto finale è un'applicazione web completa. Il livello di riferimento diventa la stima propria (15,4; 8,9 - 23,1), per decisione successiva ai risultati e in deroga al criterio del report 08, che resta agli atti. Credito: regola uniforme in evidenza, variante continua definita prima del calcolo. Aggiunti strato dati JSON, aggiornamento automatico e applicazione |
