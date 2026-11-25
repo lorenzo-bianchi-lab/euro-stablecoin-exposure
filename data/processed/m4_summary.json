@@ -139,7 +139,7 @@
     "paesi_imputati": [
       "BG"
     ],
-    "correlazione_di_rango_R3_R1": 0.922077922077922,
+    "correlazione_di_rango_R3_R1": 0.9220779220779223,
     "correlazione_di_rango_R3_R2": 0.9662337662337662,
     "primi_cinque_R3": [
       "BG",
@@ -159,7 +159,7 @@
   },
   "confronto_regole_S2": {
     "correlazione_di_rango_R1_R2_effetto": 0.8948051948051948,
-    "correlazione_di_rango_R1_R2_aumento_ingrosso": 0.92987012987013,
+    "correlazione_di_rango_R1_R2_aumento_ingrosso": 0.9298701298701297,
     "eccedenza_R2_mld": 0.0,
     "tipi_di_deposito_area_euro": {
       "T1": {
@@ -178,8 +178,8 @@
         "perdita_depositi_clientela": 0.01988136170094505
       }
     },
-    "correlazione_di_rango_T1_T2": 0.9584415584415584,
-    "correlazione_di_rango_T1_T3": 0.9337662337662339
+    "correlazione_di_rango_T1_T2": 0.9584415584415585,
+    "correlazione_di_rango_T1_T3": 0.9337662337662337
   },
   "sensibilita_S2_area_euro": {
     "sostituzione_50_per_cento": {
