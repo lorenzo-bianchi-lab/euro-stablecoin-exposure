@@ -6,7 +6,9 @@ import type { CreditVariant, DepositType, Rule, Scenario } from "./model";
 const cache = new Map<string, Promise<unknown>>();
 export function fetchJson<T>(name: string): Promise<T> {
   if (!cache.has(name)) {
-    cache.set(name, fetch(`./data/${name}`).then((r) => {
+    // no-cache: il browser chiede sempre al server se il file è cambiato, così dopo un aggiornamento
+    // non restano in uso dati vecchi insieme all'applicazione nuova
+    cache.set(name, fetch(`./data/${name}`, { cache: "no-cache" }).then((r) => {
       if (!r.ok) throw new Error(`${name}: HTTP ${r.status}`);
       return r.json();
     }));

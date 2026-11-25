@@ -221,8 +221,13 @@ con l'esito in `esito_test_browser.json`.
   dalla prima sezione che ha un grafico.
 - **Nomi dei paesi fuori dall'area euro**: sulla mappa compare solo "fuori dall'area
   euro", senza nome.
-- **Esecuzione pianificata del lunedì**: ancora non osservata; lo stato dell'esecuzione
-  avviata a mano dopo queste modifiche è nel registro di SPEC.md.
+- **Esecuzione pianificata del lunedì**: ancora non osservata. L'esecuzione avviata a
+  mano dopo queste modifiche è riuscita in tutti i passi e ha dato lo stesso indice
+  dell'esecuzione locale, settimana per settimana (differenza massima 0,0 punti su 102
+  settimane), senza fonti aggiornate in parte.
+- **Dati vecchi nella memoria del browser**: dopo la pubblicazione il browser mostrava
+  per qualche minuto i file di dati precedenti insieme all'applicazione nuova. Corretto:
+  l'applicazione chiede sempre al server se i file sono cambiati.
 
 ---
 

@@ -1,5 +1,5 @@
 {
- "eseguito": "2026-11-25T22:59:00.223Z",
+ "eseguito": "2026-11-25T23:06:11.386Z",
  "sezioni": [
   {
    "sezione": "overview",
@@ -291,9 +291,9 @@
     "index",
     "react",
     "en",
-    "Chart",
-    "model",
     "shared",
+    "model",
+    "Chart",
     "Overview",
     "charts"
    ],
