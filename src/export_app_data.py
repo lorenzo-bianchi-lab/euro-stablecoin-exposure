@@ -1,6 +1,9 @@
 """Strato dati dell'applicazione: esporta i risultati in file JSON, uno per sezione.
 
-L'applicazione web legge solo questi file (web/public/data/). Ogni file ha la versione
+L'applicazione web legge solo questi file (web/public/data/). Contengono numeri e codici:
+i testi dell'interfaccia stanno nei file di traduzione dell'applicazione (web/src/i18n/),
+quelli ricavati da SPEC.md sono esportati in italiano e in inglese con le traduzioni di
+src/i18n/spec_en.json. Ogni file ha la versione
 dello schema, la data di generazione, la data dei dati e una descrizione dei campi;
 meta.json riporta lo stato di ogni fonte. La descrizione completa è in
 web/public/data/README.md, generato qui.
@@ -25,7 +28,7 @@ import module5_credit as m5
 ROOT = Path(__file__).resolve().parents[1]
 RAW, PROC = ROOT / "data" / "raw", ROOT / "data" / "processed"
 OUT = ROOT / "web" / "public" / "data"
-SCHEMA = "1.0.0"
+SCHEMA = "2.0.0"   # 2.0.0: i testi sono nell'applicazione (file di traduzione); qui solo codici e numeri
 GISCO = "https://gisco-services.ec.europa.eu/distribution/v2/countries/geojson/CNTR_RG_20M_2024_4326.geojson"
 NAMES = m5.NAMES
 NOW = datetime.now(timezone.utc).isoformat(timespec="seconds")
@@ -70,7 +73,30 @@ def spec_table(title: str) -> list[dict]:
 def spec_bullets(title: str) -> list[str]:
     text = spec_section(title)
     items = re.findall(r"^- (.*?)(?=\n- |\n\n|\Z)", text, re.S | re.M)
-    return [re.sub(r"\s+", " ", i).replace("**", "") for i in items]
+    return [re.sub(r"\s+", " ", i).replace("**", "").strip() for i in items]
+
+
+def spec_en() -> dict[str, str]:
+    return json.loads((ROOT / "src" / "i18n" / "spec_en.json").read_text(encoding="utf-8"))
+
+
+def spec_strings() -> list[str]:
+    """Tutti i testi di SPEC.md che l'applicazione mostra: servono al test sulle traduzioni."""
+    out: list[str] = []
+    for title in ("## 3. Fonti dati confermate", "## 5. Metodi scartati"):
+        rows = spec_table(title)
+        out += list(rows[0]) + [v for r in rows for v in r.values()]
+    return out + spec_bullets("## 4. Cosa il programma NON promette")
+
+
+def bilingual_table(title: str) -> dict:
+    """Tabella di SPEC.md in italiano e in inglese: intestazioni e righe come liste, nello stesso ordine."""
+    en = spec_en()
+    rows = spec_table(title)
+    head = list(rows[0])
+    tr = lambda v: en.get(v, v)
+    return {"it": {"colonne": head, "righe": [[r[h] for h in head] for r in rows]},
+            "en": {"colonne": [tr(h) for h in head], "righe": [[tr(r[h]) for h in head] for r in rows]}}
 
 
 def gisco(offline: bool) -> None:
@@ -133,61 +159,89 @@ def load_missing_pairs() -> dict | None:
     log_path, store_path = PROC / "m2_last_fetch_log.csv", RAW / "m2_daily_volumes.csv"
     if not log_path.exists() or not store_path.exists():
         return None
-    return missing_pairs(pd.read_csv(log_path), pd.read_csv(store_path))
+    log, store = pd.read_csv(log_path), pd.read_csv(store_path)
+    excluded = load("m2_summary.json").get("pannello", {}).get("esclusi", [])  # gli exchange fuori dal pannello non contano
+    return missing_pairs(log[~log.exchange.isin(excluded)], store[~store.exchange.isin(excluded)])
 
 
 def sources_status(status: dict, m1: dict, m2: dict, m3: dict, m4s: dict, m5s: dict) -> list[dict]:
+    """Stato di ogni fonte, in codici: aggiornata, parziale, ultimo_valido, non_aggiornata, statica."""
     mods = status.get("moduli", {})
     offline = status.get("modalita") == "senza rete"
 
-    def state(module: str) -> tuple[str, str]:
+    def state(module: str) -> tuple[str, str | None]:
         st = mods.get(module, {})
         if st.get("esito") == "errore":
-            return "ultimo dato valido", st.get("messaggio", "la fonte non ha risposto")
+            return "ultimo_valido", st.get("messaggio", "la fonte non ha risposto")
         if offline or not st:
-            return "non aggiornata in questa esecuzione", "ricalcolo dai dati già scaricati"
-        return "aggiornata", ""
+            return "non_aggiornata", None
+        return "aggiornata", None
 
-    last_week = m2["indice_principale"]["ultima_settimana"]
     missing = load_missing_pairs()
     rows = []
-    for sid, name, module, date in (
-        ("bce_bsi", "BCE, bilanci bancari mensili (BSI)", "modulo3", m3["ultimo_mese"]),
-        ("exchange", "25 exchange, volumi giornalieri stablecoin/fiat", "modulo2", "settimana del " + last_week),
-        ("defillama", "DefiLlama, circolazione di USDT e USDC", "modulo1", m1["data_circolazione"]),
-        ("bce_cambio", "BCE, cambio di riferimento euro/dollaro", "modulo4", m4s["data_cambio"]),
-        ("eurostat", "Eurostat, popolazione e famiglie", "livello_proprio", "1° gennaio " + str(m4s["anno_popolazione"])),
-        ("bri_lbs", "BRI, passività bancarie per valuta", "modulo5", m5s["mappa"]["trimestre_bri"]),
-        ("bce_bsi_valuta", "BCE, BSI trimestrale per valuta", "modulo5", m5s["mappa"]["trimestre_bsi"]),
+    for sid, module, kind, date in (
+        ("bce_bsi", "modulo3", "mese", m3["ultimo_mese"]),
+        ("exchange", "modulo2", "settimana", m2["indice_principale"]["ultima_settimana"]),
+        ("defillama", "modulo1", "giorno", m1["data_circolazione"]),
+        ("bce_cambio", "modulo1", "giorno", m4s["data_cambio"]),
+        ("eurostat", "livello_proprio", "anno", str(m4s["anno_popolazione"])),
+        ("bri_lbs", "modulo5", "trimestre", m5s["mappa"]["trimestre_bri"]),
+        ("bce_bsi_valuta", "modulo5", "trimestre", m5s["mappa"]["trimestre_bsi"]),
     ):
         st, msg = state(module)
-        detail = msg
+        detail: dict = {"messaggio": msg} if msg else {}
         if sid == "exchange":
             held = m2.get("settimane_trattenute", {})
-            parts = []
+            detail["exchange"] = m2["pannello"]["exchange"]
             if missing and missing["coppie"]:
-                share = f"{100 * missing['quotaVolume']:.1f}".replace(".", ",")
-                parts.append(f"senza risposta all'ultimo scarico: {', '.join(missing['coppie'])} "
-                             f"({share}% dei volumi nelle quattro settimane fino al {missing['datiFinoAl']}); le settimane successive escono senza")
+                detail.update({"senzaRisposta": missing["coppie"], "quotaVolume": missing["quotaVolume"], "finoAl": missing["datiFinoAl"]})
             if missing and missing["maiDisponibili"]:
-                parts.append(f"coppie mai disponibili: {', '.join(missing['maiDisponibili'])}")
+                detail["maiDisponibili"] = missing["maiDisponibili"]
             if held:
-                parts.append(f"settimane trattenute perché incomplete: {', '.join(held)}")
-            detail = "; ".join([p for p in [msg] + parts if p])
+                detail["trattenute"] = sorted(held)
             if held and st == "aggiornata":
-                st = "ultimo dato valido"
+                st = "ultimo_valido"
             elif missing and missing["coppie"] and st == "aggiornata":
-                st = "aggiornata in parte"
-        rows.append({"id": sid, "nome": name, "modulo": module, "dati_al": date, "stato": st, "dettaglio": detail})
-    for sid, name, date in (
-        ("bce_ces", "BCE, Bollettino economico 7/2026, indagine sui consumatori (CES)", "agosto e novembre 2025"),
-        ("bce_space", "BCE, indagine SPACE 2024", "2023-2024"),
-        ("bce_wp3199", "BCE, Working Paper 3199", "marzo 2026"),
-        ("esm_wp79", "ESM, Working Paper 79", "terzo trimestre 2025"),
-        ("gisco", "Eurostat GISCO, confini dei paesi", "2024"),
-    ):
-        rows.append({"id": sid, "nome": name, "modulo": "statica", "dati_al": date, "stato": "statica", "dettaglio": "documento pubblicato, verificato sull'originale"})
+                st = "parziale"
+        rows.append({"id": sid, "modulo": module, "tipoData": kind, "datiAl": date, "stato": st, "dettaglio": detail})
+    for sid, kind, date in (("eba", "giorno", "2025-06-30"), ("bce_cbd", "trimestre", "2025-Q2"), ("bce_ces", "testo", "ces"), ("bce_space", "testo", "space"),
+                            ("bce_wp3199", "mese", "2026-03"), ("esm_wp79", "trimestre", "2025-Q3"), ("gisco", "anno", "2024")):
+        rows.append({"id": sid, "modulo": "statica", "tipoData": kind, "datiAl": date, "stato": "statica", "dettaglio": {}})
     return rows
+
+
+def banks_payload(m5s: dict) -> tuple[dict, dict, dict]:
+    """Dati per banca del modulo 6: bilanci, quota retail, copertura e confronto con il modulo 5."""
+    m6 = load("m6_summary.json")
+    bk = pd.read_csv(PROC / "m6_banks.csv", index_col=0)
+    by = pd.read_csv(PROC / "m6_by_country.csv", index_col=0)
+    nan = lambda v: None if v != v else float(v)
+    banks = [{"lei": lei, "nome": r.nome, "paese": r.paese, "attivo": r.totale_attivo, "depFam": r.dep_famiglie, "vistaFam": r.vista_famiglie,
+              "depImp": r.dep_imprese, "vistaImp": r.vista_imprese, "depAltreFin": r.dep_altre_fin, "depBanche": r.dep_banche, "titoli": r.titoli_emessi,
+              "prestiti": r.prestiti, "quotaRetail": r.quota_retail, "retailAlta": bool(r.quota_retail_alta), "rango": int(r.rango_quota_retail),
+              "usa": nan(r.usa_su_esposizioni)} for lei, r in bk.iterrows()]
+    countries = [{"code": k, "banche": int(r.banche), "alte": int(r.banche_alta_quota_retail) if r.banche else 0,
+                  "attivoCampione": nan(r.totale_attivo_campione), "coperturaBsi": nan(r.copertura_su_bsi), "coperturaConsolidato": nan(r.copertura_su_consolidato),
+                  "m6PerEuro": nan(r.m6_credito_per_euro), "m5": {v: nan(r[f"m5_{v}_per_euro"]) for v in ("basso", "alto", "soglia", "continua", "uniforme")},
+                  "m5RetailAlta": bool(r.m5_quota_retail_alta)} for k, r in by.iterrows()]
+    crit = m6["criterio_di_sufficienza"]
+    payload = {"banche": banks, "paesi": countries, "soglia": m6["soglia_quota_retail"]["valore"], "mediana": m6["soglia_quota_retail"]["mediana"],
+               "sogliaPaesi": m5s["soglia_quota_retail"]["valore"], "banchesSopra": m6["soglia_quota_retail"]["banche_sopra"],
+               "criterio": {"nelCampione": crit["banche_area_euro_nel_campione"], "complete": crit["banche_con_dati_completi"], "paesi": crit["paesi_coperti"],
+                            "soddisfatto": crit["soddisfatto"], "paesiSenzaBanche": crit["paesi_senza_banche"], "escluse": crit["banche_escluse"]},
+               "copertura": {"bsi": m6["campione"]["copertura_area_su_bsi"], "consolidato": m6["campione"]["copertura_area_su_consolidato"],
+                             "attivo": m6["campione"]["totale_attivo_mld"], "conUsa": m6["campione"]["banche_con_esposizione_usa"]},
+               "confronto": m6["confronto_modulo5_paesi_coperti"], "scenarioDiControllo": m6["scenario_di_controllo"]}
+    dates = {"banche": m6["data_dei_dati"], "bilanciPaese": m6["scenario_di_controllo"]["mese_bilanci_paese"]}
+    fields = {"banche[]": "una riga per banca dell'area euro con tutte le voci; importi in miliardi di euro, dati consolidati al 30 giugno 2025",
+              "banche[].quotaRetail": "depositi delle famiglie / (depositi delle famiglie + depositi di società finanziarie diverse dalle banche)",
+              "banche[].retailAlta": "sopra il 75° percentile della quota retail tra le banche del campione", "banche[].vistaFam, vistaImp": "conti correnti e depositi overnight",
+              "banche[].usa": "esposizioni creditizie originarie verso controparti statunitensi sul totale; null se gli Stati Uniti non sono tra i primi dieci paesi della banca",
+              "paesi[].coperturaBsi": "totale attivo delle banche del campione sul totale attivo delle IFM del paese (BSI, giugno 2025); perimetri diversi, può superare 1",
+              "paesi[].coperturaConsolidato": "lo stesso rapporto sul totale attivo consolidato di tutte le banche del paese (BCE, CBD2, secondo trimestre 2025)",
+              "paesi[].m6PerEuro": "prestiti in meno per euro di deflusso, coefficienti applicati banca per banca, nello scenario di controllo",
+              "paesi[].m5": "lo stesso rapporto con le varianti del modulo 5 sugli aggregati nazionali", "confronto": "somma sui paesi coperti, miliardi di euro"}
+    return payload, dates, fields
 
 
 def main() -> None:
@@ -221,15 +275,15 @@ def main() -> None:
             "r3": r3.peso[code], "quotaPossessori": r3.quota_possessori[code], "possessoriImputati": bool(r3.imputato[code]),
             "quotaRetail": retail.quota_retail[code], "retailAlta": bool(retail.quota_retail_alta[code]), "pesoContinuo": retail.peso_continuo[code],
             "posizione": int(rank.pos_indicatore[code]), "indicatore": rank.indicatore[code], "c1": rank.C1[code], "c2": rank.C2[code], "c3": rank.C3[code],
-            "usd": mp.dollari[code], "fonteUsd": mp.fonte_dollari[code], "quadrante": mp.quadrante[code],
+            "usd": mp.dollari[code], "fonteUsd": "BRI" if mp.fonte_dollari[code] == "BRI" else "BSI", "quadrante": mp.quadrante[code],
         })
     presets = [
-        {"id": "P_minimo", "nome": "Stima propria, minimo", "eur": ref["minimo_mld_eur"]},
-        {"id": "P_centrale", "nome": "Stima propria, centro", "eur": ref["centrale_mld_eur"]},
-        {"id": "P_massimo", "nome": "Stima propria, massimo", "eur": ref["massimo_mld_eur"]},
-        {"id": "ESM_oggi", "nome": "Ipotesi ESM oggi (7,5%)", "eur": m1["livello"]["base_mld_usd"] / fx},
-        {"id": "S1", "nome": "ESM base 2030", "eur": 143 / fx}, {"id": "S2", "nome": "ESM alto 2030", "eur": 300 / fx},
-        {"id": "S3", "nome": "ESM alto 2030, quota 15%", "eur": 600 / fx},
+        {"id": "P_minimo", "eur": ref["minimo_mld_eur"]},
+        {"id": "P_centrale", "eur": ref["centrale_mld_eur"]},
+        {"id": "P_massimo", "eur": ref["massimo_mld_eur"]},
+        {"id": "ESM_oggi", "eur": m1["livello"]["base_mld_eur"]},
+        {"id": "S1", "eur": 143 / fx}, {"id": "S2", "eur": 300 / fx},
+        {"id": "S3", "eur": 600 / fx},
     ]
     coef = m5s["coefficienti"]
     write("simulatore.json", "Bilanci bancari per paese, pesi delle regole di ripartizione e coefficienti: tutto ciò che serve a rifare nel browser i calcoli dei moduli 4 e 5.",
@@ -238,7 +292,8 @@ def main() -> None:
            "paesi[].ingrosso": "titoli di debito emessi più depositi da IFM", "paesi[].totale": "totale del passivo", "paesi[].prestiti": "prestiti a famiglie e imprese",
            "paesi[].pop": "popolazione (peso della regola R2)", "paesi[].r3": "possessori di cripto-attività stimati (peso della regola R3)", "paesi[].pesoContinuo": "peso tra 0 e 1 per la variante continua del credito",
            "coefficienti": "Working Paper BCE 3199: regola uniforme, deviazione standard in punti, coefficienti basso e alto (tabella 1, colonne 3 e 4)", "livello": "livello di riferimento in miliardi di euro",
-           "predefiniti[].eur": "importo detenuto in miliardi di euro, al cambio dei bilanci per gli scenari definiti in dollari"},
+           "predefiniti[].eur": "importo detenuto in miliardi di euro; gli scenari definiti in dollari sono convertiti al cambio unico del programma",
+           "cambioUsdPerEur": "cambio unico del programma: riferimento BCE più recente alla data della circolazione (modulo 1)", "paesi[].fonteUsd": "BRI oppure BSI (trimestrale per valuta)"},
           {"cambioUsdPerEur": fx, "dataCambio": inp["data_cambio"], "meseBilanci": month, "paesi": countries, "predefiniti": presets,
            "coefficienti": {"uniforme": coef["regola_uniforme"], "sd": coef["deviazione_standard_pp"], "basso": coef["col3"]["basso"], "alto": coef["col3"]["alto"],
                             "bassoCol4": coef["col4"]["basso"], "altoCol4": coef["col4"]["alto"]},
@@ -264,19 +319,11 @@ def main() -> None:
     # ---- mappa a due canali
     write("canali.json", "Mappa a due canali: depositi a vista sul passivo e passività in dollari, con ciò che ogni quadrante implica per la trasmissione.",
           {"bilanci": month, "dollari": m5s["mappa"]["trimestre_bri"]},
-          {"quadranti[].implicazione": "testo ricavato dai coefficienti del Working Paper BCE 3199", "confrontoFonti": "paragonabilità tra misura BRI e misura BSI trimestrale"},
+          {"quadranti": "A depositi alti e dollari bassi, B entrambi alti, C depositi bassi e dollari alti, D entrambi bassi; i testi sono nell'applicazione", "confrontoFonti": "paragonabilità tra misura BRI e misura BSI trimestrale"},
           {"mediane": {"c1": m5s["mappa"]["mediana_depositi_a_vista"], "usd": m5s["mappa"]["mediana_dollari"]},
            "correlazioneDiRango": m5s["mappa"]["correlazione_di_rango_assi"], "confrontoFonti": m5s["mappa"]["confronto_fonti"],
            "cambianoConRiscalatura": m5s["mappa"]["paesi_che_cambiano_con_riscalatura"],
-           "quadranti": [
-               {"id": "A", "titolo": "Depositi alti, dollari bassi", "canale": "Sostituzione dei depositi",
-                "implicazione": "Un deflusso riduce di più il credito (coefficiente delle banche ad alta quota retail: -3,09 punti di crescita dei prestiti per deviazione standard, contro -0,44). Spostandosi verso la raccolta all'ingrosso, la trasmissione ai tassi sui prestiti diventerebbe più forte (da circa 70% a 80% dopo un anno, da 100% a 120% dopo due) e quella ai tassi sui depositi salirebbe da circa 10% a oltre 30%."},
-               {"id": "B", "titolo": "Entrambi alti", "canale": "Entrambi i canali",
-                "implicazione": "Esposti alla sostituzione dei depositi come il quadrante A e a una raccolta in dollari già rilevante come il quadrante C."},
-               {"id": "C", "titolo": "Depositi bassi, dollari alti", "canale": "Raccolta in valuta",
-                "implicazione": "Poco esposti alla perdita di depositi, ma già finanziati all'ingrosso e in dollari: per banche di questo tipo un aumento di 25 punti base del tasso di policy non riduce i prestiti in modo significativo (+0,29 contro -1,33 delle banche con poca raccolta in dollari), e la reazione alla politica monetaria statunitense è più forte."},
-               {"id": "D", "titolo": "Entrambi bassi", "canale": "Nessuno dei due", "implicazione": "I meno esposti su entrambi i canali."}],
-           "avvertenza": "Coefficienti stimati su singole banche, applicati qui a paesi interi: qualificano i quadranti, non danno numeri per paese."})
+           "quadranti": ["A", "B", "C", "D"]})
 
     # ---- monitor settimanale
     wk = pd.read_csv(PROC / "m2_weekly_index.csv", index_col=0)
@@ -288,7 +335,7 @@ def main() -> None:
                  "stato": g.stato.tolist()} for s, g in fl.groupby("serie")}
     write("monitor.json", "Indice settimanale della quota EUR dei volumi stablecoin/fiat, volumi assoluti, stato delle segnalazioni e storico lungo.",
           {"ultimaSettimana": m2["indice_principale"]["ultima_settimana"]},
-          {"principale": "25 exchange, dal dicembre 2024", "lungo": "senza Kraken e Gemini, dal gennaio 2023: confrontabile per direzione, non per livello",
+          {"principale": "indice principale, dal dicembre 2024", "pannello": "numero di exchange nell'indice principale e in quello lungo, ed exchange esclusi", "effettoEsclusione": "differenza tra indice senza e con gli exchange esclusi, in punti percentuali", "lungo": "senza Kraken e Gemini, dal gennaio 2023: confrontabile per direzione, non per livello",
            "segnalazioni[serie].stato": "segnale, da verificare, nessuno, storico insufficiente",
            "fontiMancanti": "coppie con storico che non hanno risposto all'ultimo scarico, con la loro quota dei volumi; null se hanno risposto tutte", "volumi": "miliardi di unità di stablecoin (circa dollari) a settimana"},
           {"serie": series,
@@ -298,45 +345,41 @@ def main() -> None:
                           "exchange": wk.exchange_attivi.tolist()},
            "lungo": {"settimane": lg.index.tolist(), **{s: lg[s].round(5).tolist() for s in series},
                      "volEurUsdt": lg.volume_eur_usdt_mld.round(4).tolist(), "volEurUsdc": lg.volume_eur_usdc_mld.round(4).tolist()},
-           "segnalazioni": flags, "statistiche": m2["indice_principale"]["serie"], "regola": m2["segnalazione"]["regola"],
+           "segnalazioni": flags, "statistiche": m2["indice_principale"]["serie"], "pannello": m2["pannello"], "effettoEsclusione": m2["effetto_esclusione"],
            "settimaneTrattenute": m2.get("settimane_trattenute", {}),
            "fontiMancanti": load_missing_pairs(),
-           "testPredittivo": {"risposta": link["risposta"], "pValue": link["principale"]["p_value"], "osservazioni": link["principale"]["osservazioni"], "rapportoRmse": link["principale"]["rapporto_rmse"]},
-           "avvertenza": "L'indice misura trading in euro su exchange centralizzati, non detenzioni né residenza. Il test pre-registrato non trova contenuto predittivo per i depositi."})
+           "testPredittivo": {"risposta": link["risposta"], "pValue": link["principale"]["p_value"], "osservazioni": link["principale"]["osservazioni"], "rapportoRmse": link["principale"]["rapporto_rmse"]}})
 
     # ---- stima del livello
     ms = pd.read_csv(PROC / "m1_monthly_series.csv", index_col=0)
     b1 = own["B1"]
     write("livello.json", "Stima dal basso del valore di stablecoin in dollari detenuto nell'area euro, con le ipotesi modificabili, e confronto con l'ipotesi ESM.",
           {"indagine": "agosto e novembre 2025", "circolazione": m1["data_circolazione"]},
-          {"fasce[].percentuale": "quota di detentori nella fascia, misurata sul grafico B riquadro b del riquadro BCE", "unita": "famiglie e adulti dei 21 paesi (Eurostat)",
+          {"fasce[].percentuale": "quota di detentori nella fascia, misurata sul grafico B riquadro b del riquadro BCE", "fasce[].minimo, massimo": "estremi della fascia in euro (per l'ultima, aperta, il massimo è un'ipotesi)", "unita": "famiglie e adulti dei 21 paesi (Eurostat)",
            "quotaDollari": "minimo, centrale e massimo della quota in dollari", "esm.serie": "livello ESM di base a fine mese, miliardi di euro"},
-          {"fasce": own["parametri"]["fasce"], "quotaDetentori": own["parametri"]["quota_detentori"], "quotaDollari": own["parametri"]["quota_in_dollari"],
+          {"fasce": [{k: v for k, v in f.items() if k != "fascia"} for f in own["parametri"]["fasce"]], "quotaDetentori": own["parametri"]["quota_detentori"], "quotaDollari": own["parametri"]["quota_in_dollari"],
            "unita": {"famiglie": b1["unita"]["famiglie"], "individui": b1["unita"]["individui"]},
-           "riferimento": ref, "b1": {"famiglie": b1["famiglie"], "individui": b1["individui"]},
+           "riferimento": {k: v for k, v in ref.items() if k != "decisione"}, "b1": {"famiglie": b1["famiglie"], "individui": b1["individui"]},
            "esm": {"data": m1["data_circolazione"], "baseEur": m1["livello"]["base_mld_eur"], "altoEur": m1["livello"]["alto_mld_eur"],
                    "serie": {"mesi": ms.index.tolist(), "base": ms.livello_base_mld_eur.round(3).tolist(), "alto": ms.livello_alto_mld_eur.round(3).tolist()}},
-           "altreStrade": {"b2": {"esito": own["B2"]["esito"], "motivo": own["B2"].get("motivo"), "saldiClientiMldUsd": own["B2"].get("totale_saldi_clienti_mld_usd")},
-                           "b3": {"centrale": own["B3"].get("centrale_mld_eur"), "ipotesi": own["B3"].get("ipotesi")}},
-           "criterio": {"esito": own["verdetto"]["esito"], "nota": ref["decisione"]},
-           "avvertenza": "Stima da un'indagine su 11 paesi che la BCE definisce sperimentale, estesa a 21. Le altre due strade tentate non l'hanno confermata."})
+           "altreStrade": {"b2": {"saldiClientiMldUsd": own["B2"].get("totale_saldi_clienti_mld_usd")}, "b3": {"centrale": own["B3"].get("centrale_mld_eur")}},
+           "criterioSoddisfatto": own["verdetto"]["esito"] != "solo minimo di B1"})
 
     # ---- metodo e dati
     sources = sources_status(status, m1, m2, m3, m4s, m5s)
-    missing_ex = load_missing_pairs()
-    write("metodo.json", "Fonti, limiti dichiarati, metodi scartati e stato dell'ultimo aggiornamento.", {"aggiornamento": status.get("eseguito_il", NOW)},
-          {"fontiDescrizione": "tabella delle fonti di SPEC.md", "limiti": "sezione 4 di SPEC.md", "metodiScartati": "sezione 5 di SPEC.md", "coefficienti": "Working Paper BCE 3199, con origine"},
-          {"fontiDescrizione": spec_table("## 3. Fonti dati confermate"), "limiti": spec_bullets("## 4. Cosa il programma NON promette"),
-           "metodiScartati": spec_table("## 5. Metodi scartati"),
-           "coefficienti": [
-               {"nome": "Regola depositi → prestiti", "valore": "100 mld € di depositi retail in meno → circa 50 mld € di prestiti in meno", "origine": "Sezione 3.2, p. 18"},
-               {"nome": "Calo dei depositi a vista, bassa quota retail", "valore": "-0,441 (non significativo); -0,342 con controllo della domanda", "origine": "Tabella 1, colonne 3 e 4"},
-               {"nome": "Calo dei depositi a vista, alta quota retail", "valore": "-3,089; -4,173 con controllo della domanda", "origine": "Tabella 1, colonne 3 e 4"},
-               {"nome": "Prestiti a +25 pb, bassa raccolta in dollari", "valore": "-1,590; -1,330 con controllo della domanda", "origine": "Tabella 3, colonne 1 e 3"},
-               {"nome": "Prestiti a +25 pb, alta raccolta in dollari", "valore": "-0,064; +0,293 (non significativi)", "origine": "Tabella 3, colonne 2 e 4"},
-               {"nome": "Trasmissione ai tassi sui prestiti", "valore": "70% a un anno, 100% a due; 80% e 120% per banche dipendenti dall'ingrosso", "origine": "Sezione 4.2, figura 9"},
-               {"nome": "Trasmissione ai tassi sui depositi", "valore": "circa 10%; oltre 30% per banche dipendenti dall'ingrosso", "origine": "Sezione 4.2, figura 9"}],
-           "repo": "https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure"})
+    en = spec_en()
+    limits = spec_bullets("## 4. Cosa il programma NON promette")
+    write("metodo.json", "Fonti, limiti dichiarati e metodi scartati, in italiano e in inglese.", {"aggiornamento": status.get("eseguito_il", NOW)},
+          {"fonti": "tabella delle fonti di SPEC.md (sezione 3)", "limiti": "sezione 4 di SPEC.md", "metodiScartati": "sezione 5 di SPEC.md",
+           "it, en": "ogni voce è esportata nelle due lingue; l'inglese viene da src/i18n/spec_en.json"},
+          {"fonti": bilingual_table("## 3. Fonti dati confermate"), "limiti": {"it": limits, "en": [en.get(x, x) for x in limits]},
+           "metodiScartati": bilingual_table("## 5. Metodi scartati"), "repo": "https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure"})
+
+    # ---- banche (modulo 6)
+    if (PROC / "m6_summary.json").exists():
+        payload, dates, fields = banks_payload(m5s)
+        write("banche.json", "Singole banche dell'area euro dall'esercizio di trasparenza EBA 2025: bilanci, quota retail, copertura per paese e confronto con il modulo 5. Dati pubblici per banca, non dati di vigilanza.",
+              dates, fields, payload)
 
     # ---- panoramica
     ea = pd.read_csv(PROC / "m4_euro_area.csv")
@@ -351,30 +394,26 @@ def main() -> None:
            "scenarioCentrale": {"deflusso": e_c.deflusso_mld_eur, "depositiAVistaPersi": e_c.perdita_depositi_a_vista, "aumentoIngrosso": e_c.aumento_raccolta_ingrosso,
                                 "creditoUniforme": c_c.uniforme_mld, "creditoBasso": c_c.basso_mld, "creditoAlto": c_c.alto_mld, "creditoPct": c_c.uniforme_pct_prestiti},
            "indice": {s: {"valore": m2["indice_principale"]["serie"][s]["valore"], "variazione": m2["indice_principale"]["serie"][s]["variazione_pp"], **last_flags.get(s, {})} for s in series},
-           "classifica": [{"code": r["paese"], "nome": r["nome"], "posizione": r["posizione"], "c1": r["C1"]} for r in m3["classifica"]],
+           "classifica": [{"code": r["paese"], "posizione": r["posizione"], "c1": r["C1"]} for r in m3["classifica"]],
            "depositiAVistaArea": m4s["area_euro"]["depositi_a_vista_mld"], "prestitiArea": m5s["prestiti_area_mld"],
            "testPredittivo": link["risposta"]})
 
     # ---- meta
-    fresh = [s for s in sources if s["stato"] == "ultimo dato valido"]
-    partial = [s for s in sources if s["stato"] == "aggiornata in parte"]
-    notices = []
-    if fresh:
-        notices.append("Fonti non aggiornate nell'ultima esecuzione, mostrate con l'ultimo dato valido: " + "; ".join(f"{s['nome']} ({s['dati_al']})" for s in fresh) + ".")
-    if partial and missing_ex and missing_ex["coppie"]:
-        share = f"{100 * missing_ex['quotaVolume']:.1f}".replace(".", ",")
-        notices.append(f"Indice settimanale aggiornato in parte: {', '.join(missing_ex['exchange'])} non ha risposto all'ultimo scarico ({share}% dei volumi). "
-                       f"I suoi dati arrivano al {day_it(missing_ex['datiFinoAl'])}; le settimane successive escono senza.")
+    fresh = [x for x in sources if x["stato"] == "ultimo_valido"]
+    partial = [x for x in sources if x["stato"] == "parziale"]
     files = sorted(DOCS) + ["meta.json"] + (["geo/europa.geo.json"] if geo_ok else [])
     write("meta.json", "Stato dell'aggiornamento e di ogni fonte, ed elenco dei file di dati.", {"aggiornamento": status.get("eseguito_il", NOW)},
-          {"fonti[].stato": "aggiornata, aggiornata in parte, ultimo dato valido, non aggiornata in questa esecuzione, statica", "avviso": "testo da mostrare nell'applicazione quando una fonte non si è aggiornata"},
-          {"aggiornamento": {"eseguitoIl": status.get("eseguito_il"), "modalita": status.get("modalita"), "moduli": status.get("moduli", {})},
-           "fonti": sources, "fontiNonAggiornate": [s["nome"] for s in fresh], "fontiParziali": [s["nome"] for s in partial],
-           "avviso": " ".join(notices),
+          {"fonti[].stato": "aggiornata, parziale (manca una parte minore), ultimo_valido (la fonte non ha risposto), non_aggiornata (ricalcolo senza scarico), statica",
+           "fonti[].tipoData": "come leggere datiAl: giorno, settimana (lunedì), mese, trimestre, anno, testo (chiave di traduzione)",
+           "fonti[].dettaglio": "per gli exchange: coppie senza risposta con la loro quota dei volumi, coppie mai disponibili, settimane trattenute",
+           "aggiornamento.modalita": "online (con scarico dalle fonti) oppure offline"},
+          {"aggiornamento": {"eseguitoIl": status.get("eseguito_il"), "modalita": "offline" if status.get("modalita") == "senza rete" else "online", "moduli": status.get("moduli", {})},
+           "fonti": sources, "fontiNonAggiornate": [x["id"] for x in fresh], "fontiParziali": [x["id"] for x in partial],
            "file": files, "mappaDisponibile": geo_ok})
 
     readme = ["# Dati dell'applicazione", "", f"Generati da `src/export_app_data.py`. Schema {SCHEMA}. Non modificare a mano.", "",
-              "Ogni file contiene `schema`, `file`, `generato_il`, `dati_al`, `descrizione` e `campi` (la documentazione dei campi), più i dati.", ""]
+              "Ogni file contiene `schema`, `file`, `generato_il`, `dati_al`, `descrizione` e `campi` (la documentazione dei campi), più i dati.",
+              "I file contengono numeri e codici. I testi dell'interfaccia, in inglese e in italiano, sono in `web/src/i18n/`; i nomi dei paesi si ricavano dal codice.", ""]
     for name in sorted(DOCS):
         readme += [f"## {name}", "", DOCS[name]["descrizione"], ""] + [f"- `{k}`: {v}" for k, v in DOCS[name]["campi"].items()] + [""]
     readme += ["## geo/europa.geo.json", "", "Confini dei paesi europei da Eurostat GISCO (Countries 2024, scala 1:20 milioni), con `code`, `name` e `area_euro`. © EuroGeographics per i confini amministrativi.", ""]

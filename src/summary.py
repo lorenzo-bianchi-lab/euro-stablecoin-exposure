@@ -22,7 +22,7 @@ SCENARIO_LABELS = {"P_minimo": "Stima propria, minimo", "P_centrale": "**Stima p
                    "M1_oggi_base": "Confronto: ipotesi ESM oggi (7,5%)", "S1_base_2030": "ESM base 2030",
                    "S2_alto_2030": "ESM alto 2030", "S3_alto_2030_quota_doppia": "ESM alto 2030, quota 15%"}
 MODULES = {"modulo1": "1 - Livello", "modulo2": "2 - Andamento", "modulo3": "3 - Vulnerabilità", "modulo4": "4 - Scenari",
-           "modulo5": "5 - Credito e trasmissione"}
+           "modulo5": "5 - Credito e trasmissione", "modulo6": "6 - Singole banche"}
 PAGES = "https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/"
 QUADRANTS = {"A": "depositi alti, dollari bassi", "B": "entrambi alti", "C": "depositi bassi, dollari alti", "D": "entrambi bassi"}
 
@@ -127,6 +127,11 @@ def main() -> None:
         lt = load("m2_link_test.json")
         add(f"L'indice misura trading in euro su {m2['exchange_attivi_min_max'][1]} exchange, non detenzioni né residenza. Test sul contenuto")
         add(f"predittivo per i depositi a vista delle famiglie: esito **{lt['risposta']}** (p = {n(lt['principale']['p_value'], 2)}, {lt['principale']['osservazioni']} mesi).")
+    ex = m2.get("effetto_esclusione", {})
+    if ex.get("differenza_pp"):
+        d = ex["differenza_pp"]
+        add(f"{', '.join(ex['esclusi'])} è fuori dall'indice per tutto lo storico. Senza, l'indice è in media {signed(d['usdt']['media'], 2)} punti per USDT")
+        add(f"e {signed(d['usdc']['media'], 2)} per USDC; nell'ultima settimana comune {signed(d['usdt']['ultima_settimana'], 2)} e {signed(d['usdc']['ultima_settimana'], 2)}.")
     add("")
 
     # 3. Vulnerabilità
@@ -197,6 +202,24 @@ def main() -> None:
         add("politica monetaria interna sulle banche già finanziate in dollari.")
         add("")
 
+    if (PROC / "m6_summary.json").exists():
+        m6 = load("m6_summary.json")
+        k, t, c, a = m6["criterio_di_sufficienza"], m6["soglia_quota_retail"], m6["campione"], m6["confronto_modulo5_paesi_coperti"]
+        add("## 6. Singole banche (esercizio di trasparenza EBA 2025)")
+        add("")
+        add(f"{k['banche_con_dati_completi']} banche dell'area euro con tutte le voci, su {k['banche_area_euro_nel_campione']} nell'esercizio, in {k['paesi_coperti']} paesi su 21;")
+        add(f"dati al {day(m6['data_dei_dati'])}. Coprono il {pct(c['copertura_area_su_bsi'], 0)} dell'attivo delle banche residenti e il {pct(c['copertura_area_su_consolidato'], 0)} di quello consolidato.")
+        add(f"Soglia di quota retail tra banche: {pct(t['valore'])} ({t['banche_sopra']} banche sopra); tra paesi era {pct(t['soglia_tra_paesi_modulo5'])}.")
+        add("")
+        add("| Prestiti in meno al livello centrale, paesi coperti | Miliardi di euro | Per euro di deflusso |")
+        add("|---|---|---|")
+        for label, key in (("**Modulo 6, coefficienti banca per banca**", "m6"), ("Modulo 5, regola uniforme", "m5_uniforme"), ("Modulo 5, variante continua", "m5_continua"),
+                           ("Modulo 5, variante a soglia", "m5_soglia"), ("Modulo 5, coefficiente basso", "m5_basso"), ("Modulo 5, coefficiente alto", "m5_alto")):
+            add(f"| {label} | {n(a[key], 1)} | {n(a[key] / a['deflusso_paesi_coperti'], 2)} |")
+        add("")
+        add("Dati pubblici per banca, non dati di vigilanza: l'ordine delle banche non è un giudizio sulla solidità.")
+        add("")
+
     # Avvertenze e stato
     add("## Cosa questa pagina non dice")
     add("")
@@ -212,8 +235,9 @@ def main() -> None:
              "modulo3": month(m3["ultimo_mese"]), "modulo4": "bilanci di " + month(m4["mese_bilanci"])}
     reports = {"modulo1": "reports/06_modulo1_livello.md", "modulo2": "reports/03_modulo2_indice.md",
                "modulo3": "reports/04_modulo3_classifica.md", "modulo4": "reports/05_modulo4_scenari.md",
-               "modulo5": "reports/07_modulo5_credito.md"}
+               "modulo5": "reports/07_modulo5_credito.md", "modulo6": "reports/12_rifiniture_lingua_banche.md"}
     dates["modulo5"] = "bilanci di " + month(m4["mese_bilanci"])
+    dates["modulo6"] = "30 giugno 2025"
     for key, label in MODULES.items():
         st = status.get("moduli", {}).get(key, {})
         esito = {"ok": "riuscita", "errore": "**fallita: dati precedenti**", "saltato": "non eseguita"}.get(st.get("esito"), "non registrata")

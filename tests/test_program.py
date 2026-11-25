@@ -92,7 +92,7 @@ class Applicazione(unittest.TestCase):
     """L'applicazione legge solo i file JSON esportati e rifà i calcoli nel browser con le stesse formule."""
 
     DATA = ROOT / "web" / "public" / "data"
-    SECTIONS = ["panoramica.json", "simulatore.json", "canali.json", "monitor.json", "livello.json", "metodo.json", "meta.json"]
+    SECTIONS = ["panoramica.json", "simulatore.json", "canali.json", "monitor.json", "livello.json", "metodo.json", "meta.json", "banche.json"]
 
     def test_ogni_file_e_versionato_e_documentato(self):
         files = [self.DATA / f for f in self.SECTIONS] + sorted((self.DATA / "paesi").glob("*.json"))
@@ -107,10 +107,34 @@ class Applicazione(unittest.TestCase):
     def test_ogni_fonte_ha_data_e_stato(self):
         meta = json.loads((self.DATA / "meta.json").read_text(encoding="utf-8"))
         self.assertGreaterEqual(len(meta["fonti"]), 8)
-        allowed = ("aggiornata", "ultimo dato valido", "non aggiornata in questa esecuzione", "statica")
+        allowed = ("aggiornata", "parziale", "ultimo_valido", "non_aggiornata", "statica")
         for s in meta["fonti"]:
-            self.assertTrue(s["dati_al"], f"{s['id']}: manca la data dei dati")
-            self.assertTrue(s["stato"].startswith(allowed), f"{s['id']}: stato non previsto ({s['stato']})")
+            self.assertTrue(s["datiAl"], f"{s['id']}: manca la data dei dati")
+            self.assertIn(s["tipoData"], ("giorno", "settimana", "mese", "trimestre", "anno", "testo"), s["id"])
+            self.assertIn(s["stato"], allowed, f"{s['id']}: stato non previsto ({s['stato']})")
+
+    def test_un_solo_cambio_in_tutto_il_programma(self):
+        """Modulo 1, modulo 4 e applicazione usano lo stesso cambio: l'ipotesi ESM ha un solo valore."""
+        m1 = json.loads((PROC / "m1_level.json").read_text())
+        m4s = json.loads((PROC / "m4_summary.json").read_text())
+        sim = json.loads((self.DATA / "simulatore.json").read_text(encoding="utf-8"))
+        ov = json.loads((self.DATA / "panoramica.json").read_text(encoding="utf-8"))
+        lv = json.loads((self.DATA / "livello.json").read_text(encoding="utf-8"))
+        self.assertEqual(m1["cambio"]["usd_per_eur"], m4s["cambio_usd_per_eur"])
+        self.assertAlmostEqual(sim["cambioUsdPerEur"], m1["cambio"]["usd_per_eur"], places=6)
+        esm = {p["id"]: p["eur"] for p in sim["predefiniti"]}["ESM_oggi"]
+        for other in (ov["livello"]["esmBase"], lv["esm"]["baseEur"], lv["esm"]["serie"]["base"][-1]):
+            self.assertAlmostEqual(esm, other, delta=1e-3)
+
+    def test_i_testi_di_spec_hanno_tutti_una_traduzione(self):
+        """Nessuna stringa non tradotta tra i testi che l'applicazione prende da SPEC.md."""
+        import export_app_data as exp
+        en = exp.spec_en()
+        missing = [x for x in exp.spec_strings() if x not in en or not en[x].strip()]
+        self.assertEqual(missing, [], "testi di SPEC.md senza traduzione in src/i18n/spec_en.json")
+        metodo = json.loads((self.DATA / "metodo.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(metodo["limiti"]["it"]), len(metodo["limiti"]["en"]))
+        self.assertEqual(len(metodo["fonti"]["it"]["righe"]), len(metodo["fonti"]["en"]["righe"]))
 
     def test_i_dati_del_simulatore_coincidono_con_i_bilanci(self):
         sim = json.loads((self.DATA / "simulatore.json").read_text(encoding="utf-8"))
@@ -144,6 +168,67 @@ class Applicazione(unittest.TestCase):
         self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-1500:])
 
 
+class Indice(unittest.TestCase):
+    """Bybit è fuori dall'indice per tutto lo storico: esecuzione locale e automatica coincidono."""
+
+    def test_bybit_non_entra_nell_indice(self):
+        part = pd.read_csv(PROC / "m2_exchange_participation.csv")
+        self.assertNotIn("Bybit", set(part.exchange))
+        m2 = json.loads((PROC / "m2_summary.json").read_text())
+        self.assertEqual(m2["pannello"]["esclusi"], ["Bybit"])
+        self.assertEqual(m2["pannello"]["exchange"], part[part.week >= "2024-12-09"].exchange.nunique())
+        self.assertGreater(m2["effetto_esclusione"]["settimane_confrontate"], 50)
+        import exchange_fetch
+        self.assertNotIn("Bybit", [e[0] for e in exchange_fetch.PANEL])
+
+
+class Banche(unittest.TestCase):
+    """Modulo 6: dati per banca dell'esercizio di trasparenza EBA."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.b = pd.read_csv(PROC / "m6_banks.csv", index_col=0)
+        cls.c = pd.read_csv(PROC / "m6_by_country.csv", index_col=0)
+        cls.s = json.loads((PROC / "m6_summary.json").read_text())
+
+    def test_criterio_di_sufficienza(self):
+        k = self.s["criterio_di_sufficienza"]
+        self.assertTrue(k["soddisfatto"])
+        self.assertGreaterEqual(len(self.b), k["banche_minime"])
+        self.assertGreaterEqual(self.b.paese.nunique(), k["paesi_minimi"])
+        self.assertTrue(set(self.b.paese) <= set(m5.NAMES))
+
+    def test_quota_retail_e_soglia(self):
+        b = self.b
+        self.assertTrue(np.allclose(b.quota_retail, b.dep_famiglie / (b.dep_famiglie + b.dep_altre_fin), atol=1e-5))
+        thr = self.s["soglia_quota_retail"]["valore"]
+        self.assertAlmostEqual(thr, float(np.percentile(b.quota_retail, 75)), places=5)
+        self.assertTrue(((b.quota_retail > thr) == b.quota_retail_alta).all())
+        self.assertAlmostEqual(b.quota_retail_alta.mean(), 0.25, delta=0.02)
+
+    def test_le_voci_di_bilancio_sono_coerenti(self):
+        b = self.b
+        self.assertTrue((b.vista_famiglie <= b.dep_famiglie + 1e-6).all() and (b.vista_imprese <= b.dep_imprese + 1e-6).all())
+        raccolta = b.dep_famiglie + b.dep_imprese + b.dep_altre_fin + b.dep_banche + b.titoli_emessi
+        self.assertTrue((raccolta <= b.totale_attivo * 1.0001).all(), "depositi e titoli superano il totale attivo")
+        self.assertTrue((b.prestiti <= b.totale_attivo).all())
+
+    def test_il_credito_per_banca_segue_la_definizione(self):
+        b = self.b
+        coef = np.where(b.quota_retail_alta, 3.089, 0.441)
+        expected = coef * (100 * b.deflusso / b.totale_attivo / 0.8) / 100 * b.prestiti
+        self.assertTrue(np.allclose(b.credito, expected, rtol=1e-4, atol=1e-6))
+        # riaggregato, il credito per euro sta tra il coefficiente basso e quello alto del modulo 5 sugli stessi paesi
+        a = self.s["confronto_modulo5_paesi_coperti"]
+        self.assertTrue(a["m5_basso"] < a["m6"] < a["m5_alto"])
+
+    def test_la_copertura_e_riportata_per_ogni_paese(self):
+        self.assertEqual(len(self.c), 21)
+        covered = self.c[self.c.banche > 0]
+        self.assertTrue(covered.copertura_su_bsi.notna().all())
+        self.assertEqual(int(self.c.banche.sum()), len(self.b))
+
+
 def decimals(text: pd.Series) -> int:
     """Numero massimo di cifre decimali scritte in una colonna."""
     frac = text.dropna().str.extract(r"\.(\d+)$")[0].dropna()
@@ -158,7 +243,7 @@ class Riproducibilita(unittest.TestCase):
     """
 
     FILES = ["m1_monthly_series.csv", "m2_weekly_index.csv", "m2_flags.csv", "m3_ranking_latest.csv", "m3_composition.csv",
-             "m4_scenarios_by_country.csv", "m5_credit_by_country.csv", "m5_two_channel_map.csv"]
+             "m4_scenarios_by_country.csv", "m5_credit_by_country.csv", "m5_two_channel_map.csv", "m6_banks.csv"]
 
     def assert_same(self, name: str, before: Path, after: Path) -> None:
         a_txt, b_txt = pd.read_csv(before, dtype=str), pd.read_csv(after, dtype=str)
@@ -179,7 +264,7 @@ class Riproducibilita(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             work = Path(tmp) / "repo"
             for d in ("src", "data"):
-                shutil.copytree(ROOT / d, work / d, ignore=shutil.ignore_patterns("__pycache__", "labels"))
+                shutil.copytree(ROOT / d, work / d, ignore=shutil.ignore_patterns("__pycache__", "labels", "eba_te2025"))
             shutil.copy(ROOT / "SPEC.md", work / "SPEC.md")
             (work / "reports" / "figures").mkdir(parents=True)
             r = subprocess.run([sys.executable, str(work / "src" / "run_all.py"), "--offline"], capture_output=True, text=True)

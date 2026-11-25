@@ -1,20 +1,15 @@
 {
-  "calcolato_il": "2026-11-25T15:37:31+00:00",
+  "calcolato_il": "2026-11-25T22:57:22+00:00",
   "scarico": {
     "fetched_from": "2026-10-20",
     "fetched_to_excl": "2026-11-23",
     "rows_fetched": 4560,
     "rows_compared": 4560,
-    "rows_revised": 26,
-    "max_relative_revision": 0.0476027936783521,
+    "rows_revised": 27,
+    "max_relative_revision": 0.12218882899291786,
     "rows_added": 0,
     "pairs_ok": 137,
     "pairs_error": [
-      "Bybit USDTEUR",
-      "Bybit USDCEUR",
-      "Bybit USDTUSD",
-      "Bybit USDTPLN",
-      "Bybit USDTAED",
       "Bitget RONUSDT"
     ],
     "modalita": "incrementale"
@@ -24,37 +19,96 @@
     "differenza_massima_pp": 0.0
   },
   "settimane_trattenute": {},
+  "pannello": {
+    "exchange": 24,
+    "exchange_indice_lungo": 22,
+    "esclusi": [
+      "Bybit"
+    ],
+    "esclusi_indice_lungo": [
+      "Kraken",
+      "Gemini"
+    ]
+  },
+  "effetto_esclusione": {
+    "esclusi": [
+      "Bybit"
+    ],
+    "settimane_confrontate": 102,
+    "prima_settimana": "2024-12-09",
+    "ultima_settimana": "2026-11-16",
+    "quota_di_volume_degli_esclusi": {
+      "media": 0.00457629119656699,
+      "massima": 0.04268887374118094,
+      "ultima_settimana": 0.018347887056777052
+    },
+    "differenza_pp": {
+      "usdt": {
+        "media": -0.3959252478304595,
+        "massima_assoluta": 4.498857216469668,
+        "settimana_della_massima": "2026-06-01",
+        "ultima_settimana": -1.7570351113611924
+      },
+      "usdt_senza_coinbase": {
+        "media": -0.4316344245155689,
+        "massima_assoluta": 4.677938043836807,
+        "settimana_della_massima": "2026-06-01",
+        "ultima_settimana": -1.8893608175567247
+      },
+      "usdc": {
+        "media": -0.12179975088163893,
+        "massima_assoluta": 0.9735062960813279,
+        "settimana_della_massima": "2026-06-08",
+        "ultima_settimana": -0.5840892549441756
+      },
+      "usdc_senza_coinbase": {
+        "media": -0.1541647595438546,
+        "massima_assoluta": 1.1924266037642517,
+        "settimana_della_massima": "2026-06-08",
+        "ultima_settimana": -0.8038327105644061
+      }
+    },
+    "segnalazioni_cambiate": 1,
+    "dettaglio_segnalazioni_cambiate": [
+      {
+        "serie": "usdt",
+        "settimana": "2026-07-27",
+        "con": "nessuno",
+        "senza": "da verificare"
+      }
+    ]
+  },
   "segnalazione": {
     "regola": "scarto oltre 2 deviazioni standard sulle 52 settimane precedenti, sia della quota EUR sia del volume contro EUR, con lo stesso segno",
     "settimane_valutate": 50,
     "ultima_settimana": {
       "usdt": {
         "stato": "nessuno",
-        "scarto_quota": -0.7387466470098951,
-        "scarto_volume": 0.4825502310626768,
-        "quota_eur": 0.11918831934624446,
-        "volume_eur_mld": 0.82569461606
+        "scarto_quota": -1.1551841782530288,
+        "scarto_volume": -0.14085568081659375,
+        "quota_eur": 0.10161796823263257,
+        "volume_eur_mld": 0.68938645791
       },
       "usdt_senza_coinbase": {
         "stato": "nessuno",
-        "scarto_quota": -1.0294557816902528,
-        "scarto_volume": 0.17441878616162962,
-        "quota_eur": 0.10855639929375958,
-        "volume_eur_mld": 0.7092298744300001
+        "scarto_quota": -1.4987861306145895,
+        "scarto_volume": -0.5291625595126925,
+        "quota_eur": 0.08966279111819234,
+        "volume_eur_mld": 0.57292171628
       },
       "usdc": {
         "stato": "da verificare",
-        "scarto_quota": 0.7141619036986195,
-        "scarto_volume": 2.5671377194554235,
-        "quota_eur": 0.5485827821574959,
-        "volume_eur_mld": 1.61789301559
+        "scarto_quota": 0.6688176389519416,
+        "scarto_volume": 2.431502427803999,
+        "quota_eur": 0.5427418896080541,
+        "volume_eur_mld": 1.5802204300999998
       },
       "usdc_senza_coinbase": {
         "stato": "nessuno",
-        "scarto_quota": 0.4268421380433231,
-        "scarto_volume": 1.9505614997575729,
-        "quota_eur": 0.485054428482599,
-        "volume_eur_mld": 1.18888143189
+        "scarto_quota": 0.35736030868327495,
+        "scarto_volume": 1.7704944981618813,
+        "quota_eur": 0.4770161013769548,
+        "volume_eur_mld": 1.1512088464
       }
     },
     "storico": {
@@ -67,8 +121,8 @@
         "da verificare": 7
       },
       "usdt": {
-        "nessuno": 49,
-        "da verificare": 1
+        "nessuno": 48,
+        "da verificare": 2
       },
       "usdt_senza_coinbase": {
         "nessuno": 50
@@ -88,93 +142,93 @@
     "serie": {
       "usdt": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.11918831934624449,
-        "variazione_pp": 0.039766321342024624,
-        "media_4_settimane": 0.11537755701320007,
-        "media_52_settimane": 0.1417504508736718,
-        "dev_std_52_settimane": 0.028624026829880512,
-        "scarto_standardizzato": -0.7882235319830957,
-        "minimo": 0.07135210553549781,
+        "valore": 0.10161796823263257,
+        "variazione_pp": -1.1703061624691091,
+        "media_4_settimane": 0.1081044986482321,
+        "media_52_settimane": 0.1353287937130217,
+        "dev_std_52_settimane": 0.028261309391795,
+        "scarto_standardizzato": -1.1928260298574938,
+        "minimo": 0.07055868310452051,
         "settimana_minimo": "2025-09-22",
-        "massimo": 0.2119747877708934,
+        "massimo": 0.20997166053580674,
         "settimana_massimo": "2026-03-02",
         "prima_settimana": "2024-12-09",
         "numero_settimane": 102,
-        "variazione_dall_inizio_pp": -0.7203898277481052,
-        "media_prime_13_settimane": 0.1337277555606062,
-        "media_ultime_13_settimane": 0.11532252959234199
+        "variazione_dall_inizio_pp": -2.3788996771797923,
+        "media_prime_13_settimane": 0.1326040215878941,
+        "media_ultime_13_settimane": 0.10898243319444954
       },
       "usdt_senza_coinbase": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.10855639929375957,
-        "variazione_pp": 0.2988536992628271,
-        "media_4_settimane": 0.102114852119984,
-        "media_52_settimane": 0.1388353973037036,
-        "dev_std_52_settimane": 0.02815704118435928,
-        "scarto_standardizzato": -1.0753614988056148,
-        "minimo": 0.07036641441703294,
+        "valore": 0.08966279111819232,
+        "variazione_pp": -0.989163044407998,
+        "media_4_settimane": 0.09423050082261224,
+        "media_52_settimane": 0.13192715758176182,
+        "dev_std_52_settimane": 0.027812942295462526,
+        "scarto_standardizzato": -1.5195935048721765,
+        "minimo": 0.0695384567360946,
         "settimana_minimo": "2025-09-22",
-        "massimo": 0.24655368916060852,
+        "massimo": 0.24425036191810376,
         "settimana_massimo": "2025-04-07",
         "prima_settimana": "2024-12-09",
         "numero_settimane": 102,
-        "variazione_dall_inizio_pp": -6.489767026923065,
-        "media_prime_13_settimane": 0.1807708060977466,
-        "media_ultime_13_settimane": 0.10802272539125052
+        "variazione_dall_inizio_pp": -8.242188991412107,
+        "media_prime_13_settimane": 0.17926735840564542,
+        "media_ultime_13_settimane": 0.10083266034746124
       },
       "usdc": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.548582782157496,
-        "variazione_pp": 2.134711909999054,
-        "media_4_settimane": 0.5086475018681578,
-        "media_52_settimane": 0.48881616969464264,
-        "dev_std_52_settimane": 0.08380258788582953,
-        "scarto_standardizzato": 0.7131833750083929,
-        "minimo": 0.25384487806432643,
+        "valore": 0.5427418896080543,
+        "variazione_pp": 1.8354437719486527,
+        "media_4_settimane": 0.5053491328423815,
+        "media_52_settimane": 0.4869905020941345,
+        "dev_std_52_settimane": 0.08324459862085522,
+        "scarto_standardizzato": 0.6697297895307812,
+        "minimo": 0.25373957204106107,
         "settimana_minimo": "2026-02-16",
-        "massimo": 0.7051149667733115,
+        "massimo": 0.7047762039020299,
         "settimana_massimo": "2025-05-26",
         "prima_settimana": "2024-12-09",
         "numero_settimane": 102,
-        "variazione_dall_inizio_pp": 2.697901748222953,
-        "media_prime_13_settimane": 0.5031512280976197,
-        "media_ultime_13_settimane": 0.4911742124044841
+        "variazione_dall_inizio_pp": 2.2028659431950426,
+        "media_prime_13_settimane": 0.5019370836656655,
+        "media_ultime_13_settimane": 0.48910088429823073
       },
       "usdc_senza_coinbase": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.48505442848259894,
-        "variazione_pp": 2.5989834860289776,
-        "media_4_settimane": 0.4485417322147498,
-        "media_52_settimane": 0.44966363818591143,
-        "dev_std_52_settimane": 0.08199257635114586,
-        "scarto_standardizzato": 0.43163408044553925,
-        "minimo": 0.21422337898906535,
+        "valore": 0.4770161013769549,
+        "variazione_pp": 2.187672576356259,
+        "media_4_settimane": 0.4441347778098036,
+        "media_52_settimane": 0.4473787438905583,
+        "dev_std_52_settimane": 0.08138803479770157,
+        "scarto_standardizzato": 0.36414882801954,
+        "minimo": 0.21410021814795224,
         "settimana_minimo": "2026-02-16",
-        "massimo": 0.6823698129196873,
+        "massimo": 0.681947520247354,
         "settimana_massimo": "2025-05-26",
         "prima_settimana": "2024-12-09",
         "numero_settimane": 102,
-        "variazione_dall_inizio_pp": 5.616889381182094,
-        "media_prime_13_settimane": 0.43459060134470834,
-        "media_ultime_13_settimane": 0.43894654172459957
+        "variazione_dall_inizio_pp": 4.949445878357689,
+        "media_prime_13_settimane": 0.43290961950092127,
+        "media_ultime_13_settimane": 0.4362903311612988
       },
       "totale": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.24740505633036455,
-        "variazione_pp": -0.36940402559844376,
-        "media_4_settimane": 0.24433716286161744,
-        "media_52_settimane": 0.24256398024574555,
-        "dev_std_52_settimane": 0.030552765488917326,
-        "scarto_standardizzato": 0.1584496855571078,
-        "minimo": 0.13524229252200537,
+        "valore": 0.2340850554119996,
+        "variazione_pp": -1.252415856732525,
+        "media_4_settimane": 0.23850607149735753,
+        "media_52_settimane": 0.2377704701798042,
+        "dev_std_52_settimane": 0.030481625302495388,
+        "scarto_standardizzato": -0.12090611085304942,
+        "minimo": 0.13435780729090452,
         "settimana_minimo": "2024-12-16",
-        "massimo": 0.3112015143320122,
+        "massimo": 0.3070419552834332,
         "settimana_massimo": "2026-07-27",
         "prima_settimana": "2024-12-09",
         "numero_settimane": 102,
-        "variazione_dall_inizio_pp": 9.696246129546026,
-        "media_prime_13_settimane": 0.16408628901237454,
-        "media_ultime_13_settimane": 0.22015245138362916
+        "variazione_dall_inizio_pp": 8.463538655525419,
+        "media_prime_13_settimane": 0.16293486468801416,
+        "media_ultime_13_settimane": 0.21521435671520572
       }
     }
   },
@@ -188,108 +242,108 @@
     "serie": {
       "usdt": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.10004513206243404,
-        "variazione_pp": 1.0136480950554416,
-        "media_4_settimane": 0.09823231081003081,
-        "media_52_settimane": 0.10265245284483046,
-        "dev_std_52_settimane": 0.028074037823121803,
-        "scarto_standardizzato": -0.09287302378174578,
-        "minimo": 0.047670694913785366,
+        "valore": 0.07384368547206345,
+        "variazione_pp": -0.8065223033636243,
+        "media_4_settimane": 0.08710426687125714,
+        "media_52_settimane": 0.09291005345061029,
+        "dev_std_52_settimane": 0.024985010571008097,
+        "scarto_standardizzato": -0.7631122638255322,
+        "minimo": 0.04589114304745671,
         "settimana_minimo": "2025-02-03",
-        "massimo": 0.21734839647530266,
+        "massimo": 0.2169908473316388,
         "settimana_massimo": "2023-02-27",
         "prima_settimana": "2023-01-02",
         "numero_settimane": 203,
-        "variazione_dall_inizio_pp": -10.354933522774173,
-        "media_prime_13_settimane": 0.18398229141927433,
-        "media_ultime_13_settimane": 0.08629257210703598
+        "variazione_dall_inizio_pp": -12.83032671953182,
+        "media_prime_13_settimane": 0.18302173730167454,
+        "media_ultime_13_settimane": 0.07689237525729024
       },
       "usdt_senza_coinbase": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.08255618073372857,
-        "variazione_pp": 1.512330525565217,
-        "media_4_settimane": 0.07470217338530902,
-        "media_52_settimane": 0.0938583578814704,
-        "dev_std_52_settimane": 0.02725664933306588,
-        "scarto_standardizzato": -0.4146576128868052,
-        "minimo": 0.04729629839668016,
-        "settimana_minimo": "2025-09-22",
-        "massimo": 0.3098120906628095,
+        "valore": 0.05333975337128619,
+        "variazione_pp": -0.4899848550220326,
+        "media_4_settimane": 0.062076910197065883,
+        "media_52_settimane": 0.0829691890199397,
+        "dev_std_52_settimane": 0.02355941802588504,
+        "scarto_standardizzato": -1.2576471802528935,
+        "minimo": 0.035230623694936444,
+        "settimana_minimo": "2026-09-07",
+        "massimo": 0.30933686293062596,
         "settimana_massimo": "2023-02-27",
         "prima_settimana": "2023-01-02",
         "numero_settimane": 203,
-        "variazione_dall_inizio_pp": -18.950098892425828,
-        "media_prime_13_settimane": 0.2574738844918938,
-        "media_ultime_13_settimane": 0.06916105238018543
+        "variazione_dall_inizio_pp": -21.674633144984774,
+        "media_prime_13_settimane": 0.25611919064604877,
+        "media_ultime_13_settimane": 0.05781905789354488
       },
       "usdc": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.6028412111029735,
-        "variazione_pp": 2.0865846306707514,
-        "media_4_settimane": 0.5701560037398672,
-        "media_52_settimane": 0.475794420584064,
-        "dev_std_52_settimane": 0.1406904236538857,
-        "scarto_standardizzato": 0.9030237255625793,
-        "minimo": 0.06798201785392119,
+        "valore": 0.5936365380965232,
+        "variazione_pp": 1.6536560156862778,
+        "media_4_settimane": 0.5641559641994851,
+        "media_52_settimane": 0.47193343876603067,
+        "dev_std_52_settimane": 0.13881769007873207,
+        "scarto_standardizzato": 0.8767117451779177,
+        "minimo": 0.06719323800662601,
         "settimana_minimo": "2024-01-22",
-        "massimo": 0.8381974031966964,
+        "massimo": 0.8377684179208048,
         "settimana_massimo": "2025-06-30",
         "prima_settimana": "2023-01-02",
         "numero_settimane": 203,
-        "variazione_dall_inizio_pp": 21.528791263340807,
+        "variazione_dall_inizio_pp": 20.608323962695774,
         "media_prime_13_settimane": 0.28286998126461543,
-        "media_ultime_13_settimane": 0.5198016529971079
+        "media_ultime_13_settimane": 0.5156711909494864
       },
       "usdc_senza_coinbase": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.49238340892029825,
-        "variazione_pp": 4.564916198464469,
-        "media_4_settimane": 0.43677576942482943,
-        "media_52_settimane": 0.3744900539137212,
-        "dev_std_52_settimane": 0.12688911826312857,
-        "scarto_standardizzato": 0.9291053214043374,
-        "minimo": 0.020505543126568996,
+        "valore": 0.4754193977369091,
+        "variazione_pp": 3.8296179582106795,
+        "media_4_settimane": 0.4253938175139317,
+        "media_52_settimane": 0.3676675501363053,
+        "dev_std_52_settimane": 0.12335954421446639,
+        "scarto_standardizzato": 0.8734779970755414,
+        "minimo": 0.018955675110512788,
         "settimana_minimo": "2023-12-25",
-        "massimo": 0.8272341849752421,
+        "massimo": 0.8266117132014414,
         "settimana_massimo": "2025-06-30",
         "prima_settimana": "2023-01-02",
         "numero_settimane": 203,
-        "variazione_dall_inizio_pp": 13.937079481018467,
+        "variazione_dall_inizio_pp": 12.240678362679553,
         "media_prime_13_settimane": 0.21185219562291338,
-        "media_ultime_13_settimane": 0.39347177966350705
+        "media_ultime_13_settimane": 0.3862072172146597
       },
       "totale": {
         "ultima_settimana": "2026-11-16",
-        "valore": 0.22947371422957327,
-        "variazione_pp": 1.222775679955257,
-        "media_4_settimane": 0.22072068801836833,
-        "media_52_settimane": 0.18173668024108747,
-        "dev_std_52_settimane": 0.03635805475918635,
-        "scarto_standardizzato": 1.312969967856281,
-        "minimo": 0.06981632733228135,
+        "valore": 0.20839056035982942,
+        "variazione_pp": -0.15578291230720354,
+        "media_4_settimane": 0.21091383629960123,
+        "media_52_settimane": 0.17346536726166767,
+        "dev_std_52_settimane": 0.033874655991595316,
+        "scarto_standardizzato": 1.0310124804463574,
+        "minimo": 0.06894569557630092,
         "settimana_minimo": "2024-10-21",
-        "massimo": 0.2648955012403396,
-        "settimana_massimo": "2026-07-27",
+        "massimo": 0.25857950165103316,
+        "settimana_massimo": "2025-06-23",
         "prima_settimana": "2023-01-02",
         "numero_settimane": 203,
-        "variazione_dall_inizio_pp": 2.2687677350765796,
-        "media_prime_13_settimane": 0.18562111167114057,
-        "media_ultime_13_settimane": 0.17484135624107264
+        "variazione_dall_inizio_pp": 0.30211797398227713,
+        "media_prime_13_settimane": 0.18467928934736375,
+        "media_ultime_13_settimane": 0.16662301538331795
       }
     },
     "differenza_media_con_principale_pp": {
-      "usdt": -4.38091491870828,
-      "usdt_senza_coinbase": -5.127502718512584,
-      "usdc": 5.20924049118024,
-      "usdc_senza_coinbase": 0.42992830358672357,
-      "totale": -6.359032094710694
+      "usdt": -4.584829118408805,
+      "usdt_senza_coinbase": -5.38061515783497,
+      "usdc": 5.0844149098396265,
+      "usdc_senza_coinbase": 0.13557623839192837,
+      "totale": -6.574968321488864
     },
     "correlazione_con_principale": {
-      "usdt": 0.7123373687737151,
-      "usdt_senza_coinbase": 0.7100034267978017,
-      "usdc": 0.865071540579891,
-      "usdc_senza_coinbase": 0.8194836293879196,
-      "totale": 0.8536710215758988
+      "usdt": 0.7049441226734758,
+      "usdt_senza_coinbase": 0.7417298616673712,
+      "usdc": 0.865152541916206,
+      "usdc_senza_coinbase": 0.8202926614465366,
+      "totale": 0.8520108809407715
     }
   },
   "pannello_costante": {
@@ -304,7 +358,6 @@
       "Bitstamp",
       "Bitvavo",
       "BtcTurk",
-      "Bybit",
       "CoinDCX",
       "Coinbase",
       "Coinone",
@@ -319,29 +372,29 @@
       "Upbit",
       "WhiteBIT"
     ],
-    "numero": 24,
+    "numero": 23,
     "differenza_massima_assoluta_pp": {
-      "usdt": 0.3195200254210828,
-      "usdt_senza_coinbase": 0.3501513891796343,
-      "usdc": 1.0850488320785723,
-      "usdc_senza_coinbase": 1.1492607738353366,
-      "totale": 0.37477854411089306
+      "usdt": 0.30606314334870044,
+      "usdt_senza_coinbase": 0.33521026952185173,
+      "usdc": 1.08444621513909,
+      "usdc_senza_coinbase": 1.1481668665431544,
+      "totale": 0.3719127334964323
     },
     "differenza_media_pp": {
-      "usdt": 0.0393169786153723,
-      "usdt_senza_coinbase": 0.041451858455115585,
-      "usdc": 0.1839575224159722,
-      "usdc_senza_coinbase": 0.1941759737468236,
-      "totale": 0.07284031221591698
+      "usdt": 0.03789503032978604,
+      "usdt_senza_coinbase": 0.039821780611920855,
+      "usdc": 0.18400602640384067,
+      "usdc_senza_coinbase": 0.19408749579395687,
+      "totale": 0.07194875058621239
     }
   },
   "exchange_attivi_min_max": [
-    24,
-    25
+    23,
+    24
   ],
   "settimane_con_exchange_rilevante_incompleto": [],
   "coinbase_quota_volume": {
-    "USDT": 0.14274448949273455,
-    "USDC": 0.1257264572798357
+    "USDT": 0.14340377708400986,
+    "USDC": 0.12605291821565265
   }
 }

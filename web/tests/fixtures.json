@@ -273,542 +273,542 @@
   },
   {
    "scenario": {
-    "importo": 125.93571114046676,
+    "importo": 130.77274805669867,
     "sostituzione": 0.75,
     "regola": "R1",
     "depositi": "T2"
    },
    "paesi": {
     "AT": {
-     "deflusso": 3.5080994428046237,
-     "persiVista": 0.012789512906923655,
-     "persiClientela": 0.008091810947634514,
-     "effettoPp": 0.325678324976965,
-     "aumentoIngrosso": 0.010411520735803646,
-     "credito_uniforme": 1.7540497214023119,
-     "credito_basso": 0.8042090168783237,
-     "credito_alto": 5.633110324574018,
-     "credito_soglia": 0.8042090168783237,
-     "credito_continua": 2.2884201228116723
+     "deflusso": 3.64284125953786,
+     "persiVista": 0.01328074248359562,
+     "persiClientela": 0.008402607527241873,
+     "effettoPp": 0.3381872318347907,
+     "aumentoIngrosso": 0.010811414536355774,
+     "credito_uniforme": 1.82142062976893,
+     "credito_basso": 0.8350977033976557,
+     "credito_alto": 5.84947121495546,
+     "credito_soglia": 0.8350977033976557,
+     "credito_continua": 2.3763155459100624
     },
     "BE": {
-     "deflusso": 1.857558891896664,
-     "persiVista": 0.008849521887981058,
-     "persiClientela": 0.0029734263220269302,
-     "effettoPp": 0.12480332036158988,
-     "aumentoIngrosso": 0.006938231682516075,
-     "credito_uniforme": 0.928779445948332,
-     "credito_basso": 0.3328184480328119,
-     "credito_alto": 2.3312385169463856,
-     "credito_soglia": 0.3328184480328119,
-     "credito_continua": 0.6773840378948214
+     "deflusso": 1.9289054611327496,
+     "persiVista": 0.009189421219755363,
+     "persiClientela": 0.0030876319969470314,
+     "effettoPp": 0.12959686353048494,
+     "aumentoIngrosso": 0.007204720690898037,
+     "credito_uniforme": 0.9644527305663748,
+     "credito_basso": 0.3456015983001901,
+     "credito_alto": 2.4207785422886334,
+     "credito_soglia": 0.3456015983001901,
+     "credito_continua": 0.7034015318057335
     },
     "BG": {
-     "deflusso": 0.7181798175597462,
-     "persiVista": 0.01099931505147013,
-     "persiClientela": 0.0083566426943791,
-     "effettoPp": 0.5659809694857753,
-     "aumentoIngrosso": 0.07111444653639011,
-     "credito_uniforme": 0.3590899087798731,
-     "credito_basso": 0.197470207997656,
-     "credito_alto": 1.3831870124824475,
-     "credito_soglia": 1.3831870124824475,
-     "credito_continua": 1.3831870124824475
+     "deflusso": 0.7457642275620409,
+     "persiVista": 0.011421785314078033,
+     "persiClientela": 0.008677611138058955,
+     "effettoPp": 0.5877196075455854,
+     "aumentoIngrosso": 0.07384586560774664,
+     "credito_uniforme": 0.37288211378102043,
+     "credito_basso": 0.20505479760524767,
+     "credito_alto": 1.4363135369673696,
+     "credito_soglia": 1.4363135369673696,
+     "credito_continua": 1.4363135369673696
     },
     "CY": {
-     "deflusso": 0.3280126306071851,
-     "persiVista": 0.010659797556374024,
-     "persiClientela": 0.007074268997502213,
-     "effettoPp": 0.4326715524227158,
-     "aumentoIngrosso": 0.06883790778744703,
-     "credito_uniforme": 0.16400631530359255,
-     "credito_basso": 0.053278406973327676,
-     "credito_alto": 0.3731904742417442,
-     "credito_soglia": 0.053278406973327676,
-     "credito_continua": 0.07599280357351978
+     "deflusso": 0.3406111952944295,
+     "persiVista": 0.011069227366495385,
+     "persiClientela": 0.00734598303307157,
+     "effettoPp": 0.44928993852399973,
+     "aumentoIngrosso": 0.07148188778477009,
+     "credito_uniforme": 0.17030559764721476,
+     "credito_basso": 0.055324765540204435,
+     "credito_alto": 0.3875242647475999,
+     "credito_soglia": 0.055324765540204435,
+     "credito_continua": 0.07891159438292793
     },
     "DE": {
-     "deflusso": 33.15132437526521,
-     "persiVista": 0.012920493373694542,
-     "persiClientela": 0.008454419080992958,
-     "effettoPp": 0.2771166109036576,
-     "aumentoIngrosso": 0.011362306471582758,
-     "credito_uniforme": 16.575662187632606,
-     "credito_basso": 5.3760800077778015,
-     "credito_alto": 37.65694136967263,
-     "credito_soglia": 5.3760800077778015,
-     "credito_continua": 5.3760800077778015
+     "deflusso": 34.42462627170887,
+     "persiVista": 0.01341675375018761,
+     "persiClientela": 0.008779142996312304,
+     "effettoPp": 0.28776032161051956,
+     "aumentoIngrosso": 0.011798718791478941,
+     "credito_uniforme": 17.212313135854433,
+     "credito_basso": 5.582568677486687,
+     "credito_alto": 39.10329851418679,
+     "credito_soglia": 5.582568677486687,
+     "credito_continua": 5.582568677486687
     },
     "EE": {
-     "deflusso": 0.17360347501835127,
-     "persiVista": 0.00977662189662394,
-     "persiClientela": 0.005859637324681921,
-     "effettoPp": 0.34629273721046694,
-     "aumentoIngrosso": 0.029972975659245733,
-     "credito_uniforme": 0.08680173750917564,
-     "credito_basso": 0.055506210983276474,
-     "credito_alto": 0.388795205730932,
-     "credito_soglia": 0.055506210983276474,
-     "credito_continua": 0.21112550841085181
+     "deflusso": 0.1802713725499203,
+     "persiVista": 0.010152130007879727,
+     "persiClientela": 0.006084698840581912,
+     "effettoPp": 0.3595934184750664,
+     "aumentoIngrosso": 0.031124201061795632,
+     "credito_uniforme": 0.09013568627496014,
+     "credito_basso": 0.05763813678235977,
+     "credito_alto": 0.40372835492224335,
+     "credito_soglia": 0.05763813678235977,
+     "credito_continua": 0.21923458143623423
     },
     "ES": {
-     "deflusso": 16.09649642801835,
-     "persiVista": 0.012825525664617072,
-     "persiClientela": 0.010613779042928794,
-     "effettoPp": 0.4638806566642128,
-     "aumentoIngrosso": 0.021524790225375297,
-     "credito_uniforme": 8.048248214009176,
-     "credito_basso": 3.130622154514326,
-     "credito_alto": 21.928552914500575,
-     "credito_soglia": 3.130622154514326,
-     "credito_continua": 3.130622154514326
+     "deflusso": 16.714743204403145,
+     "persiVista": 0.013318138447345848,
+     "persiClientela": 0.01102144133813045,
+     "effettoPp": 0.48169774635776286,
+     "aumentoIngrosso": 0.022351531139381483,
+     "credito_uniforme": 8.357371602201573,
+     "credito_basso": 3.2508655294476614,
+     "credito_alto": 22.77080186046219,
+     "credito_soglia": 3.2508655294476614,
+     "credito_continua": 3.2508655294476614
     },
     "FI": {
-     "deflusso": 1.2858826657532363,
-     "persiVista": 0.010523201978421671,
-     "persiClientela": 0.007321084859191397,
-     "effettoPp": 0.1897180918096916,
-     "aumentoIngrosso": 0.004524649152002098,
-     "credito_uniforme": 0.6429413328766181,
-     "credito_basso": 0.2701073222518792,
-     "credito_alto": 1.8919762322813034,
-     "credito_soglia": 0.2701073222518792,
-     "credito_continua": 0.2701073222518792
+     "deflusso": 1.3352718490743483,
+     "persiVista": 0.01092738531915666,
+     "persiClientela": 0.007602278790682974,
+     "effettoPp": 0.1970049320986784,
+     "aumentoIngrosso": 0.004698435402010409,
+     "credito_uniforme": 0.6676359245371741,
+     "credito_basso": 0.28048181473891987,
+     "credito_alto": 1.9646447295431368,
+     "credito_soglia": 0.28048181473891987,
+     "credito_continua": 0.28048181473891987
     },
     "FR": {
-     "deflusso": 10.150171473567294,
-     "persiVista": 0.009014626071250129,
-     "persiClientela": 0.0035233142175883285,
-     "effettoPp": 0.07626867967671112,
-     "aumentoIngrosso": 0.001842288180109086,
-     "credito_uniforme": 5.075085736783647,
-     "credito_basso": 1.2861386658141525,
-     "credito_alto": 9.008803489115458,
-     "credito_soglia": 1.2861386658141525,
-     "credito_continua": 1.2861386658141525
+     "deflusso": 10.540027168025295,
+     "persiVista": 0.009360866853136278,
+     "persiClientela": 0.0036586404152460414,
+     "effettoPp": 0.07919806655043937,
+     "aumentoIngrosso": 0.0019130482199486664,
+     "credito_uniforme": 5.270013584012648,
+     "credito_basso": 1.3355376817850662,
+     "credito_alto": 9.354820632730315,
+     "credito_soglia": 1.3355376817850662,
+     "credito_continua": 1.3355376817850662
     },
     "GR": {
-     "deflusso": 2.121784167106735,
-     "persiVista": 0.012161312358037113,
-     "persiClientela": 0.009381576137363143,
-     "effettoPp": 0.5814477293572554,
-     "aumentoIngrosso": 0.043849387598304014,
-     "credito_uniforme": 1.0608920835533675,
-     "credito_basso": 0.39374655404981734,
-     "credito_alto": 2.758011577006544,
-     "credito_soglia": 0.39374655404981734,
-     "credito_continua": 2.2892440223748682
+     "deflusso": 2.2032793065840854,
+     "persiVista": 0.012628413518565286,
+     "persiClientela": 0.009741911023297528,
+     "effettoPp": 0.6037804267811281,
+     "aumentoIngrosso": 0.04553358904240897,
+     "credito_uniforme": 1.1016396532920427,
+     "credito_basso": 0.4088698784852013,
+     "credito_alto": 2.8639434345596073,
+     "credito_soglia": 0.4088698784852013,
+     "credito_continua": 2.3771710904496226
     },
     "HR": {
-     "deflusso": 0.5901868654507896,
-     "persiVista": 0.01214276325921302,
-     "persiClientela": 0.009192369096174529,
-     "effettoPp": 0.5897209858719508,
-     "aumentoIngrosso": 0.08213009538697322,
-     "credito_uniforme": 0.2950934327253948,
-     "credito_basso": 0.1575030494822968,
-     "credito_alto": 1.1032356459202148,
-     "credito_soglia": 1.1032356459202148,
-     "credito_continua": 0.9870637452389739
+     "deflusso": 0.6128552224228363,
+     "persiVista": 0.012609151971501035,
+     "persiClientela": 0.009545436770650367,
+     "effettoPp": 0.6123714489781437,
+     "aumentoIngrosso": 0.08528461208222048,
+     "credito_uniforme": 0.30642761121141815,
+     "credito_basso": 0.16355254932523822,
+     "credito_alto": 1.1456095801942425,
+     "credito_soglia": 1.1456095801942425,
+     "credito_continua": 1.0249756586363556
     },
     "IE": {
-     "deflusso": 2.6332281744882575,
-     "persiVista": 0.01141071627993594,
-     "persiClientela": 0.00950781781266296,
-     "effettoPp": 0.1250675949817833,
-     "aumentoIngrosso": 0.009800244790197704,
-     "credito_uniforme": 1.3166140872441288,
-     "credito_basso": 0.12272082975623498,
-     "credito_alto": 0.8596023653446935,
-     "credito_soglia": 0.12272082975623498,
-     "credito_continua": 0.12272082975623498
+     "deflusso": 2.7343672538924704,
+     "persiVista": 0.011848987961469831,
+     "persiClientela": 0.009873001487223403,
+     "effettoPp": 0.1298712886162002,
+     "aumentoIngrosso": 0.01017666022795564,
+     "credito_uniforme": 1.3671836269462352,
+     "credito_basso": 0.12743438700338805,
+     "credito_alto": 0.8926186427516227,
+     "credito_soglia": 0.12743438700338805,
+     "credito_continua": 0.12743438700338805
     },
     "IT": {
-     "deflusso": 15.380751708133696,
-     "persiVista": 0.011866939156850966,
-     "persiClientela": 0.00875936928113678,
-     "effettoPp": 0.36462244001883465,
-     "aumentoIngrosso": 0.01609437635574754,
-     "credito_uniforme": 7.690375854066848,
-     "credito_basso": 2.6896342337948025,
-     "credito_alto": 18.83963752424523,
-     "credito_soglia": 2.6896342337948025,
-     "credito_continua": 2.6896342337948025
+     "deflusso": 15.971507603645003,
+     "persiVista": 0.012322733802107244,
+     "persiClientela": 0.00909580596134505,
+     "effettoPp": 0.3786271427904771,
+     "aumentoIngrosso": 0.016712541702744704,
+     "credito_uniforme": 7.985753801822502,
+     "credito_basso": 2.7929398010736155,
+     "credito_alto": 19.56324500117097,
+     "credito_soglia": 2.7929398010736155,
+     "credito_continua": 2.7929398010736155
     },
     "LT": {
-     "deflusso": 0.47608065306302605,
-     "persiVista": 0.011566023348307324,
-     "persiClientela": 0.009042711082339804,
-     "effettoPp": 0.43287536307455476,
-     "aumentoIngrosso": 0.090064444393308,
-     "credito_uniforme": 0.23804032653151302,
-     "credito_basso": 0.0932131243216446,
-     "credito_alto": 0.6529146055092067,
-     "credito_soglia": 0.6529146055092067,
-     "credito_continua": 0.6529146055092067
+     "deflusso": 0.49436632972388306,
+     "persiVista": 0.012010260184730651,
+     "persiClientela": 0.00939003057521431,
+     "effettoPp": 0.4495015772941536,
+     "aumentoIngrosso": 0.09352370974723478,
+     "credito_uniforme": 0.24718316486194153,
+     "credito_basso": 0.09679332662755138,
+     "credito_alto": 0.6779922583957056,
+     "credito_soglia": 0.6779922583957056,
+     "credito_continua": 0.6779922583957056
     },
     "LU": {
-     "deflusso": 0.9194813962870163,
-     "persiVista": 0.010556375241521622,
-     "persiClientela": 0.006956440199785259,
-     "effettoPp": 0.05133056864406492,
-     "aumentoIngrosso": 0.0035142191980271674,
-     "credito_uniforme": 0.45974069814350815,
-     "credito_basso": 0.03805865359249915,
-     "credito_alto": 0.26658317675108817,
-     "credito_soglia": 0.03805865359249915,
-     "credito_continua": 0.03805865359249915
+     "deflusso": 0.9547975541690965,
+     "persiVista": 0.010961832726792685,
+     "persiClientela": 0.007223628575085653,
+     "effettoPp": 0.05330211311873408,
+     "aumentoIngrosso": 0.003649196067087196,
+     "credito_uniforme": 0.47739877708454825,
+     "credito_basso": 0.03952044001306155,
+     "credito_alto": 0.2768223111118982,
+     "credito_soglia": 0.03952044001306155,
+     "credito_continua": 0.03952044001306155
     },
     "LV": {
-     "deflusso": 0.17485119124128518,
-     "persiVista": 0.010342552421701477,
-     "persiClientela": 0.007740203242199433,
-     "effettoPp": 0.5204833935860128,
-     "aumentoIngrosso": 0.1543258528166683,
-     "credito_uniforme": 0.08742559562064259,
-     "credito_basso": 0.04418513649000059,
-     "credito_alto": 0.30949634153653477,
-     "credito_soglia": 0.04418513649000059,
-     "credito_continua": 0.2408208014214444
+     "deflusso": 0.18156701202970216,
+     "persiVista": 0.010739797233508942,
+     "persiClientela": 0.008037494999101467,
+     "effettoPp": 0.5404745253012506,
+     "aumentoIngrosso": 0.160253320414565,
+     "credito_uniforme": 0.09078350601485108,
+     "credito_basso": 0.04588223363913642,
+     "credito_alto": 0.32138371816619593,
+     "credito_soglia": 0.04588223363913642,
+     "credito_continua": 0.2500704343978511
     },
     "MT": {
-     "deflusso": 0.3122725520096492,
-     "persiVista": 0.013992817823158397,
-     "persiClientela": 0.011519819156572976,
-     "effettoPp": 0.6375237734731916,
-     "aumentoIngrosso": 0.10298373433231692,
-     "credito_uniforme": 0.1561362760048246,
-     "credito_basso": 0.06414763791454846,
-     "credito_alto": 0.4493243843946489,
-     "credito_soglia": 0.06414763791454846,
-     "credito_continua": 0.18745658082570188
+     "deflusso": 0.32426655949424477,
+     "persiVista": 0.014530264872607552,
+     "persiClientela": 0.011962281346400195,
+     "effettoPp": 0.6620102832910919,
+     "aumentoIngrosso": 0.10693921384027971,
+     "credito_uniforme": 0.16213327974712238,
+     "credito_basso": 0.06661147037217172,
+     "credito_alto": 0.466582385441357,
+     "credito_soglia": 0.06661147037217172,
+     "credito_continua": 0.1946565592387604
     },
     "NL": {
-     "deflusso": 1.9130395338095878,
-     "persiVista": 0.005215953272267101,
-     "persiClientela": 0.001712305911772498,
-     "effettoPp": 0.059385161584821176,
-     "aumentoIngrosso": 0.002768954738075029,
-     "credito_uniforme": 0.9565197669047939,
-     "credito_basso": 0.3750345698093363,
-     "credito_alto": 2.6269428257166436,
-     "credito_soglia": 0.3750345698093363,
-     "credito_continua": 0.3750345698093363
+     "deflusso": 1.986517046767981,
+     "persiVista": 0.005416291669555824,
+     "persiClientela": 0.001778073491374185,
+     "effettoPp": 0.061666073140891134,
+     "aumentoIngrosso": 0.00287530690908477,
+     "credito_uniforme": 0.9932585233839905,
+     "credito_basso": 0.3894391897745783,
+     "credito_alto": 2.72784049254801,
+     "credito_soglia": 0.3894391897745783,
+     "credito_continua": 0.3894391897745783
     },
     "PT": {
-     "deflusso": 1.5283887908426697,
-     "persiVista": 0.011057720151407876,
-     "persiClientela": 0.005276305334484859,
-     "effettoPp": 0.3111965995765402,
-     "aumentoIngrosso": 0.017988411381680777,
-     "credito_uniforme": 0.7641943954213348,
-     "credito_basso": 0.4085417095303378,
-     "credito_alto": 2.861644763580983,
-     "credito_soglia": 0.4085417095303378,
-     "credito_continua": 2.1690748969491884
+     "deflusso": 1.5870923383647475,
+     "persiVista": 0.011482433682600497,
+     "persiClientela": 0.0054789617808025225,
+     "effettoPp": 0.3231492810417571,
+     "aumentoIngrosso": 0.018679324301690465,
+     "credito_uniforme": 0.7935461691823738,
+     "credito_basso": 0.4242332978250558,
+     "credito_alto": 2.9715570453097446,
+     "credito_soglia": 0.4242332978250558,
+     "credito_continua": 2.252386415624877
     },
     "SI": {
-     "deflusso": 0.45713344981366183,
-     "persiVista": 0.012741750468378001,
-     "persiClientela": 0.010722578790026686,
-     "effettoPp": 0.7518504138890441,
-     "aumentoIngrosso": 0.10632078613797055,
-     "credito_uniforme": 0.22856672490683091,
-     "credito_basso": 0.11579726510186708,
-     "credito_alto": 0.8111060133779306,
-     "credito_soglia": 0.8111060133779306,
-     "credito_continua": 0.8111060133779306
+     "deflusso": 0.47469138752941287,
+     "persiVista": 0.013231145548096221,
+     "persiClientela": 0.011134419950686147,
+     "effettoPp": 0.7807280703895834,
+     "aumentoIngrosso": 0.11040443773174718,
+     "credito_uniforme": 0.23734569376470643,
+     "credito_basso": 0.12024489668328309,
+     "credito_alto": 0.842259605112611,
+     "credito_soglia": 0.842259605112611,
+     "credito_continua": 0.842259605112611
     },
     "SK": {
-     "deflusso": 0.6752556726130334,
-     "persiVista": 0.012241585492192727,
-     "persiClientela": 0.00870875171346351,
-     "effettoPp": 0.48283969781834757,
-     "aumentoIngrosso": 0.02706121329086548,
-     "credito_uniforme": 0.3376278363065167,
-     "credito_basso": 0.23531242109323178,
-     "credito_alto": 1.6482541241655169,
-     "credito_soglia": 1.6482541241655169,
-     "credito_continua": 1.4757678528212645
+     "deflusso": 0.7011914186118878,
+     "persiVista": 0.012711769845802322,
+     "persiClientela": 0.009043244234693932,
+     "effettoPp": 0.5013849811364733,
+     "aumentoIngrosso": 0.02810060145567238,
+     "credito_uniforme": 0.3505957093059439,
+     "credito_basso": 0.24435048390614053,
+     "credito_alto": 1.7115615528028756,
+     "credito_soglia": 1.7115615528028756,
+     "credito_continua": 1.532450294356238
     }
    },
    "totale": {
-    "deflusso": 94.45178335535006,
-    "credito_uniforme": 47.22589167767503,
-    "credito_basso": 16.244125626160173,
-    "credito_alto": 113.78254888709473,
-    "credito_soglia": 21.04352695961879,
-    "credito_continua": 26.737954441002923
+    "deflusso": 98.07956104252402,
+    "credito_uniforme": 49.03978052126201,
+    "credito_basso": 16.86804265981241,
+    "credito_alto": 118.15279767836859,
+    "credito_soglia": 21.85178313913776,
+    "credito_continua": 27.76492662803733
    }
   },
   {
    "scenario": {
-    "importo": 528.4015852047556,
+    "importo": 548.6968449931413,
     "sostituzione": 0.5,
     "regola": "R1",
     "depositi": "T3"
    },
    "paesi": {
     "AT": {
-     "deflusso": 8.3004940643915,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.7705856254778972,
-     "aumentoIngrosso": 0.02463463977513029,
-     "credito_uniforme": 4.15024703219575,
-     "credito_basso": 1.9028343637237135,
-     "credito_alto": 13.328470180368596,
-     "credito_soglia": 1.9028343637237135,
-     "credito_continua": 5.414617788327685
+     "deflusso": 8.619305907742614,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 0.8001828785826725,
+     "aumentoIngrosso": 0.025580826213681247,
+     "credito_uniforme": 4.309652953871307,
+     "credito_basso": 1.975919908558095,
+     "credito_alto": 13.840400447927337,
+     "credito_soglia": 1.975919908558095,
+     "credito_continua": 5.622586647138625
     },
     "BE": {
-     "deflusso": 11.960881428590081,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.8036125924466038,
-     "aumentoIngrosso": 0.04467549687963187,
-     "credito_uniforme": 5.980440714295041,
-     "credito_basso": 2.1430286875606015,
-     "credito_alto": 15.010919763888204,
-     "credito_soglia": 2.1430286875606015,
-     "credito_continua": 4.36169759904993
+     "deflusso": 12.420284281814393,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 0.8344783710316587,
+     "aumentoIngrosso": 0.04639142817267672,
+     "credito_uniforme": 6.210142140907196,
+     "credito_basso": 2.2253398031322025,
+     "credito_alto": 15.587470865930555,
+     "credito_soglia": 2.2253398031322025,
+     "credito_continua": 4.529225078848832
     },
     "BG": {
-     "deflusso": 1.6454289656517027,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.2967246620266557,
-     "aumentoIngrosso": 0.16293101998446397,
-     "credito_uniforme": 0.8227144828258514,
-     "credito_basso": 0.4524259693020112,
-     "credito_alto": 3.169033603568963,
-     "credito_soglia": 3.169033603568963,
-     "credito_continua": 3.1690336035689626
+     "deflusso": 1.7086278833996418,
+     "persiVista": 0.01988136170094505,
+     "persiClientela": 0.01988136170094505,
+     "effettoPp": 1.346530273188173,
+     "aumentoIngrosso": 0.16918900154765323,
+     "credito_uniforme": 0.8543139416998209,
+     "credito_basso": 0.4698030984384395,
+     "credito_alto": 3.29075231536585,
+     "credito_soglia": 3.29075231536585,
+     "credito_continua": 3.29075231536585
     },
     "CY": {
-     "deflusso": 0.8877420111400889,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.1709936699688552,
-     "aumentoIngrosso": 0.18630472426864403,
-     "credito_uniforme": 0.44387100557004444,
-     "credito_basso": 0.14419408200620065,
-     "credito_alto": 1.0100125154583983,
-     "credito_soglia": 0.14419408200620065,
-     "credito_continua": 0.20566892241817358
+     "deflusso": 0.9218390979877192,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.01988136170094505,
+     "effettoPp": 1.2159701072241749,
+     "aumentoIngrosso": 0.1934604612775906,
+     "credito_uniforme": 0.4609195489938596,
+     "credito_basso": 0.1497324006566446,
+     "credito_alto": 1.0488058631028914,
+     "credito_soglia": 0.1497324006566446,
+     "credito_continua": 0.213568414637253
     },
     "DE": {
-     "deflusso": 75.07492144129073,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.6275618903838253,
-     "aumentoIngrosso": 0.025731227388984836,
-     "credito_uniforme": 37.53746072064536,
-     "credito_basso": 12.174740884474335,
-     "credito_alto": 85.27840043569438,
-     "credito_soglia": 12.174740884474335,
-     "credito_continua": 12.174740884474335
+     "deflusso": 77.95845751859682,
+     "persiVista": 0.01988136170094505,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 0.6516657764342328,
+     "aumentoIngrosso": 0.02671953241901443,
+     "credito_uniforme": 38.97922875929841,
+     "credito_basso": 12.642357818308744,
+     "credito_alto": 88.55383968425329,
+     "credito_soglia": 12.642357818308744,
+     "credito_continua": 12.642357818308744
     },
     "EE": {
-     "deflusso": 0.5672381772391445,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.1314892229297544,
-     "aumentoIngrosso": 0.0979347681697418,
-     "credito_uniforme": 0.28361908861957225,
-     "credito_basso": 0.18136297064489565,
-     "credito_alto": 1.270363302317648,
-     "credito_soglia": 0.18136297064489565,
-     "credito_continua": 0.6898390055095371
+     "deflusso": 0.589025103113899,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.1749483426033251,
+     "aumentoIngrosso": 0.10169632305143284,
+     "credito_uniforme": 0.2945125515569495,
+     "credito_basso": 0.18832890093029633,
+     "credito_alto": 1.3191564058360212,
+     "credito_soglia": 0.18832890093029633,
+     "credito_continua": 0.7163348795208774
     },
     "ES": {
-     "deflusso": 29.03615396438588,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.8367852115046083,
-     "aumentoIngrosso": 0.03882814659885891,
-     "credito_uniforme": 14.51807698219294,
-     "credito_basso": 5.647267856660303,
-     "credito_alto": 39.556486188715816,
-     "credito_soglia": 5.647267856660303,
-     "credito_continua": 5.647267856660303
+     "deflusso": 30.151397189355432,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 0.868925109888873,
+     "aumentoIngrosso": 0.04031948830635966,
+     "credito_uniforme": 15.075698594677716,
+     "credito_basso": 5.86417252056495,
+     "credito_alto": 41.07580253066923,
+     "credito_soglia": 5.86417252056495,
+     "credito_continua": 5.86417252056495
     },
     "FI": {
-     "deflusso": 3.362820423548135,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.4961478141401763,
-     "aumentoIngrosso": 0.011832792355770281,
-     "credito_uniforme": 1.6814102117740675,
-     "credito_basso": 0.7063804840128596,
-     "credito_alto": 4.947866927700052,
-     "credito_soglia": 0.7063804840128596,
-     "credito_continua": 0.7063804840128596
+     "deflusso": 3.49198225051569,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 0.5152042459590034,
+     "aumentoIngrosso": 0.012287275464085189,
+     "credito_uniforme": 1.745991125257845,
+     "credito_basso": 0.7335116960188404,
+     "credito_alto": 5.137908455787297,
+     "credito_soglia": 0.7335116960188404,
+     "credito_continua": 0.7335116960188404
     },
     "FR": {
-     "deflusso": 55.15689094552214,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.41445046110229405,
-     "aumentoIngrosso": 0.010011149910631864,
-     "credito_uniforme": 27.57844547276107,
-     "credito_basso": 6.9889863748477925,
-     "credito_alto": 48.95460070726719,
-     "credito_soglia": 6.9889863748477925,
-     "credito_continua": 6.9889863748477925
+     "deflusso": 57.27539978842285,
+     "persiVista": 0.01988136170094505,
+     "persiClientela": 0.01988136170094505,
+     "effettoPp": 0.4303689973311887,
+     "aumentoIngrosso": 0.010395665956582058,
+     "credito_uniforme": 28.637699894211426,
+     "credito_basso": 7.257424808998325,
+     "credito_alto": 50.834887154185544,
+     "credito_soglia": 7.257424808998325,
+     "credito_continua": 7.257424808998325
     },
     "GR": {
-     "deflusso": 4.330152305508189,
-     "persiVista": 0.01914598768822846,
-     "persiClientela": 0.01914598768822846,
-     "effettoPp": 1.186622685210266,
-     "aumentoIngrosso": 0.0894881438684837,
-     "credito_uniforme": 2.1650761527540947,
-     "credito_basso": 0.8035607840026612,
-     "credito_alto": 5.6285697546127444,
-     "credito_soglia": 0.8035607840026612,
-     "credito_continua": 4.671905575991942
+     "deflusso": 4.496468169094237,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.2321994138603172,
+     "aumentoIngrosso": 0.09292527422282874,
+     "credito_uniforme": 2.2482340845471187,
+     "credito_basso": 0.8344245726886347,
+     "credito_alto": 5.844756247245334,
+     "credito_soglia": 0.8344245726886347,
+     "credito_continua": 4.851347765467628
     },
     "HR": {
-     "deflusso": 1.22924899353502,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.228278653398835,
-     "aumentoIngrosso": 0.1710616467485416,
-     "credito_uniforme": 0.61462449676751,
-     "credito_basso": 0.3280494304239192,
-     "credito_alto": 2.2978337654863643,
-     "credito_soglia": 2.2978337654863643,
-     "credito_continua": 2.0558693973359636
+     "deflusso": 1.2764629466474764,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.2754553369313009,
+     "aumentoIngrosso": 0.17763191575945955,
+     "credito_uniforme": 0.6382314733237382,
+     "credito_basso": 0.3406494085471974,
+     "credito_alto": 2.38609075510724,
+     "credito_soglia": 2.38609075510724,
+     "credito_continua": 2.134832830978498
     },
     "IE": {
-     "deflusso": 5.302557874205624,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228453,
-     "effettoPp": 0.2518498651213532,
-     "aumentoIngrosso": 0.019734850813490416,
-     "credito_uniforme": 2.651278937102812,
-     "credito_basso": 0.2471241605484628,
-     "credito_alto": 1.7309898683315228,
-     "credito_soglia": 0.2471241605484628,
-     "credito_continua": 0.2471241605484628
+     "deflusso": 5.5062226485235355,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.01988136170094505,
+     "effettoPp": 0.26152311096963565,
+     "aumentoIngrosso": 0.020492842339934494,
+     "credito_uniforme": 2.7531113242617677,
+     "credito_basso": 0.2566158978534792,
+     "credito_alto": 1.7974750758943248,
+     "credito_soglia": 0.2566158978534792,
+     "credito_continua": 0.2566158978534792
     },
     "IT": {
-     "deflusso": 33.61882270151411,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.7969816688155924,
-     "aumentoIngrosso": 0.03517864376610312,
-     "credito_uniforme": 16.809411350757056,
-     "credito_basso": 5.878928296466344,
-     "credito_alto": 41.17915988159759,
-     "credito_soglia": 5.878928296466344,
-     "credito_continua": 5.878928296466344
+     "deflusso": 34.910080637923436,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 0.8275927617193463,
+     "aumentoIngrosso": 0.03652981252529501,
+     "credito_uniforme": 17.455040318961718,
+     "credito_basso": 6.104730755041182,
+     "credito_alto": 42.76080113905264,
+     "credito_soglia": 6.104730755041182,
+     "credito_continua": 6.104730755041182
     },
     "LT": {
-     "deflusso": 1.0079979598098519,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.9165200896608068,
-     "aumentoIngrosso": 0.19069200904461822,
-     "credito_uniforme": 0.5039989799049259,
-     "credito_basso": 0.19735865874659075,
-     "credito_alto": 1.3824056618326956,
-     "credito_soglia": 1.3824056618326956,
-     "credito_continua": 1.3824056618326956
+     "deflusso": 1.046713930831355,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 0.9517225073706869,
+     "aumentoIngrosso": 0.19801625630559122,
+     "credito_uniforme": 0.5233569654156776,
+     "credito_basso": 0.20493896388363403,
+     "credito_alto": 1.435502175593074,
+     "credito_soglia": 1.435502175593074,
+     "credito_continua": 1.435502175593074
     },
     "LU": {
-     "deflusso": 2.530659214666973,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.14127548100239118,
-     "aumentoIngrosso": 0.009672073009589189,
-     "credito_uniforme": 1.2653296073334865,
-     "credito_basso": 0.1047476140361322,
-     "credito_alto": 0.7337083441215702,
-     "credito_soglia": 0.1047476140361322,
-     "credito_continua": 0.1047476140361322
+     "deflusso": 2.6278587455458142,
+     "persiVista": 0.01988136170094505,
+     "persiClientela": 0.01988136170094505,
+     "effettoPp": 0.1467016997514542,
+     "aumentoIngrosso": 0.010043565525732531,
+     "credito_uniforme": 1.3139293727729071,
+     "credito_basso": 0.10877084201008515,
+     "credito_alto": 0.7618891858710952,
+     "credito_soglia": 0.10877084201008515,
+     "credito_continua": 0.10877084201008515
     },
     "LV": {
-     "deflusso": 0.43250786187708085,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.2874556821964662,
-     "aumentoIngrosso": 0.38173685955611725,
-     "credito_uniforme": 0.21625393093854042,
-     "credito_basso": 0.1092953315008635,
-     "credito_alto": 0.7655629909436902,
-     "credito_soglia": 0.1092953315008635,
-     "credito_continua": 0.595688763564574
+     "deflusso": 0.44911996082434874,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.336905283158745,
+     "aumentoIngrosso": 0.3963989062880395,
+     "credito_uniforme": 0.22455998041217437,
+     "credito_basso": 0.11349323175055374,
+     "credito_alto": 0.7949673307878924,
+     "credito_soglia": 0.11349323175055374,
+     "credito_continua": 0.6185684417261763
     },
     "MT": {
-     "deflusso": 0.5189982893730637,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.0595671817388004,
-     "aumentoIngrosso": 0.1711593978009024,
-     "credito_uniforme": 0.25949914468653185,
-     "credito_basso": 0.10661364289213801,
-     "credito_alto": 0.7467790088295109,
-     "credito_soglia": 0.10661364289213801,
-     "credito_continua": 0.3115536224818648
+     "deflusso": 0.5389323800485724,
+     "persiVista": 0.01988136170094505,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.1002638636162854,
+     "aumentoIngrosso": 0.1777334213104021,
+     "credito_uniforme": 0.2694661900242862,
+     "credito_basso": 0.1107085427563079,
+     "credito_alto": 0.7754618788531409,
+     "credito_soglia": 0.1107085427563079,
+     "credito_continua": 0.3235200167610036
     },
     "NL": {
-     "deflusso": 21.39047182491948,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 0.6640096052635176,
-     "aumentoIngrosso": 0.030960807271621458,
-     "credito_uniforme": 10.69523591245974,
-     "credito_basso": 4.193413809333165,
-     "credito_alto": 29.37291441503434,
-     "credito_soglia": 4.193413809333165,
-     "credito_continua": 4.193413809333165
+     "deflusso": 22.21205373314684,
+     "persiVista": 0.01988136170094505,
+     "persiClientela": 0.01988136170094505,
+     "effettoPp": 0.6895134035452439,
+     "aumentoIngrosso": 0.03214997408040801,
+     "credito_uniforme": 11.10602686657342,
+     "credito_basso": 4.3544777142183895,
+     "credito_alto": 30.50109219777915,
+     "credito_soglia": 4.3544777142183895,
+     "credito_continua": 4.3544777142183895
     },
     "PT": {
-     "deflusso": 5.546023423065813,
-     "persiVista": 0.01914598768822846,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.1292307564480084,
-     "aumentoIngrosso": 0.06527406603887796,
-     "credito_uniforme": 2.7730117115329067,
-     "credito_basso": 1.482464346722522,
-     "credito_alto": 10.383973621373855,
-     "credito_soglia": 1.482464346722522,
-     "credito_continua": 7.870863916917191
+     "deflusso": 5.759039411880413,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.1726031311812652,
+     "aumentoIngrosso": 0.06778116322555641,
+     "credito_uniforme": 2.8795197059402065,
+     "credito_basso": 1.5394039924128242,
+     "credito_alto": 10.782809370891641,
+     "credito_soglia": 1.5394039924128242,
+     "credito_continua": 8.173174190817988
     },
     "SI": {
-     "deflusso": 0.8162468724548293,
-     "persiVista": 0.019145987688228457,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.3424866396037254,
-     "aumentoIngrosso": 0.18984392675143855,
-     "credito_uniforme": 0.40812343622741465,
-     "credito_basso": 0.20676490752700322,
-     "credito_alto": 1.4482920620202107,
-     "credito_soglia": 1.4482920620202107,
-     "credito_continua": 1.4482920620202107
+     "deflusso": 0.8475979183104332,
+     "persiVista": 0.019881361700945052,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.394049912455446,
+     "aumentoIngrosso": 0.1971356002069122,
+     "credito_uniforme": 0.4237989591552166,
+     "credito_basso": 0.21470649519607876,
+     "credito_alto": 1.5039191919743475,
+     "credito_soglia": 1.5039191919743475,
+     "credito_continua": 1.5039191919743478
     },
     "SK": {
-     "deflusso": 1.4845338596883555,
-     "persiVista": 0.019145987688228453,
-     "persiClientela": 0.019145987688228457,
-     "effettoPp": 1.06151182327616,
-     "aumentoIngrosso": 0.05949344676969538,
-     "credito_uniforme": 0.7422669298441777,
-     "credito_basso": 0.5173288739157856,
-     "credito_alto": 3.6236482801039953,
-     "credito_soglia": 3.6236482801039953,
-     "credito_continua": 3.2444412322741636
+     "deflusso": 1.5415529928451102,
+     "persiVista": 0.019881361700945056,
+     "persiClientela": 0.019881361700945052,
+     "effettoPp": 1.1022831964609783,
+     "aumentoIngrosso": 0.06177851742751634,
+     "credito_uniforme": 0.7707764964225551,
+     "credito_basso": 0.5371988443816871,
+     "credito_alto": 3.762828186610048,
+     "credito_soglia": 3.762828186610048,
+     "credito_continua": 3.369056259028179
     }
    },
    "totale": {
-    "deflusso": 264.2007926023778,
-    "credito_uniforme": 132.1003963011889,
-    "credito_basso": 44.5168715293483,
-    "credito_alto": 311.81999127926736,
-    "credito_soglia": 54.73615706244521,
-    "credito_continua": 71.3634666316723
+    "deflusso": 274.3484224965706,
+    "credito_uniforme": 137.1742112482853,
+    "credito_basso": 46.22671021634658,
+    "credito_alto": 323.79661645871795,
+    "credito_soglia": 56.83850603055012,
+    "credito_continua": 74.10445026087234
    }
   },
   {
@@ -1083,542 +1083,542 @@
   },
   {
    "scenario": {
-    "importo": 125.93571114046676,
+    "importo": 130.77274805669867,
     "sostituzione": 0.75,
     "regola": "R2",
     "depositi": "T2"
    },
    "paesi": {
     "AT": {
-     "deflusso": 2.4216842421654925,
-     "persiVista": 0.00882875824264202,
-     "persiClientela": 0.005585876735239421,
-     "effettoPp": 0.2248197579544762,
-     "aumentoIngrosso": 0.0071872009656367,
-     "credito_uniforme": 1.2108421210827462,
-     "credito_basso": 0.5551553869364195,
-     "credito_alto": 3.8886054200603177,
-     "credito_soglia": 0.5551553869364195,
-     "credito_continua": 1.5797245891173808
+     "deflusso": 2.514698177392699,
+     "persiVista": 0.009167860068148159,
+     "persiClientela": 0.005800423441119671,
+     "effettoPp": 0.23345481038619817,
+     "aumentoIngrosso": 0.007463252580229055,
+     "credito_uniforme": 1.2573490886963494,
+     "credito_basso": 0.5764782275869267,
+     "credito_alto": 4.03796200683904,
+     "credito_soglia": 0.5764782275869267,
+     "credito_continua": 1.6403998819778562
     },
     "BE": {
-     "deflusso": 3.128999250463419,
-     "persiVista": 0.014906739955996376,
-     "persiClientela": 0.005008642672658822,
-     "effettoPp": 0.21022724909035337,
-     "aumentoIngrosso": 0.01168723200585452,
-     "credito_uniforme": 1.5644996252317096,
-     "credito_basso": 0.5606221579181024,
-     "credito_alto": 3.9268976095442603,
-     "credito_soglia": 0.5606221579181024,
-     "credito_continua": 1.1410320050120328
+     "deflusso": 3.249180291633482,
+     "persiVista": 0.015479289638805566,
+     "persiClientela": 0.005201018522911836,
+     "effettoPp": 0.21830182107187585,
+     "aumentoIngrosso": 0.012136124318836589,
+     "credito_uniforme": 1.624590145816741,
+     "credito_basso": 0.582154970567906,
+     "credito_alto": 4.077724952572023,
+     "credito_soglia": 0.582154970567906,
+     "credito_continua": 1.184857651295074
     },
     "BG": {
-     "deflusso": 1.6949975251357619,
-     "persiVista": 0.025959810251670573,
-     "persiClientela": 0.019722760705730997,
-     "effettoPp": 1.3357885018434397,
-     "aumentoIngrosso": 0.1678393181392248,
-     "credito_uniforme": 0.8474987625678809,
-     "credito_basso": 0.4660553048975455,
-     "credito_alto": 3.264500763783487,
-     "credito_soglia": 3.264500763783487,
-     "credito_continua": 3.264500763783487
+     "deflusso": 1.7601003107376838,
+     "persiVista": 0.026956894870390425,
+     "persiClientela": 0.020480287865896243,
+     "effettoPp": 1.387094507401212,
+     "aumentoIngrosso": 0.17428582144224028,
+     "credito_uniforme": 0.8800501553688419,
+     "credito_basso": 0.48395592017481726,
+     "credito_alto": 3.3898862526530853,
+     "credito_soglia": 3.3898862526530853,
+     "credito_continua": 3.3898862526530853
     },
     "CY": {
-     "deflusso": 0.2588211529714975,
-     "persiVista": 0.008411203827353596,
-     "persiClientela": 0.005582012055373379,
-     "effettoPp": 0.3414031644108341,
-     "aumentoIngrosso": 0.054317135985623814,
-     "credito_uniforme": 0.12941057648574875,
-     "credito_basso": 0.04203977967493328,
-     "credito_alto": 0.2944691143216982,
-     "credito_soglia": 0.04203977967493328,
-     "credito_continua": 0.05996276729352289
+     "deflusso": 0.2687621574752038,
+     "persiVista": 0.008734267897540015,
+     "persiClientela": 0.005796410323618172,
+     "effettoPp": 0.3545160431536371,
+     "aumentoIngrosso": 0.05640339086573007,
+     "credito_uniforme": 0.1343810787376019,
+     "credito_basso": 0.04365447628796227,
+     "credito_alto": 0.305779313500035,
+     "credito_soglia": 0.04365447628796227,
+     "credito_continua": 0.06226586397969386
     },
     "DE": {
-     "deflusso": 22.00638855958422,
-     "persiVista": 0.008576833744090219,
-     "persiClientela": 0.005612180956508335,
-     "effettoPp": 0.1839545155671391,
-     "aumentoIngrosso": 0.0075424839236072965,
-     "credito_uniforme": 11.00319427979211,
-     "credito_basso": 3.5687293888880833,
-     "credito_alto": 24.997290435998387,
-     "credito_soglia": 3.5687293888880833,
-     "credito_continua": 3.5687293888880833
+     "deflusso": 22.851627077647812,
+     "persiVista": 0.00890625945716913,
+     "persiClientela": 0.005827737975414004,
+     "effettoPp": 0.19101998392911426,
+     "aumentoIngrosso": 0.007832181522867934,
+     "credito_uniforme": 11.425813538823906,
+     "credito_basso": 3.705799927830287,
+     "credito_alto": 25.95740584369106,
+     "credito_soglia": 3.705799927830287,
+     "credito_continua": 3.705799927830287
     },
     "EE": {
-     "deflusso": 0.3607283318702648,
-     "persiVista": 0.02031471148675254,
-     "persiClientela": 0.012175661790605355,
-     "effettoPp": 0.719557033172953,
-     "aumentoIngrosso": 0.062280444038374454,
-     "credito_uniforme": 0.1803641659351324,
-     "credito_basso": 0.11533561119280439,
-     "credito_alto": 0.8078723423459699,
-     "credito_soglia": 0.11533561119280439,
-     "credito_continua": 0.4386948617028405
+     "deflusso": 0.3745834667020445,
+     "persiVista": 0.021094974753733432,
+     "persiClientela": 0.012643314095319963,
+     "effettoPp": 0.7471943403455766,
+     "aumentoIngrosso": 0.0646725598587784,
+     "credito_uniforme": 0.18729173335102225,
+     "credito_basso": 0.11976551121118369,
+     "credito_alto": 0.8389017327241415,
+     "credito_soglia": 0.11976551121118369,
+     "credito_continua": 0.4555445957600139
     },
     "ES": {
-     "deflusso": 12.935790732401895,
-     "persiVista": 0.010307107311982998,
-     "persiClientela": 0.0085296589349899,
-     "effettoPp": 0.3727931184436124,
-     "aumentoIngrosso": 0.017298185549846613,
-     "credito_uniforme": 6.467895366200947,
-     "credito_basso": 2.515893643943988,
-     "credito_alto": 17.622665456106528,
-     "credito_soglia": 2.515893643943988,
-     "credito_continua": 2.515893643943988
+     "deflusso": 13.432638661767124,
+     "persiVista": 0.010702990720399354,
+     "persiClientela": 0.008857272721244657,
+     "effettoPp": 0.38711164699837386,
+     "aumentoIngrosso": 0.017962587738318086,
+     "credito_uniforme": 6.716319330883562,
+     "credito_basso": 2.6125260472779126,
+     "credito_alto": 18.299530521635994,
+     "credito_soglia": 2.6125260472779126,
+     "credito_continua": 2.6125260472779126
     },
     "FI": {
-     "deflusso": 1.483986742505767,
-     "persiVista": 0.012144414603754383,
-     "persiClientela": 0.008448976847693686,
-     "effettoPp": 0.21894620757964414,
-     "aumentoIngrosso": 0.005221720095377354,
-     "credito_uniforme": 0.7419933712528834,
-     "credito_basso": 0.3117202649595736,
-     "credito_alto": 2.1834555520637706,
-     "credito_soglia": 0.3117202649595736,
-     "credito_continua": 0.3117202649595736
+     "deflusso": 1.5409848615594863,
+     "persiVista": 0.012610866742170188,
+     "persiClientela": 0.00877349173347616,
+     "effettoPp": 0.22735566411219563,
+     "aumentoIngrosso": 0.005422279989301312,
+     "credito_uniforme": 0.7704924307797432,
+     "credito_basso": 0.3236930597728357,
+     "credito_alto": 2.267319414145781,
+     "credito_soglia": 0.3236930597728357,
+     "credito_continua": 0.3236930597728357
     },
     "FR": {
-     "deflusso": 18.137223415331228,
-     "persiVista": 0.016108130536091402,
-     "persiClientela": 0.006295769218601545,
-     "effettoPp": 0.13628361712816248,
-     "aumentoIngrosso": 0.003291963333336581,
-     "credito_uniforme": 9.068611707665614,
-     "credito_basso": 2.2981862312094523,
-     "credito_alto": 16.09772623175963,
-     "credito_soglia": 2.2981862312094523,
-     "credito_continua": 2.2981862312094523
+     "deflusso": 18.833852023876183,
+     "persiVista": 0.01672682416436377,
+     "persiClientela": 0.0065375820280951565,
+     "effettoPp": 0.1415181044801358,
+     "aumentoIngrosso": 0.0034184036259750227,
+     "credito_uniforme": 9.416926011938092,
+     "credito_basso": 2.3864567586084435,
+     "credito_alto": 16.716020243404724,
+     "credito_soglia": 2.3864567586084435,
+     "credito_continua": 2.3864567586084435
     },
     "GR": {
-     "deflusso": 2.731101282960568,
-     "persiVista": 0.015653701398295226,
-     "persiClientela": 0.012075702619594402,
-     "effettoPp": 0.7484232676632215,
-     "aumentoIngrosso": 0.05644170626933471,
-     "credito_uniforme": 1.365550641480284,
-     "credito_basso": 0.5068195604424376,
-     "credito_alto": 3.550035424504965,
-     "credito_soglia": 0.5068195604424376,
-     "credito_continua": 2.9466509287055596
+     "deflusso": 2.8359995489727705,
+     "persiVista": 0.016254940958174875,
+     "persiClientela": 0.012539515614585682,
+     "effettoPp": 0.77716929166126,
+     "aumentoIngrosso": 0.05860956330025564,
+     "credito_uniforme": 1.4179997744863853,
+     "credito_basso": 0.5262858810081277,
+     "credito_alto": 3.686387951097747,
+     "credito_soglia": 0.5262858810081277,
+     "credito_continua": 3.059828193456938
     },
     "HR": {
-     "deflusso": 1.0201408126172435,
-     "persiVista": 0.02098882422469845,
-     "persiClientela": 0.01588905383803569,
-     "effettoPp": 1.019335537542585,
-     "aumentoIngrosso": 0.1419622617057116,
-     "credito_uniforme": 0.5100704063086218,
-     "credito_basso": 0.27224477245158457,
-     "credito_alto": 1.9069480773309404,
-     "credito_soglia": 1.9069480773309404,
-     "credito_continua": 1.7061443927661701
+     "deflusso": 1.0593231757904709,
+     "persiVista": 0.021794979338952986,
+     "persiClientela": 0.016499332997795633,
+     "effettoPp": 1.0584869710833151,
+     "aumentoIngrosso": 0.1474148588631326,
+     "credito_uniforme": 0.5296615878952354,
+     "credito_basso": 0.28270136179128874,
+     "credito_alto": 1.9801916248827456,
+     "credito_soglia": 1.9801916248827456,
+     "credito_continua": 1.7716753159451173
     },
     "IE": {
-     "deflusso": 1.4324595402541618,
-     "persiVista": 0.006207357780342862,
-     "persiClientela": 0.0051721930004771976,
-     "effettoPp": 0.06803598387105816,
-     "aumentoIngrosso": 0.005331271434262656,
-     "credito_uniforme": 0.7162297701270809,
-     "credito_basso": 0.06675935837060122,
-     "credito_alto": 0.467618272124234,
-     "credito_soglia": 0.06675935837060122,
-     "credito_continua": 0.06675935837060122
+     "deflusso": 1.4874785623764066,
+     "persiVista": 0.0064457748144301046,
+     "persiClientela": 0.005370850619151219,
+     "effettoPp": 0.07064916294978194,
+     "aumentoIngrosso": 0.005536039061367394,
+     "credito_uniforme": 0.7437392811882033,
+     "credito_basso": 0.06932350382242129,
+     "credito_alto": 0.48557891906453376,
+     "credito_soglia": 0.06932350382242129,
+     "credito_continua": 0.06932350382242129
     },
     "IT": {
-     "deflusso": 15.52018616372688,
-     "persiVista": 0.011974519087422105,
-     "persiClientela": 0.00883877748629031,
-     "effettoPp": 0.3679279306987342,
-     "aumentoIngrosso": 0.016240280187228593,
-     "credito_uniforme": 7.76009308186344,
-     "credito_basso": 2.71401715683072,
-     "credito_alto": 19.010428565646468,
-     "credito_soglia": 2.71401715683072,
-     "credito_continua": 2.71401715683072
+     "deflusso": 16.1162975664489,
+     "persiVista": 0.012434445746472612,
+     "persiClientela": 0.009178264138712982,
+     "effettoPp": 0.3820595933318817,
+     "aumentoIngrosso": 0.01686404952226618,
+     "credito_uniforme": 8.05814878322445,
+     "credito_basso": 2.8182592424154382,
+     "credito_alto": 19.740595917962107,
+     "credito_soglia": 2.8182592424154382,
+     "credito_continua": 2.8182592424154382
     },
     "LT": {
-     "deflusso": 0.7611300791006005,
-     "persiVista": 0.018491085931213267,
-     "persiClientela": 0.014456960931100904,
-     "effettoPp": 0.6920559724867027,
-     "aumentoIngrosso": 0.14398979930015143,
-     "credito_uniforme": 0.38056503955030024,
-     "credito_basso": 0.14902372577352996,
-     "credito_alto": 1.0438419249760411,
-     "credito_soglia": 1.0438419249760411,
-     "credito_continua": 1.0438419249760411
+     "deflusso": 0.790364156212832,
+     "persiVista": 0.01920130596698003,
+     "persiClientela": 0.015012235150676794,
+     "effettoPp": 0.7186369974930507,
+     "aumentoIngrosso": 0.14952027170125465,
+     "credito_uniforme": 0.395182078106416,
+     "credito_basso": 0.15474754514480407,
+     "credito_alto": 1.0839346189394554,
+     "credito_soglia": 1.0839346189394554,
+     "credito_continua": 1.0839346189394554
     },
     "LU": {
-     "deflusso": 0.179567795992365,
-     "persiVista": 0.002061580629519012,
-     "persiClientela": 0.0013585404116628836,
-     "effettoPp": 0.010024473704057794,
-     "aumentoIngrosso": 0.0006863005587410661,
-     "credito_uniforme": 0.0897838979961825,
-     "credito_basso": 0.007432568588814287,
-     "credito_alto": 0.052061687915753586,
-     "credito_soglia": 0.007432568588814287,
-     "credito_continua": 0.007432568588814287
+     "deflusso": 0.1864647758110018,
+     "persiVista": 0.002140763424617136,
+     "persiClientela": 0.0014107202903001412,
+     "effettoPp": 0.010409501500647117,
+     "aumentoIngrosso": 0.0007126605253319439,
+     "credito_uniforme": 0.0932323879055009,
+     "credito_basso": 0.007718044474255713,
+     "credito_alto": 0.05406131378906099,
+     "credito_soglia": 0.007718044474255713,
+     "credito_continua": 0.007718044474255713
     },
     "LV": {
-     "deflusso": 0.4898985096925166,
-     "persiVista": 0.02897778952398655,
-     "persiClientela": 0.021686521013391614,
-     "effettoPp": 1.458291688076789,
-     "aumentoIngrosso": 0.43239056460063247,
-     "credito_uniforme": 0.2449492548462583,
-     "credito_basso": 0.12379802713005883,
-     "credito_alto": 0.8671476322103212,
-     "credito_soglia": 0.12379802713005883,
-     "credito_continua": 0.6747323302849004
+     "deflusso": 0.5087149133569754,
+     "persiVista": 0.030090791042054622,
+     "persiClientela": 0.022519473809516397,
+     "effettoPp": 1.5143028914597112,
+     "aumentoIngrosso": 0.4489981583027144,
+     "credito_uniforme": 0.2543574566784877,
+     "credito_basso": 0.12855295821324353,
+     "credito_alto": 0.9004537141059167,
+     "credito_soglia": 0.12855295821324353,
+     "credito_continua": 0.7006479753438541
     },
     "MT": {
-     "deflusso": 0.15120365006916053,
-     "persiVista": 0.006775379763601438,
-     "persiClientela": 0.005577943669402777,
-     "effettoPp": 0.30869162510329307,
-     "aumentoIngrosso": 0.04986514641965037,
-     "credito_uniforme": 0.07560182503458027,
-     "credito_basso": 0.031060549297636925,
-     "credito_alto": 0.21756470925260873,
-     "credito_soglia": 0.031060549297636925,
-     "credito_continua": 0.09076724504898177
+     "deflusso": 0.15701119767126817,
+     "persiVista": 0.007035613828595731,
+     "persiClientela": 0.005792185675909329,
+     "effettoPp": 0.32054809355719177,
+     "aumentoIngrosso": 0.05178040581574118,
+     "credito_uniforme": 0.07850559883563409,
+     "credito_basso": 0.03225354707587263,
+     "credito_alto": 0.22592110412102168,
+     "credito_soglia": 0.03225354707587263,
+     "credito_continua": 0.09425350411807845
     },
     "NL": {
-     "deflusso": 4.7511062156664945,
-     "persiVista": 0.012954017716060863,
-     "persiClientela": 0.004252576654463713,
-     "effettoPp": 0.14748530040157865,
-     "aumentoIngrosso": 0.006876804077733653,
-     "credito_uniforme": 2.3755531078332472,
-     "credito_basso": 0.9314125736662896,
-     "credito_alto": 6.5241121089686365,
-     "credito_soglia": 0.9314125736662896,
-     "credito_continua": 0.9314125736662896
+     "deflusso": 4.933590405019939,
+     "persiVista": 0.01345156572161601,
+     "persiClientela": 0.004415912932001414,
+     "effettoPp": 0.15315003073250344,
+     "aumentoIngrosso": 0.007140933726809842,
+     "credito_uniforme": 2.4667952025099695,
+     "credito_basso": 0.967186993505324,
+     "credito_alto": 6.7746952901087205,
+     "credito_soglia": 0.967186993505324,
+     "credito_continua": 0.967186993505324
     },
     "PT": {
-     "deflusso": 2.998327436739828,
-     "persiVista": 0.02169256011062307,
-     "persiClientela": 0.010350829019283988,
-     "effettoPp": 0.6104921132116098,
-     "aumentoIngrosso": 0.03528889227152706,
-     "credito_uniforme": 1.499163718369914,
-     "credito_basso": 0.8014595658360198,
-     "credito_alto": 5.613851698112165,
-     "credito_soglia": 0.8014595658360198,
-     "credito_continua": 4.255197901759434
+     "deflusso": 3.113489533075514,
+     "persiVista": 0.022525744861099675,
+     "persiClientela": 0.010748391725100106,
+     "effettoPp": 0.6339403699604781,
+     "aumentoIngrosso": 0.03664429554121534,
+     "credito_uniforme": 1.556744766537757,
+     "credito_basso": 0.8322426492974853,
+     "credito_alto": 5.829472888163112,
+     "credito_soglia": 0.8322426492974853,
+     "credito_continua": 4.418634858205613
     },
     "SI": {
-     "deflusso": 0.5610662564211941,
-     "persiVista": 0.01563868546145535,
-     "persiClientela": 0.013160439568257066,
-     "effettoPp": 0.9227893895784747,
-     "aumentoIngrosso": 0.1304936348073095,
-     "credito_uniforme": 0.28053312821059706,
-     "credito_basso": 0.1421246641675432,
-     "credito_alto": 0.9955172054728819,
-     "credito_soglia": 0.9955172054728819,
-     "credito_continua": 0.9955172054728819
+     "deflusso": 0.5826161263523236,
+     "persiVista": 0.01623934827753319,
+     "persiClientela": 0.013665915985144854,
+     "effettoPp": 0.9582326034443145,
+     "aumentoIngrosso": 0.13550573600704152,
+     "credito_uniforme": 0.2913080631761618,
+     "credito_basso": 0.14758349900525403,
+     "credito_alto": 1.033753805957437,
+     "credito_soglia": 1.033753805957437,
+     "credito_continua": 1.033753805957437
     },
     "SK": {
-     "deflusso": 1.426975659679516,
-     "persiVista": 0.02586937843209426,
-     "persiClientela": 0.018403661346842633,
-     "effettoPp": 1.020354991832313,
-     "aumentoIngrosso": 0.05718677273458497,
-     "credito_uniforme": 0.713487829839758,
-     "credito_basso": 0.4972710499726905,
-     "credito_alto": 3.4831525473143783,
-     "credito_soglia": 3.4831525473143783,
-     "credito_continua": 3.1186480776448944
+     "deflusso": 1.481784052643887,
+     "persiVista": 0.026862989675027923,
+     "persiClientela": 0.019110523511056066,
+     "effettoPp": 1.0595455813677106,
+     "aumentoIngrosso": 0.05938324685882143,
+     "credito_uniforme": 0.7408920263219435,
+     "credito_basso": 0.5163706239085416,
+     "credito_alto": 3.616936184248265,
+     "credito_soglia": 3.616936184248265,
+     "credito_continua": 3.238431542904233
     }
    },
    "totale": {
-    "deflusso": 94.45178335535009,
-    "credito_uniforme": 47.225891677675044,
-    "credito_basso": 16.677161342148832,
-    "credito_alto": 116.81576277981345,
-    "credito_soglia": 25.84440234376367,
-    "credito_continua": 33.72956618002565
+    "deflusso": 98.07956104252399,
+    "credito_uniforme": 49.039780521261996,
+    "credito_basso": 17.317710748980332,
+    "credito_alto": 121.30251361360601,
+    "credito_soglia": 26.83705428563661,
+    "credito_continua": 35.02507763824337
    }
   },
   {
    "scenario": {
-    "importo": 528.4015852047556,
+    "importo": 548.6968449931413,
     "sostituzione": 0.5,
     "regola": "R2",
     "depositi": "T3"
    },
    "paesi": {
     "AT": {
-     "deflusso": 6.773941936127251,
-     "persiVista": 0.015624830028641734,
-     "persiClientela": 0.015624830028641734,
-     "effettoPp": 0.6288664558167165,
-     "aumentoIngrosso": 0.02010405864513762,
-     "credito_uniforme": 3.3869709680636255,
-     "credito_basso": 1.5528822012207537,
-     "credito_alto": 10.877217958210677,
-     "credito_soglia": 1.5528822012207537,
-     "credito_continua": 4.418810039489177
+     "deflusso": 7.034120775923634,
+     "persiVista": 0.016224960674460623,
+     "persiClientela": 0.016224960674460623,
+     "effettoPp": 0.6530204486327222,
+     "aumentoIngrosso": 0.020876230993647712,
+     "credito_uniforme": 3.517060387961817,
+     "credito_basso": 1.6125265107326627,
+     "credito_alto": 11.294998620528787,
+     "credito_soglia": 1.6125265107326627,
+     "credito_continua": 4.5885311383996
     },
     "BE": {
-     "deflusso": 8.752445455841732,
-     "persiVista": 0.01401018929415055,
-     "persiClientela": 0.01401018929415055,
-     "effettoPp": 0.5880482492037856,
-     "aumentoIngrosso": 0.032691558058334326,
-     "credito_uniforme": 4.376222727920866,
-     "credito_basso": 1.5681738683023845,
-     "credito_alto": 10.98432897774618,
-     "credito_soglia": 1.5681738683023845,
-     "credito_continua": 3.1916979161175743
+     "deflusso": 9.088616200373377,
+     "persiVista": 0.014548303560592547,
+     "persiClientela": 0.014548303560592547,
+     "effettoPp": 0.6106344645367157,
+     "aumentoIngrosso": 0.0339472008918506,
+     "credito_uniforme": 4.544308100186688,
+     "credito_basso": 1.6284055120780592,
+     "credito_alto": 11.406223643558105,
+     "credito_soglia": 1.6284055120780592,
+     "credito_continua": 3.314287136489717
     },
     "BG": {
-     "deflusso": 4.741251818561571,
-     "persiVista": 0.05516856141463215,
-     "persiClientela": 0.055168561414632146,
-     "effettoPp": 3.736471333827802,
-     "aumentoIngrosso": 0.46948061017964976,
-     "credito_uniforme": 2.3706259092807853,
-     "credito_basso": 1.3036512025106164,
-     "credito_alto": 9.131470667925836,
-     "credito_soglia": 9.131470667925836,
-     "credito_continua": 9.131470667925836
+     "deflusso": 4.923357512552962,
+     "persiVista": 0.057287518506003485,
+     "persiClientela": 0.057287518506003485,
+     "effettoPp": 3.8799846360873067,
+     "aumentoIngrosso": 0.4875127872510218,
+     "credito_uniforme": 2.461678756276481,
+     "credito_basso": 1.3537228536358523,
+     "credito_alto": 9.482199308120517,
+     "credito_soglia": 9.482199308120517,
+     "credito_continua": 9.482199308120517
     },
     "CY": {
-     "deflusso": 0.7239752530671258,
-     "persiVista": 0.015614019735310151,
-     "persiClientela": 0.015614019735310151,
-     "effettoPp": 0.9549738864638716,
-     "aumentoIngrosso": 0.15193604471503164,
-     "credito_uniforme": 0.3619876265335629,
-     "credito_basso": 0.11759378930051267,
-     "credito_alto": 0.8236898302704844,
-     "credito_soglia": 0.11759378930051267,
-     "credito_continua": 0.16772802040146262
+     "deflusso": 0.7517822586718989,
+     "persiVista": 0.016213735170959923,
+     "persiClientela": 0.016213735170959923,
+     "effettoPp": 0.9916532675626212,
+     "aumentoIngrosso": 0.15777172270134288,
+     "credito_uniforme": 0.3758911293359494,
+     "credito_basso": 0.12211042318311124,
+     "credito_alto": 0.8553267510490491,
+     "credito_soglia": 0.12211042318311124,
+     "credito_continua": 0.17417024889424856
     },
     "DE": {
-     "deflusso": 61.556331635200614,
-     "persiVista": 0.015698408269953383,
-     "persiClientela": 0.015698408269953383,
-     "effettoPp": 0.5145580855024869,
-     "aumentoIngrosso": 0.02109785712897146,
-     "credito_uniforme": 30.778165817600307,
-     "credito_basso": 9.982459829057577,
-     "credito_alto": 69.92249073006542,
-     "credito_soglia": 9.982459829057577,
-     "credito_continua": 9.982459829057577
+     "deflusso": 63.92063518223164,
+     "persiVista": 0.01630136496619302,
+     "persiClientela": 0.01630136496619302,
+     "effettoPp": 0.5343216333681517,
+     "aumentoIngrosso": 0.021908200063966248,
+     "credito_uniforme": 31.96031759111582,
+     "credito_basso": 10.3658739240008,
+     "credito_alto": 72.60812823410085,
+     "credito_soglia": 10.3658739240008,
+     "credito_continua": 10.3658739240008
     },
     "EE": {
-     "deflusso": 1.0090302989378035,
-     "persiVista": 0.03405779521847651,
-     "persiClientela": 0.03405779521847651,
-     "effettoPp": 2.01274694593833,
-     "aumentoIngrosso": 0.17421103227517326,
-     "credito_uniforme": 0.5045151494689017,
-     "credito_basso": 0.32261709424560653,
-     "credito_alto": 2.259782775792922,
-     "credito_soglia": 0.32261709424560653,
-     "credito_continua": 1.227118494273679
+     "deflusso": 1.0477859208448799,
+     "persiVista": 0.03536591355334256,
+     "persiClientela": 0.03536591355334256,
+     "effettoPp": 2.0900540988687464,
+     "aumentoIngrosso": 0.1809022653392403,
+     "credito_uniforme": 0.5238929604224399,
+     "credito_basso": 0.3350084229683461,
+     "credito_alto": 2.346578273354243,
+     "credito_soglia": 0.3350084229683461,
+     "credito_continua": 1.2742506175105288
     },
     "ES": {
-     "deflusso": 36.184030020704604,
-     "persiVista": 0.023859185832139584,
-     "persiClientela": 0.023859185832139584,
-     "effettoPp": 1.0427779536884263,
-     "aumentoIngrosso": 0.04838653300656395,
-     "credito_uniforme": 18.092015010352302,
-     "credito_basso": 7.037464738304861,
-     "credito_alto": 49.294169107990285,
-     "credito_soglia": 7.037464738304861,
-     "credito_continua": 7.037464738304861
+     "deflusso": 37.573814438509444,
+     "persiVista": 0.02477558803145359,
+     "persiClientela": 0.024775588031453587,
+     "effettoPp": 1.0828297818136334,
+     "aumentoIngrosso": 0.050245000666624025,
+     "credito_uniforme": 18.786907219254722,
+     "credito_basso": 7.307765167210947,
+     "credito_alto": 51.187497962618174,
+     "credito_soglia": 7.307765167210947,
+     "credito_continua": 7.307765167210947
     },
     "FI": {
-     "deflusso": 4.151011867148998,
-     "persiVista": 0.023633501671870453,
-     "persiClientela": 0.023633501671870453,
-     "effettoPp": 0.612436944278725,
-     "aumentoIngrosso": 0.01460621005699959,
-     "credito_uniforme": 2.075505933574499,
-     "credito_basso": 0.8719447970897165,
-     "credito_alto": 6.107567977800758,
-     "credito_soglia": 0.8719447970897165,
-     "credito_continua": 0.8719447970897165
+     "deflusso": 4.310447165201361,
+     "persiVista": 0.024541235618115134,
+     "persiClientela": 0.024541235618115137,
+     "effettoPp": 0.6359598996145334,
+     "aumentoIngrosso": 0.015167216753290386,
+     "credito_uniforme": 2.1552235826006805,
+     "credito_basso": 0.9054351322317085,
+     "credito_alto": 6.3421522074007886,
+     "credito_soglia": 0.9054351322317085,
+     "credito_continua": 0.9054351322317085
     },
     "FR": {
-     "deflusso": 50.73349207085658,
-     "persiVista": 0.017610543268815507,
-     "persiClientela": 0.01761054326881551,
-     "effettoPp": 0.3812129150438111,
-     "aumentoIngrosso": 0.009208289044298127,
-     "credito_uniforme": 25.36674603542829,
-     "credito_basso": 6.428492954432034,
-     "credito_alto": 45.02860484408289,
-     "credito_soglia": 6.428492954432034,
-     "credito_continua": 6.428492954432034
+     "deflusso": 52.68210356329002,
+     "persiVista": 0.018286942735930508,
+     "persiClientela": 0.018286942735930505,
+     "effettoPp": 0.3958548377066735,
+     "aumentoIngrosso": 0.009561968184545518,
+     "credito_uniforme": 26.34105178164501,
+     "credito_basso": 6.675403520583059,
+     "credito_alto": 46.75809858295026,
+     "credito_soglia": 6.675403520583059,
+     "credito_continua": 6.675403520583059
     },
     "GR": {
-     "deflusso": 7.639444148141448,
-     "persiVista": 0.03377818914571861,
-     "persiClientela": 0.033778189145718604,
-     "effettoPp": 2.0934916577992206,
-     "aumentoIngrosso": 0.15787889865548166,
-     "credito_uniforme": 3.819722074070724,
-     "credito_basso": 1.4176770921466781,
-     "credito_alto": 9.930169019594304,
-     "credito_soglia": 1.4176770921466781,
-     "credito_continua": 8.24238022015541
+     "deflusso": 7.932865871252505,
+     "persiVista": 0.035075568152687225,
+     "persiClientela": 0.035075568152687225,
+     "effettoPp": 2.1739001165349934,
+     "aumentoIngrosso": 0.1639428344063095,
+     "credito_uniforme": 3.9664329356262527,
+     "credito_basso": 1.4721283384842736,
+     "credito_alto": 10.31157468838531,
+     "credito_soglia": 1.4721283384842736,
+     "credito_continua": 8.558959981697733
     },
     "HR": {
-     "deflusso": 2.853540734593688,
-     "persiVista": 0.044444905840659264,
-     "persiClientela": 0.044444905840659264,
-     "effettoPp": 2.8512882169023355,
-     "aumentoIngrosso": 0.39709723554045195,
-     "credito_uniforme": 1.426770367296844,
-     "credito_basso": 0.7615238390254114,
-     "credito_alto": 5.334120496030602,
-     "credito_soglia": 5.334120496030602,
-     "credito_continua": 4.7724318678773985
+     "deflusso": 2.9631417504628557,
+     "persiVista": 0.046151980413414354,
+     "persiClientela": 0.046151980413414354,
+     "effettoPp": 2.9608027163169655,
+     "aumentoIngrosso": 0.4123492555612101,
+     "credito_uniforme": 1.4815708752314278,
+     "credito_basso": 0.790773039975633,
+     "credito_alto": 5.538997552119569,
+     "credito_soglia": 5.538997552119569,
+     "credito_continua": 4.9557351494968325
     },
     "IE": {
-     "deflusso": 4.0068798328787745,
-     "persiVista": 0.014467672728607547,
-     "persiClientela": 0.014467672728607547,
-     "effettoPp": 0.1903104443945683,
-     "aumentoIngrosso": 0.014912647368566869,
-     "credito_uniforme": 2.0034399164393872,
-     "credito_basso": 0.18673946397370972,
-     "credito_alto": 1.308023138809046,
-     "credito_soglia": 0.18673946397370972,
-     "credito_continua": 0.18673946397370972
+     "deflusso": 4.160779195458481,
+     "persiVista": 0.015023358375248166,
+     "persiClientela": 0.015023358375248168,
+     "effettoPp": 0.1976200362231663,
+     "aumentoIngrosso": 0.015485423947880826,
+     "credito_uniforme": 2.0803895977292406,
+     "credito_basso": 0.19391189880397572,
+     "credito_alto": 1.358262710670025,
+     "credito_soglia": 0.19391189880397572,
+     "credito_continua": 0.19391189880397572
     },
     "IT": {
-     "deflusso": 43.41310815028498,
-     "persiVista": 0.02472385310850436,
-     "persiClientela": 0.02472385310850436,
-     "effettoPp": 1.029169036919536,
-     "aumentoIngrosso": 0.04542735716707299,
-     "credito_uniforme": 21.70655407514249,
-     "credito_basso": 7.59165638274327,
-     "credito_alto": 53.176023959850255,
-     "credito_soglia": 7.59165638274327,
-     "credito_continua": 7.59165638274327
+     "deflusso": 45.0805526334235,
+     "persiVista": 0.025673466122274075,
+     "persiClientela": 0.02567346612227408,
+     "effettoPp": 1.0686981631661028,
+     "aumentoIngrosso": 0.04717216649584946,
+     "credito_uniforme": 22.54027631671175,
+     "credito_basso": 7.883242636127101,
+     "credito_alto": 55.218450120173735,
+     "credito_soglia": 7.883242636127101,
+     "credito_continua": 7.883242636127101
     },
     "LT": {
-     "deflusso": 2.129035186295386,
-     "persiVista": 0.040439051555527,
-     "persiClientela": 0.040439051555527,
-     "effettoPp": 1.9358209020607067,
-     "aumentoIngrosso": 0.402768669371053,
-     "credito_uniforme": 1.064517593147693,
-     "credito_basso": 0.4168495825833007,
-     "credito_alto": 2.919837552380534,
-     "credito_soglia": 2.919837552380534,
-     "credito_continua": 2.919837552380534
+     "deflusso": 2.2108088285673624,
+     "persiVista": 0.04199226615573929,
+     "persiClientela": 0.04199226615573929,
+     "effettoPp": 2.010173419560981,
+     "aumentoIngrosso": 0.4182385222412718,
+     "credito_uniforme": 1.1054044142836812,
+     "credito_basso": 0.43286026613931217,
+     "credito_alto": 3.0319849480823926,
+     "credito_soglia": 3.0319849480823926,
+     "credito_continua": 3.0319849480823926
     },
     "LU": {
-     "deflusso": 0.5022875412373846,
-     "persiVista": 0.003800113039616458,
-     "persiClientela": 0.0038001130396164576,
-     "effettoPp": 0.028040485885476342,
-     "aumentoIngrosso": 0.0019197218426323529,
-     "credito_uniforme": 0.2511437706186923,
-     "credito_basso": 0.020790401647032972,
-     "credito_alto": 0.14562709906504498,
-     "credito_soglia": 0.020790401647032972,
-     "credito_continua": 0.020790401647032972
+     "deflusso": 0.5215797924783268,
+     "persiVista": 0.003946070742098298,
+     "persiClientela": 0.003946070742098297,
+     "effettoPp": 0.029117486715096837,
+     "aumentoIngrosso": 0.0019934560149145286,
+     "credito_uniforme": 0.2607898962391634,
+     "credito_basso": 0.02158893559232368,
+     "credito_alto": 0.15122045815121957,
+     "credito_soglia": 0.02158893559232368,
+     "credito_continua": 0.02158893559232368
     },
     "LV": {
-     "deflusso": 1.370345481657389,
-     "persiVista": 0.06066159724025628,
-     "persiClientela": 0.060661597240256264,
-     "effettoPp": 4.079137589025984,
-     "aumentoIngrosso": 1.2094840967849858,
-     "credito_uniforme": 0.6851727408286945,
-     "credito_basso": 0.3462881877763883,
-     "credito_alto": 2.425587782406493,
-     "credito_soglia": 0.3462881877763883,
-     "credito_continua": 1.8873631616360853
+     "deflusso": 1.4229787786209103,
+     "persiVista": 0.0629915351315144,
+     "persiClientela": 0.0629915351315144,
+     "effettoPp": 4.235812283803388,
+     "aumentoIngrosso": 1.2559389043432572,
+     "credito_uniforme": 0.7114893893104551,
+     "credito_basso": 0.3595886943027791,
+     "credito_alto": 2.518751647848718,
+     "credito_soglia": 0.3595886943027791,
+     "credito_continua": 1.9598544764863053
     },
     "MT": {
-     "deflusso": 0.4229472729207287,
-     "persiVista": 0.01560263963469308,
-     "persiClientela": 0.01560263963469308,
-     "effettoPp": 0.8634730772120085,
-     "aumentoIngrosso": 0.13948292704797302,
-     "credito_uniforme": 0.21147363646036435,
-     "credito_basso": 0.08688265537800537,
-     "credito_alto": 0.6085726132940104,
-     "credito_soglia": 0.08688265537800537,
-     "credito_continua": 0.2538943917454035
+     "deflusso": 0.43919216131823274,
+     "persiVista": 0.016201917974571555,
+     "persiClientela": 0.016201917974571555,
+     "effettoPp": 0.8966380239362011,
+     "aumentoIngrosso": 0.14484029598808723,
+     "credito_uniforme": 0.21959608065911637,
+     "credito_basso": 0.09021971210034305,
+     "credito_alto": 0.6319471443944664,
+     "credito_soglia": 0.09021971210034305,
+     "credito_continua": 0.26364616536525454
     },
     "NL": {
-     "deflusso": 13.289807596269913,
-     "persiVista": 0.011895319313185208,
-     "persiClientela": 0.01189531931318521,
-     "effettoPp": 0.4125462948295906,
-     "aumentoIngrosso": 0.019235815602052175,
-     "credito_uniforme": 6.644903798134957,
-     "credito_basso": 2.605349856409202,
-     "credito_alto": 18.249264640471708,
-     "credito_soglia": 2.605349856409202,
-     "credito_continua": 2.605349856409202
+     "deflusso": 13.800252881174657,
+     "persiVista": 0.012352204005598362,
+     "persiClientela": 0.01235220400559836,
+     "effettoPp": 0.42839169435665303,
+     "aumentoIngrosso": 0.019974639795272288,
+     "credito_uniforme": 6.900126440587329,
+     "credito_basso": 2.7054181636512564,
+     "credito_alto": 18.950196615688732,
+     "credito_soglia": 2.7054181636512564,
+     "credito_continua": 2.7054181636512564
     },
     "PT": {
-     "deflusso": 8.38692989297854,
-     "persiVista": 0.028953367886109055,
-     "persiClientela": 0.028953367886109055,
-     "effettoPp": 1.7076702467457614,
-     "aumentoIngrosso": 0.09871018817210366,
-     "credito_uniforme": 4.19346494648927,
-     "credito_basso": 2.2418449394014535,
-     "credito_alto": 15.703081673041021,
-     "credito_soglia": 2.2418449394014535,
-     "credito_continua": 11.902651473452963
+     "deflusso": 8.70906163098046,
+     "persiVista": 0.03006543139888142,
+     "persiClientela": 0.03006543139888142,
+     "effettoPp": 1.7732597761132256,
+     "aumentoIngrosso": 0.10250152598941355,
+     "credito_uniforme": 4.35453081549023,
+     "credito_basso": 2.327951466566393,
+     "credito_alto": 16.30621786898773,
+     "credito_soglia": 2.327951466566393,
+     "credito_continua": 12.359817785190527
     },
     "SI": {
-     "deflusso": 1.569416101877466,
-     "persiVista": 0.036812418372747034,
-     "persiClientela": 0.036812418372747034,
-     "effettoPp": 2.5812290617579707,
-     "aumentoIngrosso": 0.36501716030016634,
-     "credito_uniforme": 0.784708050938733,
-     "credito_basso": 0.39755150816095997,
-     "credito_alto": 2.7846635118122567,
-     "credito_soglia": 2.7846635118122567,
-     "credito_continua": 2.7846635118122567
+     "deflusso": 1.629695458328178,
+     "persiVista": 0.0382263384199856,
+     "persiClientela": 0.0382263384199856,
+     "effettoPp": 2.6803709187253553,
+     "aumentoIngrosso": 0.37903702379592036,
+     "credito_uniforme": 0.814847729164089,
+     "credito_basso": 0.4128209762384729,
+     "credito_alto": 2.8916190376431805,
+     "credito_soglia": 2.8916190376431805,
+     "credito_continua": 2.8916190376431805
     },
     "SK": {
-     "deflusso": 3.991540306795849,
-     "persiVista": 0.051478772998161205,
-     "persiClientela": 0.051478772998161205,
-     "effettoPp": 2.854139837293183,
-     "aumentoIngrosso": 0.15996300065618174,
-     "credito_uniforme": 1.9957701533979244,
-     "credito_basso": 1.390967971951582,
-     "credito_alto": 9.743084048431829,
-     "credito_soglia": 9.743084048431829,
-     "credito_continua": 8.723491126279425
+     "deflusso": 4.144850496905978,
+     "persiVista": 0.05345600982113585,
+     "persiClientela": 0.05345600982113585,
+     "effettoPp": 2.9637638639656236,
+     "aumentoIngrosso": 0.16610698422047954,
+     "credito_uniforme": 2.072425248452989,
+     "credito_basso": 1.4443933535903257,
+     "credito_alto": 10.117304011883256,
+     "credito_soglia": 10.117304011883256,
+     "credito_continua": 9.05854977036149
     }
    },
    "totale": {
-    "deflusso": 264.2007926023779,
-    "credito_uniforme": 132.10039630118894,
-    "credito_basso": 46.64940235566106,
-    "credito_alto": 326.75737840507264,
-    "credito_soglia": 72.29203452801025,
-    "credito_continua": 94.34843686720461
+    "deflusso": 274.3484224965706,
+    "credito_uniforme": 137.1742112482853,
+    "credito_basso": 48.44114894819675,
+    "credito_alto": 339.3077303877091,
+    "credito_soglia": 75.06868331646606,
+    "credito_continua": 97.97224514193951
    }
   },
   {
@@ -1893,542 +1893,2104 @@
   },
   {
    "scenario": {
-    "importo": 125.93571114046676,
+    "importo": 130.77274805669867,
     "sostituzione": 0.75,
     "regola": "R3",
     "depositi": "T2"
    },
    "paesi": {
     "AT": {
-     "deflusso": 3.546987176748952,
-     "persiVista": 0.012931286303975473,
-     "persiClientela": 0.008181509713701372,
-     "effettoPp": 0.32928851113605895,
-     "aumentoIngrosso": 0.010526933783503941,
-     "credito_uniforme": 1.773493588374476,
-     "credito_basso": 0.8131237773615645,
-     "credito_alto": 5.695554077709462,
-     "credito_soglia": 0.8131237773615645,
-     "credito_continua": 2.3137875544764945
+     "deflusso": 3.6832226238668815,
+     "persiVista": 0.01342796122374408,
+     "persiClientela": 0.00849575151340458,
+     "effettoPp": 0.341936080836758,
+     "aumentoIngrosso": 0.010931260458316163,
+     "credito_uniforme": 1.8416113119334407,
+     "credito_basso": 0.8443548689474683,
+     "credito_alto": 5.914313356414352,
+     "credito_soglia": 0.8443548689474683,
+     "credito_continua": 2.40265730965529
     },
     "BE": {
-     "deflusso": 4.079231763779591,
-     "persiVista": 0.01943370459864982,
-     "persiClientela": 0.006529696125911753,
-     "effettoPp": 0.2740702708619582,
-     "aumentoIngrosso": 0.015236477932004088,
-     "credito_uniforme": 2.0396158818897954,
-     "credito_basso": 0.7308751236420014,
-     "credito_alto": 5.119440491905085,
-     "credito_soglia": 0.7308751236420014,
-     "credito_continua": 1.4875471758725538
+     "deflusso": 4.235910075694307,
+     "persiVista": 0.02018012946663637,
+     "persiClientela": 0.006780493782325373,
+     "effettoPp": 0.2845969753669442,
+     "aumentoIngrosso": 0.015821692447910967,
+     "credito_uniforme": 2.1179550378471537,
+     "credito_basso": 0.7589471448518451,
+     "credito_alto": 5.316071951127777,
+     "credito_soglia": 0.7589471448518451,
+     "credito_continua": 1.544682046825135
     },
     "BG": {
-     "deflusso": 2.072062899657388,
-     "persiVista": 0.0317347718253003,
-     "persiClientela": 0.024110242127871256,
-     "effettoPp": 1.6329450370359826,
-     "aumentoIngrosso": 0.20517647905841388,
-     "credito_uniforme": 1.036031449828694,
-     "credito_basso": 0.5697329300757344,
-     "credito_alto": 3.9907143333422757,
-     "credito_soglia": 3.9907143333422757,
-     "credito_continua": 3.9907143333422757
+     "deflusso": 2.151648305954242,
+     "persiVista": 0.03295366566769867,
+     "persiClientela": 0.02503628709300211,
+     "effettoPp": 1.695664462326802,
+     "aumentoIngrosso": 0.21305705712924458,
+     "credito_uniforme": 1.075824152977121,
+     "credito_basso": 0.591615676361222,
+     "credito_alto": 4.143992798820442,
+     "credito_soglia": 4.143992798820442,
+     "credito_continua": 4.143992798820442
     },
     "CY": {
-     "deflusso": 0.3801544576176676,
-     "persiVista": 0.01235430949977796,
-     "persiClientela": 0.008198815054190858,
-     "effettoPp": 0.5014502613310305,
-     "aumentoIngrosso": 0.07978057872353989,
-     "credito_uniforme": 0.1900772288088338,
-     "credito_basso": 0.06174769510608923,
-     "credito_alto": 0.43251390064106493,
-     "credito_soglia": 0.06174769510608923,
-     "credito_continua": 0.08807283723148357
+     "deflusso": 0.3947557262230101,
+     "persiVista": 0.012828823444899745,
+     "persiClientela": 0.008513721530895035,
+     "effettoPp": 0.5207103536729631,
+     "aumentoIngrosso": 0.0828448533521532,
+     "credito_uniforme": 0.19737786311150504,
+     "credito_basso": 0.06411934869041092,
+     "credito_alto": 0.44912623152988507,
+     "credito_soglia": 0.06411934869041092,
+     "credito_continua": 0.09145560738577926
     },
     "DE": {
-     "deflusso": 14.661089468637549,
-     "persiVista": 0.005714055558878674,
-     "persiClientela": 0.0037389454837067153,
-     "effettoPp": 0.12255412120836698,
-     "aumentoIngrosso": 0.005024951337215516,
-     "credito_uniforme": 7.330544734318774,
-     "credito_basso": 2.3775578040976355,
-     "credito_alto": 16.653687203758725,
-     "credito_soglia": 2.3775578040976355,
-     "credito_continua": 2.3775578040976355
+     "deflusso": 15.224204016129798,
+     "persiVista": 0.005933525456887731,
+     "persiClientela": 0.003882553815042501,
+     "effettoPp": 0.12726127538372262,
+     "aumentoIngrosso": 0.005217953583363711,
+     "credito_uniforme": 7.612102008064899,
+     "credito_basso": 2.4688768967104386,
+     "credito_alto": 17.29333499759307,
+     "credito_soglia": 2.4688768967104386,
+     "credito_continua": 2.4688768967104386
     },
     "EE": {
-     "deflusso": 0.2944671889374293,
-     "persiVista": 0.016583160947087307,
-     "persiClientela": 0.009939149726176438,
-     "effettoPp": 0.5873836849465995,
-     "aumentoIngrosso": 0.05084032958173849,
-     "credito_uniforme": 0.14723359446871465,
-     "credito_basso": 0.09414994668214742,
-     "credito_alto": 0.6594766106602117,
-     "credito_soglia": 0.09414994668214742,
-     "credito_continua": 0.35811227262678524
+     "deflusso": 0.3057773141641069,
+     "persiVista": 0.017220099913504924,
+     "persiClientela": 0.010320900332943158,
+     "effettoPp": 0.6099443751777446,
+     "aumentoIngrosso": 0.052793044572532276,
+     "credito_uniforme": 0.15288865708205346,
+     "credito_basso": 0.09776613119120107,
+     "credito_alto": 0.6848063021533336,
+     "credito_soglia": 0.09776613119120107,
+     "credito_continua": 0.37186692781684005
     },
     "ES": {
-     "deflusso": 13.973728647041073,
-     "persiVista": 0.01113412575180399,
-     "persiClientela": 0.009214059030098969,
-     "effettoPp": 0.4027051756153469,
-     "aumentoIngrosso": 0.018686151929951742,
-     "credito_uniforme": 6.986864323520536,
-     "credito_basso": 2.7177631280960646,
-     "credito_alto": 19.0366673530357,
-     "credito_soglia": 2.7177631280960646,
-     "credito_continua": 2.7177631280960646
+     "deflusso": 14.510442504540592,
+     "persiVista": 0.01156177392882801,
+     "persiClientela": 0.00956795978845668,
+     "effettoPp": 0.4181725897679254,
+     "aumentoIngrosso": 0.01940386421258363,
+     "credito_uniforme": 7.255221252270296,
+     "credito_basso": 2.822149091863815,
+     "credito_alto": 19.76784250514132,
+     "credito_soglia": 2.822149091863815,
+     "credito_continua": 2.822149091863815
     },
     "FI": {
-     "deflusso": 1.8527984250202179,
-     "persiVista": 0.015162636973855049,
-     "persiClientela": 0.01054878089409772,
-     "effettoPp": 0.27336038587699035,
-     "aumentoIngrosso": 0.006519461725295019,
-     "credito_uniforme": 0.9263992125101089,
-     "credito_basso": 0.38919135826561374,
-     "credito_alto": 2.7261045480328363,
-     "credito_soglia": 0.38919135826561374,
-     "credito_continua": 0.38919135826561374
+     "deflusso": 1.9239621505353974,
+     "persiVista": 0.015745015348708192,
+     "persiClientela": 0.010953946689755793,
+     "effettoPp": 0.2838598245663672,
+     "aumentoIngrosso": 0.0067698662908756225,
+     "credito_uniforme": 0.9619810752676987,
+     "credito_basso": 0.4041397231921393,
+     "credito_alto": 2.830810895556731,
+     "credito_soglia": 0.4041397231921393,
+     "credito_continua": 0.4041397231921393
     },
     "FR": {
-     "deflusso": 18.333870550798586,
-     "persiVista": 0.01628277787075339,
-     "persiClientela": 0.006364029114510146,
-     "effettoPp": 0.1377612293461787,
-     "aumentoIngrosso": 0.003327655409501724,
-     "credito_uniforme": 9.166935275399293,
-     "credito_basso": 2.323103591975701,
-     "credito_alto": 16.272260761027077,
-     "credito_soglia": 2.323103591975701,
-     "credito_continua": 2.323103591975701
+     "deflusso": 19.03805213574009,
+     "persiVista": 0.016908179489931844,
+     "persiClientela": 0.00660846370327048,
+     "effettoPp": 0.1430524699795024,
+     "aumentoIngrosso": 0.0034554665912109803,
+     "credito_uniforme": 9.519026067870046,
+     "credito_basso": 2.4123311647813517,
+     "credito_alto": 16.89725843086076,
+     "credito_soglia": 2.4123311647813517,
+     "credito_continua": 2.4123311647813517
     },
     "GR": {
-     "deflusso": 4.297546286232412,
-     "persiVista": 0.024632007142961033,
-     "persiClientela": 0.01900181852290324,
-     "effettoPp": 1.1776874239498654,
-     "aumentoIngrosso": 0.08881429871522714,
-     "credito_uniforme": 2.148773143116206,
-     "credito_basso": 0.7975099764181056,
-     "credito_alto": 5.586186660216618,
-     "credito_soglia": 0.7975099764181056,
-     "credito_continua": 4.636726156766519
+     "deflusso": 4.462609792425152,
+     "persiVista": 0.02557809246532442,
+     "persiClientela": 0.01973165517398869,
+     "effettoPp": 1.222920960123523,
+     "aumentoIngrosso": 0.0922255474998998,
+     "credito_uniforme": 2.231304896212576,
+     "credito_basso": 0.8281413609718876,
+     "credito_alto": 5.800745269936873,
+     "credito_soglia": 0.8281413609718876,
+     "credito_continua": 4.814817147698568
     },
     "HR": {
-     "deflusso": 1.4603842971749974,
-     "persiVista": 0.03004658664256023,
-     "persiClientela": 0.022746001762740595,
-     "effettoPp": 1.4592315042866113,
-     "aumentoIngrosso": 0.2032263146639295,
-     "credito_uniforme": 0.7301921485874987,
-     "credito_basso": 0.3897324621845583,
-     "credito_alto": 2.7298947294514755,
-     "credito_soglia": 2.7298947294514755,
-     "credito_continua": 2.442433876864942
+     "deflusso": 1.5164758751186187,
+     "persiVista": 0.03120063935311124,
+     "persiClientela": 0.02361964792098029,
+     "effettoPp": 1.5152788048627772,
+     "aumentoIngrosso": 0.2110319893012272,
+     "credito_uniforme": 0.7582379375593093,
+     "credito_basso": 0.4047016102520036,
+     "credito_alto": 2.834746653216415,
+     "credito_soglia": 2.834746653216415,
+     "credito_continua": 2.5362447802287527
     },
     "IE": {
-     "deflusso": 1.9867124636552174,
-     "persiVista": 0.008609133257883317,
-     "persiClientela": 0.0071734384181315934,
-     "effettoPp": 0.09436073643636295,
-     "aumentoIngrosso": 0.007394068110083832,
-     "credito_uniforme": 0.9933562318276087,
-     "credito_basso": 0.09259015393688945,
-     "credito_alto": 0.6485509875534048,
-     "credito_soglia": 0.09259015393688945,
-     "credito_continua": 0.09259015393688945
+     "deflusso": 2.063019663905349,
+     "persiVista": 0.008939799555854142,
+     "persiClientela": 0.007448961430076291,
+     "effettoPp": 0.09798501712253326,
+     "aumentoIngrosso": 0.00767806523914055,
+     "credito_uniforme": 1.0315098319526745,
+     "credito_basso": 0.09614642871087148,
+     "credito_alto": 0.6734610392015464,
+     "credito_soglia": 0.09614642871087148,
+     "credito_continua": 0.09614642871087148
     },
     "IT": {
-     "deflusso": 15.783462650447335,
-     "persiVista": 0.012177648694389816,
-     "persiClientela": 0.008988713979251522,
-     "effettoPp": 0.37416927161686586,
-     "aumentoIngrosso": 0.016515771980042414,
-     "credito_uniforme": 7.891731325223668,
-     "credito_basso": 2.7600563534235683,
-     "credito_alto": 19.33291173633878,
-     "credito_soglia": 2.7600563534235683,
-     "credito_continua": 2.7600563534235683
+     "deflusso": 16.38968618160306,
+     "persiVista": 0.012645377313653072,
+     "persiClientela": 0.009333959509318797,
+     "effettoPp": 0.38854065653493475,
+     "aumentoIngrosso": 0.01715012261850769,
+     "credito_uniforme": 8.19484309080153,
+     "credito_basso": 2.866066748342443,
+     "credito_alto": 20.075465273536974,
+     "credito_soglia": 2.866066748342443,
+     "credito_continua": 2.866066748342443
     },
     "LT": {
-     "deflusso": 1.1229670098437186,
-     "persiVista": 0.027281643502349705,
-     "persiClientela": 0.021329718314916396,
-     "effettoPp": 1.0210554639835232,
-     "aumentoIngrosso": 0.2124417347415283,
-     "credito_uniforme": 0.5614835049218593,
-     "credito_basso": 0.21986876136260586,
-     "credito_alto": 1.5400784667779808,
-     "credito_soglia": 1.5400784667779808,
-     "credito_continua": 1.5400784667779808
+     "deflusso": 1.1660988017170024,
+     "persiVista": 0.028329498122467385,
+     "persiClientela": 0.022148966754995485,
+     "effettoPp": 1.0602729577990766,
+     "aumentoIngrosso": 0.2206013624133565,
+     "credito_uniforme": 0.5830494008585012,
+     "credito_basso": 0.2283136520596606,
+     "credito_alto": 1.599231000481387,
+     "credito_soglia": 1.599231000481387,
+     "credito_continua": 1.599231000481387
     },
     "LU": {
-     "deflusso": 0.23762892555455417,
-     "persiVista": 0.002728168418113868,
-     "persiClientela": 0.0017978084353144203,
-     "effettoPp": 0.013265769078362018,
-     "aumentoIngrosso": 0.0009082077522857378,
-     "credito_uniforme": 0.11881446277727709,
-     "credito_basso": 0.009835802005085386,
-     "credito_alto": 0.06889522084741215,
-     "credito_soglia": 0.009835802005085386,
-     "credito_continua": 0.009835802005085386
+     "deflusso": 0.2467559624757167,
+     "persiVista": 0.0028329540363678987,
+     "persiClientela": 0.0018668600624595555,
+     "effettoPp": 0.013775291073141356,
+     "aumentoIngrosso": 0.0009430909032651625,
+     "credito_uniforme": 0.12337798123785836,
+     "credito_basso": 0.010213583152057119,
+     "credito_alto": 0.0715414021693978,
+     "credito_soglia": 0.010213583152057119,
+     "credito_continua": 0.010213583152057119
     },
     "LV": {
-     "deflusso": 0.4218930173142563,
-     "persiVista": 0.024955224021900885,
-     "persiClientela": 0.018676096383986557,
-     "effettoPp": 1.2558582405020429,
-     "aumentoIngrosso": 0.3723680647080815,
-     "credito_uniforme": 0.21094650865712816,
-     "credito_basso": 0.10661294568181967,
-     "credito_alto": 0.746774125195331,
-     "credito_soglia": 0.10661294568181967,
-     "credito_continua": 0.5810690440394382
+     "deflusso": 0.43809741304100414,
+     "persiVista": 0.025913723709984866,
+     "persiClientela": 0.01939342244537424,
+     "effettoPp": 1.3040942223045904,
+     "aumentoIngrosso": 0.38667026746778826,
+     "credito_uniforme": 0.21904870652050207,
+     "credito_basso": 0.11070781876699244,
+     "credito_alto": 0.7754568076445344,
+     "credito_soglia": 0.11070781876699244,
+     "credito_continua": 0.6033871966225716
     },
     "MT": {
-     "deflusso": 0.18450723569506097,
-     "persiVista": 0.008267701146067296,
-     "persiClientela": 0.006806521977700464,
-     "effettoPp": 0.37668295972996085,
-     "aumentoIngrosso": 0.06084826867083471,
-     "credito_uniforme": 0.09225361784753049,
-     "credito_basso": 0.03790183694279764,
-     "credito_alto": 0.2654847490165576,
-     "credito_soglia": 0.03790183694279764,
-     "credito_continua": 0.11075932008244285
+     "deflusso": 0.191593933362361,
+     "persiVista": 0.008585253453460829,
+     "persiClientela": 0.007067952177118315,
+     "effettoPp": 0.39115089233961653,
+     "aumentoIngrosso": 0.06318537638384346,
+     "credito_uniforme": 0.0957969666811805,
+     "credito_basso": 0.039357600227294676,
+     "credito_alto": 0.2756816941091004,
+     "credito_soglia": 0.039357600227294676,
+     "credito_continua": 0.11501345034624041
     },
     "NL": {
-     "deflusso": 2.936098089021436,
-     "persiVista": 0.00800534968800747,
-     "persiClientela": 0.0026280157971245274,
-     "effettoPp": 0.09114325990859394,
-     "aumentoIngrosso": 0.00424974109074431,
-     "credito_uniforme": 1.468049044510718,
-     "credito_basso": 0.5755961987577873,
-     "credito_alto": 4.03178380490432,
-     "credito_soglia": 0.5755961987577873,
-     "credito_continua": 0.5755961987577873
+     "deflusso": 3.0488700320839874,
+     "persiVista": 0.008312825396188828,
+     "persiClientela": 0.002728954675477733,
+     "effettoPp": 0.09464396124939041,
+     "aumentoIngrosso": 0.004412968457741347,
+     "credito_uniforme": 1.5244350160419937,
+     "credito_basso": 0.5977041460351783,
+     "credito_alto": 4.186639698645501,
+     "credito_soglia": 0.5977041460351783,
+     "credito_continua": 0.5977041460351783
     },
     "PT": {
-     "deflusso": 4.157367203638941,
-     "persiVista": 0.030078081820486685,
-     "persiClientela": 0.014352067278561037,
-     "effettoPp": 0.8464852298806516,
-     "aumentoIngrosso": 0.04893024076847167,
-     "credito_uniforme": 2.0786836018194705,
-     "credito_basso": 1.1112734630719039,
-     "credito_alto": 7.783954030451499,
-     "credito_soglia": 1.1112734630719039,
-     "credito_continua": 5.900096161946622
+     "deflusso": 4.317046602406966,
+     "persiVista": 0.031233344222370944,
+     "persiClientela": 0.014903312661002336,
+     "effettoPp": 0.878997694128468,
+     "aumentoIngrosso": 0.05080959157988073,
+     "credito_uniforme": 2.158523301203483,
+     "credito_basso": 1.1539561200897546,
+     "credito_alto": 8.082926201717124,
+     "credito_soglia": 1.1539561200897546,
+     "credito_continua": 6.126711652391759
     },
     "SI": {
-     "deflusso": 0.9581305384226652,
-     "persiVista": 0.026706118840550016,
-     "persiClientela": 0.022474028521770804,
-     "effettoPp": 1.5758436451466267,
-     "aumentoIngrosso": 0.2228434434395886,
-     "credito_uniforme": 0.4790652692113326,
-     "credito_basso": 0.24270570443958833,
-     "credito_alto": 1.7000406372197014,
-     "credito_soglia": 1.7000406372197014,
-     "credito_continua": 1.7000406372197014
+     "deflusso": 0.9949311626693519,
+     "persiVista": 0.02773186826103753,
+     "persiClientela": 0.02333722851986351,
+     "effettoPp": 1.6363698756872378,
+     "aumentoIngrosso": 0.23140258804357827,
+     "credito_uniforme": 0.49746558133467594,
+     "credito_basso": 0.2520277342397371,
+     "credito_alto": 1.7653371225998817,
+     "credito_soglia": 1.7653371225998817,
+     "credito_continua": 1.7653371225998815
     },
     "SK": {
-     "deflusso": 1.7106950601110444,
-     "persiVista": 0.031012875091272388,
-     "persiClientela": 0.022062781758359518,
-     "effettoPp": 1.2232277630294044,
-     "aumentoIngrosso": 0.06855697149222495,
-     "credito_uniforme": 0.8553475300555222,
-     "credito_basso": 0.5961413027294158,
-     "credito_alto": 4.175692707780421,
-     "credito_soglia": 4.175692707780421,
-     "credito_continua": 3.738715390457414
+     "deflusso": 1.776400768867024,
+     "persiVista": 0.032204041761444716,
+     "persiClientela": 0.022910186270340402,
+     "effettoPp": 1.2702104480291618,
+     "aumentoIngrosso": 0.07119016106942974,
+     "credito_uniforme": 0.888200384433512,
+     "credito_basso": 0.6190383623678569,
+     "credito_alto": 4.336075966789819,
+     "credito_soglia": 4.336075966789819,
+     "credito_continua": 3.882314884192404
     }
    },
    "totale": {
-    "deflusso": 94.4517833553501,
-    "credito_uniforme": 47.22589167767505,
-    "credito_basso": 17.017070316256675,
-    "credito_alto": 119.19666713586594,
-    "credito_soglia": 29.135310030036628,
-    "credito_continua": 40.133847618263
+    "deflusso": 98.07956104252399,
+    "credito_uniforme": 49.039780521261996,
+    "credito_basso": 17.670675211805627,
+    "credito_alto": 123.77486559924624,
+    "credito_soglia": 30.254361718433096,
+    "credito_continua": 41.67533970785334
    }
   },
   {
    "scenario": {
-    "importo": 528.4015852047556,
+    "importo": 548.6968449931413,
     "sostituzione": 0.5,
     "regola": "R3",
     "depositi": "T3"
    },
    "paesi": {
     "AT": {
-     "deflusso": 9.92164245244462,
-     "persiVista": 0.022885341856507337,
-     "persiClientela": 0.022885341856507337,
-     "effettoPp": 0.9210867444365286,
-     "aumentoIngrosso": 0.029445968625185847,
-     "credito_uniforme": 4.96082122622231,
-     "credito_basso": 2.2744721045078733,
-     "credito_alto": 15.931619797788708,
-     "credito_soglia": 2.2744721045078733,
-     "credito_continua": 6.47213301951467
+     "deflusso": 10.302720626201067,
+     "persiVista": 0.02376433989763519,
+     "persiClientela": 0.02376433989763519,
+     "effettoPp": 0.9564645617811415,
+     "aumentoIngrosso": 0.030576952330954303,
+     "credito_uniforme": 5.151360313100533,
+     "credito_basso": 2.36183180125166,
+     "credito_alto": 16.543533864096094,
+     "credito_soglia": 2.36183180125166,
+     "credito_continua": 6.720719747287525
     },
     "BE": {
-     "deflusso": 11.410438500082773,
-     "persiVista": 0.01826488426828463,
-     "persiClientela": 0.018264884268284626,
-     "effettoPp": 0.7666301282851979,
-     "aumentoIngrosso": 0.04261951869092053,
-     "credito_uniforme": 5.705219250041386,
-     "credito_basso": 2.0444059402573473,
-     "credito_alto": 14.320113264070173,
-     "credito_soglia": 2.0444059402573473,
-     "credito_continua": 4.160971121321831
+     "deflusso": 11.848699512431631,
+     "persiVista": 0.01896641617433671,
+     "persiClientela": 0.01896641617433671,
+     "effettoPp": 0.7960754555718721,
+     "aumentoIngrosso": 0.044256482371778934,
+     "credito_uniforme": 5.924349756215816,
+     "credito_basso": 2.122929076508658,
+     "credito_alto": 14.87013133182595,
+     "credito_soglia": 2.122929076508658,
+     "credito_continua": 4.32078894216821
     },
     "BG": {
-     "deflusso": 5.7959801389017835,
-     "persiVista": 0.06744123672131817,
-     "persiClientela": 0.06744123672131819,
-     "effettoPp": 4.567678425275475,
-     "aumentoIngrosso": 0.5739202211424164,
-     "credito_uniforme": 2.8979900694508918,
-     "credito_basso": 1.5936585456663899,
-     "credito_alto": 11.162837296062309,
-     "credito_soglia": 11.162837296062309,
-     "credito_continua": 11.162837296062309
+     "deflusso": 6.018596660011866,
+     "persiVista": 0.07003157228811778,
+     "persiClientela": 0.0700315722881178,
+     "effettoPp": 4.743117377137908,
+     "aumentoIngrosso": 0.595963796165719,
+     "credito_uniforme": 3.009298330005933,
+     "credito_basso": 1.6548690247866353,
+     "credito_alto": 11.59158824844879,
+     "credito_soglia": 11.59158824844879,
+     "credito_continua": 11.59158824844879
     },
     "CY": {
-     "deflusso": 1.063369112217252,
-     "persiVista": 0.02293374840333107,
-     "persiClientela": 0.022933748403331074,
-     "effettoPp": 1.4026580736532321,
-     "aumentoIngrosso": 0.2231624579679437,
-     "credito_uniforme": 0.531684556108626,
-     "credito_basso": 0.17272082547157824,
-     "credito_alto": 1.2098290927022795,
-     "credito_soglia": 0.17272082547157824,
-     "credito_continua": 0.2463575866614925
+     "deflusso": 1.1042118216028254,
+     "persiVista": 0.02381460568082527,
+     "persiClientela": 0.02381460568082527,
+     "effettoPp": 1.4565324578264702,
+     "aumentoIngrosso": 0.23173385553049847,
+     "credito_uniforme": 0.5521059108014127,
+     "credito_basso": 0.1793548215116389,
+     "credito_alto": 1.2562971511325456,
+     "credito_soglia": 0.1793548215116389,
+     "credito_continua": 0.2558198807993825
     },
     "DE": {
-     "deflusso": 41.01004047171342,
-     "persiVista": 0.010458588765613189,
-     "persiClientela": 0.010458588765613189,
-     "effettoPp": 0.34280873065277473,
-     "aumentoIngrosso": 0.014055807936267175,
-     "credito_uniforme": 20.50502023585671,
-     "credito_basso": 6.650511340133247,
-     "credito_alto": 46.58374043009432,
-     "credito_soglia": 6.650511340133247,
-     "credito_continua": 6.650511340133247
+     "deflusso": 42.58518605910434,
+     "persiVista": 0.010860290391727275,
+     "persiClientela": 0.010860290391727277,
+     "effettoPp": 0.3559755954789444,
+     "aumentoIngrosso": 0.014595674359059332,
+     "credito_uniforme": 21.29259302955217,
+     "credito_basso": 6.905949361427801,
+     "credito_alto": 48.37296502823237,
+     "credito_soglia": 6.905949361427801,
+     "credito_continua": 6.905949361427801
     },
     "EE": {
-     "deflusso": 0.8236844445802216,
-     "persiVista": 0.027801817415878137,
-     "persiClientela": 0.02780181741587814,
-     "effettoPp": 1.6430312865639147,
-     "aumentoIngrosso": 0.14221071211675096,
-     "credito_uniforme": 0.4118422222901108,
-     "credito_basso": 0.263356494215797,
-     "credito_alto": 1.844689820028564,
-     "credito_soglia": 0.263356494215797,
-     "credito_continua": 1.001712650704294
+     "deflusso": 0.8553211585009983,
+     "persiVista": 0.02886965128095988,
+     "persiClientela": 0.02886965128095988,
+     "effettoPp": 1.7061381123852994,
+     "aumentoIngrosso": 0.14767285195113922,
+     "credito_uniforme": 0.42766057925049916,
+     "credito_basso": 0.27347169563972323,
+     "credito_alto": 1.9155421039254088,
+     "credito_soglia": 0.27347169563972323,
+     "credito_continua": 1.0401872106764756
     },
     "ES": {
-     "deflusso": 39.08735285885614,
-     "persiVista": 0.025773591692584526,
-     "persiClientela": 0.025773591692584523,
-     "effettoPp": 1.1264480436792919,
-     "aumentoIngrosso": 0.052268956447417456,
-     "credito_uniforme": 19.54367642942807,
-     "credito_basso": 7.602134624044933,
-     "credito_alto": 53.24941916933061,
-     "credito_soglia": 7.602134624044933,
-     "credito_continua": 7.602134624044933
+     "deflusso": 40.58865036235131,
+     "persiVista": 0.02676352388379491,
+     "persiClientela": 0.02676352388379491,
+     "effettoPp": 1.1697135378123786,
+     "aumentoIngrosso": 0.054276543251982196,
+     "credito_uniforme": 20.294325181175655,
+     "credito_basso": 7.894123333884796,
+     "credito_alto": 55.29466435004565,
+     "credito_soglia": 7.894123333884796,
+     "credito_continua": 7.894123333884796
     },
     "FI": {
-     "deflusso": 5.18265293711949,
-     "persiVista": 0.02950707942404956,
-     "persiClientela": 0.02950707942404956,
-     "effettoPp": 0.7646444360195533,
-     "aumentoIngrosso": 0.018236256574251798,
-     "credito_uniforme": 2.591326468559745,
-     "credito_basso": 1.0886471559877307,
-     "credito_alto": 7.625467267224716,
-     "credito_soglia": 1.0886471559877307,
-     "credito_continua": 1.0886471559877307
+     "deflusso": 5.381712309189923,
+     "persiVista": 0.030640410320995223,
+     "persiClientela": 0.030640410320995223,
+     "effettoPp": 0.7940134952905376,
+     "aumentoIngrosso": 0.018936688925526215,
+     "credito_uniforme": 2.6908561545949614,
+     "credito_basso": 1.1304607641738162,
+     "credito_alto": 7.9183521554034435,
+     "credito_soglia": 1.1304607641738162,
+     "credito_continua": 1.1304607641738162
     },
     "FR": {
-     "deflusso": 51.28355398824779,
-     "persiVista": 0.01780148004058782,
-     "persiClientela": 0.017801480040587823,
-     "effettoPp": 0.3853460960732271,
-     "aumentoIngrosso": 0.00930812701958524,
-     "credito_uniforme": 25.641776994123894,
-     "credito_basso": 6.498191865666297,
-     "credito_alto": 45.516813317558245,
-     "credito_soglia": 6.498191865666297,
-     "credito_continua": 6.498191865666297
+     "deflusso": 53.25329268738488,
+     "persiVista": 0.018485213156001344,
+     "persiClientela": 0.018485213156001344,
+     "effettoPp": 0.40014676917343334,
+     "aumentoIngrosso": 0.00966564081457617,
+     "credito_uniforme": 26.62664634369244,
+     "credito_basso": 6.747779481905879,
+     "credito_alto": 47.26505854786226,
+     "credito_soglia": 6.747779481905879,
+     "credito_continua": 6.747779481905879
     },
     "GR": {
-     "deflusso": 12.021108492957795,
-     "persiVista": 0.05315193992420488,
-     "persiClientela": 0.053151939924204875,
-     "effettoPp": 3.2942305565031202,
-     "aumentoIngrosso": 0.24843160479783818,
-     "credito_uniforme": 6.010554246478898,
-     "credito_basso": 2.230797136833862,
-     "credito_alto": 15.625696951654874,
-     "credito_soglia": 2.230797136833862,
-     "credito_continua": 12.969863375570682
+     "deflusso": 12.482824594196227,
+     "persiVista": 0.055193441046122206,
+     "persiClientela": 0.0551934410461222,
+     "effettoPp": 3.420757930415448,
+     "aumentoIngrosso": 0.2579735594402791,
+     "credito_uniforme": 6.241412297098114,
+     "credito_basso": 2.3164793313898953,
+     "credito_alto": 16.225860894928314,
+     "credito_soglia": 2.3164793313898953,
+     "credito_continua": 13.468019993562425
     },
     "HR": {
-     "deflusso": 4.084991041048944,
-     "persiVista": 0.06362517975591776,
-     "persiClientela": 0.06362517975591776,
-     "effettoPp": 4.081766445556954,
-     "aumentoIngrosso": 0.5684652158431596,
-     "credito_uniforme": 2.042495520524472,
-     "credito_basso": 1.0901607333833796,
-     "credito_alto": 7.636069173290839,
-     "credito_soglia": 7.636069173290839,
-     "credito_continua": 6.831982872349486
+     "deflusso": 4.241890559772361,
+     "persiVista": 0.06606894523351131,
+     "persiClientela": 0.06606894523351131,
+     "effettoPp": 4.238542111504272,
+     "aumentoIngrosso": 0.5902992707726636,
+     "credito_uniforme": 2.1209452798861803,
+     "credito_basso": 1.1320324762293805,
+     "credito_alto": 7.929361267738225,
+     "credito_soglia": 7.929361267738225,
+     "credito_continua": 7.094390993646861
     },
     "IE": {
-     "deflusso": 5.557237660574035,
-     "persiVista": 0.020065562008759703,
-     "persiClientela": 0.020065562008759703,
-     "effettoPp": 0.26394611590591033,
-     "aumentoIngrosso": 0.020682708000234497,
-     "credito_uniforme": 2.7786188302870176,
-     "credito_basso": 0.2589934375857047,
-     "credito_alto": 1.8141286365130203,
-     "credito_soglia": 0.2589934375857047,
-     "credito_continua": 0.2589934375857047
+     "deflusso": 5.7706843745604175,
+     "persiVista": 0.02083625574846515,
+     "persiClientela": 0.02083625574846515,
+     "effettoPp": 0.274083963979114,
+     "aumentoIngrosso": 0.02147710556402951,
+     "credito_uniforme": 2.8853421872802087,
+     "credito_basso": 0.268941059331109,
+     "credito_alto": 1.8838071026616683,
+     "credito_soglia": 0.268941059331109,
+     "credito_continua": 0.268941059331109
     },
     "IT": {
-     "deflusso": 44.149545875377164,
-     "persiVista": 0.025143255886018248,
-     "persiClientela": 0.025143255886018248,
-     "effettoPp": 1.0466273331940303,
-     "aumentoIngrosso": 0.04619796358053822,
-     "credito_uniforme": 22.074772937688582,
-     "credito_basso": 7.720437352233756,
-     "credito_alto": 54.078074786961615,
-     "credito_soglia": 7.720437352233756,
-     "credito_continua": 7.720437352233756
+     "deflusso": 45.84527603245612,
+     "persiVista": 0.02610897764844419,
+     "persiClientela": 0.02610897764844419,
+     "effettoPp": 1.0868270112865308,
+     "aumentoIngrosso": 0.047972370960860676,
+     "credito_uniforme": 22.92263801622806,
+     "credito_basso": 8.016969925433408,
+     "credito_alto": 56.15514761828524,
+     "credito_soglia": 8.016969925433408,
+     "credito_continua": 8.016969925433408
     },
     "LT": {
-     "deflusso": 3.1411664611013097,
-     "persiVista": 0.05966354773403187,
-     "persiClientela": 0.05966354773403186,
-     "effettoPp": 2.85609919995391,
-     "aumentoIngrosso": 0.5942426146616174,
-     "credito_uniforme": 1.5705832305506549,
-     "credito_basso": 0.6150175143009953,
-     "credito_alto": 4.307911795183162,
-     "credito_soglia": 4.307911795183162,
-     "credito_continua": 4.307911795183162
+     "deflusso": 3.2618148299776295,
+     "persiVista": 0.06195515176222514,
+     "persiClientela": 0.061955151762225144,
+     "effettoPp": 2.9657984833540607,
+     "aumentoIngrosso": 0.6170667480093889,
+     "credito_uniforme": 1.6309074149888148,
+     "credito_basso": 0.638639586180869,
+     "credito_alto": 4.473373427919964,
+     "credito_soglia": 4.473373427919964,
+     "credito_continua": 4.473373427919964
     },
     "LU": {
-     "deflusso": 0.6646962952574941,
-     "persiVista": 0.0050288347840962795,
-     "persiClientela": 0.0050288347840962795,
-     "effettoPp": 0.03710704637304061,
-     "aumentoIngrosso": 0.0025404412651349306,
-     "credito_uniforme": 0.33234814762874704,
-     "credito_basso": 0.02751273288135773,
-     "credito_alto": 0.19271390446828576,
-     "credito_soglia": 0.02751273288135773,
-     "credito_continua": 0.02751273288135773
+     "deflusso": 0.6902264684635433,
+     "persiVista": 0.005221986188698058,
+     "persiClientela": 0.005221986188698058,
+     "effettoPp": 0.03853228272207372,
+     "aumentoIngrosso": 0.0026380165126298253,
+     "credito_uniforme": 0.34511323423177165,
+     "credito_basso": 0.028569463362397532,
+     "credito_alto": 0.20011581026404984,
+     "credito_soglia": 0.028569463362397532,
+     "credito_continua": 0.028569463362397532
     },
     "LV": {
-     "deflusso": 1.1801203281517658,
-     "persiVista": 0.05224082904611623,
-     "persiClientela": 0.05224082904611624,
-     "effettoPp": 3.5128901832224972,
-     "aumentoIngrosso": 1.0415889921904375,
-     "credito_uniforme": 0.5900601640758829,
-     "credito_basso": 0.29821802987921586,
-     "credito_alto": 2.088878671875052,
-     "credito_soglia": 0.29821802987921586,
-     "credito_continua": 1.6253679553550717
+     "deflusso": 1.225447309205606,
+     "persiVista": 0.05424733551153634,
+     "persiClientela": 0.05424733551153634,
+     "effettoPp": 3.6478160064464067,
+     "aumentoIngrosso": 1.081595153756051,
+     "credito_uniforme": 0.612723654602803,
+     "credito_basso": 0.30967222032725156,
+     "credito_alto": 2.1691099514532426,
+     "credito_soglia": 0.30967222032725156,
+     "credito_continua": 1.6877963541890109
     },
     "MT": {
-     "deflusso": 0.5161041557903804,
-     "persiVista": 0.019039222315246053,
-     "persiClientela": 0.019039222315246056,
-     "effettoPp": 1.0536586286152754,
-     "aumentoIngrosso": 0.1702049473310062,
-     "credito_uniforme": 0.2580520778951902,
-     "credito_basso": 0.10601912431551788,
-     "credito_alto": 0.7426146825637976,
-     "credito_soglia": 0.10601912431551788,
-     "credito_continua": 0.3098162799508891
+     "deflusso": 0.5359270863282826,
+     "persiVista": 0.019770495600330954,
+     "persiClientela": 0.019770495600330954,
+     "effettoPp": 1.0941283701807456,
+     "aumentoIngrosso": 0.1767423115631985,
+     "credito_uniforme": 0.2679635431641413,
+     "credito_basso": 0.11009118944697814,
+     "credito_alto": 0.7711376058995815,
+     "credito_soglia": 0.11009118944697814,
+     "credito_continua": 0.3217159450244487
     },
     "NL": {
-     "deflusso": 8.212861787472548,
-     "persiVista": 0.007351093138809868,
-     "persiClientela": 0.007351093138809867,
-     "effettoPp": 0.25494618156250054,
-     "aumentoIngrosso": 0.01188738766641765,
-     "credito_uniforme": 4.106430893736274,
-     "credito_basso": 1.6100592972245802,
-     "credito_alto": 11.277716936795303,
-     "credito_soglia": 1.6100592972245802,
-     "credito_continua": 1.6100592972245802
+     "deflusso": 8.528307782053112,
+     "persiVista": 0.007633439651685966,
+     "persiClientela": 0.007633439651685966,
+     "effettoPp": 0.264738353145148,
+     "aumentoIngrosso": 0.01234396771396181,
+     "credito_uniforme": 4.264153891026556,
+     "credito_basso": 1.67189970918931,
+     "credito_alto": 11.710880275931471,
+     "credito_soglia": 1.67189970918931,
+     "credito_continua": 1.67189970918931
     },
     "PT": {
-     "deflusso": 11.628999171018016,
-     "persiVista": 0.040145642737233665,
-     "persiClientela": 0.040145642737233665,
-     "effettoPp": 2.3677908528130107,
-     "aumentoIngrosso": 0.1368678063453753,
-     "credito_uniforme": 5.814499585509008,
-     "credito_basso": 3.108457239361968,
-     "credito_alto": 21.773297987276916,
-     "credito_soglia": 3.108457239361968,
-     "credito_continua": 16.503765487962575
+     "deflusso": 12.075654831907599,
+     "persiVista": 0.04168758786294361,
+     "persiClientela": 0.04168758786294361,
+     "effettoPp": 2.45873480875096,
+     "aumentoIngrosso": 0.1421247316919741,
+     "credito_uniforme": 6.0378274159537995,
+     "credito_basso": 3.227849286964349,
+     "credito_alto": 22.609583781026927,
+     "credito_soglia": 3.227849286964349,
+     "credito_continua": 17.137654971725205
     },
     "SI": {
-     "deflusso": 2.6800854221613015,
-     "persiVista": 0.06286441544551274,
-     "persiClientela": 0.06286441544551274,
-     "effettoPp": 4.4079542521583965,
-     "aumentoIngrosso": 0.6233383033275206,
-     "credito_uniforme": 1.3400427110806508,
-     "credito_basso": 0.6788970753554919,
-     "credito_alto": 4.755358425789375,
-     "credito_soglia": 4.755358425789375,
-     "credito_continua": 4.755358425789375
+     "deflusso": 2.7830242312429423,
+     "persiVista": 0.0652789608947231,
+     "persiClientela": 0.06527896089472311,
+     "effettoPp": 4.577258393530736,
+     "aumentoIngrosso": 0.6472799665554637,
+     "credito_uniforme": 1.3915121156214711,
+     "credito_basso": 0.7049726831880758,
+     "credito_alto": 4.938005937342328,
+     "credito_soglia": 4.938005937342328,
+     "credito_continua": 4.938005937342328
     },
     "SK": {
-     "deflusso": 4.785161007303621,
-     "persiVista": 0.06171407484855809,
-     "persiClientela": 0.06171407484855809,
-     "effettoPp": 3.421616120361971,
-     "aumentoIngrosso": 0.19176775242580407,
-     "credito_uniforme": 2.3925805036518106,
-     "credito_basso": 1.6675281195228413,
-     "credito_alto": 11.680259322462714,
-     "credito_soglia": 11.680259322462714,
-     "credito_continua": 10.457945148132627
+     "deflusso": 4.96895319962804,
+     "persiVista": 0.0640844371198333,
+     "persiClientela": 0.0640844371198333,
+     "effettoPp": 3.5530362182633906,
+     "aumentoIngrosso": 0.1991333176767266,
+     "credito_uniforme": 2.48447659981402,
+     "credito_basso": 1.7315758387912084,
+     "credito_alto": 12.128883823188303,
+     "credito_soglia": 12.128883823188303,
+     "credito_continua": 10.859622053685044
     }
    },
    "totale": {
-    "deflusso": 264.2007926023779,
-    "credito_uniforme": 132.10039630118894,
-    "credito_basso": 47.60019668882986,
-    "credito_alto": 333.4172507296948,
-    "credito_soglia": 81.49737071338919,
-    "credito_continua": 112.26251082031608
+    "deflusso": 274.3484224965708,
+    "credito_uniforme": 137.1742112482854,
+    "credito_basso": 49.42846213092484,
+    "credito_alto": 346.22340027761174,
+    "credito_soglia": 84.62758522638627,
+    "credito_continua": 116.57437680518417
+   }
+  }
+ ],
+ "banche": [
+  {
+   "scenario": {
+    "importo": 15.363067023494356,
+    "sostituzione": 1.0,
+    "regola": "R1",
+    "depositi": "T1"
+   },
+   "banche": {
+    "0W2PZJM8XOY22M4GG883": {
+     "deflusso": 0.005153847743380958,
+     "credito": 0.00044517684077835984,
+     "creditoBasso": 0.00044517684077835984,
+     "creditoAlto": 0.003118256828037083
+    },
+    "2138009Y59EAR7H1UO97": {
+     "deflusso": 0.004799935139295407,
+     "credito": 0.0018799234403124464,
+     "creditoBasso": 0.0018799234403124464,
+     "creditoAlto": 0.013167989812075162
+    },
+    "213800DBQIB6VBNU5C64": {
+     "deflusso": 0.06791818708111817,
+     "credito": 0.12134921354463227,
+     "creditoBasso": 0.017324377848230113,
+     "creditoAlto": 0.12134921354463227
+    },
+    "213800HDJ876ACJXXD05": {
+     "deflusso": 0.007903172225345706,
+     "credito": 0.0025562609546588297,
+     "creditoBasso": 0.0025562609546588297,
+     "creditoAlto": 0.01790541970281434
+    },
+    "213800TC9PZRBHMJW403": {
+     "deflusso": 0.0059487057165092515,
+     "credito": 0.0019099081444875004,
+     "creditoBasso": 0.0019099081444875004,
+     "creditoAlto": 0.01337801872635349
+    },
+    "213800X3Q9LSAKRUWY91": {
+     "deflusso": 0.17723272469223142,
+     "credito": 0.05175253588081642,
+     "creditoBasso": 0.05175253588081642,
+     "creditoAlto": 0.3625024565438592
+    },
+    "222100K6QL2V4MLHWQ08": {
+     "deflusso": 0.018932255041368768,
+     "credito": 0.005862595541408312,
+     "creditoBasso": 0.005862595541408312,
+     "creditoAlto": 0.04106475652473985
+    },
+    "254900RNFMDM0P11YR84": {
+     "deflusso": 0.015741892578154348,
+     "credito": 0.005608178848061051,
+     "creditoBasso": 0.005608178848061051,
+     "creditoAlto": 0.039282685854105645
+    },
+    "2W8N8UU78PMDQKZENC08": {
+     "deflusso": 0.623573894260704,
+     "credito": 0.15617088087033906,
+     "creditoBasso": 0.15617088087033906,
+     "creditoAlto": 1.093904424055504
+    },
+    "391200EEGLNXBBCVKC73": {
+     "deflusso": 0.047118629598167865,
+     "credito": 0.10474840711931836,
+     "creditoBasso": 0.014954369549892974,
+     "creditoAlto": 0.10474840711931836
+    },
+    "485100FX5Y9YLAQLNP12": {
+     "deflusso": 0.0445945416949038,
+     "credito": 0.011451089220426352,
+     "creditoBasso": 0.001634810730400784,
+     "creditoAlto": 0.011451089220426352
+    },
+    "5299007QVIQ7IO64NX37": {
+     "deflusso": 0.0083619153315219,
+     "credito": 0.0003493121222388707,
+     "creditoBasso": 0.0003493121222388707,
+     "creditoAlto": 0.0024467690376323626
+    },
+    "529900GGYMNGRQTDOO93": {
+     "deflusso": 0.00431326697709602,
+     "credito": 0.001144334685004984,
+     "creditoBasso": 0.001144334685004984,
+     "creditoAlto": 0.008015532521497497
+    },
+    "529900HEKOENJHPNN480": {
+     "deflusso": 0.0,
+     "credito": 0.0,
+     "creditoBasso": 0.0,
+     "creditoAlto": 0.0
+    },
+    "529900HNOAA1KXQJUQ27": {
+     "deflusso": 0.03212789258014749,
+     "credito": 0.005778849964386044,
+     "creditoBasso": 0.005778849964386044,
+     "creditoAlto": 0.04047815768704873
+    },
+    "529900JG015JC10LED24": {
+     "deflusso": 0.005717328434281643,
+     "credito": 0.0016343366655887656,
+     "creditoBasso": 0.0016343366655887656,
+     "creditoAlto": 0.011447768616788428
+    },
+    "529900JZTYE3W7WQH904": {
+     "deflusso": 0.04345645965313078,
+     "credito": 0.013602122042468754,
+     "creditoBasso": 0.013602122042468754,
+     "creditoAlto": 0.0952765419255918
+    },
+    "529900ODI3047E2LIV03": {
+     "deflusso": 0.2866311902624121,
+     "credito": 0.09365804215092846,
+     "creditoBasso": 0.09365804215092846,
+     "creditoAlto": 0.656031048082127
+    },
+    "529900RWC8ZYB066JF16": {
+     "deflusso": 0.02239008142930634,
+     "credito": 0.03905171232788623,
+     "creditoBasso": 0.005575203993718947,
+     "creditoAlto": 0.03905171232788623
+    },
+    "529900S9YO2JHTIIDG38": {
+     "deflusso": 0.06659063660234935,
+     "credito": 0.1496559379057275,
+     "creditoBasso": 0.02136557740900804,
+     "creditoAlto": 0.1496559379057275
+    },
+    "529900SSGT49ZZSWYE62": {
+     "deflusso": 0.0662419955108362,
+     "credito": 0.02144414897542535,
+     "creditoBasso": 0.02144414897542535,
+     "creditoAlto": 0.15020629520428325
+    },
+    "529900SXEWPJ1MRRX537": {
+     "deflusso": 0.008045224269301668,
+     "credito": 0.001812585990909937,
+     "creditoBasso": 0.001812585990909937,
+     "creditoAlto": 0.012696322280999534
+    },
+    "529900V3O1M5IHMOSF46": {
+     "deflusso": 0.0002463049041021076,
+     "credito": 3.134054824061428e-06,
+     "creditoBasso": 3.134054824061428e-06,
+     "creditoAlto": 2.195259716899263e-05
+    },
+    "529900XSTAE561178282": {
+     "deflusso": 0.010694992370541171,
+     "credito": 0.002996149500042096,
+     "creditoBasso": 0.002996149500042096,
+     "creditoAlto": 0.0209866344798867
+    },
+    "5493001BABFV7P27OW30": {
+     "deflusso": 0.03404614931912984,
+     "credito": 0.07617740690058732,
+     "creditoBasso": 0.01087544073912561,
+     "creditoAlto": 0.07617740690058732
+    },
+    "54930056IRBXK0Q1FP96": {
+     "deflusso": 0.08016128847267538,
+     "credito": 0.023132912572483615,
+     "creditoBasso": 0.023132912572483615,
+     "creditoAlto": 0.1620352991755145
+    },
+    "5493006QMFDDMYWIAM13": {
+     "deflusso": 1.0585070296787575,
+     "credito": 0.2852364258658319,
+     "creditoBasso": 0.2852364258658319,
+     "creditoAlto": 1.9979485702937752
+    },
+    "5493007SJLLCTM6J6M37": {
+     "deflusso": 0.09806083234719916,
+     "credito": 0.0247035528586262,
+     "creditoBasso": 0.0247035528586262,
+     "creditoAlto": 0.17303690426371054
+    },
+    "5493008QOCP58OLEN998": {
+     "deflusso": 0.016692999476494975,
+     "credito": 0.04678023762285118,
+     "creditoBasso": 0.006678564192838257,
+     "creditoAlto": 0.04678023762285118
+    },
+    "549300C9KPZR0VZ16R05": {
+     "deflusso": 0.00017823258130746135,
+     "credito": 8.851834510641542e-07,
+     "creditoBasso": 8.851834510641542e-07,
+     "creditoAlto": 6.2002985948688715e-06
+    },
+    "549300DYPOFMXOR7XM56": {
+     "deflusso": 0.017311444219374722,
+     "credito": 0.058558187669784385,
+     "creditoBasso": 0.008360039094326617,
+     "creditoAlto": 0.058558187669784385
+    },
+    "549300L7YCATGO57ZE10": {
+     "deflusso": 0.054390034089941634,
+     "credito": 0.03193546312513269,
+     "creditoBasso": 0.0045592551758444535,
+     "creditoAlto": 0.03193546312513269
+    },
+    "549300NYKK9MWM7GGW15": {
+     "deflusso": 1.0015212513361982,
+     "credito": 0.32226674081930307,
+     "creditoBasso": 0.32226674081930307,
+     "creditoAlto": 2.2573287129043695
+    },
+    "549300OLBL49CW8CT155": {
+     "deflusso": 0.05333601477124758,
+     "credito": 0.12896287258013986,
+     "creditoBasso": 0.01841133920616435,
+     "creditoAlto": 0.12896287258013986
+    },
+    "549300TK038P6EV4YU51": {
+     "deflusso": 0.0028399488741224993,
+     "credito": 0.0010816942371014542,
+     "creditoBasso": 0.0010816942371014542,
+     "creditoAlto": 0.007576765302508824
+    },
+    "549300TRUWO2CD2G5692": {
+     "deflusso": 0.6164861507654477,
+     "credito": 0.1490529116171851,
+     "creditoBasso": 0.1490529116171851,
+     "creditoAlto": 1.0440463582437296
+    },
+    "549300U4LIZV0REEQQ46": {
+     "deflusso": 0.07776750220453368,
+     "credito": 0.19749038806426708,
+     "creditoBasso": 0.02819464588421554,
+     "creditoAlto": 0.19749038806426708
+    },
+    "5UMCZOEYKCVFAW8ZLO05": {
+     "deflusso": 0.08371689184279284,
+     "credito": 0.1398989766939898,
+     "creditoBasso": 0.019972628268711393,
+     "creditoAlto": 0.1398989766939898
+    },
+    "635400AKJBGNS5WNQL34": {
+     "deflusso": 0.16862017752813366,
+     "credito": 0.3098943601547682,
+     "creditoBasso": 0.04424195947823009,
+     "creditoAlto": 0.3098943601547682
+    },
+    "635400C8EK6DRI12LJ39": {
+     "deflusso": 0.1642189172406843,
+     "credito": 0.0546795704825102,
+     "creditoBasso": 0.0546795704825102,
+     "creditoAlto": 0.3830049732890567
+    },
+    "635400L14KNHZXPUZM19": {
+     "deflusso": 0.024888539265317124,
+     "credito": 0.00537100901539822,
+     "creditoBasso": 0.00537100901539822,
+     "creditoAlto": 0.03762142142531769
+    },
+    "724500A1FNICHSDF2I11": {
+     "deflusso": 0.09226032323295609,
+     "credito": 0.26611695279521036,
+     "creditoBasso": 0.03799209329319773,
+     "creditoAlto": 0.26611695279521036
+    },
+    "724500JIWG886A9RRT57": {
+     "deflusso": 0.0007862916542259966,
+     "credito": 3.7649455835255666e-06,
+     "creditoBasso": 3.7649455835255666e-06,
+     "creditoAlto": 2.6371693667824206e-05
+    },
+    "7437003B5WFBOIEFY714": {
+     "deflusso": 0.07760723687105524,
+     "credito": 0.02818443553169195,
+     "creditoBasso": 0.02818443553169195,
+     "creditoAlto": 0.1974188692911484
+    },
+    "7CUNS533WID6K7DGFI87": {
+     "deflusso": 0.6124778944684258,
+     "credito": 0.19782546119139446,
+     "creditoBasso": 0.19782546119139446,
+     "creditoAlto": 1.3856753959642123
+    },
+    "7LTWFZYICNSX8D621K86": {
+     "deflusso": 0.585953666086925,
+     "credito": 0.0969447603704539,
+     "creditoBasso": 0.0969447603704539,
+     "creditoAlto": 0.6790529813703675
+    },
+    "7LVZJ6XRIE7VNZ4UBX81": {
+     "deflusso": 0.04781824420266514,
+     "credito": 0.011893724848046823,
+     "creditoBasso": 0.011893724848046823,
+     "creditoAlto": 0.08331001373155701
+    },
+    "815600AD83B2B6317788": {
+     "deflusso": 0.059911214185976634,
+     "credito": 0.021594921228872094,
+     "creditoBasso": 0.021594921228872094,
+     "creditoAlto": 0.1512623847528025
+    },
+    "815600E4E6DCD2D25E30": {
+     "deflusso": 0.1721176236480077,
+     "credito": 0.04404169442602537,
+     "creditoBasso": 0.04404169442602537,
+     "creditoAlto": 0.30849159655780584
+    },
+    "851WYGNLUQLFZBSYGB56": {
+     "deflusso": 0.468200961932379,
+     "credito": 0.101098998420222,
+     "creditoBasso": 0.101098998420222,
+     "creditoAlto": 0.7081514878006026
+    },
+    "95980020140005881190": {
+     "deflusso": 0.06582408179869717,
+     "credito": 0.14244306690355515,
+     "creditoBasso": 0.020335834413877575,
+     "creditoAlto": 0.14244306690355515
+    },
+    "96950001WI712W7PQG45": {
+     "deflusso": 0.03508322036839479,
+     "credito": 0.1131963329766447,
+     "creditoBasso": 0.016160434717610982,
+     "creditoAlto": 0.1131963329766447
+    },
+    "9695000CG7B84NLR5984": {
+     "deflusso": 0.7261883813198555,
+     "credito": 0.25437078450909745,
+     "creditoBasso": 0.25437078450909745,
+     "creditoAlto": 1.7817491005637236
+    },
+    "96950066U5XAAIRCPA78": {
+     "deflusso": 0.13738224946233632,
+     "credito": 0.026782302557242166,
+     "creditoBasso": 0.026782302557242166,
+     "creditoAlto": 0.18759757959029716
+    },
+    "9CZ7TVMR36CYD5TZBS50": {
+     "deflusso": 0.009263835881085484,
+     "credito": 0.0022805684683805763,
+     "creditoBasso": 0.0022805684683805763,
+     "creditoAlto": 0.01597432199280635
+    },
+    "9ZHRYM6F437SQJ6OUG95": {
+     "deflusso": 0.138413464461226,
+     "credito": 0.03385202152976696,
+     "creditoBasso": 0.03385202152976696,
+     "creditoAlto": 0.2371176746155332
+    },
+    "A5GWLFH3KM7YV2SFQL84": {
+     "deflusso": 0.053347640105405277,
+     "credito": 0.016686459048595982,
+     "creditoBasso": 0.016686459048595982,
+     "creditoAlto": 0.11688088889141268
+    },
+    "AT0000000000043000VB": {
+     "deflusso": 0.03387497437863145,
+     "credito": 0.09366428494364683,
+     "creditoBasso": 0.013371948740740776,
+     "creditoAlto": 0.09366428494364683
+    },
+    "B81CK4ESI35472RHJ606": {
+     "deflusso": 0.09983279704756359,
+     "credito": 0.018319282626960063,
+     "creditoBasso": 0.018319282626960063,
+     "creditoAlto": 0.12831805903555468
+    },
+    "BFXS5XCH7N0Y05NIXW11": {
+     "deflusso": 0.3604122496747505,
+     "credito": 0.11400751057940786,
+     "creditoBasso": 0.11400751057940786,
+     "creditoAlto": 0.7985696149201607
+    },
+    "DG3RU1DBUFHT4ZF9WN62": {
+     "deflusso": 0.5296616612044982,
+     "credito": 0.2016657274267703,
+     "creditoBasso": 0.2016657274267703,
+     "creditoAlto": 1.412574675785246
+    },
+    "DIZES5CFO5K3I5R58746": {
+     "deflusso": 0.043581843188871754,
+     "credito": 0.008553417809758986,
+     "creditoBasso": 0.008553417809758986,
+     "creditoAlto": 0.059912715678788
+    },
+    "DSNHHQ2B9X5N6OUJ1236": {
+     "deflusso": 0.02799503234035199,
+     "credito": 0.006899091449013699,
+     "creditoBasso": 0.006899091449013699,
+     "creditoAlto": 0.04832492853969006
+    },
+    "DZZ47B9A52ZJ6LT6VV95": {
+     "deflusso": 0.0017340632459615626,
+     "credito": 0.0006351311003355074,
+     "creditoBasso": 0.0006351311003355074,
+     "creditoAlto": 0.004448798115502001
+    },
+    "F0HUI1NY1AZMJMD8LP67": {
+     "deflusso": 0.0920242500688367,
+     "credito": 0.0073026172442767785,
+     "creditoBasso": 0.0073026172442767785,
+     "creditoAlto": 0.051151439155489725
+    },
+    "FR9695005MSX1OYEMGDF": {
+     "deflusso": 0.9325382721080405,
+     "credito": 0.2788616911712052,
+     "creditoBasso": 0.2788616911712052,
+     "creditoAlto": 1.953296517069961
+    },
+    "FR969500TJ5KRTCJQWXH": {
+     "deflusso": 1.2603020160293101,
+     "credito": 0.3559494060159911,
+     "creditoBasso": 0.3559494060159911,
+     "creditoAlto": 2.4932601251324185
+    },
+    "J48C8PCSJVUBR8KCW529": {
+     "deflusso": 0.050697606433784834,
+     "credito": 0.016262937246467175,
+     "creditoBasso": 0.016262937246467175,
+     "creditoAlto": 0.1139143155427145
+    },
+    "J4CP7MHCXR8DAQMKIL78": {
+     "deflusso": 0.11707375325229286,
+     "credito": 0.03677778272221797,
+     "creditoBasso": 0.03677778272221797,
+     "creditoAlto": 0.2576112717209327
+    },
+    "JEUVK5RWVJEN8W0C9M24": {
+     "deflusso": 0.0869660583244106,
+     "credito": 0.022458316244980837,
+     "creditoBasso": 0.022458316244980837,
+     "creditoAlto": 0.15731006548921952
+    },
+    "JU1U6S0DG9YLT7N8ZV32": {
+     "deflusso": 0.09131762455326785,
+     "credito": 0.1812671889172338,
+     "creditoBasso": 0.025878546556328944,
+     "creditoAlto": 0.1812671889172338
+    },
+    "K8MS7FD7N5Z2WQ51AZ71": {
+     "deflusso": 0.5451795656857829,
+     "credito": 0.158136185353219,
+     "creditoBasso": 0.158136185353219,
+     "creditoAlto": 1.1076704683811645
+    },
+    "LOO0AWXR8GF142JCO404": {
+     "deflusso": 0.10471923163153882,
+     "credito": 0.03213991460572927,
+     "creditoBasso": 0.03213991460572927,
+     "creditoAlto": 0.22512516149001752
+    },
+    "M6AD1Y1KW32H8THQ6F76": {
+     "deflusso": 0.08722531190768762,
+     "credito": 0.14229094710008797,
+     "creditoBasso": 0.02031411708356711,
+     "creditoAlto": 0.14229094710008797
+    },
+    "N1FBEDJ5J41VKZLO2475": {
+     "deflusso": 0.0552098325300653,
+     "credito": 0.0034178568581116056,
+     "creditoBasso": 0.0034178568581116056,
+     "creditoAlto": 0.023940498491398524
+    },
+    "N747OI7JINV7RUUH6190": {
+     "deflusso": 0.16241986645874226,
+     "credito": 0.05291750180713803,
+     "creditoBasso": 0.05291750180713803,
+     "creditoAlto": 0.3706625013202934
+    },
+    "NNVPP80YIZGEY2314M97": {
+     "deflusso": 0.1777161393038842,
+     "credito": 0.053727657775016646,
+     "creditoBasso": 0.053727657775016646,
+     "creditoAlto": 0.3763372672721688
+    },
+    "O2RNE8IBXP4R0TD8PU41": {
+     "deflusso": 0.5568422349438352,
+     "credito": 0.09011909106318064,
+     "creditoBasso": 0.09011909106318064,
+     "creditoAlto": 0.6312423408030953
+    },
+    "PSNL19R2RXX5U3QWHI44": {
+     "deflusso": 0.031691519848130345,
+     "credito": 0.008162756605757156,
+     "creditoBasso": 0.008162756605757156,
+     "creditoAlto": 0.05717631554463459
+    },
+    "R0MUWSFPU8MPRO8K5P83": {
+     "deflusso": 0.7560044708840359,
+     "credito": 0.12445465848670217,
+     "creditoBasso": 0.12445465848670217,
+     "creditoAlto": 0.8717470296268096
+    },
+    "SI5RG2M0WQQLZCXKRM20": {
+     "deflusso": 0.24873458978196875,
+     "credito": 0.5811651108831744,
+     "creditoBasso": 0.08296983292310776,
+     "creditoAlto": 0.5811651108831744
+    },
+    "TO822O0VT80V06K0FH57": {
+     "deflusso": 0.06788458974627974,
+     "credito": 0.11865243254950088,
+     "creditoBasso": 0.016939372856694685,
+     "creditoAlto": 0.11865243254950088
+    },
+    "TUKDD90GPC79G1KOE162": {
+     "deflusso": 0.005285776257593518,
+     "credito": 0.0012645654235383795,
+     "creditoBasso": 0.0012645654235383795,
+     "creditoAlto": 0.008857692955351597
+    },
+    "VDYMYTQGZZ6DU0912C88": {
+     "deflusso": 0.15596156964533583,
+     "credito": 0.04425995040366559,
+     "creditoBasso": 0.04425995040366559,
+     "creditoAlto": 0.3100203782243152
+    },
+    "VWMYAEQSTOPNV0SUGU82": {
+     "deflusso": 0.11230778560352371,
+     "credito": 0.03567564284785473,
+     "creditoBasso": 0.03567564284785473,
+     "creditoAlto": 0.24989129423361287
+    }
+   }
+  },
+  {
+   "scenario": {
+    "importo": 130.77274805669867,
+    "sostituzione": 0.75,
+    "regola": "R2",
+    "depositi": "T2"
+   },
+   "banche": {
+    "0W2PZJM8XOY22M4GG883": {
+     "deflusso": 0.013549973994586255,
+     "credito": 0.0011704138181586486,
+     "creditoBasso": 0.0011704138181586486,
+     "creditoAlto": 0.008198204726285864
+    },
+    "2138009Y59EAR7H1UO97": {
+     "deflusso": 0.07540731981658386,
+     "credito": 0.02953372993184706,
+     "creditoBasso": 0.02953372993184706,
+     "creditoAlto": 0.20687004934121442
+    },
+    "213800DBQIB6VBNU5C64": {
+     "deflusso": 0.5502956396750157,
+     "credito": 0.9832115072778249,
+     "creditoBasso": 0.14036784548705755,
+     "creditoAlto": 0.9832115072778249
+    },
+    "213800HDJ876ACJXXD05": {
+     "deflusso": 0.06211517725194848,
+     "credito": 0.02009099609289138,
+     "creditoBasso": 0.02009099609289138,
+     "creditoAlto": 0.14072808827877886
+    },
+    "213800TC9PZRBHMJW403": {
+     "deflusso": 0.02641254779038938,
+     "credito": 0.008480086685332261,
+     "creditoBasso": 0.008480086685332261,
+     "creditoAlto": 0.059399065240343205
+    },
+    "213800X3Q9LSAKRUWY91": {
+     "deflusso": 1.4920600502772339,
+     "credito": 0.4356864197760086,
+     "creditoBasso": 0.4356864197760086,
+     "creditoAlto": 3.0517808405625635
+    },
+    "222100K6QL2V4MLHWQ08": {
+     "deflusso": 0.20299337111129692,
+     "credito": 0.06285928590187068,
+     "creditoBasso": 0.06285928590187068,
+     "creditoAlto": 0.44030007743963384
+    },
+    "254900RNFMDM0P11YR84": {
+     "deflusso": 0.04769284061125252,
+     "credito": 0.01699096716560957,
+     "creditoBasso": 0.01699096716560957,
+     "creditoAlto": 0.11901382669970059
+    },
+    "2W8N8UU78PMDQKZENC08": {
+     "deflusso": 4.285421272289533,
+     "credito": 1.0732617595985212,
+     "creditoBasso": 1.0732617595985212,
+     "creditoAlto": 7.517699717459937
+    },
+    "391200EEGLNXBBCVKC73": {
+     "deflusso": 0.24189791296094965,
+     "credito": 0.5377580223413848,
+     "creditoBasso": 0.07677283517402095,
+     "creditoAlto": 0.5377580223413848
+    },
+    "485100FX5Y9YLAQLNP12": {
+     "deflusso": 0.5539661439373237,
+     "credito": 0.14224870350101093,
+     "creditoBasso": 0.020308086190982788,
+     "creditoAlto": 0.14224870350101093
+    },
+    "5299007QVIQ7IO64NX37": {
+     "deflusso": 0.03731884971872665,
+     "credito": 0.001558964193959293,
+     "creditoBasso": 0.001558964193959293,
+     "creditoAlto": 0.010919819490113957
+    },
+    "529900GGYMNGRQTDOO93": {
+     "deflusso": 0.003448390668088784,
+     "credito": 0.000914877996167604,
+     "creditoBasso": 0.000914877996167604,
+     "creditoAlto": 0.00640829507973181
+    },
+    "529900HEKOENJHPNN480": {
+     "deflusso": 0.0,
+     "credito": 0.0,
+     "creditoBasso": 0.0,
+     "creditoAlto": 0.0
+    },
+    "529900HNOAA1KXQJUQ27": {
+     "deflusso": 0.0209738820293992,
+     "credito": 0.003772576029263922,
+     "creditoBasso": 0.003772576029263922,
+     "creditoAlto": 0.02642514139318879
+    },
+    "529900JG015JC10LED24": {
+     "deflusso": 0.04410947829513856,
+     "credito": 0.012608990108995645,
+     "creditoBasso": 0.012608990108995645,
+     "creditoAlto": 0.08832011439158174
+    },
+    "529900JZTYE3W7WQH904": {
+     "deflusso": 0.19676483725275493,
+     "credito": 0.061588526799965744,
+     "creditoBasso": 0.061588526799965744,
+     "creditoAlto": 0.431399000646472
+    },
+    "529900ODI3047E2LIV03": {
+     "deflusso": 1.7149623054705605,
+     "credito": 0.5603717158135054,
+     "creditoBasso": 0.5603717158135054,
+     "creditoAlto": 3.925143379020223
+    },
+    "529900RWC8ZYB066JF16": {
+     "deflusso": 0.07807495028756542,
+     "credito": 0.1361746051826879,
+     "creditoBasso": 0.01944091967807231,
+     "creditoAlto": 0.1361746051826879
+    },
+    "529900S9YO2JHTIIDG38": {
+     "deflusso": 0.3901550707693685,
+     "credito": 0.8768353333718593,
+     "creditoBasso": 0.12518108838361605,
+     "creditoAlto": 0.8768353333718593
+    },
+    "529900SSGT49ZZSWYE62": {
+     "deflusso": 0.31859459348503344,
+     "credito": 0.10313683748160221,
+     "creditoBasso": 0.10313683748160221,
+     "creditoAlto": 0.7224256031307692
+    },
+    "529900SXEWPJ1MRRX537": {
+     "deflusso": 0.023640765628255327,
+     "credito": 0.005326255571975529,
+     "creditoBasso": 0.005326255571975529,
+     "creditoAlto": 0.03730794435789662
+    },
+    "529900V3O1M5IHMOSF46": {
+     "deflusso": 0.0011159803159610773,
+     "credito": 1.420005624957218e-05,
+     "creditoBasso": 1.420005624957218e-05,
+     "creditoAlto": 9.94647930950759e-05
+    },
+    "529900XSTAE561178282": {
+     "deflusso": 0.027061085162600983,
+     "credito": 0.007581029884962964,
+     "creditoBasso": 0.007581029884962964,
+     "creditoAlto": 0.053101590282654404
+    },
+    "5493001BABFV7P27OW30": {
+     "deflusso": 0.31239147855481125,
+     "credito": 0.6989681138705108,
+     "creditoBasso": 0.09978793726671908,
+     "creditoAlto": 0.6989681138705108
+    },
+    "54930056IRBXK0Q1FP96": {
+     "deflusso": 0.47704369412629827,
+     "credito": 0.13766507849034781,
+     "creditoBasso": 0.13766507849034781,
+     "creditoAlto": 0.9642798808541597
+    },
+    "5493006QMFDDMYWIAM13": {
+     "deflusso": 5.8636044155813485,
+     "credito": 1.5800684542445782,
+     "creditoBasso": 1.5800684542445782,
+     "creditoAlto": 11.067645023041955
+    },
+    "5493007SJLLCTM6J6M37": {
+     "deflusso": 0.6497483607310773,
+     "credito": 0.16368505742735878,
+     "creditoBasso": 0.16368505742735878,
+     "creditoAlto": 1.14653773785286
+    },
+    "5493008QOCP58OLEN998": {
+     "deflusso": 0.2405326512256799,
+     "credito": 0.6740654725494731,
+     "creditoBasso": 0.09623272042548321,
+     "creditoAlto": 0.6740654725494731
+    },
+    "549300C9KPZR0VZ16R05": {
+     "deflusso": 0.0,
+     "credito": 0.0,
+     "creditoBasso": 0.0,
+     "creditoAlto": 0.0
+    },
+    "549300DYPOFMXOR7XM56": {
+     "deflusso": 0.19007421882281506,
+     "credito": 0.6429505034916199,
+     "creditoBasso": 0.09179060279695836,
+     "creditoAlto": 0.6429505034916199
+    },
+    "549300L7YCATGO57ZE10": {
+     "deflusso": 0.49991240685447996,
+     "credito": 0.2935268289866724,
+     "creditoBasso": 0.04190525464005261,
+     "creditoAlto": 0.2935268289866724
+    },
+    "549300NYKK9MWM7GGW15": {
+     "deflusso": 18.617624041534686,
+     "credito": 5.990727619268871,
+     "creditoBasso": 5.990727619268871,
+     "creditoAlto": 41.962262167622555
+    },
+    "549300OLBL49CW8CT155": {
+     "deflusso": 0.3394200842083834,
+     "credito": 0.8206947830399774,
+     "creditoBasso": 0.11716620243464877,
+     "creditoAlto": 0.8206947830399774
+    },
+    "549300TK038P6EV4YU51": {
+     "deflusso": 0.02438821347954372,
+     "credito": 0.009289107354854628,
+     "creditoBasso": 0.009289107354854628,
+     "creditoAlto": 0.06506587895497949
+    },
+    "549300TRUWO2CD2G5692": {
+     "deflusso": 3.726090810569215,
+     "credito": 0.9008875277665143,
+     "creditoBasso": 0.9008875277665143,
+     "creditoAlto": 6.310298352087896
+    },
+    "549300U4LIZV0REEQQ46": {
+     "deflusso": 0.5126620212716806,
+     "credito": 1.3019039914702744,
+     "creditoBasso": 0.1858658660532182,
+     "creditoAlto": 1.3019039914702744
+    },
+    "5UMCZOEYKCVFAW8ZLO05": {
+     "deflusso": 0.8306071065308825,
+     "credito": 1.3880243482597705,
+     "creditoBasso": 0.19816080854080895,
+     "creditoAlto": 1.3880243482597705
+    },
+    "635400AKJBGNS5WNQL34": {
+     "deflusso": 0.6114705409678824,
+     "credito": 1.1237757830916528,
+     "creditoBasso": 0.16043545495092873,
+     "creditoAlto": 1.1237757830916528
+    },
+    "635400C8EK6DRI12LJ39": {
+     "deflusso": 0.48252465913240145,
+     "credito": 0.16066505340496062,
+     "creditoBasso": 0.16066505340496062,
+     "creditoAlto": 1.125384013532706
+    },
+    "635400L14KNHZXPUZM19": {
+     "deflusso": 0.11946421134953213,
+     "credito": 0.025780675568610946,
+     "creditoBasso": 0.025780675568610946,
+     "creditoAlto": 0.1805816481438531
+    },
+    "724500A1FNICHSDF2I11": {
+     "deflusso": 2.0665042688777975,
+     "credito": 5.960653504144822,
+     "creditoBasso": 0.8509706038614004,
+     "creditoAlto": 5.960653504144822
+    },
+    "724500JIWG886A9RRT57": {
+     "deflusso": 0.0,
+     "credito": 0.0,
+     "creditoBasso": 0.0,
+     "creditoAlto": 0.0
+    },
+    "7437003B5WFBOIEFY714": {
+     "deflusso": 0.541291334334874,
+     "credito": 0.1965794857736356,
+     "creditoBasso": 0.1965794857736356,
+     "creditoAlto": 1.3769479173577333
+    },
+    "7CUNS533WID6K7DGFI87": {
+     "deflusso": 3.5850589859312203,
+     "credito": 1.1579453784299114,
+     "creditoBasso": 1.1579453784299114,
+     "creditoAlto": 8.110869101972781
+    },
+    "7LTWFZYICNSX8D621K86": {
+     "deflusso": 1.5833512944372914,
+     "credito": 0.261962029944361,
+     "creditoBasso": 0.261962029944361,
+     "creditoAlto": 1.8349222460275088
+    },
+    "7LVZJ6XRIE7VNZ4UBX81": {
+     "deflusso": 0.4162211330512932,
+     "credito": 0.10352575078819935,
+     "creditoBasso": 0.10352575078819935,
+     "creditoAlto": 0.7251497600561173
+    },
+    "815600AD83B2B6317788": {
+     "deflusso": 0.35252618937405344,
+     "credito": 0.1270676182094311,
+     "creditoBasso": 0.1270676182094311,
+     "creditoAlto": 0.8900495978433848
+    },
+    "815600E4E6DCD2D25E30": {
+     "deflusso": 1.0731191328433167,
+     "credito": 0.2745912006550862,
+     "creditoBasso": 0.2745912006550862,
+     "creditoAlto": 1.9233837161532
+    },
+    "851WYGNLUQLFZBSYGB56": {
+     "deflusso": 1.9190630371283808,
+     "credito": 0.41438477648187694,
+     "creditoBasso": 0.41438477648187694,
+     "creditoAlto": 2.9025727314116048
+    },
+    "95980020140005881190": {
+     "deflusso": 0.34696766518033917,
+     "credito": 0.7508367301772465,
+     "creditoBasso": 0.10719294205508763,
+     "creditoAlto": 0.7508367301772465
+    },
+    "96950001WI712W7PQG45": {
+     "deflusso": 0.5924590472058062,
+     "credito": 1.9115745612381072,
+     "creditoBasso": 0.27290527080155563,
+     "creditoAlto": 1.9115745612381072
+    },
+    "9695000CG7B84NLR5984": {
+     "deflusso": 8.075498926954296,
+     "credito": 2.8287026482278055,
+     "creditoBasso": 2.8287026482278055,
+     "creditoAlto": 19.813747121033312
+    },
+    "96950066U5XAAIRCPA78": {
+     "deflusso": 2.1874225242270597,
+     "credito": 0.4264321780554081,
+     "creditoBasso": 0.4264321780554081,
+     "creditoAlto": 2.9869591791681533
+    },
+    "9CZ7TVMR36CYD5TZBS50": {
+     "deflusso": 0.011551412928358215,
+     "credito": 0.0028437235317872083,
+     "creditoBasso": 0.0028437235317872083,
+     "creditoAlto": 0.01991896142787004
+    },
+    "9ZHRYM6F437SQJ6OUG95": {
+     "deflusso": 0.5359180826930945,
+     "credito": 0.1310704167700404,
+     "creditoBasso": 0.1310704167700404,
+     "creditoAlto": 0.9180873410491038
+    },
+    "A5GWLFH3KM7YV2SFQL84": {
+     "deflusso": 0.424780850145694,
+     "credito": 0.1328660133152869,
+     "creditoBasso": 0.1328660133152869,
+     "creditoAlto": 0.930664660160819
+    },
+    "AT0000000000043000VB": {
+     "deflusso": 0.17433311886943925,
+     "credito": 0.4820309747954264,
+     "creditoBasso": 0.0688169828050447,
+     "creditoAlto": 0.4820309747954264
+    },
+    "B81CK4ESI35472RHJ606": {
+     "deflusso": 0.2690377551044819,
+     "credito": 0.049368332039557455,
+     "creditoBasso": 0.049368332039557455,
+     "creditoAlto": 0.3458022169392131
+    },
+    "BFXS5XCH7N0Y05NIXW11": {
+     "deflusso": 5.485921652535852,
+     "credito": 1.7353357756394265,
+     "creditoBasso": 1.7353357756394265,
+     "creditoAlto": 12.155220432993625
+    },
+    "DG3RU1DBUFHT4ZF9WN62": {
+     "deflusso": 7.871015172202207,
+     "credito": 2.996845187321297,
+     "creditoBasso": 2.996845187321297,
+     "creditoAlto": 20.991507445885457
+    },
+    "DIZES5CFO5K3I5R58746": {
+     "deflusso": 0.1770759807077306,
+     "credito": 0.03475311589053633,
+     "creditoBasso": 0.03475311589053633,
+     "creditoAlto": 0.24342942173665924
+    },
+    "DSNHHQ2B9X5N6OUJ1236": {
+     "deflusso": 0.06768454202729955,
+     "credito": 0.01668016809031768,
+     "creditoBasso": 0.01668016809031768,
+     "creditoAlto": 0.11683682365304152
+    },
+    "DZZ47B9A52ZJ6LT6VV95": {
+     "deflusso": 0.008065918455827442,
+     "credito": 0.002954284208489427,
+     "creditoBasso": 0.002954284208489427,
+     "creditoAlto": 0.0206933875737502
+    },
+    "F0HUI1NY1AZMJMD8LP67": {
+     "deflusso": 0.14525086074199178,
+     "credito": 0.011526433951997136,
+     "creditoBasso": 0.011526433951997136,
+     "creditoAlto": 0.08073731174085975
+    },
+    "FR9695005MSX1OYEMGDF": {
+     "deflusso": 11.18565841040222,
+     "credito": 3.344904669850154,
+     "creditoBasso": 3.344904669850154,
+     "creditoAlto": 23.42950232464201
+    },
+    "FR969500TJ5KRTCJQWXH": {
+     "deflusso": 15.918186047845058,
+     "credito": 4.4958024318916205,
+     "creditoBasso": 4.4958024318916205,
+     "creditoAlto": 31.491006149916586
+    },
+    "J48C8PCSJVUBR8KCW529": {
+     "deflusso": 0.3145287658570737,
+     "credito": 0.10089552428916285,
+     "creditoBasso": 0.10089552428916285,
+     "creditoAlto": 0.7067262460980137
+    },
+    "J4CP7MHCXR8DAQMKIL78": {
+     "deflusso": 0.7368498902075459,
+     "credito": 0.2314754964978672,
+     "creditoBasso": 0.2314754964978672,
+     "creditoAlto": 1.6213782509793915
+    },
+    "JEUVK5RWVJEN8W0C9M24": {
+     "deflusso": 0.7096953539532327,
+     "credito": 0.18327337128721513,
+     "creditoBasso": 0.18327337128721513,
+     "creditoAlto": 1.2837447707623755
+    },
+    "JU1U6S0DG9YLT7N8ZV32": {
+     "deflusso": 1.211809183655631,
+     "credito": 2.4054638444653174,
+     "creditoBasso": 0.3434152008446762,
+     "creditoAlto": 2.4054638444653174
+    },
+    "K8MS7FD7N5Z2WQ51AZ71": {
+     "deflusso": 2.8544106120487442,
+     "credito": 0.8279576749237406,
+     "creditoBasso": 0.8279576749237406,
+     "creditoAlto": 5.799458634556541
+    },
+    "LOO0AWXR8GF142JCO404": {
+     "deflusso": 0.6848547129612466,
+     "credito": 0.21019226028465704,
+     "creditoBasso": 0.21019226028465704,
+     "creditoAlto": 1.4722990748737088
+    },
+    "M6AD1Y1KW32H8THQ6F76": {
+     "deflusso": 0.8118776201451471,
+     "credito": 1.3244187148574333,
+     "creditoBasso": 0.1890801726293714,
+     "creditoAlto": 1.3244187148574333
+    },
+    "N1FBEDJ5J41VKZLO2475": {
+     "deflusso": 0.008657746882861401,
+     "credito": 0.0005359722752875234,
+     "creditoBasso": 0.0005359722752875234,
+     "creditoAlto": 0.0037542366402792734
+    },
+    "N747OI7JINV7RUUH6190": {
+     "deflusso": 1.0976810562461292,
+     "credito": 0.3576319852000421,
+     "creditoBasso": 0.3576319852000421,
+     "creditoAlto": 2.5050458101653743
+    },
+    "NNVPP80YIZGEY2314M97": {
+     "deflusso": 1.138284276847182,
+     "credito": 0.34412939824532324,
+     "creditoBasso": 0.34412939824532324,
+     "creditoAlto": 2.4104664652603254
+    },
+    "O2RNE8IBXP4R0TD8PU41": {
+     "deflusso": 6.246081317997054,
+     "credito": 1.0108629262674063,
+     "creditoBasso": 1.0108629262674063,
+     "creditoAlto": 7.080624896235868
+    },
+    "PSNL19R2RXX5U3QWHI44": {
+     "deflusso": 0.2049781254062758,
+     "credito": 0.05279603361447832,
+     "creditoBasso": 0.05279603361447832,
+     "creditoAlto": 0.36981167309551816
+    },
+    "R0MUWSFPU8MPRO8K5P83": {
+     "deflusso": 6.063036544228367,
+     "credito": 0.9981067196890704,
+     "creditoBasso": 0.9981067196890704,
+     "creditoAlto": 6.991273598910517
+    },
+    "SI5RG2M0WQQLZCXKRM20": {
+     "deflusso": 1.3746710223907743,
+     "credito": 3.211900837177153,
+     "creditoBasso": 0.4585458948511248,
+     "creditoAlto": 3.211900837177153
+    },
+    "TO822O0VT80V06K0FH57": {
+     "deflusso": 0.9499073449446451,
+     "credito": 1.6603004834465647,
+     "creditoBasso": 0.23703221534475072,
+     "creditoAlto": 1.6603004834465647
+    },
+    "TUKDD90GPC79G1KOE162": {
+     "deflusso": 0.0003873695600952522,
+     "credito": 9.267402325703938e-05,
+     "creditoBasso": 9.267402325703938e-05,
+     "creditoAlto": 0.0006491384531541829
+    },
+    "VDYMYTQGZZ6DU0912C88": {
+     "deflusso": 0.827134172481729,
+     "credito": 0.23473037322251086,
+     "creditoBasso": 0.23473037322251086,
+     "creditoAlto": 1.6441771493975876
+    },
+    "VWMYAEQSTOPNV0SUGU82": {
+     "deflusso": 0.496305275283124,
+     "credito": 0.1576561201822095,
+     "creditoBasso": 0.1576561201822095,
+     "creditoAlto": 1.1043078350177897
+    }
+   }
+  },
+  {
+   "scenario": {
+    "importo": 548.6968449931413,
+    "sostituzione": 0.5,
+    "regola": "R3",
+    "depositi": "T3"
+   },
+   "banche": {
+    "0W2PZJM8XOY22M4GG883": {
+     "deflusso": 0.035056925187798016,
+     "credito": 0.0030281319859614725,
+     "creditoBasso": 0.0030281319859614725,
+     "creditoAlto": 0.02121065692660995
+    },
+    "2138009Y59EAR7H1UO97": {
+     "deflusso": 0.19454480801949584,
+     "credito": 0.07619464308857749,
+     "creditoBasso": 0.07619464308857749,
+     "creditoAlto": 0.5337080555569521
+    },
+    "213800DBQIB6VBNU5C64": {
+     "deflusso": 2.686910416831922,
+     "credito": 4.800694481995084,
+     "creditoBasso": 0.6853694614955753,
+     "creditoAlto": 4.800694481995084
+    },
+    "213800HDJ876ACJXXD05": {
+     "deflusso": 0.45758738431096174,
+     "credito": 0.14800547558703994,
+     "creditoBasso": 0.14800547558703994,
+     "creditoAlto": 1.0367095557559327
+    },
+    "213800TC9PZRBHMJW403": {
+     "deflusso": 0.07633830170302996,
+     "credito": 0.02450938928687114,
+     "creditoBasso": 0.02450938928687114,
+     "creditoAlto": 0.17167687870100898
+    },
+    "213800X3Q9LSAKRUWY91": {
+     "deflusso": 3.923126705959128,
+     "credito": 1.1455658426947282,
+     "creditoBasso": 1.1455658426947282,
+     "creditoAlto": 8.024156208807291
+    },
+    "222100K6QL2V4MLHWQ08": {
+     "deflusso": 1.1241778151242576,
+     "credito": 0.34811488817874714,
+     "creditoBasso": 0.34811488817874714,
+     "creditoAlto": 2.438382969578571
+    },
+    "254900RNFMDM0P11YR84": {
+     "deflusso": 0.17099461350399153,
+     "credito": 0.06091823901252247,
+     "creditoBasso": 0.06091823901252247,
+     "creditoAlto": 0.4267039462804579
+    },
+    "2W8N8UU78PMDQKZENC08": {
+     "deflusso": 9.482534185542631,
+     "credito": 2.3748520107548994,
+     "creditoBasso": 2.3748520107548994,
+     "creditoAlto": 16.634734379187943
+    },
+    "391200EEGLNXBBCVKC73": {
+     "deflusso": 0.3340151878995508,
+     "credito": 0.7425419453943163,
+     "creditoBasso": 0.10600874001906554,
+     "creditoAlto": 0.7425419453943163
+    },
+    "485100FX5Y9YLAQLNP12": {
+     "deflusso": 1.4711578654078017,
+     "credito": 0.3777673081466357,
+     "creditoBasso": 0.05393181705816328,
+     "creditoAlto": 0.3777673081466357
+    },
+    "5299007QVIQ7IO64NX37": {
+     "deflusso": 0.07336260752287489,
+     "credito": 0.003064662473941681,
+     "creditoBasso": 0.003064662473941681,
+     "creditoAlto": 0.021466536013618715
+    },
+    "529900GGYMNGRQTDOO93": {
+     "deflusso": 0.02763027298088651,
+     "credito": 0.007330471286864795,
+     "creditoBasso": 0.007330471286864795,
+     "creditoAlto": 0.051346543775794444
+    },
+    "529900HEKOENJHPNN480": {
+     "deflusso": 0.0,
+     "credito": 0.0,
+     "creditoBasso": 0.0,
+     "creditoAlto": 0.0
+    },
+    "529900HNOAA1KXQJUQ27": {
+     "deflusso": 0.9416474024227094,
+     "credito": 0.16937429196078643,
+     "creditoBasso": 0.16937429196078643,
+     "creditoAlto": 1.1863881811040118
+    },
+    "529900JG015JC10LED24": {
+     "deflusso": 0.16046638319880915,
+     "credito": 0.045870391507284856,
+     "creditoBasso": 0.045870391507284856,
+     "creditoAlto": 0.32130076953742154
+    },
+    "529900JZTYE3W7WQH904": {
+     "deflusso": 0.35203155165565075,
+     "credito": 0.11018790225068029,
+     "creditoBasso": 0.11018790225068029,
+     "creditoAlto": 0.7718150341323161
+    },
+    "529900ODI3047E2LIV03": {
+     "deflusso": 6.33379062894839,
+     "credito": 2.0695948307583594,
+     "creditoBasso": 2.0695948307583594,
+     "creditoAlto": 14.49654973290833
+    },
+    "529900RWC8ZYB066JF16": {
+     "deflusso": 0.2373965648904127,
+     "credito": 0.4140557679077627,
+     "creditoBasso": 0.05911252626977124,
+     "creditoAlto": 0.4140557679077627
+    },
+    "529900S9YO2JHTIIDG38": {
+     "deflusso": 1.0164928739717467,
+     "credito": 2.2844682404397267,
+     "creditoBasso": 0.326141305935228,
+     "creditoAlto": 2.2844682404397267
+    },
+    "529900SSGT49ZZSWYE62": {
+     "deflusso": 0.785579872937896,
+     "credito": 0.2543113578850473,
+     "creditoBasso": 0.2543113578850473,
+     "creditoAlto": 1.7813328446868733
+    },
+    "529900SXEWPJ1MRRX537": {
+     "deflusso": 0.21397827487697077,
+     "credito": 0.04820922455586672,
+     "creditoBasso": 0.04820922455586672,
+     "creditoAlto": 0.3376832078300959
+    },
+    "529900V3O1M5IHMOSF46": {
+     "deflusso": 0.0014243431945953878,
+     "credito": 1.8123754686955672e-05,
+     "creditoBasso": 1.8123754686955672e-05,
+     "creditoAlto": 0.00012694847670749674
+    },
+    "529900XSTAE561178282": {
+     "deflusso": 0.26091181344051434,
+     "credito": 0.07309316101506651,
+     "creditoBasso": 0.07309316101506651,
+     "creditoAlto": 0.5119836153640372
+    },
+    "5493001BABFV7P27OW30": {
+     "deflusso": 1.4274804966796593,
+     "credito": 3.1939518804001463,
+     "creditoBasso": 0.45598341834136114,
+     "creditoAlto": 3.1939518804001463
+    },
+    "54930056IRBXK0Q1FP96": {
+     "deflusso": 1.5297081830304948,
+     "credito": 0.44144257575799134,
+     "creditoBasso": 0.44144257575799134,
+     "creditoAlto": 3.092100037452234
+    },
+    "5493006QMFDDMYWIAM13": {
+     "deflusso": 21.15310192164236,
+     "credito": 5.700137097753667,
+     "creditoBasso": 5.700137097753667,
+     "creditoAlto": 39.92681064617025
+    },
+    "5493007SJLLCTM6J6M37": {
+     "deflusso": 1.6561618378549454,
+     "credito": 0.4172214382091948,
+     "creditoBasso": 0.4172214382091948,
+     "creditoAlto": 2.922442228181866
+    },
+    "5493008QOCP58OLEN998": {
+     "deflusso": 0.860493315757789,
+     "credito": 2.4114349156186887,
+     "creditoBasso": 0.34426765872057036,
+     "creditoAlto": 2.4114349156186887
+    },
+    "549300C9KPZR0VZ16R05": {
+     "deflusso": 0.008148319389558576,
+     "credito": 4.046823215324479e-05,
+     "creditoBasso": 4.046823215324479e-05,
+     "creditoAlto": 0.00028346115447023385
+    },
+    "549300DYPOFMXOR7XM56": {
+     "deflusso": 0.8523449403204323,
+     "credito": 2.883166438465862,
+     "creditoBasso": 0.4116142438858676,
+     "creditoAlto": 2.883166438465862
+    },
+    "549300L7YCATGO57ZE10": {
+     "deflusso": 0.7799843290074997,
+     "credito": 0.45797288407669573,
+     "creditoBasso": 0.06538233793390186,
+     "creditoAlto": 0.45797288407669573
+    },
+    "549300NYKK9MWM7GGW15": {
+     "deflusso": 5.036896505865972,
+     "credito": 1.6207586395435016,
+     "creditoBasso": 1.6207586395435016,
+     "creditoAlto": 11.35266085612217
+    },
+    "549300OLBL49CW8CT155": {
+     "deflusso": 0.8995098068039321,
+     "credito": 2.174953811171825,
+     "creditoBasso": 0.3105065169073406,
+     "creditoAlto": 2.174953811171825
+    },
+    "549300TK038P6EV4YU51": {
+     "deflusso": 0.19604611168969954,
+     "credito": 0.07467104466323178,
+     "creditoBasso": 0.07467104466323178,
+     "creditoAlto": 0.5230359568361065
+    },
+    "549300TRUWO2CD2G5692": {
+     "deflusso": 10.489481026852115,
+     "credito": 2.536127837526042,
+     "creditoBasso": 2.536127837526042,
+     "creditoAlto": 17.76439657623116
+    },
+    "549300U4LIZV0REEQQ46": {
+     "deflusso": 1.2546682455146705,
+     "credito": 3.1862270443882164,
+     "creditoBasso": 0.4548805848414385,
+     "creditoAlto": 3.1862270443882164
+    },
+    "5UMCZOEYKCVFAW8ZLO05": {
+     "deflusso": 3.066430353653762,
+     "credito": 5.124299996530296,
+     "creditoBasso": 0.7315688891129365,
+     "creditoAlto": 5.124299996530296
+    },
+    "635400AKJBGNS5WNQL34": {
+     "deflusso": 2.230605444444608,
+     "credito": 4.0994622179695615,
+     "creditoBasso": 0.5852582836272504,
+     "creditoAlto": 4.0994622179695615
+    },
+    "635400C8EK6DRI12LJ39": {
+     "deflusso": 2.0691425936499415,
+     "credito": 0.6889573393181293,
+     "creditoBasso": 0.6889573393181293,
+     "creditoAlto": 4.825825898307713
+    },
+    "635400L14KNHZXPUZM19": {
+     "deflusso": 0.4478026233239926,
+     "credito": 0.09663692599042098,
+     "creditoBasso": 0.09663692599042098,
+     "creditoAlto": 0.6768967446358514
+    },
+    "724500A1FNICHSDF2I11": {
+     "deflusso": 0.4271160222084557,
+     "credito": 1.2319793637957295,
+     "creditoBasso": 0.1758831011440326,
+     "creditoAlto": 1.2319793637957295
+    },
+    "724500JIWG886A9RRT57": {
+     "deflusso": 0.03102353407162404,
+     "credito": 0.00014854782822703672,
+     "creditoBasso": 0.00014854782822703672,
+     "creditoAlto": 0.001040508483885071
+    },
+    "7437003B5WFBOIEFY714": {
+     "deflusso": 2.089709700210258,
+     "credito": 0.7589148989209011,
+     "creditoBasso": 0.7589148989209011,
+     "creditoAlto": 5.31584608337112
+    },
+    "7CUNS533WID6K7DGFI87": {
+     "deflusso": 10.338584948273327,
+     "credito": 3.3392802482017014,
+     "creditoBasso": 3.3392802482017014,
+     "creditoAlto": 23.390105865521665
+    },
+    "7LTWFZYICNSX8D621K86": {
+     "deflusso": 5.271619217673607,
+     "credito": 0.872177940680097,
+     "creditoBasso": 0.872177940680097,
+     "creditoAlto": 6.109201040273968
+    },
+    "7LVZJ6XRIE7VNZ4UBX81": {
+     "deflusso": 0.758803906229985,
+     "credito": 0.1887355971514228,
+     "creditoBasso": 0.1887355971514228,
+     "creditoAlto": 1.322005123811213
+    },
+    "815600AD83B2B6317788": {
+     "deflusso": 0.9581511774887457,
+     "credito": 0.3453643776771207,
+     "creditoBasso": 0.3453643776771207,
+     "creditoAlto": 2.4191169220966575
+    },
+    "815600E4E6DCD2D25E30": {
+     "deflusso": 2.427204397341919,
+     "credito": 0.6210764017742423,
+     "creditoBasso": 0.6210764017742423,
+     "creditoAlto": 4.350351485443616
+    },
+    "851WYGNLUQLFZBSYGB56": {
+     "deflusso": 3.3003302362436484,
+     "credito": 0.7126428787397434,
+     "creditoBasso": 0.7126428787397434,
+     "creditoAlto": 4.991732091671354
+    },
+    "95980020140005881190": {
+     "deflusso": 1.152612354619936,
+     "credito": 2.4942488259098115,
+     "creditoBasso": 0.3560905575351981,
+     "creditoAlto": 2.4942488259098115
+    },
+    "96950001WI712W7PQG45": {
+     "deflusso": 0.5747100483863312,
+     "credito": 1.854307253411905,
+     "creditoBasso": 0.26472952371468117,
+     "creditoAlto": 1.854307253411905
+    },
+    "9695000CG7B84NLR5984": {
+     "deflusso": 10.15451078517702,
+     "credito": 3.5569432686831464,
+     "creditoBasso": 3.5569432686831464,
+     "creditoAlto": 24.914734142771515
+    },
+    "96950066U5XAAIRCPA78": {
+     "deflusso": 3.621431821996154,
+     "credito": 0.7059884601301122,
+     "creditoBasso": 0.7059884601301122,
+     "creditoAlto": 4.945120982634731
+    },
+    "9CZ7TVMR36CYD5TZBS50": {
+     "deflusso": 0.058732287640880225,
+     "credito": 0.014458697778004563,
+     "creditoBasso": 0.014458697778004563,
+     "creditoAlto": 0.10127645677155578
+    },
+    "9ZHRYM6F437SQJ6OUG95": {
+     "deflusso": 2.5034983288096115,
+     "credito": 0.6122849367038228,
+     "creditoBasso": 0.6122849367038228,
+     "creditoAlto": 4.288771359360791
+    },
+    "A5GWLFH3KM7YV2SFQL84": {
+     "deflusso": 1.7503880053990017,
+     "credito": 0.5474989655312732,
+     "creditoBasso": 0.5474989655312732,
+     "creditoAlto": 3.834975747224722
+    },
+    "AT0000000000043000VB": {
+     "deflusso": 0.5286493681175884,
+     "credito": 1.4617152030048295,
+     "creditoBasso": 0.20868125753484287,
+     "creditoAlto": 1.4617152030048295
+    },
+    "B81CK4ESI35472RHJ606": {
+     "deflusso": 0.8930308549830063,
+     "credito": 0.16387084315823774,
+     "creditoBasso": 0.16387084315823774,
+     "creditoAlto": 1.1478390805346859
+    },
+    "BFXS5XCH7N0Y05NIXW11": {
+     "deflusso": 1.7357238601893221,
+     "credito": 0.5490533591242919,
+     "creditoBasso": 0.5490533591242919,
+     "creditoAlto": 3.8458635517799036
+    },
+    "DG3RU1DBUFHT4ZF9WN62": {
+     "deflusso": 2.7821150593584694,
+     "credito": 1.059274813197926,
+     "creditoBasso": 1.059274813197926,
+     "creditoAlto": 7.419727659792276
+    },
+    "DIZES5CFO5K3I5R58746": {
+     "deflusso": 0.3744241211520087,
+     "credito": 0.07348486690628785,
+     "creditoBasso": 0.07348486690628785,
+     "creditoAlto": 0.5147273330465377
+    },
+    "DSNHHQ2B9X5N6OUJ1236": {
+     "deflusso": 0.21446592491222788,
+     "credito": 0.052852949433247975,
+     "creditoBasso": 0.052852949433247975,
+     "creditoAlto": 0.37021034194853286
+    },
+    "DZZ47B9A52ZJ6LT6VV95": {
+     "deflusso": 0.08933533716352406,
+     "credito": 0.03272063526151818,
+     "creditoBasso": 0.03272063526151818,
+     "creditoAlto": 0.22919283973430762
+    },
+    "F0HUI1NY1AZMJMD8LP67": {
+     "deflusso": 1.246451675107124,
+     "credito": 0.09891261803259621,
+     "creditoBasso": 0.09891261803259621,
+     "creditoAlto": 0.6928369095299086
+    },
+    "FR9695005MSX1OYEMGDF": {
+     "deflusso": 12.40256594940939,
+     "credito": 3.7088027579783938,
+     "creditoBasso": 3.7088027579783938,
+     "creditoAlto": 25.97843927300512
+    },
+    "FR969500TJ5KRTCJQWXH": {
+     "deflusso": 19.709130837922267,
+     "credito": 5.566485910220688,
+     "creditoBasso": 5.566485910220688,
+     "creditoAlto": 38.990646205604776
+    },
+    "J48C8PCSJVUBR8KCW529": {
+     "deflusso": 0.7655775090284488,
+     "credito": 0.24558435520812466,
+     "creditoBasso": 0.24558435520812466,
+     "creditoAlto": 1.720204247704982
+    },
+    "J4CP7MHCXR8DAQMKIL78": {
+     "deflusso": 1.8149250488714272,
+     "credito": 0.570144180486474,
+     "creditoBasso": 0.570144180486474,
+     "creditoAlto": 3.99359495129868
+    },
+    "JEUVK5RWVJEN8W0C9M24": {
+     "deflusso": 3.8913065231575628,
+     "credito": 1.004900005669214,
+     "creditoBasso": 1.004900005669214,
+     "creditoAlto": 7.038857409324722
+    },
+    "JU1U6S0DG9YLT7N8ZV32": {
+     "deflusso": 3.439941906371342,
+     "credito": 6.828348880700375,
+     "creditoBasso": 0.9748468295205134,
+     "creditoAlto": 6.828348880700375
+    },
+    "K8MS7FD7N5Z2WQ51AZ71": {
+     "deflusso": 9.896591292834756,
+     "credito": 2.870630694090929,
+     "creditoBasso": 2.870630694090929,
+     "creditoAlto": 20.107433591943042
+    },
+    "LOO0AWXR8GF142JCO404": {
+     "deflusso": 1.7855294191754492,
+     "credito": 0.5480059599772013,
+     "creditoBasso": 0.5480059599772013,
+     "creditoAlto": 3.8385270076407583
+    },
+    "M6AD1Y1KW32H8THQ6F76": {
+     "deflusso": 3.2145644949166154,
+     "credito": 5.2439299612947305,
+     "creditoBasso": 0.7486478190129414,
+     "creditoAlto": 5.2439299612947305
+    },
+    "N1FBEDJ5J41VKZLO2475": {
+     "deflusso": 0.8169448743305447,
+     "credito": 0.050574336372225796,
+     "creditoBasso": 0.050574336372225796,
+     "creditoAlto": 0.35424971667529587
+    },
+    "N747OI7JINV7RUUH6190": {
+     "deflusso": 2.4433495601805544,
+     "credito": 0.7960599745916428,
+     "creditoBasso": 0.7960599745916428,
+     "creditoAlto": 5.576030071459376
+    },
+    "NNVPP80YIZGEY2314M97": {
+     "deflusso": 2.9150343508995267,
+     "credito": 0.8812816248486021,
+     "creditoBasso": 0.8812816248486021,
+     "creditoAlto": 6.172968116003019
+    },
+    "O2RNE8IBXP4R0TD8PU41": {
+     "deflusso": 7.5892559599921965,
+     "credito": 1.2282416922439567,
+     "creditoBasso": 1.2282416922439567,
+     "creditoAlto": 8.60326210281538
+    },
+    "PSNL19R2RXX5U3QWHI44": {
+     "deflusso": 0.733157820364136,
+     "credito": 0.18883880829694355,
+     "creditoBasso": 0.18883880829694355,
+     "creditoAlto": 1.322728069907616
+    },
+    "R0MUWSFPU8MPRO8K5P83": {
+     "deflusso": 14.3414001778982,
+     "credito": 2.3609041085092084,
+     "creditoBasso": 2.3609041085092084,
+     "creditoAlto": 16.53703580767561
+    },
+    "SI5RG2M0WQQLZCXKRM20": {
+     "deflusso": 4.160317767093147,
+     "credito": 9.720527967345872,
+     "creditoBasso": 1.3877477609580862,
+     "creditoAlto": 9.720527967345872
+    },
+    "TO822O0VT80V06K0FH57": {
+     "deflusso": 3.46977375303877,
+     "credito": 6.064662064441851,
+     "creditoBasso": 0.8658193494395781,
+     "creditoAlto": 6.064662064441851
+    },
+    "TUKDD90GPC79G1KOE162": {
+     "deflusso": 0.10352981301078072,
+     "credito": 0.024768400223287516,
+     "creditoBasso": 0.024768400223287516,
+     "creditoAlto": 0.17349112990869645
+    },
+    "VDYMYTQGZZ6DU0912C88": {
+     "deflusso": 1.124050950101096,
+     "credito": 0.31899165554567455,
+     "creditoBasso": 0.31899165554567455,
+     "creditoAlto": 2.234388262994532
+    },
+    "VWMYAEQSTOPNV0SUGU82": {
+     "deflusso": 2.0555478721674794,
+     "credito": 0.6529644525536251,
+     "creditoBasso": 0.6529644525536251,
+     "creditoAlto": 4.573712457909632
+    }
    }
   }
  ],

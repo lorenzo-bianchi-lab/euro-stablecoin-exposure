@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import level_own  # noqa: E402
 import module4_scenarios as m4  # noqa: E402
 import module5_credit as m5  # noqa: E402
+import module6_banks as m6  # noqa: E402
 
 RAW, PROC = ROOT / "data" / "raw", ROOT / "data" / "processed"
 VARIANTS = ["uniforme", "basso", "alto", "soglia", "continua"]
@@ -48,8 +49,18 @@ def main() -> None:
                               **{f"credito_{v}": float(cr.loc[k, f"{v}_mld"]) for v in VARIANTS}} for k in a.index},
                 "totale": {"deflusso": float(a.deflusso_mld.sum()), **{f"credito_{v}": float(cr[f"{v}_mld"].sum()) for v in VARIANTS}},
             })
+    # modulo 6: effetto per banca in tre scenari, uno per regola e per tipo di deposito
+    banks, _ = m6.indicators(m6.load_banks())
+    banks = banks[banks.dati_completi]
+    bank_cases = []
+    for rule, (amount, sigma, dep) in zip(("R1", "R2", "R3"), setups):
+        a = m4.allocate(b, amount * sigma, rule, dep, pop)
+        e = m6.bank_effects(banks, a.perdita_categoria_colpita, {"T1": "vista", "T2": "vista_famiglie", "T3": "clientela"}[dep])
+        bank_cases.append({"scenario": {"importo": amount, "sostituzione": sigma, "regola": rule, "depositi": dep},
+                           "banche": {k: {"deflusso": float(r.deflusso), "credito": float(r.credito), "creditoBasso": float(r.credito_basso),
+                                          "creditoAlto": float(r.credito_alto)} for k, r in e.iterrows()}})
     b1 = level_own.b1(json.loads((RAW / "level_own_population.json").read_text()))
-    out = {"generato_da": "tests/make_app_fixtures.py", "casi": cases,
+    out = {"generato_da": "tests/make_app_fixtures.py", "casi": cases, "banche": bank_cases,
            "livello": {u: {k: b1[u][f"{k}_mld_eur"] for k in ("minimo", "centrale", "massimo")} for u in ("famiglie", "individui")}}
     path = ROOT / "web" / "tests" / "fixtures.json"
     path.write_text(json.dumps(out, indent=1))
