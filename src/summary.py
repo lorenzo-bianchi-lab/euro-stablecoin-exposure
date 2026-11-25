@@ -20,7 +20,10 @@ MONTHS = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio"
 SERIES_LABELS = {"usdt": "USDT", "usdt_senza_coinbase": "USDT senza Coinbase", "usdc": "USDC", "usdc_senza_coinbase": "USDC senza Coinbase"}
 SCENARIO_LABELS = {"M1_oggi_base": "Oggi, quota 7,5%", "M1_oggi_alto": "Oggi, quota 15%", "S1_base_2030": "ESM base 2030",
                    "S2_alto_2030": "ESM alto 2030", "S3_alto_2030_quota_doppia": "ESM alto 2030, quota 15%"}
-MODULES = {"modulo1": "1 - Livello", "modulo2": "2 - Andamento", "modulo3": "3 - Vulnerabilità", "modulo4": "4 - Scenari"}
+MODULES = {"modulo1": "1 - Livello", "modulo2": "2 - Andamento", "modulo3": "3 - Vulnerabilità", "modulo4": "4 - Scenari",
+           "modulo5": "5 - Credito e trasmissione"}
+PAGES = "https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/"
+QUADRANTS = {"A": "depositi alti, dollari bassi", "B": "entrambi alti", "C": "depositi bassi, dollari alti", "D": "entrambi bassi"}
 
 
 def n(x: float, d: int = 1) -> str:
@@ -67,7 +70,7 @@ def main() -> None:
     add("# Sintesi - esposizione dell'area euro alle stablecoin in dollari")
     add("")
     add(f"Pagina generata il {day(datetime.now().strftime('%Y-%m-%d'))} da `src/summary.py`. Non va modificata a mano: si rigenera con")
-    add("`.venv/bin/python src/run_all.py`.")
+    add(f"`.venv/bin/python src/run_all.py`. Versione interattiva: [cruscotto]({PAGES}).")
     add("")
     add("Il programma non stima quante stablecoin detengono i residenti dell'area euro: con dati")
     add("gratuiti non è possibile. Parte da un livello ipotizzato da fonti esterne e mostra come")
@@ -89,27 +92,41 @@ def main() -> None:
     add("")
     add(f"È un'ipotesi esterna applicata, non una stima. Accanto: il {pct(m1['diffusione_bce']['quota_consumatori'], 0)} dei consumatori")
     add(f"dichiara di possedere stablecoin (BCE, {month(m1['diffusione_bce']['mese'])}).")
+    if (PROC / "level_own.json").exists():
+        own = load("level_own.json")
+        b1, v = own["B1"]["famiglie"], own["verdetto"]
+        add("")
+        add(f"Stima propria dal basso, dall'indagine BCE: {n(b1['centrale_mld_eur'])} miliardi di euro (da {n(b1['minimo_mld_eur'])} a {n(b1['massimo_mld_eur'])}).")
+        if v["esito"] == "intervallo proprio":
+            add(f"Le stime {', '.join(v['stime_concordi'])} concordano entro un fattore 3: intervallo proprio {n(v['intervallo_mld_eur'][0])} - {n(v['intervallo_mld_eur'][1])} miliardi di euro.")
+        else:
+            add(f"Le altre strade non hanno dato una stima concorde: il programma pubblica come proprio solo il minimo, {n(v['minimo_mld_eur'])} miliardi di euro.")
     add("")
 
     # 2. Andamento
     ip = m2["indice_principale"]
     add(f"## 2. Andamento: quota EUR dei volumi stablecoin/fiat, settimana {week(ip['ultima_settimana'])}")
     add("")
-    add("| Serie | Ultima settimana | Variazione (punti) | Media 52 settimane | Scarto standardizzato |")
-    add("|---|---|---|---|---|")
-    outliers = []
+    flags = m2.get("segnalazione", {}).get("ultima_settimana", {})
+    add("| Serie | Ultima settimana | Variazione (punti) | Media 52 settimane | Scarto della quota | Scarto del volume | Stato |")
+    add("|---|---|---|---|---|---|---|")
+    states = []
     for key, label in SERIES_LABELS.items():
-        s = ip["serie"][key]
-        add(f"| {label} | {pct(s['valore'])} | {signed(s['variazione_pp'])} | {pct(s['media_52_settimane'])} | {signed(s['scarto_standardizzato'], 2)} |")
-        if abs(s["scarto_standardizzato"]) > 2:
-            outliers.append(label)
+        s, f = ip["serie"][key], flags.get(key, {})
+        stato = f.get("stato", "n.d.")
+        states.append((label, stato))
+        add(f"| {label} | {pct(s['valore'])} | {signed(s['variazione_pp'])} | {pct(s['media_52_settimane'])} | {signed(f.get('scarto_quota', float('nan')))} | {signed(f.get('scarto_volume', float('nan')))} | {stato} |")
     add("")
-    if outliers:
-        add(f"Fuori dall'intervallo abituale (scarto oltre 2): {', '.join(outliers)}. Prima di interpretarlo vanno")
-        add("guardati i volumi contro euro in valore assoluto, perché l'indice è una quota.")
+    hot = [f"{label} ({stato})" for label, stato in states if stato in ("segnale", "da verificare")]
+    if hot:
+        add(f"Da guardare: {', '.join(hot)}. Uno scarto oltre 2 solo sul volume o solo sulla quota indica di solito")
+        add("un movimento delle altre valute, non dell'euro.")
     else:
-        add("Nessuna serie è fuori dal proprio intervallo abituale (scarto entro 2). L'indice misura")
-        add(f"trading in euro su {m2['exchange_attivi_min_max'][1]} exchange, non detenzioni né residenza.")
+        add("Nessuna serie è segnalata: quota e volume contro euro sono entro 2 deviazioni standard dalle 52 settimane precedenti.")
+    if (PROC / "m2_link_test.json").exists():
+        lt = load("m2_link_test.json")
+        add(f"L'indice misura trading in euro su {m2['exchange_attivi_min_max'][1]} exchange, non detenzioni né residenza. Test sul contenuto")
+        add(f"predittivo per i depositi a vista delle famiglie: esito **{lt['risposta']}** (p = {n(lt['principale']['p_value'], 2)}, {lt['principale']['osservazioni']} mesi).")
     add("")
 
     # 3. Vulnerabilità
@@ -141,12 +158,17 @@ def main() -> None:
     ea = ea[(ea.regola_paesi == "R1") & (ea.regola_depositi == "T1")].set_index("scenario")
     add(f"## 4. Scenari: quanto pesa ogni livello sulla raccolta, bilanci di {month(m4['mese_bilanci'])}")
     add("")
-    add("| Scenario | Stablecoin detenute (mld $) | Depositi da sostituire (mld €) | Depositi a vista persi | Aumento della raccolta all'ingrosso |")
-    add("|---|---|---|---|---|")
+    cr = None
+    if (PROC / "m5_credit_euro_area.csv").exists():
+        cr = pd.read_csv(PROC / "m5_credit_euro_area.csv")
+        cr = cr[cr.regola_paesi == "R1"].set_index("scenario")
+    add("| Scenario | Stablecoin detenute (mld $) | Depositi da sostituire (mld €) | Depositi a vista persi | Raccolta all'ingrosso in più | Credito in meno (mld €) |")
+    add("|---|---|---|---|---|---|")
     for key, label in SCENARIO_LABELS.items():
         if key in ea.index:
             r = ea.loc[key]
-            add(f"| {label} | {n(r.importo_mld_usd, 0 if r.importo_mld_usd >= 100 else 1)} | {n(r.deflusso_mld_eur)} | {pct(r.perdita_depositi_a_vista, 2 if r.perdita_depositi_a_vista < 0.01 else 1)} | {pct(r.aumento_raccolta_ingrosso, 2 if r.aumento_raccolta_ingrosso < 0.01 else 1)} |")
+            credito = "n.d." if cr is None or key not in cr.index else f"{n(cr.loc[key, 'soglia_mld'])} (da {n(cr.loc[key, 'basso_mld'])} a {n(cr.loc[key, 'alto_mld'])})"
+            add(f"| {label} | {n(r.importo_mld_usd, 0 if r.importo_mld_usd >= 100 else 1)} | {n(r.deflusso_mld_eur)} | {pct(r.perdita_depositi_a_vista, 2 if r.perdita_depositi_a_vista < 0.01 else 1)} | {pct(r.aumento_raccolta_ingrosso, 2 if r.aumento_raccolta_ingrosso < 0.01 else 1)} | {credito} |")
     add("")
     thr = {round(t["perdita_depositi_a_vista_area"], 2): t for t in m4["soglie"]}
     t5 = thr[0.05]
@@ -157,15 +179,29 @@ def main() -> None:
     lead, last = s2.head(3), s2.iloc[-1]
     add("Nello scenario ESM alto l'aumento di raccolta all'ingrosso necessario è massimo in")
     add(", ".join(f"{r.nome} (+{pct(r.aumento_raccolta_ingrosso, 0)})" for r in lead.itertuples()) + f" e minimo in {last.nome} (+{pct(last.aumento_raccolta_ingrosso, 1)}).")
-    add("È un calcolo contabile con sostituzione piena dei depositi, non una previsione.")
+    add("È un calcolo contabile con sostituzione piena dei depositi, non una previsione. Il credito in meno")
+    add("applica coefficienti del Working Paper BCE 3199, stimati su singole banche, ad aggregati nazionali:")
+    add("il primo valore è la variante a soglia, tra parentesi l'intervallo tra coefficiente basso e alto.")
     add("")
+    if (PROC / "m5_two_channel_map.csv").exists():
+        mp = pd.read_csv(PROC / "m5_two_channel_map.csv", index_col=0)
+        add("## 5. Mappa a due canali")
+        add("")
+        add("| Quadrante | Paesi |")
+        add("|---|---|")
+        for q, label in QUADRANTS.items():
+            add(f"| {q} - {label} | {', '.join(mp[mp.quadrante == q].sort_values('depositi_a_vista', ascending=False).nome)} |")
+        add("")
+        add("Nel quadrante A il rischio è la perdita di depositi e di credito; nel C è la minore presa della")
+        add("politica monetaria interna sulle banche già finanziate in dollari.")
+        add("")
 
     # Avvertenze e stato
     add("## Cosa questa pagina non dice")
     add("")
-    add("- Non stima la quota di stablecoin detenuta da residenti dell'area euro.")
-    add("- Non misura effetti causali sulla trasmissione della politica monetaria.")
-    add("- Non è un sistema di allerta precoce: nessun indicatore qui è un segnale anticipatore.")
+    add("- Non misura quante stablecoin detengono i residenti dell'area euro: i livelli sono ipotesi o triangolazioni.")
+    add("- Non stima effetti causali: il credito in meno applica coefficienti pubblicati, come ordine di grandezza.")
+    add("- Non è un sistema di allerta precoce: la segnalazione marca valori insoliti, non anticipa i depositi.")
     add("")
     add("## Dati e aggiornamento")
     add("")
@@ -174,7 +210,9 @@ def main() -> None:
     dates = {"modulo1": day(m1["data_circolazione"]), "modulo2": "settimana " + week(ip["ultima_settimana"]),
              "modulo3": month(m3["ultimo_mese"]), "modulo4": "bilanci di " + month(m4["mese_bilanci"])}
     reports = {"modulo1": "reports/06_modulo1_livello.md", "modulo2": "reports/03_modulo2_indice.md",
-               "modulo3": "reports/04_modulo3_classifica.md", "modulo4": "reports/05_modulo4_scenari.md"}
+               "modulo3": "reports/04_modulo3_classifica.md", "modulo4": "reports/05_modulo4_scenari.md",
+               "modulo5": "reports/07_modulo5_credito.md"}
+    dates["modulo5"] = "bilanci di " + month(m4["mese_bilanci"])
     for key, label in MODULES.items():
         st = status.get("moduli", {}).get(key, {})
         esito = {"ok": "riuscita", "errore": "**fallita: dati precedenti**", "saltato": "non eseguita"}.get(st.get("esito"), "non registrata")
@@ -186,7 +224,7 @@ def main() -> None:
     add("")
     add("---")
     add("")
-    add("**Cosa aggiunge questo al programma finale**: i quattro risultati in una pagina sola, sempre")
+    add("**Cosa aggiunge questo al programma finale**: i risultati di tutti i moduli in una pagina sola, sempre")
     add("allineata ai dati perché generata dal codice e non scritta a mano.")
     add("")
     OUT.write_text("\n".join(L))
