@@ -156,8 +156,17 @@ def main() -> None:
                    "intervallo_mld_eur": [min(centrals[k] for k in agree), max(centrals[k] for k in agree)]}
     else:
         verdict = {"esito": "solo minimo di B1", "minimo_mld_eur": r1["famiglie"]["minimo_mld_eur"]}
+    fam, ind = r1["famiglie"], r1["individui"]
+    reference = {
+        "definizione": "Stima propria dal basso (B1, variante famiglie), dall'indagine BCE sui consumatori",
+        "minimo_mld_eur": fam["minimo_mld_eur"], "centrale_mld_eur": fam["centrale_mld_eur"], "massimo_mld_eur": fam["massimo_mld_eur"],
+        "estremo_superiore_dichiarato_mld_eur": ind["massimo_mld_eur"],
+        "nota_estremo_superiore": "Variante individui, massimo: conta ogni adulto di una famiglia detentrice come detentore",
+        "decisione": "Livello di riferimento per decisione del 2026-11-25 (prompt 5), successiva ai risultati e in deroga al criterio del report 08, che non era soddisfatto.",
+    }
     out = {
-        "avvertenza": "Triangolazione di fonti indirette, non una misura delle detenzioni dei residenti.",
+        "avvertenza": "Stima da indagine con ipotesi dichiarate, non una misura delle detenzioni dei residenti.",
+        "livello_di_riferimento": reference,
         "B1": r1, "B2": r2, "B3": r3,
         "valori_centrali_mld_eur": centrals, "confronti": [{"coppia": f"{a}-{b}", "fattore": f} for a, b, f in pairs],
         "fattore_massimo_ammesso": FACTOR, "verdetto": verdict,

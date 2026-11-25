@@ -68,9 +68,19 @@ def quarter_end_month(q: str) -> str:
     return f"{q[:4]}-{int(q[-1]) * 3:02d}"
 
 
+def continuous_weight(quota: pd.Series, threshold: float) -> tuple[pd.Series, float, float]:
+    """Peso tra 0 e 1 per interpolare tra coefficiente basso e alto sulla quota retail.
+
+    Ancoraggi: la mediana della quota retail dei paesi sotto la soglia (peso 0) e la mediana
+    di quelli sopra (peso 1). Definizione fissata in SPEC prima del calcolo.
+    """
+    q_low, q_high = float(quota[quota <= threshold].median()), float(quota[quota > threshold].median())
+    return ((quota - q_low) / (q_high - q_low)).clip(0, 1), q_low, q_high
+
+
 def credit_effects(flows: pd.DataFrame, bal: pd.DataFrame, high: set[str]) -> pd.DataFrame:
     """Prestiti in meno per paese, per ogni scenario e regola di ripartizione."""
-    f = flows.join(bal[["totale", "prestiti"]], on="paese")
+    f = flows.join(bal[["totale", "prestiti", "peso_continuo"]], on="paese")
     out = f[["scenario", "regola_paesi", "paese", "nome", "importo_mld_usd", "deflusso_mld"]].copy()
     out["prestiti_mld"] = f.prestiti
     out["quota_retail_alta"] = f.paese.isin(high)
@@ -82,7 +92,8 @@ def credit_effects(flows: pd.DataFrame, bal: pd.DataFrame, high: set[str]) -> pd
         out[f"basso_mld{suffix}"] = low_pct / 100 * f.prestiti
         out[f"alto_mld{suffix}"] = high_pct / 100 * f.prestiti
         out[f"soglia_mld{suffix}"] = np.where(out.quota_retail_alta, out[f"alto_mld{suffix}"], out[f"basso_mld{suffix}"])
-    for k in ("uniforme", "basso", "alto", "soglia"):
+        out[f"continua_mld{suffix}"] = out[f"basso_mld{suffix}"] + (out[f"alto_mld{suffix}"] - out[f"basso_mld{suffix}"]) * f.peso_continuo.to_numpy()
+    for k in ("uniforme", "basso", "alto", "soglia", "continua"):
         out[f"{k}_pct_prestiti"] = 100 * out[f"{k}_mld"] / f.prestiti
     return out
 
@@ -103,6 +114,8 @@ def main() -> None:
     threshold = float(np.percentile(bal.quota_retail, RETAIL_PERCENTILE))
     high = set(bal.index[bal.quota_retail > threshold])
     bal["quota_retail_alta"] = bal.index.isin(high)
+    bal["peso_continuo"], q_low, q_high = continuous_weight(bal.quota_retail, threshold)
+    bal["coefficiente_continuo"] = COEF["col3"]["basso"] + (COEF["col3"]["alto"] - COEF["col3"]["basso"]) * bal.peso_continuo
     bal.insert(0, "nome", [NAMES[k] for k in bal.index])
     bal.round(6).sort_values("quota_retail", ascending=False).to_csv(PROC / "m5_retail_share.csv")
 
@@ -113,9 +126,9 @@ def main() -> None:
     credit.round(6).to_csv(PROC / "m5_credit_by_country.csv", index=False)
     ea = credit.groupby(["scenario", "regola_paesi"]).agg(
         importo_mld_usd=("importo_mld_usd", "first"), deflusso_mld=("deflusso_mld", "sum"), prestiti_mld=("prestiti_mld", "sum"),
-        **{f"{k}_mld": (f"{k}_mld", "sum") for k in ("uniforme", "basso", "alto", "soglia")},
+        **{f"{k}_mld": (f"{k}_mld", "sum") for k in ("uniforme", "basso", "alto", "soglia", "continua")},
         soglia_mld_col4=("soglia_mld_col4", "sum"), basso_mld_col4=("basso_mld_col4", "sum"), alto_mld_col4=("alto_mld_col4", "sum")).reset_index()
-    for k in ("uniforme", "basso", "alto", "soglia"):
+    for k in ("uniforme", "basso", "alto", "soglia", "continua"):
         ea[f"{k}_pct_prestiti"] = 100 * ea[f"{k}_mld"] / ea.prestiti_mld
         ea[f"{k}_per_euro_di_deflusso"] = ea[f"{k}_mld"] / ea.deflusso_mld
     ea.round(6).to_csv(PROC / "m5_credit_euro_area.csv", index=False)
@@ -154,18 +167,24 @@ def main() -> None:
     def top(scenario: str, rule: str, col: str, n: int = 5) -> list[dict]:
         sel = credit[(credit.scenario == scenario) & (credit.regola_paesi == rule)].sort_values(col, ascending=False).head(n)
         return [{"paese": r.paese, "nome": r.nome, "soglia_mld": float(r.soglia_mld), "soglia_pct_prestiti": float(r.soglia_pct_prestiti),
-                 "uniforme_mld": float(r.uniforme_mld), "basso_mld": float(r.basso_mld), "alto_mld": float(r.alto_mld)} for r in sel.itertuples()]
+                 "uniforme_mld": float(r.uniforme_mld), "uniforme_pct_prestiti": float(r.uniforme_pct_prestiti),
+                 "continua_mld": float(r.continua_mld), "continua_pct_prestiti": float(r.continua_pct_prestiti),
+                 "basso_mld": float(r.basso_mld), "alto_mld": float(r.alto_mld)} for r in sel.itertuples()]
 
     scen = [s for s in credit.scenario.unique()]
     summary = {
         "mese_bilanci": month, "avvertenza": "Coefficienti stimati su singole banche (ECB WP 3199) applicati ad aggregati nazionali: ordini di grandezza, non previsioni.",
         "coefficienti": {"regola_uniforme": RULE_UNIFORM, "deviazione_standard_pp": SD_DEPOSITS_PP, **COEF},
+        "valore_in_evidenza": "regola uniforme (0,5 euro di prestiti per euro di depositi), con intervallo tra coefficiente basso e alto",
+        "variante_continua": {"ancoraggio_basso": q_low, "ancoraggio_alto": q_high,
+                              "definizione": "coefficiente interpolato linearmente sulla quota retail tra le mediane dei due gruppi, limitato tra basso e alto"},
         "soglia_quota_retail": {"percentile": RETAIL_PERCENTILE, "valore": threshold, "paesi_sopra": sorted(high),
                                 "quota_retail_area": float(bal.dep_fam.sum() / (bal.dep_fam.sum() + bal.dep_non_bancari.sum()))},
         "prestiti_area_mld": float(bal.prestiti.sum()), "prestiti_su_passivo_area": float(bal.prestiti.sum() / bal.totale.sum()),
         "area_euro_R1": ea[ea.regola_paesi == "R1"].set_index("scenario").drop(columns="regola_paesi").to_dict("index"),
-        "primi_cinque_per_mld": {s: top(s, "R1", "soglia_mld") for s in scen},
-        "primi_cinque_per_pct": {s: top(s, "R1", "soglia_pct_prestiti") for s in scen},
+        "primi_cinque_per_mld": {s: top(s, "R1", "uniforme_mld") for s in scen},
+        "primi_cinque_per_pct": {s: top(s, "R1", "uniforme_pct_prestiti") for s in scen},
+        "primi_cinque_per_pct_continua": {s: top(s, "R1", "continua_pct_prestiti") for s in scen},
         "mappa": {"trimestre_bri": q, "trimestre_bsi": q_bsi, "mediana_depositi_a_vista": med_x, "mediana_dollari": med_y,
                   "quadranti": {k: sorted(mp.index[mp.quadrante == k]) for k in "ABCD"},
                   "quadranti_riscalati": {k: sorted(mp.index[mp.quadrante_riscalato == k]) for k in "ABCD"},

@@ -141,6 +141,11 @@ def main() -> None:
     if m1.exists():  # livello corrente prodotto dal modulo 1
         lv = json.loads(m1.read_text())
         scenarios = {"M1_oggi_base": lv["livello"]["base_mld_usd"], "M1_oggi_alto": lv["livello"]["alto_mld_usd"], **SCENARIOS}
+    own = PROC / "level_own.json"
+    if own.exists():  # livello di riferimento del programma, espresso in euro: si converte al cambio dei bilanci
+        ref = json.loads(own.read_text())["livello_di_riferimento"]
+        scenarios = {"P_minimo": ref["minimo_mld_eur"] * fx, "P_centrale": ref["centrale_mld_eur"] * fx,
+                     "P_massimo": ref["massimo_mld_eur"] * fx, **scenarios}
 
     r3 = load_r3()
     country_rules = ["R1", "R2"] + (["R3"] if r3 is not None else [])
@@ -162,12 +167,13 @@ def main() -> None:
     ea.round(6).to_csv(PROC / "m4_euro_area.csv", index=False)
 
     base_cols = ["nome", "deflusso_mld", "perdita_depositi_a_vista", "perdita_depositi_clientela", "effetto_sulla_raccolta_pp", "aumento_raccolta_ingrosso"]
-    wide = pd.DataFrame({"nome": pd.Series(NAMES)}).reindex(b.index)
+    cols = {"nome": pd.Series(NAMES).reindex(b.index)}
     for name in scenarios:
         for cr in country_rules:
             sel = allr[(allr.scenario == name) & (allr.regola_paesi == cr) & (allr.regola_depositi == "T1")].set_index("paese")
             for col in base_cols[1:]:
-                wide[f"{name}|{cr}|{col}"] = sel[col]
+                cols[f"{name}|{cr}|{col}"] = sel[col]
+    wide = pd.DataFrame(cols)
     wide.round(6).to_csv(PROC / "m4_main_table.csv")
 
     # Soglie: importo che corrisponde a una data perdita dei depositi a vista dell'area
