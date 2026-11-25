@@ -71,9 +71,30 @@ def load_inputs(month: str, offline: bool) -> dict:
     return out
 
 
+def load_r3() -> pd.DataFrame | None:
+    """Regola R3: pesi = quota di possessori di cripto-attività × popolazione di 18 anni o più.
+
+    La quota per paese viene da un'indagine esterna (data/raw/r3_crypto_ownership.json). Ai paesi
+    senza dato si assegna la media semplice delle quote disponibili, e li si marca.
+    """
+    src, pop_path = RAW / "r3_crypto_ownership.json", RAW / "level_own_population.json"
+    if not (src.exists() and pop_path.exists()):
+        return None
+    shares = json.loads(src.read_text())["quote_percentuali"]
+    adults = pd.Series(json.loads(pop_path.read_text())["adulti_18_piu"], dtype=float)
+    s = pd.Series(shares, dtype=float).reindex(sorted(NAMES))
+    out = pd.DataFrame({"quota_possessori": s.fillna(s.mean()) / 100, "imputato": s.isna(), "adulti": adults.reindex(sorted(NAMES))})
+    out["peso"] = out.quota_possessori * out.adulti
+    out.index.name = "paese"
+    return out
+
+
 def allocate(b: pd.DataFrame, amount_eur: float, country_rule: str, deposit_rule: str, pop: pd.Series) -> pd.DataFrame:
     base = {"T1": b.vista, "T2": b.vista_fam, "T3": b.clientela}[deposit_rule]
-    weights = base if country_rule == "R1" else pop.reindex(b.index)
+    if country_rule == "R3":
+        weights = load_r3().peso.reindex(b.index)
+    else:
+        weights = base if country_rule == "R1" else pop.reindex(b.index)
     out = pd.DataFrame(index=b.index)
     wanted = amount_eur * weights / weights.sum()
     out["deflusso_mld"] = np.minimum(wanted, base)
@@ -121,10 +142,15 @@ def main() -> None:
         lv = json.loads(m1.read_text())
         scenarios = {"M1_oggi_base": lv["livello"]["base_mld_usd"], "M1_oggi_alto": lv["livello"]["alto_mld_usd"], **SCENARIOS}
 
+    r3 = load_r3()
+    country_rules = ["R1", "R2"] + (["R3"] if r3 is not None else [])
+    if r3 is not None:
+        r3.round(6).to_csv(PROC / "m4_r3_weights.csv")
+
     rows, ea = [], []
     for name, usd in scenarios.items():
         eur = usd / fx * SUBSTITUTION
-        for cr in ("R1", "R2"):
+        for cr in country_rules:
             for dr in ("T1", "T2", "T3"):
                 a = allocate(b, eur, cr, dr, pop)
                 a.insert(0, "nome", [NAMES[k] for k in a.index])
@@ -138,7 +164,7 @@ def main() -> None:
     base_cols = ["nome", "deflusso_mld", "perdita_depositi_a_vista", "perdita_depositi_clientela", "effetto_sulla_raccolta_pp", "aumento_raccolta_ingrosso"]
     wide = pd.DataFrame({"nome": pd.Series(NAMES)}).reindex(b.index)
     for name in scenarios:
-        for cr in ("R1", "R2"):
+        for cr in country_rules:
             sel = allr[(allr.scenario == name) & (allr.regola_paesi == cr) & (allr.regola_depositi == "T1")].set_index("paese")
             for col in base_cols[1:]:
                 wide[f"{name}|{cr}|{col}"] = sel[col]
@@ -162,6 +188,20 @@ def main() -> None:
                         "R1_perdita_vista": pick("R1", "T1", "perdita_depositi_a_vista"), "R2_perdita_vista": pick("R2", "T1", "perdita_depositi_a_vista"),
                         "depositi_a_vista_per_abitante_eur": b.vista * 1e9 / pop.reindex(b.index),
                         "R1_aumento_ingrosso": pick("R1", "T1", "aumento_raccolta_ingrosso"), "R2_aumento_ingrosso": pick("R2", "T1", "aumento_raccolta_ingrosso")})
+    r3_info = None
+    if r3 is not None:
+        cmp["R3_pp"] = pick("R3", "T1")
+        cmp["R3_perdita_vista"] = pick("R3", "T1", "perdita_depositi_a_vista")
+        cmp["R3_aumento_ingrosso"] = pick("R3", "T1", "aumento_raccolta_ingrosso")
+        cmp["quota_possessori"] = r3.quota_possessori
+        r3_src = json.loads((RAW / "r3_crypto_ownership.json").read_text())
+        r3_info = {"fonte": r3_src.get("fonte"), "anno": r3_src.get("anno"), "paesi_con_dato": int((~r3.imputato).sum()),
+                   "paesi_imputati": sorted(r3.index[r3.imputato]),
+                   "correlazione_di_rango_R3_R1": float(cmp.R3_pp.rank().corr(cmp.R1_pp.rank())),
+                   "correlazione_di_rango_R3_R2": float(cmp.R3_pp.rank().corr(cmp.R2_pp.rank())),
+                   "primi_cinque_R3": cmp.sort_values("R3_pp", ascending=False).head(5).index.tolist(),
+                   "variazione_massima_rispetto_a_R1": {"paese": (cmp.R3_pp / cmp.R1_pp).idxmax(), "rapporto": float((cmp.R3_pp / cmp.R1_pp).max())},
+                   "variazione_minima_rispetto_a_R1": {"paese": (cmp.R3_pp / cmp.R1_pp).idxmin(), "rapporto": float((cmp.R3_pp / cmp.R1_pp).min())}}
     cmp.sort_values("R2_pp", ascending=False).round(6).to_csv(PROC / "m4_rule_comparison.csv")
 
     def rank_corr(x, y):
@@ -174,6 +214,7 @@ def main() -> None:
                       "popolazione": float(pop.sum())},
         "scenari_area_euro_R1_T1": ea[(ea.regola_paesi == "R1") & (ea.regola_depositi == "T1")].set_index("scenario").drop(columns=["regola_paesi", "regola_depositi"]).to_dict("index"),
         "soglie": thr,
+        "regola_R3": r3_info,
         "confronto_regole_S2": {
             "correlazione_di_rango_R1_R2_effetto": rank_corr(r1, r2),
             "correlazione_di_rango_R1_R2_aumento_ingrosso": rank_corr(cmp.R1_aumento_ingrosso, cmp.R2_aumento_ingrosso),

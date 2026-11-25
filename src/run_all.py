@@ -1,7 +1,8 @@
 """Comando unico: aggiorna i quattro moduli e rigenera la sintesi.
 
 Ordine: modulo 3 (bilanci bancari), modulo 1 (livello, usa i depositi del modulo 3),
-modulo 2 (indice settimanale), modulo 4 (scenari, usa i moduli 1 e 3), sintesi.
+modulo 2 (indice settimanale), livello proprio, modulo 4 (scenari), modulo 5 (credito e
+mappa a due canali), test del modulo 2, poi sintesi e cruscotto.
 Se un modulo fallisce, per esempio perché una fonte non risponde, gli altri proseguono
 con i dati già presenti e la sintesi lo segnala.
 
@@ -19,7 +20,9 @@ from pathlib import Path
 
 SRC = Path(__file__).resolve().parent
 PROC = SRC.parent / "data" / "processed"
-STEPS = [("modulo3", "module3_ranking.py"), ("modulo1", "module1_level.py"), ("modulo2", "module2_index.py"), ("modulo4", "module4_scenarios.py")]
+STEPS = [("modulo3", "module3_ranking.py"), ("modulo1", "module1_level.py"), ("modulo2", "module2_index.py"),
+         ("livello_proprio", "level_own.py"), ("modulo4", "module4_scenarios.py"), ("modulo5", "module5_credit.py"),
+         ("test_modulo2", "module2_link_test.py")]
 
 
 def main() -> int:
@@ -41,10 +44,11 @@ def main() -> int:
         else:
             print(f"[{name}] fatto in {status['moduli'][name]['secondi']} s", flush=True)
     (PROC / "run_status.json").write_text(json.dumps(status, indent=2, ensure_ascii=False))
-    r = subprocess.run([sys.executable, str(SRC / "summary.py")], capture_output=True, text=True)
-    print(r.stdout.strip() or r.stderr.strip().splitlines()[-1], flush=True)
-    if r.returncode != 0:
-        failed.append("sintesi")
+    for name, script in (("sintesi", "summary.py"), ("cruscotto", "dashboard.py")):
+        r = subprocess.run([sys.executable, str(SRC / script)], capture_output=True, text=True)
+        print(r.stdout.strip() or r.stderr.strip().splitlines()[-1], flush=True)
+        if r.returncode != 0:
+            failed.append(name)
     if failed:
         print("Moduli falliti: " + ", ".join(failed) + ". Gli altri sono aggiornati; quelli falliti mostrano i dati precedenti.")
     return 1 if failed else 0
