@@ -187,8 +187,8 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   somma delle ripartizioni, riproducibilità senza rete.
 - **Completato quando**: il cruscotto ricalcola nel browser gli stessi numeri degli
   script per almeno uno scenario di controllo, e tutti i test passano.
-- **Stato**: completato il 2026-11-25 (`reports/10_cruscotto_e_test.md`). Indirizzo:
-  https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
+- **Stato**: completato il 2026-11-25 (`reports/10_cruscotto_e_test.md`), poi sostituito
+  lo stesso giorno dall'applicazione descritta più sotto, allo stesso indirizzo.
 
 ### Correzioni al motore (2026-11-25, prompt 5)
 
@@ -211,6 +211,8 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   diventano i due punti di ancoraggio e in mezzo si interpola, senza salto.
 - **Riproducibilità.** Versioni delle librerie bloccate in `requirements.txt`; il test
   di riproducibilità confronta i valori con una tolleranza sull'ultima cifra decimale.
+- **Stato**: applicate il 2026-11-25 (`reports/11_applicazione.md`). I numeri dei report
+  07 e 08 restano fotografie di prima delle correzioni.
 
 ### Strato dati e applicazione (2026-11-25, prompt 5)
 
@@ -233,16 +235,23 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   ogni sezione in `reports/figures/app/`.
 - Il cruscotto a pagina unica del 2026-11-25 (`src/dashboard.py`) è sostituito
   dall'applicazione.
+- **Stato**: applicazione completata e pubblicata il 2026-11-25
+  (`reports/11_applicazione.md`), criteri da (a) a (e) soddisfatti. Indirizzo:
+  https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
+  L'aggiornamento automatico è scritto (`.github/workflows/aggiornamento.yml`) ma non
+  ancora in funzione: il caricamento richiede il permesso `workflow`, che l'accesso
+  usato il 2026-11-25 non aveva. La sua esecuzione su GitHub non è verificata.
 
 ### Aggiornamento e sintesi
 
-Un solo comando aggiorna i quattro moduli nell'ordine giusto e rigenera la pagina di
-sintesi:
+Un solo comando aggiorna i moduli nell'ordine giusto e rigenera la pagina di sintesi e i
+dati dell'applicazione:
 
     .venv/bin/python src/run_all.py
 
 - Ordine: modulo 3, modulo 1, modulo 2, livello proprio, modulo 4, modulo 5, test del
-  modulo 2, sintesi, cruscotto. Circa sei minuti.
+  modulo 2, sintesi, dati dell'applicazione. Circa sei minuti. L'applicazione si
+  ricompila con `npm run build` in `web/`.
 - `SINTESI.md` è generata da `src/summary.py` a partire dai file in `data/processed`:
   non si modifica a mano.
 - Se una fonte non risponde, il modulo corrispondente fallisce senza toccare i dati
@@ -267,6 +276,7 @@ sintesi:
 | OAM (Italia) e DNB (Paesi Bassi) | Livello proprio B3 | Documenti pubblici | Verificate; OAM non distingue le stablecoin |
 | Proof of reserves degli exchange | Livello proprio B2 | Binance e KuCoin leggibili da script | Saldi letti; inutilizzabili senza la provenienza degli utenti |
 | Eurostat, popolazione per età e famiglie | Livello proprio e regola R3 | Gratis, senza chiave | Confermata |
+| Eurostat GISCO, confini dei paesi (Countries 2024, 1:20 milioni) | Applicazione: mappa d'Europa | Gratis, senza chiave; © EuroGeographics per i confini amministrativi | Confermata |
 | BRI, statistiche bancarie territoriali (LBS) | Modulo 3: passività in valuta estera e in dollari | Gratis, senza chiave | Confermata: 4 serie, 13 paesi su 21, trimestrale, fino a 2026-Q2 |
 | ECB Data Portal, tasso di cambio di riferimento (EXR) | Modulo 4: conversione degli importi in dollari | Gratis, senza chiave | Confermata |
 | Eurostat, popolazione al 1° gennaio (`demo_pjan`) | Modulo 4: ripartizione pro capite | Gratis, senza chiave | Confermata: 21 paesi, 2025 |
@@ -346,3 +356,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-25 | Aggiunti il modulo 5 (credito e trasmissione), il livello proprio, la regola R3, il test e la segnalazione del modulo 2, il cruscotto e i test automatici. Ridefinite le tre non-promesse della sezione 4 |
 | 2026-11-25 | Modulo 5 completato; livello proprio: criterio non soddisfatto, pubblicato il minimo di B1; regola R3 aggiunta; test del modulo 2 nullo; cruscotto pubblicato e test automatici superati |
 | 2026-11-25 | Prompt 5. Sezione 0: il prodotto finale è un'applicazione web completa. Il livello di riferimento diventa la stima propria (15,4; 8,9 - 23,1), per decisione successiva ai risultati e in deroga al criterio del report 08, che resta agli atti. Credito: regola uniforme in evidenza, variante continua definita prima del calcolo. Aggiunti strato dati JSON, aggiornamento automatico e applicazione |
+| 2026-11-25 | Applicazione completata (`reports/11_applicazione.md`): nove sezioni, strato dati in 29 file JSON, calcoli nel browser coincidenti con gli script su nove scenari, test nel browser superati. Aggiornamento automatico del lunedì scritto, non ancora caricato su GitHub (manca il permesso `workflow`) |

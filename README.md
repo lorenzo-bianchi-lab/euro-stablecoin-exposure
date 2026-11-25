@@ -1,25 +1,31 @@
 # euro-stablecoin-exposure
 
-Progetto universitario (ESCP, economia e finanza) destinato alla BCE. Dato un livello
-di adozione delle stablecoin in dollari (USDT, USDC) preso da fonti esterne, il
-programma mostra come si muove l'attività in euro, quali sistemi bancari nazionali
-dell'area euro hanno la raccolta più esposta a una sostituzione dei depositi e quanto
-peserebbe ogni livello di adozione, paese per paese. Riferimento: ECB Working Paper
-n. 3199 (marzo 2026).
+Progetto universitario (ESCP, economia e finanza) destinato alla BCE. Il programma stima
+un intervallo per le stablecoin in dollari (USDT, USDC) detenute dai residenti dell'area
+euro, non una misura: 15,4 miliardi di euro, tra 8,9 e 23,1, da un'indagine BCE e da
+ipotesi dichiarate. Mostra poi come si muove l'attività in euro, quali sistemi bancari
+nazionali hanno la raccolta più esposta a una sostituzione dei depositi e quanto
+peserebbe ogni livello di adozione su depositi e credito, paese per paese. Riferimento:
+ECB Working Paper n. 3199 (marzo 2026).
 
-L'obiettivo iniziale, stimare la quota detenuta da residenti dell'area euro, è stato
-abbandonato: i test preliminari hanno mostrato che con dati gratuiti non è stimabile.
+L'ipotesi dell'ESM (7,5% e 15% della circolazione) è riportata come confronto. La
+variante della stima calcolata sugli individui (42,0 miliardi) è un estremo superiore
+dichiarato: conta più volte la stessa famiglia.
 
 ## In breve
 
-- **Cruscotto interattivo**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
+- **Applicazione web**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
+  Nove sezioni: panoramica, simulatore, mappa d'Europa, scheda paese, mappa a due canali,
+  monitor settimanale, stima del livello, confronto ed esportazione, metodo e dati.
 - **Risultati in una pagina**: [SINTESI.md](SINTESI.md), generata dal codice.
-- **Aggiornare tutto**: `.venv/bin/python src/run_all.py` (circa sei minuti, nessuna chiave API).
-- **Test**: `.venv/bin/python -m unittest discover -s tests -v`.
+- **Aggiornare tutto**: `.venv/bin/python src/run_all.py` (circa sei minuti, nessuna chiave
+  API), poi `npm run build` in `web/`. Ogni lunedì lo fa da sola una GitHub Action.
+- **Test**: `.venv/bin/python -m unittest discover -s tests -v`; in `web/`, `npm test`
+  (calcoli dell'applicazione contro gli script) e `npm run e2e` (ogni sezione nel browser).
 - **Cosa fa e cosa non promette**: [SPEC.md](SPEC.md). Va letto per primo.
 
-I report numerati in `reports/` sono fotografie alla data indicata; la sintesi e i file
-in `data/processed/` riflettono l'ultimo aggiornamento.
+I report numerati in `reports/` sono fotografie alla data indicata; l'applicazione, la
+sintesi e i file in `data/processed/` riflettono l'ultimo aggiornamento.
 
 ## Cronologia
 
@@ -71,37 +77,50 @@ Estensioni del 2026-11-25:
 - **Credito e trasmissione** ([report 07](reports/07_modulo5_credito.md)): prestiti in
   meno per scenario e paese con i coefficienti del WP 3199, e mappa a due canali.
 - **Livello proprio e regola R3** ([report 08](reports/08_livello_proprio.md)): stima dal
-  basso di 15,4 miliardi di euro, di cui il programma pubblica solo il minimo (8,9)
-  perché le altre strade non la confermano; ripartizione tra paesi per possessori di
-  cripto-attività.
+  basso di 15,4 miliardi di euro (8,9 - 23,1); le altre due strade non la confermano.
+  Ripartizione tra paesi per possessori di cripto-attività.
 - **Test predittivo e segnalazione** ([report 09](reports/09_modulo2_segnale.md)):
   l'indice settimanale non anticipa i depositi; ha però una regola di segnalazione.
-- **Cruscotto e test** ([report 10](reports/10_cruscotto_e_test.md)).
+- **Cruscotto e test** ([report 10](reports/10_cruscotto_e_test.md)): sostituito
+  dall'applicazione.
+- **Dal motore al programma** ([report 11](reports/11_applicazione.md)): la stima propria
+  diventa il livello di riferimento, con il suo intervallo; il credito in evidenza usa
+  la regola uniforme del WP 3199 con intervallo basso-alto e una variante continua;
+  strato dati in JSON, applicazione web a nove sezioni, aggiornamento settimanale.
 
 ## Struttura
 
 | Percorso | Contenuto |
 |---|---|
 | `data/raw/` | Dati scaricati dalle API, senza modifiche |
-| `data/processed/` | Tabelle aggregate usate nei report |
-| `src/` | Script Python |
-| `notebooks/` | Notebook esplorativi |
-| `reports/` | Report in Markdown |
-| `docs/` | Cruscotto pubblicato con GitHub Pages |
-| `tests/` | Test automatici |
+| `data/processed/` | Tabelle aggregate prodotte dai moduli |
+| `src/` | Script Python: i moduli, `run_all.py`, `summary.py`, `export_app_data.py` |
+| `web/` | Applicazione (React, Vite, TypeScript, ECharts) e i suoi test |
+| `web/public/data/` | Strato dati: un file JSON per sezione, descritto in `README.md` nella stessa cartella |
+| `docs/` | Applicazione compilata, pubblicata con GitHub Pages |
+| `reports/` | Report in Markdown; `reports/figures/app/` contiene gli screenshot delle sezioni |
+| `tests/` | Test automatici in Python |
+| `.github/workflows/` | Aggiornamento automatico del lunedì |
 
 ## Come riprodurre
 
 ```bash
 python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python src/run_all.py            # i quattro moduli e la sintesi
-.venv/bin/python src/run_all.py --offline  # ricalcolo dai dati già scaricati
+.venv/bin/pip install -r requirements.txt   # versioni bloccate
+.venv/bin/python src/run_all.py             # moduli, sintesi e dati dell'applicazione
+.venv/bin/python src/run_all.py --offline   # ricalcolo dai dati già scaricati
+cd web && npm ci && npm run build           # applicazione compilata in docs/
+npm run dev                                 # applicazione in locale
 ```
 
 Ogni modulo si può eseguire da solo: `src/module1_level.py`, `src/module2_index.py`,
-`src/module3_ranking.py`, `src/module4_scenarios.py`, `src/module5_credit.py`. Gli script dei test preliminari
-(report 00, 01 e 02) restano in `src/` e sono descritti nei rispettivi report.
+`src/module3_ranking.py`, `src/module4_scenarios.py`, `src/module5_credit.py`,
+`src/level_own.py`. Gli script dei test preliminari (report 00, 01 e 02) restano in
+`src/` e sono descritti nei rispettivi report.
+
+Se una fonte non risponde, il modulo che la usa fallisce, i suoi risultati restano quelli
+dell'ultima esecuzione riuscita e l'applicazione lo segnala in alto e nella sezione
+"Metodo e dati".
 
 ## Chiavi API
 
