@@ -2,7 +2,7 @@
 
 Ordine: modulo 3 (bilanci bancari), modulo 1 (livello, usa i depositi del modulo 3),
 modulo 2 (indice settimanale), livello proprio, modulo 4 (scenari), modulo 5 (credito e
-mappa a due canali), test del modulo 2, poi sintesi e cruscotto.
+mappa a due canali), test del modulo 2, poi sintesi ed esportazione dei dati per l'applicazione.
 Se un modulo fallisce, per esempio perché una fonte non risponde, gli altri proseguono
 con i dati già presenti e la sintesi lo segnala.
 
@@ -44,8 +44,9 @@ def main() -> int:
         else:
             print(f"[{name}] fatto in {status['moduli'][name]['secondi']} s", flush=True)
     (PROC / "run_status.json").write_text(json.dumps(status, indent=2, ensure_ascii=False))
-    for name, script in (("sintesi", "summary.py"), ("cruscotto", "dashboard.py")):
-        r = subprocess.run([sys.executable, str(SRC / script)], capture_output=True, text=True)
+    for name, script in (("sintesi", "summary.py"), ("dati_applicazione", "export_app_data.py")):
+        extra = ["--offline"] if offline and script == "export_app_data.py" else []
+        r = subprocess.run([sys.executable, str(SRC / script)] + extra, capture_output=True, text=True)
         print(r.stdout.strip() or r.stderr.strip().splitlines()[-1], flush=True)
         if r.returncode != 0:
             failed.append(name)
