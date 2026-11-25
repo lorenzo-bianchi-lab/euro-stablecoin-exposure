@@ -1,15 +1,20 @@
 {
-  "calcolato_il": "2026-11-25T14:28:38+00:00",
+  "calcolato_il": "2026-11-25T15:37:31+00:00",
   "scarico": {
     "fetched_from": "2026-10-20",
     "fetched_to_excl": "2026-11-23",
-    "rows_fetched": 4730,
-    "rows_compared": 4730,
-    "rows_revised": 0,
-    "max_relative_revision": 0.0,
+    "rows_fetched": 4560,
+    "rows_compared": 4560,
+    "rows_revised": 26,
+    "max_relative_revision": 0.0476027936783521,
     "rows_added": 0,
-    "pairs_ok": 142,
+    "pairs_ok": 137,
     "pairs_error": [
+      "Bybit USDTEUR",
+      "Bybit USDCEUR",
+      "Bybit USDTUSD",
+      "Bybit USDTPLN",
+      "Bybit USDTAED",
       "Bitget RONUSDT"
     ],
     "modalita": "incrementale"
@@ -39,15 +44,15 @@
       },
       "usdc": {
         "stato": "da verificare",
-        "scarto_quota": 0.7141619036986196,
-        "scarto_volume": 2.567137719455424,
+        "scarto_quota": 0.7141619036986195,
+        "scarto_volume": 2.5671377194554235,
         "quota_eur": 0.5485827821574959,
         "volume_eur_mld": 1.61789301559
       },
       "usdc_senza_coinbase": {
         "stato": "nessuno",
-        "scarto_quota": 0.42684213804332316,
-        "scarto_volume": 1.9505614997575724,
+        "scarto_quota": 0.4268421380433231,
+        "scarto_volume": 1.9505614997575729,
         "quota_eur": 0.485054428482599,
         "volume_eur_mld": 1.18888143189
       }
@@ -280,11 +285,11 @@
       "totale": -6.359032094710694
     },
     "correlazione_con_principale": {
-      "usdt": 0.7123373687737153,
-      "usdt_senza_coinbase": 0.7100034267978016,
-      "usdc": 0.8650715405798907,
+      "usdt": 0.7123373687737151,
+      "usdt_senza_coinbase": 0.7100034267978017,
+      "usdc": 0.865071540579891,
       "usdc_senza_coinbase": 0.8194836293879196,
-      "totale": 0.853671021575899
+      "totale": 0.8536710215758988
     }
   },
   "pannello_costante": {

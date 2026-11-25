@@ -20,7 +20,7 @@ detenuto × quota in dollari, dall'indagine BCE sui consumatori. Il programma st
 | Massimo | 23,1 | Ipotesi alte su importi e quota in dollari |
 | Estremo superiore dichiarato | 42,0 | Variante individui: conta più volte la stessa famiglia |
 | Confronto: ipotesi ESM, quota 7,5% | 16,7 | Quota assunta dall'ESM × circolazione di USDT e USDC del 25 novembre 2026 (243,4 mld $) |
-| Confronto: ipotesi ESM, quota 15% | 33,3 | Come sopra, quota doppia |
+| Confronto: ipotesi ESM, quota 15% | 33,4 | Come sopra, quota doppia |
 
 L'indagine copre 11 paesi ed è definita sperimentale dalla BCE; l'estensione a 21 paesi è un'ipotesi.
 Le altre due strade tentate (riserve degli exchange, dati nazionali) non confermano la stima: il

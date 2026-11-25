@@ -77,11 +77,11 @@ OKX,USDC-SGD,USDC,SGD,ok,34,2026-10-20,2026-11-22,
 OKX,USDC-PLN,USDC,PLN,ok,34,2026-10-20,2026-11-22,
 OKX,RON-USDT,USDT,RON,ok,34,2026-10-20,2026-11-22,
 OKX,RON-USDC,USDC,RON,ok,34,2026-10-20,2026-11-22,
-Bybit,USDTEUR,USDT,EUR,ok,34,2026-10-20,2026-11-22,
-Bybit,USDCEUR,USDC,EUR,ok,34,2026-10-20,2026-11-22,
-Bybit,USDTUSD,USDT,USD,ok,34,2026-10-20,2026-11-22,
-Bybit,USDTPLN,USDT,PLN,ok,34,2026-10-20,2026-11-22,
-Bybit,USDTAED,USDT,AED,ok,34,2026-10-20,2026-11-22,
+Bybit,USDTEUR,USDT,EUR,errore,0,,,HTTPError: 403 Client Error: Forbidden for url: https://api.bybit.com/v5/market/kline?category=spot&symbol=USDTEUR&interval=D&start=1792454400000&end=1795391999
+Bybit,USDCEUR,USDC,EUR,errore,0,,,HTTPError: 403 Client Error: Forbidden for url: https://api.bybit.com/v5/market/kline?category=spot&symbol=USDCEUR&interval=D&start=1792454400000&end=1795391999
+Bybit,USDTUSD,USDT,USD,errore,0,,,HTTPError: 403 Client Error: Forbidden for url: https://api.bybit.com/v5/market/kline?category=spot&symbol=USDTUSD&interval=D&start=1792454400000&end=1795391999
+Bybit,USDTPLN,USDT,PLN,errore,0,,,HTTPError: 403 Client Error: Forbidden for url: https://api.bybit.com/v5/market/kline?category=spot&symbol=USDTPLN&interval=D&start=1792454400000&end=1795391999
+Bybit,USDTAED,USDT,AED,errore,0,,,HTTPError: 403 Client Error: Forbidden for url: https://api.bybit.com/v5/market/kline?category=spot&symbol=USDTAED&interval=D&start=1792454400000&end=1795391999
 Upbit,KRW-USDT,USDT,KRW,ok,34,2026-10-20,2026-11-22,
 Upbit,KRW-USDC,USDC,KRW,ok,34,2026-10-20,2026-11-22,
 Bithumb,KRW-USDT,USDT,KRW,ok,34,2026-10-20,2026-11-22,

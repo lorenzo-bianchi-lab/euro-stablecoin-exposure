@@ -1,5 +1,5 @@
 {
-  "calcolato_il": "2026-11-25T14:26:56+00:00",
+  "calcolato_il": "2026-11-25T15:36:12+00:00",
   "avvertenza": "Applicazione di un'ipotesi esterna (ESM Working Paper 79), non una stima.",
   "data_circolazione": "2026-11-25",
   "circolazione_mld_usd": {
@@ -11,14 +11,14 @@
   },
   "controllo_coingecko": {
     "usdt_mld": 174.8385008631826,
-    "usdc_mld": 68.95781700263117,
-    "aggiornato": "2026-11-25T14:25:57.000Z",
+    "usdc_mld": 68.94088991477224,
+    "aggiornato": "2026-11-25T15:33:53.000Z",
     "differenza_usdt": -0.002475266380379426,
-    "differenza_usdc": 0.0012086084071607495
+    "differenza_usdc": 0.0014544356092838218
   },
   "cambio": {
-    "data": "2026-11-24",
-    "usd_per_eur": 1.0963
+    "data": "2026-11-25",
+    "usd_per_eur": 1.0935
   },
   "quote_esm": {
     "base": 0.075,
@@ -28,14 +28,14 @@
   "livello": {
     "base_mld_usd": 18.258516675,
     "alto_mld_usd": 36.51703335,
-    "base_mld_eur": 16.654671782358843,
-    "alto_mld_eur": 33.309343564717686
+    "base_mld_eur": 16.697317489711935,
+    "alto_mld_eur": 33.39463497942387
   },
   "variante_tutte_le_stablecoin_in_dollari": {
     "base_mld_usd": 21.221625075,
     "alto_mld_usd": 42.44325015,
-    "base_mld_eur": 19.357498016054,
-    "alto_mld_eur": 38.714996032108
+    "base_mld_eur": 19.407064540466394,
+    "alto_mld_eur": 38.81412908093279
   },
   "convalida_esm": {
     "data": "2025-09-30",
