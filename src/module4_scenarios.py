@@ -45,18 +45,20 @@ def load_balance_sheets() -> tuple[pd.DataFrame, str]:
     return b, month
 
 
+def single_fx() -> tuple[float, str]:
+    """Cambio unico del programma: quello di riferimento BCE più recente, letto dal modulo 1 (SPEC, prompt 6)."""
+    c = json.loads((PROC / "m1_level.json").read_text())["cambio"]
+    return float(c["usd_per_eur"]), c["data"]
+
+
 def load_inputs(month: str, offline: bool) -> dict:
-    """Cambio di riferimento BCE dell'ultimo giorno lavorativo del mese e popolazione Eurostat."""
+    """Cambio unico del programma (dal modulo 1) e popolazione Eurostat."""
+    fx, fx_date = single_fx()
     if offline:
-        return json.loads(INPUTS.read_text())
-    r = requests.get("https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A",
-                     params={"startPeriod": f"{month}-01", "endPeriod": f"{month}-{calendar.monthrange(int(month[:4]), int(month[5:]))[1]}",
-                             "format": "csvdata", "detail": "dataonly"}, timeout=60)
-    r.raise_for_status()
-    rows = [ln.split(",") for ln in r.text.strip().splitlines()[1:]]
-    header = r.text.splitlines()[0].split(",")
-    last = rows[-1]
-    fx_date, fx = last[header.index("TIME_PERIOD")], float(last[header.index("OBS_VALUE")])
+        out = json.loads(INPUTS.read_text())
+        out.update({"usd_per_eur": fx, "data_cambio": fx_date})
+        INPUTS.write_text(json.dumps(out, indent=2))
+        return out
 
     geo = [("EL" if c == "GR" else c) for c in NAMES]
     r = requests.get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_pjan",

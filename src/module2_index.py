@@ -26,6 +26,7 @@ STORE = RAW / "m2_daily_volumes.csv"
 LONG_START = datetime(2023, 1, 2, tzinfo=timezone.utc)   # lunedì
 MAIN_START = "2024-12-09"                                 # prima settimana intera coperta da Kraken
 LONG_EXCLUDED = ["Kraken", "Gemini"]
+PANEL_EXCLUDED = ["Bybit"]                                # fuori dall'indice per tutto lo storico (SPEC, prompt 6)
 KEYS = ["exchange", "symbol", "date"]
 SERIES = {  # nome -> (stablecoin oppure None per entrambe, exchange esclusi)
     "usdt": ("USDT", []), "usdt_senza_coinbase": ("USDT", ["Coinbase"]),
@@ -89,6 +90,35 @@ def incomplete_weeks(d: pd.DataFrame, tolerance: float = 0.02) -> dict[str, dict
         if lost > tolerance:
             out[vol.index[i]] = {"exchange_mancanti": missing, "quota_di_volume_mancante": lost}
     return out
+
+
+def exclusion_effect(with_excluded: pd.DataFrame, without: pd.DataFrame) -> dict:
+    """Di quanto cambia l'indice principale togliendo gli exchange esclusi dal pannello.
+
+    Misura definita in SPEC prima del calcolo: sulle settimane in cui gli esclusi hanno
+    dati, differenza tra indice senza e con (punti percentuali) e settimane in cui cambia
+    lo stato della segnalazione.
+    """
+    weeks = sorted(with_excluded[with_excluded.exchange.isin(PANEL_EXCLUDED)].week.unique())
+    if not weeks:
+        return {"esclusi": PANEL_EXCLUDED, "settimane_confrontate": 0}
+    a, b = with_excluded[with_excluded.week.isin(weeks)], without[without.week.isin(weeks)]
+    names = [n for n, (stable, _) in SERIES.items() if stable]
+    diff = (weekly_index(b)[names] - weekly_index(a)[names]) * 100
+    fa = signals(with_excluded).set_index(["serie", "week"]).stato
+    fb = signals(without).set_index(["serie", "week"]).stato
+    both = pd.concat([fa.rename("con"), fb.rename("senza")], axis=1).dropna()
+    both = both[both.index.get_level_values("week").isin(weeks)]
+    changed = both[both.con != both.senza]
+    share = a[a.exchange.isin(PANEL_EXCLUDED)].groupby("week").volume_stable.sum() / a.groupby("week").volume_stable.sum()
+    return {
+        "esclusi": PANEL_EXCLUDED, "settimane_confrontate": len(weeks), "prima_settimana": weeks[0], "ultima_settimana": weeks[-1],
+        "quota_di_volume_degli_esclusi": {"media": float(share.mean()), "massima": float(share.max()), "ultima_settimana": float(share.iloc[-1])},
+        "differenza_pp": {n: {"media": float(diff[n].mean()), "massima_assoluta": float(diff[n].abs().max()),
+                              "settimana_della_massima": diff[n].abs().idxmax(), "ultima_settimana": float(diff[n].iloc[-1])} for n in names},
+        "segnalazioni_cambiate": int(len(changed)),
+        "dettaglio_segnalazioni_cambiate": [{"serie": i[0], "settimana": i[1], "con": r.con, "senza": r.senza} for i, r in changed.iterrows()],
+    }
 
 
 def eur_share(df: pd.DataFrame) -> float:
@@ -170,6 +200,9 @@ def main() -> None:
     d = d[d.date < end.strftime("%Y-%m-%d")].copy()
     d["week"] = pd.to_datetime(d.date).dt.to_period("W-SUN").dt.start_time.dt.strftime("%Y-%m-%d")
 
+    with_excluded = d[d.week >= MAIN_START].copy()   # solo per misurare l'effetto dell'esclusione
+    d = d[~d.exchange.isin(PANEL_EXCLUDED)].copy()
+
     held_back = incomplete_weeks(d)
     if held_back:  # le settimane incomplete non entrano nell'indice pubblicato
         d = d[~d.week.isin(held_back)].copy()
@@ -241,6 +274,9 @@ def main() -> None:
         "scarico": fetch_info,
         "riproducibilita": repro,
         "settimane_trattenute": held_back,
+        "pannello": {"exchange": int(main_d.exchange.nunique()), "exchange_indice_lungo": int(d[~d.exchange.isin(LONG_EXCLUDED)].exchange.nunique()),
+                     "esclusi": PANEL_EXCLUDED, "esclusi_indice_lungo": LONG_EXCLUDED},
+        "effetto_esclusione": exclusion_effect(with_excluded[~with_excluded.week.isin(held_back)], main_d),
         "segnalazione": segnalazione,
         "indice_principale": {"prima_settimana": weeks_main[0], "ultima_settimana": weeks_main[-1], "settimane": len(weeks_main),
                               "serie": {n: stats(idx_main[n]) for n in names}},
@@ -260,7 +296,7 @@ def main() -> None:
     (PROC / "m2_summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
     if tmp.exists():
         tmp.unlink()
-    plot(idx_main, "03_indice_principale.png", "Quota EUR dei volumi stablecoin/fiat, indice principale (25 exchange)")
+    plot(idx_main, "03_indice_principale.png", f"Quota EUR dei volumi stablecoin/fiat, indice principale ({main_d.exchange.nunique()} exchange)")
     plot(idx_long, "03_indice_lungo.png", "Quota EUR dei volumi stablecoin/fiat, indice lungo (senza Kraken e Gemini)")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     if fetch_info.get("modalita") != "offline" and fetch_info.get("pairs_ok", 1) == 0:

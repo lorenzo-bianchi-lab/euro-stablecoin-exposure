@@ -316,7 +316,8 @@ PANEL = [
         *[p(f"USDC-{f}", "USDC", f) for f in "EUR TRY BRL AUD AED SGD PLN".split()],
         p("RON-USDT", "USDT", "RON", False), p("RON-USDC", "USDC", "RON", False),
     ]),
-    ("Bybit", bybit, [p("USDTEUR", "USDT", "EUR"), p("USDCEUR", "USDC", "EUR"), p("USDTUSD", "USDT", "USD"), p("USDTPLN", "USDT", "PLN"), p("USDTAED", "USDT", "AED")]),
+    # Bybit è fuori dal pannello dal 2026-11-25 (SPEC, prompt 6): non risponde dai server di GitHub,
+    # quindi esecuzione locale e automatica davano indici diversi. Coppie: USDTEUR, USDCEUR, USDTUSD, USDTPLN, USDTAED.
     ("Upbit", upbit_like("https://api.upbit.com"), [p("KRW-USDT", "USDT", "KRW"), p("KRW-USDC", "USDC", "KRW")]),
     ("Bithumb", upbit_like("https://api.bithumb.com"), [p("KRW-USDT", "USDT", "KRW"), p("KRW-USDC", "USDC", "KRW")]),
     ("Coinone", coinone, [p("USDT", "USDT", "KRW"), p("USDC", "USDC", "KRW")]),
