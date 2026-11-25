@@ -1,15 +1,14 @@
 """Test automatici del programma.
 
 Coprono quattro proprietà: quadratura dei bilanci, linearità degli scenari, somma delle
-ripartizioni e riproducibilità senza rete; più la coerenza tra il cruscotto e gli script.
+ripartizioni e riproducibilità senza rete; più lo strato dati dell'applicazione e la
+coincidenza tra i calcoli dell'applicazione e quelli degli script.
 
 Uso: .venv/bin/python -m unittest discover -s tests -v
 """
 from __future__ import annotations
 
-import hashlib
 import json
-import re
 import shutil
 import subprocess
 import sys
@@ -17,6 +16,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -88,48 +88,110 @@ class Scenari(unittest.TestCase):
         self.assertTrue(((s2.soglia_mld - 2 * s1.soglia_mld).abs() < 1e-4).all())
 
 
-class Cruscotto(unittest.TestCase):
-    """Il cruscotto rifà i calcoli nel browser: devono coincidere con quelli degli script."""
+class Applicazione(unittest.TestCase):
+    """L'applicazione legge solo i file JSON esportati e rifà i calcoli nel browser con le stesse formule."""
 
-    @unittest.skipUnless(shutil.which("node"), "node non installato")
-    def test_il_cruscotto_riproduce_gli_script(self):
-        html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
-        data = re.search(r'<script id="data" type="application/json">(.*?)</script>', html, re.S).group(1)
-        model = re.search(r'<script id="model">(.*?)</script>', html, re.S).group(1)
-        cases = [{"usd": 300, "rule": r, "sigma": 1, "variant": "soglia"} for r in rules()]
-        js = model + f"\nconst D = {data};\nconst cases = {json.dumps(cases)};\n" \
-             "console.log(JSON.stringify(cases.map(c => compute(D, c.usd, c.rule, c.sigma, c.variant))));"
-        out = json.loads(subprocess.run(["node", "-e", js], capture_output=True, text=True, check=True).stdout)
-        byc = pd.read_csv(PROC / "m4_scenarios_by_country.csv")
-        credit = pd.read_csv(PROC / "m5_credit_by_country.csv")
-        for case, rows in zip(cases, out):
-            ref = byc[(byc.scenario == "S2_alto_2030") & (byc.regola_paesi == case["rule"]) & (byc.regola_depositi == "T1")].set_index("paese")
-            cref = credit[(credit.scenario == "S2_alto_2030") & (credit.regola_paesi == case["rule"])].set_index("paese")
-            self.assertEqual(len(rows), 21)
-            for r in rows:
-                self.assertAlmostEqual(r["deflusso"], ref.loc[r["code"], "deflusso_mld"], places=4)
-                self.assertAlmostEqual(r["aumentoIngrosso"], ref.loc[r["code"], "aumento_raccolta_ingrosso"], places=5)
-                self.assertAlmostEqual(r["credito"], cref.loc[r["code"], "soglia_mld"], places=4)
+    DATA = ROOT / "web" / "public" / "data"
+    SECTIONS = ["panoramica.json", "simulatore.json", "canali.json", "monitor.json", "livello.json", "metodo.json", "meta.json"]
+
+    def test_ogni_file_e_versionato_e_documentato(self):
+        files = [self.DATA / f for f in self.SECTIONS] + sorted((self.DATA / "paesi").glob("*.json"))
+        self.assertEqual(len(files), len(self.SECTIONS) + 21)
+        for f in files:
+            doc = json.loads(f.read_text(encoding="utf-8"))
+            for key in ("schema", "file", "generato_il", "dati_al", "descrizione", "campi"):
+                self.assertIn(key, doc, f"{f.name}: manca {key}")
+            self.assertRegex(doc["schema"], r"^\d+\.\d+\.\d+$")
+        self.assertTrue((self.DATA / "README.md").exists())
+
+    def test_ogni_fonte_ha_data_e_stato(self):
+        meta = json.loads((self.DATA / "meta.json").read_text(encoding="utf-8"))
+        self.assertGreaterEqual(len(meta["fonti"]), 8)
+        allowed = ("aggiornata", "ultimo dato valido", "non aggiornata in questa esecuzione", "statica")
+        for s in meta["fonti"]:
+            self.assertTrue(s["dati_al"], f"{s['id']}: manca la data dei dati")
+            self.assertTrue(s["stato"].startswith(allowed), f"{s['id']}: stato non previsto ({s['stato']})")
+
+    def test_i_dati_del_simulatore_coincidono_con_i_bilanci(self):
+        sim = json.loads((self.DATA / "simulatore.json").read_text(encoding="utf-8"))
+        b, pop, fx = balance_sheets()
+        self.assertEqual(len(sim["paesi"]), 21)
+        ref = json.loads((PROC / "level_own.json").read_text())["livello_di_riferimento"]
+        self.assertAlmostEqual(sim["livello"]["centrale"], ref["centrale_mld_eur"], places=4)
+        self.assertAlmostEqual(sim["cambioUsdPerEur"], fx, places=6)
+
+    @unittest.skipUnless(shutil.which("npm") and (ROOT / "web" / "node_modules").exists(), "dipendenze dell'applicazione non installate (npm ci in web/)")
+    def test_l_applicazione_riproduce_gli_script(self):
+        """Tre scenari per ciascuna regola: i valori attesi escono dai moduli 4 e 5, il modello TypeScript deve coincidere."""
+        r = subprocess.run([sys.executable, str(ROOT / "tests" / "make_app_fixtures.py")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr[-800:])
+        fixtures = json.loads((ROOT / "web" / "tests" / "fixtures.json").read_text())
+        per_rule = {rule: sum(c["scenario"]["regola"] == rule for c in fixtures["casi"]) for rule in ("R1", "R2", "R3")}
+        self.assertTrue(all(n >= 3 for n in per_rule.values()), per_rule)
+        r = subprocess.run(["npm", "test", "--silent"], cwd=ROOT / "web", capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-1500:])
+
+
+def decimals(text: pd.Series) -> int:
+    """Numero massimo di cifre decimali scritte in una colonna."""
+    frac = text.dropna().str.extract(r"\.(\d+)$")[0].dropna()
+    return int(frac.str.len().max()) if len(frac) else 0
 
 
 class Riproducibilita(unittest.TestCase):
-    """Rieseguire tutto senza rete, in una copia, deve dare gli stessi file di risultato."""
+    """Rieseguire tutto senza rete, in una copia, deve dare gli stessi risultati.
+
+    Il confronto è numerico e tollera una unità sull'ultima cifra decimale scritta in ogni colonna:
+    versioni diverse delle librerie o del processore possono arrotondare diversamente l'ultima cifra.
+    """
 
     FILES = ["m1_monthly_series.csv", "m2_weekly_index.csv", "m2_flags.csv", "m3_ranking_latest.csv", "m3_composition.csv",
              "m4_scenarios_by_country.csv", "m5_credit_by_country.csv", "m5_two_channel_map.csv"]
 
-    def test_esecuzione_offline_identica(self):
-        digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-        before = {f: digest(PROC / f) for f in self.FILES}
+    def assert_same(self, name: str, before: Path, after: Path) -> None:
+        a_txt, b_txt = pd.read_csv(before, dtype=str), pd.read_csv(after, dtype=str)
+        self.assertEqual(list(a_txt.columns), list(b_txt.columns), name)
+        self.assertEqual(len(a_txt), len(b_txt), name)
+        a, b = pd.read_csv(before), pd.read_csv(after)
+        for col in a.columns:
+            if pd.api.types.is_float_dtype(a[col]):
+                tol = 1.5 * 10.0 ** -decimals(a_txt[col])
+                x, y = a[col].to_numpy(float), b[col].to_numpy(float)
+                self.assertTrue(np.array_equal(np.isnan(x), np.isnan(y)), f"{name}.{col}: valori mancanti diversi")
+                diff = float(np.nanmax(np.abs(x - y))) if len(x) and not np.isnan(x).all() else 0.0
+                self.assertLessEqual(diff, tol, f"{name}.{col}: differenza {diff} oltre l'ultima cifra decimale")
+            else:
+                self.assertTrue(a_txt[col].fillna("").equals(b_txt[col].fillna("")), f"{name}.{col}: valori diversi")
+
+    def test_esecuzione_offline_coincidente(self):
         with tempfile.TemporaryDirectory() as tmp:
             work = Path(tmp) / "repo"
             for d in ("src", "data"):
                 shutil.copytree(ROOT / d, work / d, ignore=shutil.ignore_patterns("__pycache__", "labels"))
+            shutil.copy(ROOT / "SPEC.md", work / "SPEC.md")
             (work / "reports" / "figures").mkdir(parents=True)
             r = subprocess.run([sys.executable, str(work / "src" / "run_all.py"), "--offline"], capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stdout[-800:] + r.stderr[-800:])
-            after = {f: digest(work / "data" / "processed" / f) for f in self.FILES}
-        self.assertEqual(before, after)
+            for f in self.FILES:
+                self.assert_same(f, PROC / f, work / "data" / "processed" / f)
+            # anche i dati dell'applicazione: stessi paesi e stessi numeri del simulatore
+            old = json.loads((ROOT / "web" / "public" / "data" / "simulatore.json").read_text(encoding="utf-8"))
+            new = json.loads((work / "web" / "public" / "data" / "simulatore.json").read_text(encoding="utf-8"))
+            self.assertEqual([c["code"] for c in old["paesi"]], [c["code"] for c in new["paesi"]])
+            for c_old, c_new in zip(old["paesi"], new["paesi"]):
+                for k, v in c_old.items():
+                    if isinstance(v, float):
+                        self.assertAlmostEqual(v, c_new[k], delta=1.5e-6, msg=f"simulatore.json {c_old['code']}.{k}")
+
+    def test_il_confronto_tollera_solo_l_ultima_cifra(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            a, b, c = (Path(tmp) / n for n in ("a.csv", "b.csv", "c.csv"))
+            a.write_text("paese,valore\nIT,1.2345\nFR,2.0000\n")
+            b.write_text("paese,valore\nIT,1.2346\nFR,2.0000\n")
+            c.write_text("paese,valore\nIT,1.2360\nFR,2.0000\n")
+            self.assert_same("prova", a, b)
+            with self.assertRaises(AssertionError):
+                self.assert_same("prova", a, c)
 
 
 if __name__ == "__main__":
