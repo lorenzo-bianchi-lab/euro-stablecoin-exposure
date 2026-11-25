@@ -1,5 +1,12 @@
 # euro-stablecoin-exposure
 
+*English summary.* A university project (ESCP) addressed to the ECB: a web application
+that estimates a range for dollar stablecoins held by euro area residents (EUR 15.4
+billion, between 8.9 and 23.1), and shows what each adoption level would mean for
+deposits and credit, country by country and bank by bank. The application is in English
+and Italian: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
+The documentation below, SPEC.md and the reports are in Italian.
+
 Progetto universitario (ESCP, economia e finanza) destinato alla BCE. Il programma stima
 un intervallo per le stablecoin in dollari (USDT, USDC) detenute dai residenti dell'area
 euro, non una misura: 15,4 miliardi di euro, tra 8,9 e 23,1, da un'indagine BCE e da
@@ -15,13 +22,15 @@ dichiarato: conta più volte la stessa famiglia.
 ## In breve
 
 - **Applicazione web**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
-  Nove sezioni: panoramica, simulatore, mappa d'Europa, scheda paese, mappa a due canali,
-  monitor settimanale, stima del livello, confronto ed esportazione, metodo e dati.
+  In inglese, con l'italiano selezionabile. Dieci sezioni: panoramica, simulatore, mappa
+  d'Europa, scheda paese, banche, mappa a due canali, monitor settimanale, stima del
+  livello, confronto ed esportazione, metodo e dati.
 - **Risultati in una pagina**: [SINTESI.md](SINTESI.md), generata dal codice.
 - **Aggiornare tutto**: `.venv/bin/python src/run_all.py` (circa sei minuti, nessuna chiave
   API), poi `npm run build` in `web/`. Ogni lunedì lo fa da sola una GitHub Action.
 - **Test**: `.venv/bin/python -m unittest discover -s tests -v`; in `web/`, `npm test`
-  (calcoli dell'applicazione contro gli script) e `npm run e2e` (ogni sezione nel browser).
+  (calcoli dell'applicazione contro gli script, traduzioni complete) e `npm run e2e`
+  (ogni sezione nel browser, nelle due lingue).
 - **Cosa fa e cosa non promette**: [SPEC.md](SPEC.md). Va letto per primo.
 
 I report numerati in `reports/` sono fotografie alla data indicata; l'applicazione, la
@@ -88,6 +97,12 @@ Estensioni del 2026-11-25:
   la regola uniforme del WP 3199 con intervallo basso-alto e una variante continua;
   strato dati in JSON, applicazione web a nove sezioni, aggiornamento settimanale.
 
+- **Rifiniture, inglese, singole banche** ([report 12](reports/12_rifiniture_lingua_banche.md)):
+  Bybit fuori dall'indice settimanale, un solo cambio per tutto il programma,
+  applicazione in inglese e italiano, e modulo 6: 85 banche dell'area euro dai dati
+  pubblici dell'esercizio di trasparenza EBA 2025, con quota retail, effetto dello
+  scenario e confronto con il modulo 5. Aggiornamento: `.venv/bin/python src/module6_banks.py`.
+
 ## Struttura
 
 | Percorso | Contenuto |
@@ -96,7 +111,8 @@ Estensioni del 2026-11-25:
 | `data/processed/` | Tabelle aggregate prodotte dai moduli |
 | `src/` | Script Python: i moduli, `run_all.py`, `summary.py`, `export_app_data.py` |
 | `web/` | Applicazione (React, Vite, TypeScript, ECharts) e i suoi test |
-| `web/public/data/` | Strato dati: un file JSON per sezione, descritto in `README.md` nella stessa cartella |
+| `web/public/data/` | Strato dati: un file JSON per sezione (numeri e codici), descritto in `README.md` nella stessa cartella |
+| `web/src/i18n/`, `src/i18n/` | Testi dell'applicazione in inglese e in italiano; traduzione dei testi presi da SPEC.md |
 | `docs/` | Applicazione compilata, pubblicata con GitHub Pages |
 | `reports/` | Report in Markdown; `reports/figures/app/` contiene gli screenshot delle sezioni |
 | `tests/` | Test automatici in Python |
@@ -115,7 +131,7 @@ npm run dev                                 # applicazione in locale
 
 Ogni modulo si può eseguire da solo: `src/module1_level.py`, `src/module2_index.py`,
 `src/module3_ranking.py`, `src/module4_scenarios.py`, `src/module5_credit.py`,
-`src/level_own.py`. Gli script dei test preliminari (report 00, 01 e 02) restano in
+`src/module6_banks.py`, `src/level_own.py`. Gli script dei test preliminari (report 00, 01 e 02) restano in
 `src/` e sono descritti nei rispettivi report.
 
 Se una fonte non risponde, il modulo che la usa fallisce, i suoi risultati restano quelli

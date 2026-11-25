@@ -79,7 +79,8 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   Coinbase.
 - **Perché senza Coinbase**: su Coinbase USDC si converte in dollari fuori dal book,
   quindi la sua quota EUR è gonfiata.
-- **Fonti**: candele giornaliere pubbliche di 25 exchange (`src/exchange_fetch.py`).
+- **Fonti**: candele giornaliere pubbliche di 24 exchange (`src/exchange_fetch.py`);
+  erano 25 fino al 2026-11-25, quando Bybit è stato escluso per tutto lo storico.
 - **Completato quando**: (a) uno script produce le quattro serie settimanali per tutto
   lo storico che le API gratuite restituiscono, con il periodo effettivo dichiarato;
   (b) per ogni settimana è registrato quali exchange hanno contribuito; (c) il pannello
@@ -225,7 +226,8 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   l'applicazione lo segnala.
 - **Applicazione** (`web/`, pubblicata da `docs/`): React, Vite, TypeScript, ECharts.
   Navigazione laterale, indirizzi condivisibili che conservano lo scenario, tema chiaro e
-  scuro, utilizzabile da 390 pixel. Nove sezioni: panoramica, simulatore, mappa d'Europa,
+  scuro, utilizzabile da 390 pixel. Nove sezioni (dieci dal prompt 6, con "Banche"; dal
+  prompt 6 in inglese e italiano, e con i testi fuori dai file di dati): panoramica, simulatore, mappa d'Europa,
   scheda paese, mappa a due canali, monitor settimanale, stima del livello, confronto ed
   esportazione, metodo e dati.
 - **Completato quando**: (a) ogni sezione funziona e mostra accanto ai numeri le
@@ -273,6 +275,11 @@ verificata solo la disponibilità dei dati EBA (quali file, quali voci, quante b
   nell'indirizzo (`lang=it`). Tutti i testi stanno in file di traduzione separati
   (`web/src/i18n/`; per i testi che vengono da questo documento, `src/i18n/`). Numeri e
   date seguono la lingua. Un test verifica che non restino stringhe non tradotte.
+- **Stato**: tutto applicato il 2026-11-25 (`reports/12_rifiniture_lingua_banche.md`).
+  Senza Bybit l'indice è in media 0,40 punti più basso per USDT e 0,12 per USDC
+  (massimo 4,5 punti, settimana del 1° giugno 2026; ultima settimana -1,76 e -0,58);
+  cambia lo stato di una segnalazione. Cambio unico: 1,0935 dollari per euro; l'ipotesi
+  ESM vale 16,7 miliardi di euro ovunque. L'applicazione ha dieci sezioni, con "Banche".
 
 ### Modulo 6 - Singole banche (aggiunto il 2026-11-25, prompt 6)
 
@@ -320,7 +327,15 @@ verificata solo la disponibilità dei dati EBA (quali file, quali voci, quante b
 - **Avvertenze obbligatorie**: dati pubblici per banca, non dati di vigilanza; l'ordine
   non è un giudizio sulla solidità; bilanci consolidati che comprendono attività fuori
   dall'area euro; data dei dati diversa da quella dei bilanci nazionali.
-- **Stato**: in corso.
+- **Stato**: completato il 2026-11-25 (`reports/12_rifiniture_lingua_banche.md`,
+  `src/module6_banks.py`). Criterio di sufficienza soddisfatto: 85 banche con tutte le
+  voci su 99, in 18 paesi (mancano Bulgaria, Croazia e Slovacchia). Soglia di quota
+  retail tra banche 94,4%, 21 banche sopra. Copertura: 61% dell'attivo delle banche
+  residenti, 69% di quello consolidato. Nei paesi coperti i coefficienti applicati banca
+  per banca danno 0,45 euro di prestiti in meno per euro di deflusso, contro 0,18 della
+  variante a soglia del modulo 5, 0,25 della continua e 0,50 della regola uniforme.
+  Nessuna esposizione in dollari nei dati. La variante continua per banca non è
+  calcolata: gli ancoraggi tra banche non erano definiti prima dei risultati.
 
 ### Aggiornamento e sintesi
 
@@ -329,8 +344,9 @@ dati dell'applicazione:
 
     .venv/bin/python src/run_all.py
 
-- Ordine: modulo 3, modulo 1, modulo 2, livello proprio, modulo 4, modulo 5, test del
-  modulo 2, sintesi, dati dell'applicazione. Circa sei minuti. L'applicazione si
+- Ordine: modulo 3, modulo 1, modulo 2, livello proprio, modulo 4, modulo 5, modulo 6,
+  test del modulo 2, sintesi, dati dell'applicazione. Circa sei minuti. Il modulo 6 usa
+  l'estratto EBA già nel repository e non scarica nulla, salvo `--download`. L'applicazione si
   ricompila con `npm run build` in `web/`.
 - `SINTESI.md` è generata da `src/summary.py` a partire dai file in `data/processed`:
   non si modifica a mano.
@@ -344,7 +360,7 @@ dati dell'applicazione:
 
 | Fonte | Uso | Accesso | Stato |
 |---|---|---|---|
-| API pubbliche di 25 exchange (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso, Binance.US) | Modulo 2 | Gratis, senza chiave | Confermata. Storico: almeno dal 2023 per 18 exchange; Kraken solo dal 2024-12 (ultime 720 candele) |
+| API pubbliche di 24 exchange (Binance, Kraken, Coinbase, Bitstamp, OKX, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso, Binance.US) | Modulo 2 | Gratis, senza chiave | Confermata. Storico: almeno dal 2023 per 17 exchange; Kraken solo dal 2024-12 (ultime 720 candele). Bybit escluso dal 2026-11-25: non risponde dai server di GitHub |
 | CoinGecko, ticker a 24 ore | Controllo di copertura del modulo 2 | Gratis, senza chiave, solo istantanea | Confermata |
 | ECB Data Portal, dataset BSI | Modulo 3 | Gratis, senza chiave | Confermata: 12 serie, 21 paesi (20 per i depositi da altre banche), mensile, fino a 2026-09 |
 | DefiLlama, API delle stablecoin | Modulo 1: circolazione di USDT, USDC e totale | Gratis, senza chiave | Confermata; coincide con CoinGecko entro lo 0,4% |
@@ -357,6 +373,8 @@ dati dell'applicazione:
 | Proof of reserves degli exchange | Livello proprio B2 | Binance e KuCoin leggibili da script | Saldi letti; inutilizzabili senza la provenienza degli utenti |
 | Eurostat, popolazione per età e famiglie | Livello proprio e regola R3 | Gratis, senza chiave | Confermata |
 | Eurostat GISCO, confini dei paesi (Countries 2024, 1:20 milioni) | Applicazione: mappa d'Europa | Gratis, senza chiave; © EuroGeographics per i confini amministrativi | Confermata |
+| EBA, esercizio di trasparenza 2025, database completo | Modulo 6: bilanci delle singole banche | Gratis, senza chiave; file CSV | Confermata: 99 banche dell'area euro, 85 con tutte le voci, 18 paesi; dati al 30 giugno 2025. Nessuna scomposizione per valuta |
+| ECB Data Portal, dati bancari consolidati (CBD2) | Modulo 6: copertura del campione | Gratis, senza chiave | Confermata: totale attivo consolidato per paese, trimestrale |
 | BRI, statistiche bancarie territoriali (LBS) | Modulo 3: passività in valuta estera e in dollari | Gratis, senza chiave | Confermata: 4 serie, 13 paesi su 21, trimestrale, fino a 2026-Q2 |
 | ECB Data Portal, tasso di cambio di riferimento (EXR) | Modulo 4: conversione degli importi in dollari | Gratis, senza chiave | Confermata |
 | Eurostat, popolazione al 1° gennaio (`demo_pjan`) | Modulo 4: ripartizione pro capite | Gratis, senza chiave | Confermata: 21 paesi, 2025 |
@@ -389,6 +407,9 @@ esplicita. Restano veri nella forma qui sotto.
 - Nessuna previsione dell'adozione futura: gli scenari sono ipotesi.
 - La classifica del modulo 3 ordina i paesi per struttura della raccolta. Non è una
   probabilità che i depositi escano né un giudizio sulla solidità delle banche.
+- Il modulo 6 usa dati pubblici per banca, non dati di vigilanza riservati. L'ordine delle
+  banche descrive la struttura della raccolta: non è un giudizio sulla solidità di
+  nessuna banca né una previsione di deflussi.
 - Nessuna copertura di OTC, P2P, finanza decentralizzata o reti diverse da quelle
   dichiarate in ciascun report.
 
@@ -406,6 +427,7 @@ esplicita. Restano veri nella forma qui sotto.
 | B2: riserve dei clienti degli exchange ripartite per paese | `reports/08_livello_proprio.md` | Nessun indicatore gratuito e scaricabile della provenienza degli utenti |
 | B3 come stima del livello | `reports/08_livello_proprio.md` | Le statistiche nazionali vedono solo i prestatori registrati nel paese: 17 volte sotto la stima dal basso |
 | Indice del modulo 2 come anticipatore dei depositi | `reports/09_modulo2_segnale.md` | Test pre-registrato nullo: p = 0,31, nessun miglioramento fuori campione |
+| Esposizioni in dollari delle singole banche dai dati EBA | `reports/12_rifiniture_lingua_banche.md` | L'esercizio di trasparenza non ha scomposizione per valuta. Riportate al loro posto le esposizioni verso controparti statunitensi, che sono un'altra grandezza |
 | Istantanea CoinGecko come serie storica | `reports/00_test_H1.md` | L'API gratuita restituisce solo le ultime 24 ore |
 
 ## 6. Regole di lavoro
@@ -439,3 +461,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-25 | Applicazione completata (`reports/11_applicazione.md`): nove sezioni, strato dati in 29 file JSON, calcoli nel browser coincidenti con gli script su nove scenari, test nel browser superati. Aggiornamento automatico del lunedì scritto |
 | 2026-11-25 | Aggiornamento automatico in funzione: prima esecuzione su GitHub riuscita (dati, 13 test, compilazione, test nel browser, pubblicazione). Bybit non risponde dai server di GitHub: annotato nel report 11 |
 | 2026-11-25 | Prompt 6. Criteri fissati prima dei risultati: Bybit fuori dall'indice per tutto lo storico, con la misura della variazione; un solo cambio per tutto il programma; rifiniture dell'applicazione; inglese come lingua principale; modulo 6 sulle singole banche con i dati dell'esercizio di trasparenza EBA 2025 (verificata solo la disponibilità: 119 banche, dati al 30 giugno 2025, nessuna scomposizione per valuta) |
+| 2026-11-25 | Prompt 6 completato (`reports/12_rifiniture_lingua_banche.md`): sette rifiniture applicate; indice senza Bybit (in media -0,40 punti per USDT, -0,12 per USDC); cambio unico; applicazione in inglese e italiano con 587 testi per lingua; modulo 6 con 85 banche in 18 paesi e sezione "Banche". Test: 22 Python, 31 dell'applicazione, browser su undici pagine nelle due lingue |
