@@ -31,6 +31,10 @@ export function MonitorSettimanale() {
           <Select id="per" label="Periodo" value={per} options={PERIODI} onChange={(v) => route.setParams({ per: v })} />
         </div>
         <Note>{m.avvertenza} Ultima settimana: {giorno(m.dati_al.ultimaSettimana)}.{per === "lungo" ? " Lo storico lungo è confrontabile per direzione, non per livello, con l'indice principale." : ""}</Note>
+        {m.fontiMancanti && m.fontiMancanti.coppie.length > 0 && (
+          <Note>{m.fontiMancanti.exchange.join(", ")} non ha risposto all'ultimo scarico ({m.fontiMancanti.coppie.length} coppie, {pct(m.fontiMancanti.quotaVolume)} dei volumi).
+            I suoi dati arrivano al {giorno(m.fontiMancanti.datiFinoAl)}: le settimane successive sono calcolate senza, e la quota EUR può risultare leggermente più bassa.</Note>
+        )}
       </Card>
 
       <Card>

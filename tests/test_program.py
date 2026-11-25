@@ -120,6 +120,18 @@ class Applicazione(unittest.TestCase):
         self.assertAlmostEqual(sim["livello"]["centrale"], ref["centrale_mld_eur"], places=4)
         self.assertAlmostEqual(sim["cambioUsdPerEur"], fx, places=6)
 
+    def test_le_coppie_senza_risposta_sono_riconosciute(self):
+        import export_app_data as exp
+        store = pd.DataFrame({"exchange": ["A"] * 3 + ["B"] * 3, "symbol": ["USDTEUR"] * 3 + ["USDTUSD"] * 3,
+                              "date": ["2026-01-01", "2026-01-02", "2026-01-03"] * 2, "volume_stable": [1.0, 1.0, 1.0, 9.0, 9.0, 9.0]})
+        log = pd.DataFrame({"exchange": ["A", "B", "C"], "symbol": ["USDTEUR", "USDTUSD", "XYZUSDT"], "status": ["errore", "ok", "errore"]})
+        m = exp.missing_pairs(log, store)
+        self.assertEqual(m["coppie"], ["A USDTEUR"])           # aveva dati: manca davvero
+        self.assertEqual(m["maiDisponibili"], ["C XYZUSDT"])    # mai avuti dati: non pesa
+        self.assertAlmostEqual(m["quotaVolume"], 0.1, places=9)
+        self.assertEqual(m["datiFinoAl"], "2026-01-03")
+        self.assertIsNone(exp.missing_pairs(log[log.status == "ok"], store))
+
     @unittest.skipUnless(shutil.which("npm") and (ROOT / "web" / "node_modules").exists(), "dipendenze dell'applicazione non installate (npm ci in web/)")
     def test_l_applicazione_riproduce_gli_script(self):
         """Tre scenari per ciascuna regola: i valori attesi escono dai moduli 4 e 5, il modello TypeScript deve coincidere."""

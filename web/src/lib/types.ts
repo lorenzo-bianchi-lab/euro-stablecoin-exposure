@@ -12,7 +12,7 @@ export interface Source { id: string; nome: string; modulo: string; dati_al: str
 export interface Meta {
   generato_il: string;
   aggiornamento: { eseguitoIl: string | null; modalita: string | null; moduli: Record<string, { esito: string; secondi?: number; messaggio?: string }> };
-  fonti: Source[]; fontiNonAggiornate: string[]; avviso: string; file: string[]; mappaDisponibile: boolean;
+  fonti: Source[]; fontiNonAggiornate: string[]; fontiParziali?: string[]; avviso: string; file: string[]; mappaDisponibile: boolean;
 }
 export interface FlagState { stato?: string; scarto_quota?: number; scarto_volume?: number; quota_eur?: number; volume_eur_mld?: number; valore: number; variazione: number }
 export interface Overview {
@@ -40,6 +40,7 @@ export interface Monitor {
   dati_al: { ultimaSettimana: string }; serie: string[]; principale: WeeklySeries; lungo: WeeklySeries;
   segnalazioni: Record<string, FlagSeries>; statistiche: Record<string, Record<string, number | string>>; regola: string;
   settimaneTrattenute: Record<string, { exchange_mancanti: string[]; quota_di_volume_mancante: number }>;
+  fontiMancanti?: { exchange: string[]; coppie: string[]; maiDisponibili: string[]; quotaVolume: number; datiFinoAl: string | null } | null;
   testPredittivo: { risposta: string; pValue: number; osservazioni: number; rapportoRmse: number }; avvertenza: string;
 }
 export interface LevelFile {

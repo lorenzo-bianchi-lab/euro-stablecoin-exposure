@@ -162,13 +162,18 @@ esecuzione, mostrate con l'ultimo dato valido" e la fonte con la data dell'ultim
 cinque coppie ricevono "403 Forbidden"; dal computer locale rispondono. Conseguenze:
 
 - per le settimane già scaricate restano i dati di Bybit presenti nel repository;
-- per le settimane nuove calcolate dalla Action Bybit mancherà. Pesa lo 0,5% dei volumi
-  totali dell'indice e tra l'1% e il 2,5% di quelli contro euro: è sotto la soglia del 2%
-  dei volumi totali che fa trattenere una settimana, quindi la settimana viene
-  pubblicata senza Bybit. La quota EUR pubblicata dalla Action sarà perciò leggermente
-  più bassa di quella che darebbe un'esecuzione locale;
-- l'applicazione elenca le coppie senza risposta nella sezione "Metodo e dati", ma la
-  fonte resta marcata "aggiornata" e non compare l'avviso in cima alla pagina.
+- per le settimane nuove calcolate dalla Action Bybit mancherà. Pesa lo 0,9% dei volumi
+  totali dell'indice nelle ultime quattro settimane, ma è in crescita: 1,8% nell'ultima.
+  La regola trattiene una settimana quando gli exchange mancanti pesavano in media più
+  del 2% nelle quattro precedenti: oggi Bybit è sotto, quindi la settimana viene
+  pubblicata senza. Bybit quota soprattutto coppie contro euro (fino al 2,5% dei volumi
+  contro euro), perciò la quota EUR pubblicata dalla Action sarà leggermente più bassa
+  di quella di un'esecuzione locale. Se il suo peso medio supera il 2%, le settimane
+  nuove verranno trattenute e l'indice resterà fermo all'ultima valida, segnalandolo;
+- l'applicazione lo segnala: la fonte è marcata "aggiornata in parte", un avviso compare
+  in cima a ogni pagina e accanto ai grafici del monitor settimanale, e "Metodo e dati"
+  elenca le coppie senza risposta. Le coppie che non hanno mai dato dati (Bitget
+  RONUSDT) sono elencate a parte e non fanno scattare l'avviso.
 
 Non è stato aggirato il blocco. Rimedi possibili, non applicati: eseguire
 l'aggiornamento da un computer in Europa, oppure togliere Bybit dall'indice per tutta la

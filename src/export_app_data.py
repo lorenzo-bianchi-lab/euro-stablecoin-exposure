@@ -99,6 +99,43 @@ def gisco(offline: bool) -> None:
     path.write_text(json.dumps({"type": "FeatureCollection", "fonte": "Eurostat GISCO, Countries 2024, 1:20M. © EuroGeographics per i confini amministrativi", "features": feats}, separators=(",", ":")))
 
 
+def day_it(iso: str) -> str:
+    months = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"]
+    y, m, d = iso[:10].split("-")
+    return f"{int(d)} {months[int(m) - 1]} {y}"
+
+
+def missing_pairs(log: pd.DataFrame, store: pd.DataFrame) -> dict | None:
+    """Coppie che all'ultimo scarico non hanno risposto pur avendo dati nello storico.
+
+    Sono quelle che contano: le settimane nuove escono senza di loro. Le coppie che non
+    hanno mai dato dati (per esempio non più quotate) sono elencate a parte e non pesano.
+    Il peso è la quota dei volumi totali nelle ultime quattro settimane in cui la coppia
+    era presente.
+    """
+    failed = log[log.status == "errore"]
+    if failed.empty:
+        return None
+    known = store.merge(failed[["exchange", "symbol"]].drop_duplicates(), on=["exchange", "symbol"])
+    never = sorted({f"{r.exchange} {r.symbol}" for r in failed.itertuples()} - {f"{r.exchange} {r.symbol}" for r in known.itertuples()})
+    if known.empty:
+        return {"exchange": [], "coppie": [], "maiDisponibili": never, "quotaVolume": 0.0, "datiFinoAl": None}
+    last = known.date.max()
+    start = (pd.Timestamp(last) - pd.Timedelta(days=27)).strftime("%Y-%m-%d")
+    window = store[(store.date >= start) & (store.date <= last)]
+    total = float(window.volume_stable.sum())
+    lost = float(known[(known.date >= start) & (known.date <= last)].volume_stable.sum())
+    return {"exchange": sorted(known.exchange.unique()), "coppie": sorted({f"{r.exchange} {r.symbol}" for r in known.itertuples()}),
+            "maiDisponibili": never, "quotaVolume": lost / total if total else 0.0, "datiFinoAl": known.groupby(["exchange", "symbol"]).date.max().min()}
+
+
+def load_missing_pairs() -> dict | None:
+    log_path, store_path = PROC / "m2_last_fetch_log.csv", RAW / "m2_daily_volumes.csv"
+    if not log_path.exists() or not store_path.exists():
+        return None
+    return missing_pairs(pd.read_csv(log_path), pd.read_csv(store_path))
+
+
 def sources_status(status: dict, m1: dict, m2: dict, m3: dict, m4s: dict, m5s: dict) -> list[dict]:
     mods = status.get("moduli", {})
     offline = status.get("modalita") == "senza rete"
@@ -112,8 +149,7 @@ def sources_status(status: dict, m1: dict, m2: dict, m3: dict, m4s: dict, m5s: d
         return "aggiornata", ""
 
     last_week = m2["indice_principale"]["ultima_settimana"]
-    log = pd.read_csv(PROC / "m2_last_fetch_log.csv") if (PROC / "m2_last_fetch_log.csv").exists() else pd.DataFrame(columns=["exchange", "symbol", "status"])
-    failed = sorted({f"{r.exchange} {r.symbol}" for r in log[log.status == "errore"].itertuples()})
+    missing = load_missing_pairs()
     rows = []
     for sid, name, module, date in (
         ("bce_bsi", "BCE, bilanci bancari mensili (BSI)", "modulo3", m3["ultimo_mese"]),
@@ -128,11 +164,20 @@ def sources_status(status: dict, m1: dict, m2: dict, m3: dict, m4s: dict, m5s: d
         detail = msg
         if sid == "exchange":
             held = m2.get("settimane_trattenute", {})
-            parts = ([f"coppie senza risposta: {', '.join(failed)}"] if failed else []) + \
-                    ([f"settimane trattenute perché incomplete: {', '.join(held)}"] if held else [])
+            parts = []
+            if missing and missing["coppie"]:
+                share = f"{100 * missing['quotaVolume']:.1f}".replace(".", ",")
+                parts.append(f"senza risposta all'ultimo scarico: {', '.join(missing['coppie'])} "
+                             f"({share}% dei volumi nelle quattro settimane fino al {missing['datiFinoAl']}); le settimane successive escono senza")
+            if missing and missing["maiDisponibili"]:
+                parts.append(f"coppie mai disponibili: {', '.join(missing['maiDisponibili'])}")
+            if held:
+                parts.append(f"settimane trattenute perché incomplete: {', '.join(held)}")
             detail = "; ".join([p for p in [msg] + parts if p])
             if held and st == "aggiornata":
                 st = "ultimo dato valido"
+            elif missing and missing["coppie"] and st == "aggiornata":
+                st = "aggiornata in parte"
         rows.append({"id": sid, "nome": name, "modulo": module, "dati_al": date, "stato": st, "dettaglio": detail})
     for sid, name, date in (
         ("bce_ces", "BCE, Bollettino economico 7/2026, indagine sui consumatori (CES)", "agosto e novembre 2025"),
@@ -244,7 +289,8 @@ def main() -> None:
     write("monitor.json", "Indice settimanale della quota EUR dei volumi stablecoin/fiat, volumi assoluti, stato delle segnalazioni e storico lungo.",
           {"ultimaSettimana": m2["indice_principale"]["ultima_settimana"]},
           {"principale": "25 exchange, dal dicembre 2024", "lungo": "senza Kraken e Gemini, dal gennaio 2023: confrontabile per direzione, non per livello",
-           "segnalazioni[serie].stato": "segnale, da verificare, nessuno, storico insufficiente", "volumi": "miliardi di unità di stablecoin (circa dollari) a settimana"},
+           "segnalazioni[serie].stato": "segnale, da verificare, nessuno, storico insufficiente",
+           "fontiMancanti": "coppie con storico che non hanno risposto all'ultimo scarico, con la loro quota dei volumi; null se hanno risposto tutte", "volumi": "miliardi di unità di stablecoin (circa dollari) a settimana"},
           {"serie": series,
            "principale": {"settimane": wk.index.tolist(), **{s: wk[s].round(5).tolist() for s in series}, "totale": wk.totale.round(5).tolist(),
                           "volEurUsdt": wk.volume_eur_usdt_mld.round(4).tolist(), "volEurUsdc": wk.volume_eur_usdc_mld.round(4).tolist(),
@@ -254,6 +300,7 @@ def main() -> None:
                      "volEurUsdt": lg.volume_eur_usdt_mld.round(4).tolist(), "volEurUsdc": lg.volume_eur_usdc_mld.round(4).tolist()},
            "segnalazioni": flags, "statistiche": m2["indice_principale"]["serie"], "regola": m2["segnalazione"]["regola"],
            "settimaneTrattenute": m2.get("settimane_trattenute", {}),
+           "fontiMancanti": load_missing_pairs(),
            "testPredittivo": {"risposta": link["risposta"], "pValue": link["principale"]["p_value"], "osservazioni": link["principale"]["osservazioni"], "rapportoRmse": link["principale"]["rapporto_rmse"]},
            "avvertenza": "L'indice misura trading in euro su exchange centralizzati, non detenzioni né residenza. Il test pre-registrato non trova contenuto predittivo per i depositi."})
 
@@ -276,6 +323,7 @@ def main() -> None:
 
     # ---- metodo e dati
     sources = sources_status(status, m1, m2, m3, m4s, m5s)
+    missing_ex = load_missing_pairs()
     write("metodo.json", "Fonti, limiti dichiarati, metodi scartati e stato dell'ultimo aggiornamento.", {"aggiornamento": status.get("eseguito_il", NOW)},
           {"fontiDescrizione": "tabella delle fonti di SPEC.md", "limiti": "sezione 4 di SPEC.md", "metodiScartati": "sezione 5 di SPEC.md", "coefficienti": "Working Paper BCE 3199, con origine"},
           {"fontiDescrizione": spec_table("## 3. Fonti dati confermate"), "limiti": spec_bullets("## 4. Cosa il programma NON promette"),
@@ -309,12 +357,20 @@ def main() -> None:
 
     # ---- meta
     fresh = [s for s in sources if s["stato"] == "ultimo dato valido"]
+    partial = [s for s in sources if s["stato"] == "aggiornata in parte"]
+    notices = []
+    if fresh:
+        notices.append("Fonti non aggiornate nell'ultima esecuzione, mostrate con l'ultimo dato valido: " + "; ".join(f"{s['nome']} ({s['dati_al']})" for s in fresh) + ".")
+    if partial and missing_ex and missing_ex["coppie"]:
+        share = f"{100 * missing_ex['quotaVolume']:.1f}".replace(".", ",")
+        notices.append(f"Indice settimanale aggiornato in parte: {', '.join(missing_ex['exchange'])} non ha risposto all'ultimo scarico ({share}% dei volumi). "
+                       f"I suoi dati arrivano al {day_it(missing_ex['datiFinoAl'])}; le settimane successive escono senza.")
     files = sorted(DOCS) + ["meta.json"] + (["geo/europa.geo.json"] if geo_ok else [])
     write("meta.json", "Stato dell'aggiornamento e di ogni fonte, ed elenco dei file di dati.", {"aggiornamento": status.get("eseguito_il", NOW)},
-          {"fonti[].stato": "aggiornata, ultimo dato valido, non aggiornata in questa esecuzione, statica", "avviso": "testo da mostrare nell'applicazione quando una fonte non si è aggiornata"},
+          {"fonti[].stato": "aggiornata, aggiornata in parte, ultimo dato valido, non aggiornata in questa esecuzione, statica", "avviso": "testo da mostrare nell'applicazione quando una fonte non si è aggiornata"},
           {"aggiornamento": {"eseguitoIl": status.get("eseguito_il"), "modalita": status.get("modalita"), "moduli": status.get("moduli", {})},
-           "fonti": sources, "fontiNonAggiornate": [s["nome"] for s in fresh],
-           "avviso": ("Fonti non aggiornate nell'ultima esecuzione, mostrate con l'ultimo dato valido: " + "; ".join(f"{s['nome']} ({s['dati_al']})" for s in fresh)) if fresh else "",
+           "fonti": sources, "fontiNonAggiornate": [s["nome"] for s in fresh], "fontiParziali": [s["nome"] for s in partial],
+           "avviso": " ".join(notices),
            "file": files, "mappaDisponibile": geo_ok})
 
     readme = ["# Dati dell'applicazione", "", f"Generati da `src/export_app_data.py`. Schema {SCHEMA}. Non modificare a mano.", "",
@@ -324,7 +380,7 @@ def main() -> None:
     readme += ["## geo/europa.geo.json", "", "Confini dei paesi europei da Eurostat GISCO (Countries 2024, scala 1:20 milioni), con `code`, `name` e `area_euro`. © EuroGeographics per i confini amministrativi.", ""]
     (OUT / "README.md").write_text("\n".join(readme), encoding="utf-8")
     size = sum(p.stat().st_size for p in OUT.rglob("*.json")) / 1024
-    print(f"dati dell'applicazione: {len(list(OUT.rglob('*.json')))} file JSON, {size:.0f} KB; fonti non aggiornate: {len(fresh)}")
+    print(f"dati dell'applicazione: {len(list(OUT.rglob('*.json')))} file JSON, {size:.0f} KB; fonti non aggiornate: {len(fresh)}, aggiornate in parte: {len(partial)}")
 
 
 if __name__ == "__main__":

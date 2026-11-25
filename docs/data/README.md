@@ -24,7 +24,7 @@ Stima dal basso del valore di stablecoin in dollari detenuto nell'area euro, con
 
 Stato dell'aggiornamento e di ogni fonte, ed elenco dei file di dati.
 
-- `fonti[].stato`: aggiornata, ultimo dato valido, non aggiornata in questa esecuzione, statica
+- `fonti[].stato`: aggiornata, aggiornata in parte, ultimo dato valido, non aggiornata in questa esecuzione, statica
 - `avviso`: testo da mostrare nell'applicazione quando una fonte non si è aggiornata
 
 ## metodo.json
@@ -43,6 +43,7 @@ Indice settimanale della quota EUR dei volumi stablecoin/fiat, volumi assoluti, 
 - `principale`: 25 exchange, dal dicembre 2024
 - `lungo`: senza Kraken e Gemini, dal gennaio 2023: confrontabile per direzione, non per livello
 - `segnalazioni[serie].stato`: segnale, da verificare, nessuno, storico insufficiente
+- `fontiMancanti`: coppie con storico che non hanno risposto all'ultimo scarico, con la loro quota dei volumi; null se hanno risposto tutte
 - `volumi`: miliardi di unità di stablecoin (circa dollari) a settimana
 
 ## paesi/AT.json

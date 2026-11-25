@@ -241,7 +241,8 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   L'aggiornamento automatico (`.github/workflows/aggiornamento.yml`) è in funzione dal
   2026-11-25: prima esecuzione, avviata a mano, riuscita in tutti i passi. Dai server di
   GitHub Bybit non risponde (403): le settimane nuove calcolate lì escono senza Bybit,
-  che pesa lo 0,5% dei volumi; l'applicazione lo elenca in "Metodo e dati".
+  che pesa lo 0,9% dei volumi (1,8% nell'ultima settimana); l'applicazione marca la fonte
+  "aggiornata in parte" e mostra un avviso in cima a ogni pagina.
 
 ### Aggiornamento e sintesi
 

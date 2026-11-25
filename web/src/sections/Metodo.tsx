@@ -18,7 +18,7 @@ export function Metodo({ data }: { data: AppData }) {
         {meta.avviso ? <Note>{meta.avviso}</Note> : <p className="muted">Tutte le fonti aggiornabili hanno risposto nell'ultima esecuzione con scarico dei dati.</p>}
         <DataTable csvName="stato_fonti.csv" rows={meta.fonti} columns={[
           { key: "nome", label: "Fonte", value: (r) => r.nome, format: (r) => <span style={{ whiteSpace: "normal" }}>{r.nome}</span> }, { key: "dati_al", label: "Dati al", value: (r) => r.dati_al },
-          { key: "stato", label: "Stato", value: (r) => r.stato, format: (r) => <span className={r.stato === "ultimo dato valido" ? "state segnale" : ""}>{r.stato}</span> },
+          { key: "stato", label: "Stato", value: (r) => r.stato, format: (r) => <span className={r.stato === "ultimo dato valido" || r.stato === "aggiornata in parte" ? "state segnale" : ""}>{r.stato}</span> },
           { key: "dettaglio", label: "Dettaglio", value: (r) => r.dettaglio, format: (r) => <span style={{ whiteSpace: "normal" }}>{r.dettaglio}</span> },
         ]} />
         <h3>Esito per modulo</h3>
@@ -26,7 +26,7 @@ export function Metodo({ data }: { data: AppData }) {
           <thead><tr><th>Modulo</th><th>Esito</th><th className="num">Secondi</th><th>Messaggio</th></tr></thead>
           <tbody>{Object.entries(meta.aggiornamento.moduli).map(([k, v]) => <tr key={k}><td>{MODULI[k] ?? k}</td><td>{v.esito === "ok" ? "riuscito" : "fallito: dati precedenti"}</td><td className="num">{v.secondi ?? ""}</td><td style={{ whiteSpace: "normal" }}>{v.messaggio ?? ""}</td></tr>)}</tbody>
         </table></div>
-        <Note>Se una fonte non risponde, il modulo corrispondente tiene l'ultimo dato valido e qui compare lo stato "ultimo dato valido". Una settimana dell'indice entra solo se gli exchange attesi hanno risposto.</Note>
+        <Note>Se una fonte non risponde, il modulo corrispondente tiene l'ultimo dato valido e qui compare lo stato "ultimo dato valido". Se non risponde un singolo exchange che pesa meno del 2% dei volumi, la settimana esce senza e la fonte è marcata "aggiornata in parte"; sopra il 2% la settimana viene trattenuta.</Note>
       </Card>
       <Card title="Cosa il programma non promette"><ul className="plain">{m.limiti.map((l, i) => <li key={i}>{l}</li>)}</ul></Card>
       <Card title="Coefficienti del Working Paper BCE 3199">
