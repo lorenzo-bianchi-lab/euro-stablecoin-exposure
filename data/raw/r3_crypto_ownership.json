@@ -1,0 +1,31 @@
+{
+ "fonte": "BCE, indagine SPACE 2024, grafico 41 (file dei dati dei grafici, foglio 'Chart 41')",
+ "url": "https://www.ecb.europa.eu/stats/ecb_surveys/space/shared/pdf/ecb.space2024_charts.en.xlsx",
+ "anno": "2024",
+ "domanda": "Do you have crypto assets (e.g. Ethereum, Bitcoin, etc.)? Adulti di 18 anni o più; rilevazioni set-nov 2023 e apr-giu 2024",
+ "verificato_il": "2026-11-25",
+ "nota": "Bulgaria assente: è entrata nell'area euro nel 2026",
+ "quote_percentuali": {
+  "BE": 11.8897271171339,
+  "DE": 5.86377144399058,
+  "EE": 7.40221321374324,
+  "IE": 13.1442764323603,
+  "GR": 13.742798530335,
+  "ES": 9.44914456628755,
+  "FR": 9.30402066196221,
+  "HR": 12.6162610042276,
+  "IT": 8.75642267661551,
+  "CY": 13.1459486891457,
+  "LV": 7.74189032617132,
+  "LT": 13.0605105649159,
+  "LU": 11.9485272535436,
+  "MT": 10.4642770649604,
+  "NL": 5.54099117963176,
+  "AT": 12.9635943465312,
+  "PT": 12.0319503160776,
+  "SI": 15.20546623176,
+  "SK": 10.8389591342609,
+  "FI": 11.1574590599528
+ },
+ "area_euro_pubblicata": 8.80732285408991
+}

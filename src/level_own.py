@@ -93,13 +93,59 @@ def b1(pop: dict) -> dict:
     return res
 
 
+def owners_share(pop: dict) -> dict:
+    """Quota di ciascun paese sui possessori di cripto-attività dell'area (indagine SPACE × adulti)."""
+    src = RAW / "r3_crypto_ownership.json"
+    if not src.exists():
+        tot = sum(pop["popolazione"].values())
+        return {c: pop["popolazione"][c] / tot for c in EURO_AREA}
+    q = json.loads(src.read_text())["quote_percentuali"]
+    mean = sum(q.values()) / len(q)
+    owners = {c: q.get(c, mean) / 100 * pop["adulti_18_piu"][c] for c in EURO_AREA}
+    tot = sum(owners.values())
+    return {c: v / tot for c, v in owners.items()}
+
+
+def b2(ext: dict) -> dict:
+    """Riserve dei clienti presso gli exchange: totale leggibile, ma nessuna attribuzione per paese."""
+    d = dict(ext.get("B2", {"esito": "non calcolata"}))
+    rows = d.get("saldi_dei_clienti_usd", [])
+    if rows:
+        tot = sum((r["usdt"] or 0) + (r["usdc"] or 0) for r in rows) / 1e9
+        ver = sum((r["usdt"] or 0) + (r["usdc"] or 0) for r in rows if r["verifica"].startswith("letto alla fonte")) / 1e9
+        d["totale_saldi_clienti_mld_usd"] = tot
+        d["di_cui_verificati_alla_fonte_mld_usd"] = ver
+    return d
+
+
+def b3(ext: dict, pop: dict) -> dict:
+    d = ext.get("B3")
+    if not d:
+        return {"esito": "non calcolata"}
+    share = owners_share(pop)
+    it, nl, st = d["italia"], d["paesi_bassi"], d["quota_stablecoin_sul_mercato_cripto"]["valore"]
+    it_stable = it["controvalore_cripto_eur"] * st
+    out = {"esito": "calcolata", "ipotesi": "OAM non distingue le stablecoin: si applica la quota del 10% sul mercato cripto (WP 3199) e la quota in dollari di B1",
+           "quota_italia_sui_possessori_dell_area": share["IT"], "quota_paesi_bassi_sui_possessori_dell_area": share["NL"],
+           "italia_stablecoin_stimate_mld_eur": it_stable / 1e9}
+    for k in ("minimo", "centrale", "massimo"):
+        out[f"{k}_mld_eur"] = it_stable * USD_SHARE[k] / share["IT"] / 1e9
+    nl_max = nl["controvalore_cripto_famiglie_eur"] * nl["quota_stablecoin_massima"]
+    out["controllo_paesi_bassi"] = {"stablecoin_massime_mld_eur": nl_max / 1e9,
+                                    "area_euro_massimo_implicito_mld_eur": nl_max * USD_SHARE["centrale"] / share["NL"] / 1e9,
+                                    "nota": "DNB misura le stablecoin (meno dell'1%); il dato dà un tetto, non un valore centrale"}
+    out["italia_con_quota_olandese_mld_eur"] = it["controvalore_cripto_eur"] * nl["quota_stablecoin_massima"] * USD_SHARE["centrale"] / share["IT"] / 1e9
+    out["fonti"] = d
+    return out
+
+
 def main() -> None:
     pop = json.loads(POP.read_text()) if "--offline" in sys.argv else fetch_population()
     ext = json.loads(INPUTS.read_text()) if INPUTS.exists() else {}
-    r1 = b1(pop)
+    r1, r2, r3 = b1(pop), b2(ext), b3(ext, pop)
     centrals = {"B1": r1["famiglie"]["centrale_mld_eur"]}
-    for key in ("B2", "B3"):
-        v = ext.get(key, {}).get("centrale_mld_eur")
+    for key, res in (("B2", r2), ("B3", r3)):
+        v = res.get("centrale_mld_eur")
         if v is not None:
             centrals[key] = float(v)
     names = sorted(centrals)
@@ -112,7 +158,7 @@ def main() -> None:
         verdict = {"esito": "solo minimo di B1", "minimo_mld_eur": r1["famiglie"]["minimo_mld_eur"]}
     out = {
         "avvertenza": "Triangolazione di fonti indirette, non una misura delle detenzioni dei residenti.",
-        "B1": r1, "B2": ext.get("B2", {"esito": "non calcolata"}), "B3": ext.get("B3", {"esito": "non calcolata"}),
+        "B1": r1, "B2": r2, "B3": r3,
         "valori_centrali_mld_eur": centrals, "confronti": [{"coppia": f"{a}-{b}", "fattore": f} for a, b, f in pairs],
         "fattore_massimo_ammesso": FACTOR, "verdetto": verdict,
         "parametri": {"quota_detentori": HOLDER_SHARE, "quota_in_dollari": USD_SHARE,
