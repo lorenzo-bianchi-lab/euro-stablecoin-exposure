@@ -1,14 +1,16 @@
-import { createContext, useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import * as echarts from "echarts/core";
-import { BarChart, LineChart, MapChart, ScatterChart } from "echarts/charts";
-import { DataZoomComponent, GeoComponent, GridComponent, LegendComponent, MarkAreaComponent, MarkLineComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
+import { BarChart, LineChart, ScatterChart } from "echarts/charts";
+import { GridComponent, LegendComponent, MarkAreaComponent, MarkLineComponent, TooltipComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
+import { getLang, locale, t } from "../i18n";
 import type { Theme } from "../lib/util";
+import { ThemeContext } from "./theme";
 
-echarts.use([BarChart, LineChart, MapChart, ScatterChart, DataZoomComponent, GeoComponent, GridComponent, LegendComponent, MarkAreaComponent, MarkLineComponent, TooltipComponent, VisualMapComponent, CanvasRenderer]);
+// Qui solo i tipi di grafico usati da quasi tutte le sezioni; la mappa registra i propri in sections/Map.tsx.
+echarts.use([BarChart, LineChart, ScatterChart, GridComponent, LegendComponent, MarkAreaComponent, MarkLineComponent, TooltipComponent, CanvasRenderer]);
 
-export { echarts };
-export const ThemeContext = createContext<Theme>("light");
+export { echarts, ThemeContext };
 
 export interface Palette {
   surface: string; panel: string; ink: string; ink2: string; grid: string;
@@ -27,24 +29,27 @@ export const usePalette = () => PALETTES[useContext(ThemeContext)];
 
 // Elementi comuni: assi e griglie poco invadenti, valori al passaggio del mouse.
 export const grid = (extra: object = {}) => ({ left: 8, right: 16, top: 16, bottom: 8, containLabel: true, ...extra });
+const axisNumber = (v: unknown) => (typeof v === "number" ? v.toLocaleString(locale(), { maximumFractionDigits: 4 }) : String(v));
 export const axisStyle = (p: Palette) => ({
-  axisLine: { lineStyle: { color: p.grid } }, axisTick: { show: false }, axisLabel: { color: p.ink2, fontSize: 11, formatter: (v: unknown) => (typeof v === "number" ? v.toLocaleString("it-IT", { maximumFractionDigits: 4 }) : String(v)) },
+  axisLine: { lineStyle: { color: p.grid } }, axisTick: { show: false }, axisLabel: { color: p.ink2, fontSize: 11, formatter: axisNumber },
   splitLine: { lineStyle: { color: p.grid } }, nameTextStyle: { color: p.ink2, fontSize: 11 },
 });
 export const tooltipStyle = (p: Palette) => ({
   backgroundColor: p.ink, borderWidth: 0, textStyle: { color: p.surface, fontSize: 12 }, confine: true,
 });
 export const legendStyle = (p: Palette) => ({ textStyle: { color: p.ink2, fontSize: 12 }, icon: "roundRect", itemWidth: 12, itemHeight: 12 });
+/** Etichette di un asse in percentuale, con i decimali della lingua. */
+export const pctLabel = (p: Palette) => ({ color: p.ink2, fontSize: 11, formatter: (v: number) => axisNumber(v) + "%" });
 
 interface Props {
-  title: string; unit: string; source: string; height?: number; note?: string;
+  title: string; unit?: string; source?: string; height?: number; note?: string; bare?: boolean;
   option: (p: Palette) => Record<string, unknown>;
   onClick?: (params: { name?: string; data?: unknown; seriesName?: string }) => void;
   deps?: unknown[];
 }
 
-/** Grafico con titolo, unità e fonte sempre visibili; i valori compaiono al passaggio del mouse. */
-export function Chart({ title, unit, source, height = 320, note, option, onClick, deps = [] }: Props) {
+/** Grafico con titolo, unità e fonte sempre visibili; i valori compaiono al passaggio del mouse. `bare` per i riquadri piccoli. */
+export function Chart({ title, unit = "", source, height = 320, note, bare = false, option, onClick, deps = [] }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const chart = useRef<echarts.ECharts | null>(null);
   const theme = useContext(ThemeContext);
@@ -65,16 +70,13 @@ export function Chart({ title, unit, source, height = 320, note, option, onClick
   useEffect(() => {
     chart.current?.setOption({ animation: false, textStyle: { color: palette.ink2, fontFamily: "inherit" }, color: palette.series, ...option(palette) }, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme, ...deps]);
+  }, [theme, getLang(), ...deps]);
 
   return (
-    <figure className="chart">
-      <figcaption><strong>{title}</strong><span className="unit">{unit}</span></figcaption>
-      <div ref={ref} style={{ height }} role="img" aria-label={`${title}. ${unit}`} />
-      <p className="source">Fonte: {source}{note ? ` · ${note}` : ""}</p>
+    <figure className={bare ? "chart bare" : "chart"}>
+      <figcaption><strong>{title}</strong>{unit && <span className="unit">{unit}</span>}</figcaption>
+      <div ref={ref} style={{ height }} role="img" aria-label={unit ? `${title}. ${unit}` : title} />
+      {source && <p className="source">{t("chart.source")}: {source}{note ? ` · ${note}` : ""}</p>}
     </figure>
   );
 }
-
-/** Etichette di un asse in percentuale, con i decimali all'italiana. */
-export const pctLabel = (p: Palette) => ({ color: p.ink2, fontSize: 11, formatter: (v: number) => v.toLocaleString("it-IT", { maximumFractionDigits: 4 }) + "%" });

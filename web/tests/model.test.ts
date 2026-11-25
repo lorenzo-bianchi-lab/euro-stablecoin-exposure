@@ -2,7 +2,7 @@
 // I valori attesi sono generati da tests/make_app_fixtures.py con i moduli 4 e 5.
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { compute, levelEstimate, totals, type Coefficients, type Country, type CreditVariant, type LevelBand, type Scenario } from "../src/lib/model";
+import { bankEffects, compute, levelEstimate, totals, type Bank, type Coefficients, type Country, type CreditVariant, type LevelBand, type Scenario } from "../src/lib/model";
 
 const read = (p: string) => JSON.parse(readFileSync(new URL(p, import.meta.url), "utf-8"));
 const sim = read("../public/data/simulatore.json") as { paesi: Country[]; coefficienti: Coefficients };
@@ -10,7 +10,9 @@ const livello = read("../public/data/livello.json") as { fasce: LevelBand[]; quo
 const fx = read("./fixtures.json") as {
   casi: { scenario: Omit<Scenario, "credito">; paesi: Record<string, Record<string, number>>; totale: Record<string, number> }[];
   livello: Record<string, Record<string, number>>;
+  banche: { scenario: Omit<Scenario, "credito">; banche: Record<string, Record<string, number>> }[];
 };
+const banche = read("../public/data/banche.json") as { banche: Bank[] };
 const VARIANTI: CreditVariant[] = ["uniforme", "basso", "alto", "soglia", "continua"];
 // i dati esportati sono arrotondati a sei decimali: la tolleranza è sull'ultima cifra, in termini relativi
 const close = (a: number, b: number) => expect(Math.abs(a - b)).toBeLessThanOrEqual(1e-5 * Math.max(1, Math.abs(b)));
@@ -44,5 +46,25 @@ describe("stima del livello: applicazione e script Python coincidono", () => {
         close(levelEstimate(livello.fasce, livello.unita[unita], livello.quotaDetentori, livello.quotaDollari[caso], caso), fx.livello[unita][caso]);
       });
     }
+  }
+});
+
+describe("singole banche: applicazione e modulo 6 coincidono", () => {
+  it("ci sono tre scenari, uno per regola e per tipo di deposito", () => {
+    expect(new Set(fx.banche.map((c) => c.scenario.regola)).size).toBe(3);
+    expect(new Set(fx.banche.map((c) => c.scenario.depositi)).size).toBe(3);
+  });
+  for (const caso of fx.banche) {
+    const s = caso.scenario;
+    it(`${s.regola}, ${s.depositi}, ${s.importo.toFixed(1)} mld €, sostituzione ${s.sostituzione}`, () => {
+      const rows = compute(sim.paesi, sim.coefficienti, { ...s, credito: "uniforme" });
+      const lost = Object.fromEntries(rows.map((r) => [r.code, r.persiCategoria]));
+      const out = bankEffects(banche.banche, lost, sim.coefficienti, s.depositi);
+      expect(out.length).toBe(Object.keys(caso.banche).length);
+      for (const r of out) {
+        const e = caso.banche[r.lei];
+        close(r.deflusso, e.deflusso); close(r.credito, e.credito); close(r.creditoBasso, e.creditoBasso); close(r.creditoAlto, e.creditoAlto);
+      }
+    });
   }
 });

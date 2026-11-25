@@ -1,18 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { getLang, type Lang } from "../i18n";
 import type { CreditVariant, DepositType, Rule, Scenario } from "./model";
-
-// ---------- numeri e date in formato italiano
-export const nf = (x: number | null | undefined, d = 1) =>
-  x === null || x === undefined || Number.isNaN(x) ? "n.d." : x.toLocaleString("it-IT", { minimumFractionDigits: d, maximumFractionDigits: d });
-export const pct = (x: number | null | undefined, d = 1) => (x === null || x === undefined || Number.isNaN(x) ? "n.d." : nf(100 * x, d) + "%");
-export const signed = (x: number | null | undefined, d = 1) => (x === null || x === undefined ? "n.d." : (x > 0 ? "+" : "") + nf(x, d));
-const MESI = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
-export const giorno = (iso?: string | null) => {
-  if (!iso) return "n.d.";
-  const [y, m, d] = iso.slice(0, 10).split("-");
-  return `${Number(d)} ${MESI[Number(m) - 1]} ${y}`;
-};
-export const mese = (ym?: string | null) => (ym ? `${MESI[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}` : "n.d.");
 
 // ---------- dati: l'applicazione legge solo i file JSON esportati dallo script di aggiornamento
 const cache = new Map<string, Promise<unknown>>();
@@ -37,7 +25,9 @@ export function useJson<T>(name: string | null): { data: T | null; error: string
   return state;
 }
 
-// ---------- indirizzi: #/sezione/argomento?parametri. Lo scenario vive nei parametri, quindi ogni indirizzo è condivisibile.
+// ---------- indirizzi: #/sezione/argomento?parametri. Scenario e lingua vivono nei parametri, quindi ogni indirizzo è condivisibile.
+/** Nomi delle sezioni usati prima della versione in inglese: gli indirizzi già condivisi continuano a funzionare. */
+const ALIASES: Record<string, string> = { panoramica: "overview", simulatore: "simulator", mappa: "map", paese: "country", canali: "channels", livello: "level", confronto: "compare", metodo: "method", banche: "banks" };
 function parse(hash: string) {
   const [path, query = ""] = hash.replace(/^#\/?/, "").split("?");
   return { parts: path.split("/").filter(Boolean), params: new URLSearchParams(query) };
@@ -46,6 +36,7 @@ const subscribe = (cb: () => void) => { window.addEventListener("hashchange", cb
 export function useRoute() {
   const hash = useSyncExternalStore(subscribe, () => window.location.hash);
   const { parts, params } = parse(hash);
+  const section = ALIASES[parts[0]] ?? parts[0] ?? "overview";
   const href = (path: string, extra?: Record<string, string | number | null>) => {
     const p = new URLSearchParams(params);
     if (extra) for (const [k, v] of Object.entries(extra)) v === null ? p.delete(k) : p.set(k, String(v));
@@ -53,15 +44,17 @@ export function useRoute() {
     return `#/${path}${q ? "?" + q : ""}`;
   };
   const setParams = (extra: Record<string, string | number | null>, replace = true) => {
-    const url = href(parts.join("/") || "panoramica", extra);
+    const url = href([section, ...parts.slice(1)].join("/"), extra);
     if (replace) { window.history.replaceState(null, "", url); window.dispatchEvent(new HashChangeEvent("hashchange")); }
     else window.location.hash = url;
   };
-  return { section: parts[0] || "panoramica", arg: parts[1] ?? null, params, href, setParams };
+  const lang: Lang = params.get("lang") === "it" ? "it" : "en";
+  return { section, arg: parts[1] ?? null, params, href, setParams, lang };
 }
 
 const RULES: Rule[] = ["R1", "R2", "R3"], DEPOSITS: DepositType[] = ["T1", "T2", "T3"];
 export const CREDIT_VARIANTS: CreditVariant[] = ["uniforme", "continua", "soglia", "basso", "alto"];
+export const RULE_IDS = RULES, DEPOSIT_IDS = DEPOSITS;
 const num = (v: string | null, fallback: number, min: number, max: number) => {
   const x = v === null ? NaN : Number(v);
   return Number.isFinite(x) ? Math.min(max, Math.max(min, x)) : fallback;
@@ -94,23 +87,14 @@ export function useTheme(): [Theme, () => void] {
   return [theme, toggle];
 }
 
-// ---------- esportazione CSV (separatore punto e virgola, decimali con la virgola: si apre direttamente in un foglio di calcolo italiano)
+// ---------- esportazione CSV: in italiano punto e virgola e virgola decimale, in inglese virgola e punto,
+// così il file si apre direttamente in un foglio di calcolo della stessa lingua
 export function downloadCsv(filename: string, header: string[], rows: (string | number | null)[][]) {
-  const cell = (v: string | number | null) => (v === null ? "" : typeof v === "number" ? String(v).replace(".", ",") : `"${v.replace(/"/g, '""')}"`);
-  const text = [header.map(cell).join(";"), ...rows.map((r) => r.map(cell).join(";"))].join("\r\n");
+  const it = getLang() === "it", sep = it ? ";" : ",";
+  const cell = (v: string | number | null) => (v === null ? "" : typeof v === "number" ? (it ? String(v).replace(".", ",") : String(v)) : `"${v.replace(/"/g, '""')}"`);
+  const text = [header.map(cell).join(sep), ...rows.map((r) => r.map(cell).join(sep))].join("\r\n");
   const url = URL.createObjectURL(new Blob(["﻿" + text], { type: "text/csv;charset=utf-8" }));
   const a = document.createElement("a");
   a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-
-export const RULE_LABELS: Record<Rule, string> = {
-  R1: "R1 - in proporzione ai depositi", R2: "R2 - pro capite", R3: "R3 - per possessori di cripto-attività",
-};
-export const DEPOSIT_LABELS: Record<DepositType, string> = {
-  T1: "T1 - a vista di famiglie e imprese", T2: "T2 - a vista delle sole famiglie", T3: "T3 - tutti i depositi di famiglie e imprese",
-};
-export const CREDIT_LABELS: Record<CreditVariant, string> = {
-  uniforme: "Uniforme: 0,5 € di prestiti per € di depositi", continua: "Continua: coefficiente interpolato sulla quota retail",
-  soglia: "A soglia: alto sopra il 75° percentile", basso: "Coefficiente basso per tutti", alto: "Coefficiente alto per tutti",
-};

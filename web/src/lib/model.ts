@@ -98,3 +98,29 @@ export function levelEstimate(bands: LevelBand[], unita: number, quotaDetentori:
   const media = bands.reduce((a, b, i) => a + (i === bands.length - 1 && ultimaFascia !== undefined ? ultimaFascia : b[caso]) * b.percentuale, 0) / tot;
   return (unita * quotaDetentori * media * quotaDollari) / 1e9;
 }
+
+// ---------- modulo 6: singole banche (src/module6_banks.py)
+export interface Bank {
+  lei: string; nome: string; paese: string; attivo: number; depFam: number; vistaFam: number; depImp: number; vistaImp: number;
+  depAltreFin: number; depBanche: number; titoli: number; prestiti: number; quotaRetail: number; retailAlta: boolean; rango: number; usa: number | null;
+}
+export interface BankRow { lei: string; deflusso: number; deflussoPp: number; credito: number; creditoPct: number; creditoBasso: number; creditoAlto: number; creditoUniforme: number }
+
+/** Depositi della banca nella categoria colpita dallo scenario. */
+export const bankBase = (b: Bank, t: DepositType) => (t === "T1" ? b.vistaFam + b.vistaImp : t === "T2" ? b.vistaFam : b.depFam + b.depImp);
+
+/**
+ * Effetto dello scenario banca per banca: ogni banca perde la stessa quota di depositi del suo paese
+ * (quotaPersa[paese] = Row.persiCategoria). Il coefficiente è quello alto per le banche sopra la soglia
+ * di quota retail tra banche, quello basso per le altre.
+ */
+export function bankEffects(banks: Bank[], quotaPersa: Record<string, number>, k: Coefficients, depositi: DepositType): BankRow[] {
+  return banks.map((b) => {
+    const deflusso = (quotaPersa[b.paese] ?? 0) * bankBase(b, depositi);
+    const sd = (100 * deflusso) / b.attivo / k.sd;
+    const basso = ((k.basso * sd) / 100) * b.prestiti, alto = ((k.alto * sd) / 100) * b.prestiti;
+    const credito = b.retailAlta ? alto : basso;
+    return { lei: b.lei, deflusso, deflussoPp: (100 * deflusso) / b.attivo, credito, creditoPct: b.prestiti ? (100 * credito) / b.prestiti : 0,
+             creditoBasso: basso, creditoAlto: alto, creditoUniforme: k.uniforme * deflusso };
+  });
+}
