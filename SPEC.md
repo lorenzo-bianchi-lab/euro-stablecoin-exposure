@@ -4,7 +4,7 @@ Documento di riferimento del progetto. Va riletto all'inizio di ogni sessione di
 prima di scrivere codice o report. Ogni modifica a obiettivo, moduli o criteri passa da
 qui e viene annotata nel registro in fondo.
 
-Ultimo aggiornamento: 2026-11-25 (prompt 5).
+Ultimo aggiornamento: 2026-11-25 (prompt 6).
 
 ## 0. Obiettivo non negoziabile
 
@@ -244,6 +244,84 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   che pesa lo 0,9% dei volumi (1,8% nell'ultima settimana); l'applicazione marca la fonte
   "aggiornata in parte" e mostra un avviso in cima a ogni pagina.
 
+### Rifiniture, lingua e modulo 6 (2026-11-25, prompt 6)
+
+Criteri e definizioni scritti prima di calcolare i risultati. Prima di scriverli è stata
+verificata solo la disponibilità dei dati EBA (quali file, quali voci, quante banche).
+
+- **Bybit fuori dall'indice del modulo 2.** Dai server di GitHub Bybit non risponde,
+  quindi l'esecuzione automatica e quella locale davano indici diversi. Bybit esce dal
+  pannello per tutte le serie e per tutto lo storico; i suoi dati già scaricati restano
+  nell'archivio grezzo, non usati. Il pannello passa a 24 exchange (22 nell'indice
+  lungo). La variazione si misura così, qualunque sia l'esito: per ciascuna delle
+  quattro serie, sulle settimane dell'indice principale in cui Bybit ha dati, differenza
+  tra indice senza e con Bybit in punti percentuali (media, massima in valore assoluto,
+  ultima settimana comune), e numero di settimane in cui cambia lo stato della
+  segnalazione. L'esclusione non dipende dal risultato.
+- **Un solo cambio.** Tutto il programma converte dollari ed euro con un solo cambio:
+  il cambio di riferimento BCE più recente alla data della circolazione (modulo 1). Il
+  modulo 4 lo legge dal modulo 1. L'ipotesi ESM ha così un solo valore ovunque.
+- **Applicazione, rifiniture.** Completate quando: (a) a 1280 pixel nessuna tabella ha
+  colonne tagliate e sotto quella larghezza lo scorrimento è interno alla tabella con la
+  prima colonna fissa, verificato da un test in ogni sezione; (b) l'avviso sulle fonti è
+  un indicatore nella barra laterale con il dettaglio in "Metodo e dati", e ogni
+  avvertenza di sezione è una riga con il testo completo espandibile, senza eliminarne
+  nessuna; (c) la mappa ha riquadri ingranditi per Malta, Lussemburgo e Cipro; (d) il
+  rapporto stampabile esiste anche per il confronto tra due scenari; (e) il codice è
+  diviso per sezione e l'avvio carica solo la sezione aperta.
+- **Lingua.** Inglese come lingua principale, italiano selezionabile, scelta conservata
+  nell'indirizzo (`lang=it`). Tutti i testi stanno in file di traduzione separati
+  (`web/src/i18n/`; per i testi che vengono da questo documento, `src/i18n/`). Numeri e
+  date seguono la lingua. Un test verifica che non restino stringhe non tradotte.
+
+### Modulo 6 - Singole banche (aggiunto il 2026-11-25, prompt 6)
+
+- **Risultato per l'analista**: una classifica e uno scenario per banca. Per ogni banca
+  dell'area euro presente nell'esercizio di trasparenza dell'EBA: quota retail,
+  posizione rispetto al 75° percentile tra banche, raccolta all'ingrosso, ed effetto
+  dello scenario del simulatore su depositi e credito.
+- **Fonte**: EBA, esercizio di trasparenza 2025 (pubblicato il 4 dicembre 2025, ultimo
+  disponibile), database completo in CSV, gratuito. Dati al 30 giugno 2025, al massimo
+  livello di consolidamento. Sono dati pubblici per banca, non dati di vigilanza
+  riservati.
+- **Criterio di sufficienza, fissato prima**: i dati EBA bastano se, tra le banche con
+  sede nei 21 paesi dell'area euro, almeno 50 hanno tutte le voci necessarie (depositi
+  di famiglie, imprese, altre società finanziarie e banche; titoli emessi; totale
+  attivo; prestiti a famiglie e imprese) e coprono almeno 15 paesi. Altrimenti si
+  passa alle statistiche di vigilanza aggregate della BCE per modello di business, e la
+  sezione dell'applicazione mostra i modelli di business invece delle banche.
+- **Definizioni** (le stesse del modulo 5, portate a livello di banca):
+  - quota retail = depositi delle famiglie / (depositi delle famiglie + depositi di
+    società finanziarie diverse dalle banche), come nel Working Paper BCE 3199;
+  - alta quota retail = sopra il 75° percentile della quota retail tra le banche
+    dell'area euro del campione, non ponderato;
+  - raccolta all'ingrosso = depositi da banche più titoli di debito emessi, sul totale
+    dell'attivo;
+  - scenario: ogni banca perde la stessa quota di depositi che lo scenario assegna al
+    suo paese (deflusso della banca = quota persa nel paese × depositi della banca nella
+    categoria scelta: a vista di famiglie e imprese, a vista delle famiglie, o tutti);
+  - credito: deflusso in deviazioni standard = 100 × deflusso / totale attivo / 0,8;
+    prestiti in meno = coefficiente × deviazioni standard / 100 × prestiti a famiglie e
+    imprese, con coefficiente alto (3,089) sopra la soglia e basso (0,441) sotto.
+- **Confronto con il modulo 5**, definito prima: per ogni paese, prestiti in meno per
+  euro di deflusso calcolati banca per banca (somma dei prestiti in meno / somma dei
+  deflussi delle banche del paese) contro le varianti del modulo 5 (bassa, alta, a
+  soglia, continua, uniforme). Scenario di controllo: livello centrale, regola R1,
+  depositi a vista di famiglie e imprese, sostituzione piena.
+- **Copertura**: per ogni paese, totale attivo delle banche del campione sul totale
+  attivo delle istituzioni finanziarie monetarie del paese (BSI, giugno 2025). I
+  perimetri sono diversi (gruppo consolidato con le controllate estere contro residenti
+  non consolidati): il rapporto può superare il 100% e va letto come ordine di
+  grandezza. Se i dati bancari consolidati della BCE sono scaricabili, si aggiunge il
+  rapporto sul totale attivo consolidato.
+- **Esposizioni in dollari**: l'esercizio EBA non ha scomposizione per valuta. Si
+  riportano, se presenti, le esposizioni creditizie verso controparti statunitensi, che
+  non sono la stessa cosa.
+- **Avvertenze obbligatorie**: dati pubblici per banca, non dati di vigilanza; l'ordine
+  non è un giudizio sulla solidità; bilanci consolidati che comprendono attività fuori
+  dall'area euro; data dei dati diversa da quella dei bilanci nazionali.
+- **Stato**: in corso.
+
 ### Aggiornamento e sintesi
 
 Un solo comando aggiorna i moduli nell'ordine giusto e rigenera la pagina di sintesi e i
@@ -360,3 +438,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-25 | Prompt 5. Sezione 0: il prodotto finale è un'applicazione web completa. Il livello di riferimento diventa la stima propria (15,4; 8,9 - 23,1), per decisione successiva ai risultati e in deroga al criterio del report 08, che resta agli atti. Credito: regola uniforme in evidenza, variante continua definita prima del calcolo. Aggiunti strato dati JSON, aggiornamento automatico e applicazione |
 | 2026-11-25 | Applicazione completata (`reports/11_applicazione.md`): nove sezioni, strato dati in 29 file JSON, calcoli nel browser coincidenti con gli script su nove scenari, test nel browser superati. Aggiornamento automatico del lunedì scritto |
 | 2026-11-25 | Aggiornamento automatico in funzione: prima esecuzione su GitHub riuscita (dati, 13 test, compilazione, test nel browser, pubblicazione). Bybit non risponde dai server di GitHub: annotato nel report 11 |
+| 2026-11-25 | Prompt 6. Criteri fissati prima dei risultati: Bybit fuori dall'indice per tutto lo storico, con la misura della variazione; un solo cambio per tutto il programma; rifiniture dell'applicazione; inglese come lingua principale; modulo 6 sulle singole banche con i dati dell'esercizio di trasparenza EBA 2025 (verificata solo la disponibilità: 119 banche, dati al 30 giugno 2025, nessuna scomposizione per valuta) |

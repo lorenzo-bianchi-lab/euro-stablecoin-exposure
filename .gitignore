@@ -29,3 +29,6 @@ data/raw/cex_flows_*_by_address.csv
 
 # Risultato dell'ultimo importo libero richiesto al modulo 4
 data/processed/m4_custom.csv
+
+# Esercizio di trasparenza EBA: i file completi si riscaricano con il modulo 6; si committa solo l'estratto
+data/raw/eba_te2025/
