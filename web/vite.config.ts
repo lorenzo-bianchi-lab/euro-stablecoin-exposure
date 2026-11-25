@@ -8,8 +8,9 @@ export default defineConfig({
   base: "./",
   build: {
     outDir: "../docs", emptyOutDir: true, chunkSizeWarningLimit: 700,
-    // librerie in file separati: React serve subito, i grafici solo alle sezioni che li usano
-    rollupOptions: { output: { manualChunks: (id) => (id.includes("node_modules/echarts") || id.includes("node_modules/zrender") ? "charts" : id.includes("node_modules/react") || id.includes("node_modules/scheduler") ? "react" : undefined) } },
+    // React in un file a parte; la libreria dei grafici si divide da sola: barre, linee e punti per quasi tutte le
+    // sezioni, i moduli della mappa solo per le pagine che hanno una mappa
+    rollupOptions: { output: { manualChunks: (id) => (id.includes("node_modules/react") || id.includes("node_modules/scheduler") ? "react" : undefined) } },
   },
   test: { include: ["tests/**/*.test.ts"] },
 });

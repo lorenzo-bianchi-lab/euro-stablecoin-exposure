@@ -2,6 +2,8 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { getLang, type Lang } from "../i18n";
 import type { CreditVariant, DepositType, Rule, Scenario } from "./model";
 
+export const REPO = "https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure";
+
 // ---------- dati: l'applicazione legge solo i file JSON esportati dallo script di aggiornamento
 const cache = new Map<string, Promise<unknown>>();
 export function fetchJson<T>(name: string): Promise<T> {
@@ -73,21 +75,23 @@ export function readScenario(params: URLSearchParams, defaultAmount: number, pre
 
 // ---------- tema chiaro e scuro
 export type Theme = "light" | "dark";
+/** Il tema si applica subito al documento: i grafici leggono i colori dai token CSS mentre si ridisegnano. */
+const applyTheme = (t: Theme) => { document.documentElement.dataset.theme = t; return t; };
 export function useTheme(): [Theme, () => void] {
   const [theme, set] = useState<Theme>(() => {
     let saved: string | null = null;
     try { saved = localStorage.getItem("tema"); } catch { /* archivio non disponibile */ }
-    if (saved === "light" || saved === "dark") return saved;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    if (saved === "light" || saved === "dark") return applyTheme(saved);
+    return applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   });
-  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
-  const toggle = () => set((t) => {
-    const next = t === "dark" ? "light" : "dark";
+  const toggle = () => {
+    const next = applyTheme(theme === "dark" ? "light" : "dark");
     try { localStorage.setItem("tema", next); } catch { /* archivio non disponibile */ }
-    return next;
-  });
+    set(next);
+  };
   return [theme, toggle];
 }
+export const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // ---------- esportazione CSV: in italiano punto e virgola e virgola decimale, in inglese virgola e punto,
 // così il file si apre direttamente in un foglio di calcolo della stessa lingua

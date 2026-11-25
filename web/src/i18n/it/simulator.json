@@ -1,0 +1,22 @@
+{
+ "sim.scenario": "Scenario",
+ "sim.share": "L'indirizzo di questa pagina contiene lo scenario: si può copiare e condividere.",
+ "sim.result": "Risultato per l'area euro",
+ "sim.kpi.outflow": "Depositi da sostituire",
+ "sim.kpi.outflow.sub": "{x} punti del passivo",
+ "sim.kpi.sight": "Depositi a vista persi",
+ "sim.kpi.sight.sub": "famiglie e imprese",
+ "sim.kpi.wholesale": "Raccolta all'ingrosso in più",
+ "sim.kpi.wholesale.sub": "rispetto a quella esistente",
+ "sim.kpi.credit": "Credito in meno, 24 mesi",
+ "sim.kpi.credit.sub": "{x}% dei prestiti a famiglie e imprese",
+ "sim.chart.effect": "Effetto sulla raccolta per paese",
+ "sim.chart.effect.unit": "punti percentuali del passivo",
+ "sim.chart.credit": "Credito in meno per paese",
+ "sim.chart.credit.unit": "percentuale dei prestiti a famiglie e imprese; variante scelta e coefficienti basso e alto",
+ "sim.legend.chosen": "variante scelta",
+ "sim.legend.low": "coefficiente basso",
+ "sim.legend.high": "coefficiente alto",
+ "sim.all": "Tutti i paesi",
+ "sim.tagR": "paesi sopra la soglia di quota retail ({x}), a cui la variante a soglia applica il coefficiente alto. Clic su una riga per aprire la scheda del paese."
+}

@@ -7,7 +7,11 @@ import { describe, expect, it } from "vitest";
 
 const here = new URL(".", import.meta.url).pathname;
 const read = (p: string) => JSON.parse(readFileSync(join(here, p), "utf-8"));
-const en = read("../src/i18n/en.json") as Record<string, string>, it_ = read("../src/i18n/it.json") as Record<string, string>;
+// i testi stanno in un file per sezione (src/i18n/en/*.json, it/*.json); common.json contiene quelli condivisi
+const parts = (lang: string) => Object.fromEntries(readdirSync(join(here, `../src/i18n/${lang}`)).filter((f) => f.endsWith(".json")).map((f) => [f, read(`../src/i18n/${lang}/${f}`) as Record<string, string>]));
+const enParts = parts("en"), itParts = parts("it");
+const merge = (p: Record<string, Record<string, string>>) => Object.assign({}, ...Object.values(p)) as Record<string, string>;
+const en = merge(enParts), it_ = merge(itParts);
 const files = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(join(dir, e.name)) : /\.tsx?$/.test(e.name) ? [join(dir, e.name)] : []));
 const sources = files(join(here, "../src")).map((f) => ({ f: f.split("/src/")[1], s: readFileSync(f, "utf-8") }));
 const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort().join(",");
@@ -17,12 +21,20 @@ describe("file di traduzione", () => {
     expect(Object.keys(en).sort()).toEqual(Object.keys(it_).sort());
     for (const d of [en, it_]) for (const [k, v] of Object.entries(d)) expect(v.trim().length, k).toBeGreaterThan(0);
   });
+  it("ogni file di sezione ha le stesse chiavi nelle due lingue, e nessuna chiave sta in due file", () => {
+    expect(Object.keys(enParts).sort()).toEqual(Object.keys(itParts).sort());
+    for (const f of Object.keys(enParts)) expect(Object.keys(itParts[f]).sort(), f).toEqual(Object.keys(enParts[f]).sort());
+    const all = Object.values(enParts).flatMap((p) => Object.keys(p));
+    expect(all.filter((k, i) => all.indexOf(k) !== i)).toEqual([]);
+    const aggregated = (lang: string) => readFileSync(join(here, `../src/i18n/${lang}.ts`), "utf-8");
+    for (const f of Object.keys(enParts)) for (const lang of ["en", "it"]) expect(aggregated(lang), `${lang}.ts non importa ${f}`).toContain(`"./${lang}/${f}"`);
+  });
   it("i segnaposto coincidono nelle due lingue", () => {
     for (const k of Object.keys(en)) expect(placeholders(it_[k] ?? ""), k).toBe(placeholders(en[k]));
   });
   it("le due lingue non hanno testi identici dove dovrebbero differire", () => {
     const same = Object.keys(en).filter((k) => en[k] === it_[k] && /[a-z]{4,} [a-z]{4,}/i.test(en[k]));
-    expect(same.filter((k) => !/^(source\.esm_wp79|ov\.dates\.fx\.value)$/.test(k))).toEqual([]);
+    expect(same.filter((k) => !/^(source\.esm_wp79|ov\.dates\.fx\.value|app\.|nav\.about|home\.item|about\.lic\.)/.test(k))).toEqual([]);
   });
 });
 

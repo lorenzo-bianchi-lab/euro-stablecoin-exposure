@@ -1,0 +1,22 @@
+{
+ "sim.scenario": "Scenario",
+ "sim.share": "The address of this page contains the scenario: it can be copied and shared.",
+ "sim.result": "Result for the euro area",
+ "sim.kpi.outflow": "Deposits to be replaced",
+ "sim.kpi.outflow.sub": "{x} points of liabilities",
+ "sim.kpi.sight": "Sight deposits lost",
+ "sim.kpi.sight.sub": "households and firms",
+ "sim.kpi.wholesale": "Extra wholesale funding",
+ "sim.kpi.wholesale.sub": "relative to the existing stock",
+ "sim.kpi.credit": "Credit reduction, 24 months",
+ "sim.kpi.credit.sub": "{x}% of loans to households and firms",
+ "sim.chart.effect": "Effect on funding by country",
+ "sim.chart.effect.unit": "percentage points of liabilities",
+ "sim.chart.credit": "Credit reduction by country",
+ "sim.chart.credit.unit": "per cent of loans to households and firms; chosen variant and low and high coefficients",
+ "sim.legend.chosen": "chosen variant",
+ "sim.legend.low": "low coefficient",
+ "sim.legend.high": "high coefficient",
+ "sim.all": "All countries",
+ "sim.tagR": "countries above the retail-share threshold ({x}), to which the threshold variant applies the high coefficient. Click a row to open the country sheet."
+}

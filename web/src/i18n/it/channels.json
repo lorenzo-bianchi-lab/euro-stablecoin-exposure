@@ -1,0 +1,12 @@
+{
+ "ch.chart.title": "Depositi a vista e raccolta in dollari",
+ "ch.chart.unit": "orizzontale: depositi a vista sul passivo (%); verticale: passività in dollari sul passivo (%)",
+ "ch.chart.src": "BCE (BSI), {m}; BRI e BSI trimestrale, {q}",
+ "ch.tip": "<b>{c}</b> · quadrante {q}<br>Depositi a vista: {x}%<br>Passività in dollari: {y}% ({s})<br>Nello scenario: credito in meno {cr}% dei prestiti",
+ "ch.axis.x": "Depositi a vista sul passivo",
+ "ch.legend": "dollari: fonte {s}",
+ "ch.quadrants": "I quattro quadranti",
+ "ch.quadrants.help": "Seleziona un quadrante per evidenziarlo nel grafico. Correlazione di rango tra i due assi: {r}: chi è esposto su un canale tende a non esserlo sull'altro.",
+ "ch.noCountry": "nessun paese",
+ "ch.countries": "Paesi"
+}

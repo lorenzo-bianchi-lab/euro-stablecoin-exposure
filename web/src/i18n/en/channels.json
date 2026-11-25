@@ -1,0 +1,12 @@
+{
+ "ch.chart.title": "Sight deposits and dollar funding",
+ "ch.chart.unit": "horizontal: sight deposits over liabilities (%); vertical: dollar liabilities over liabilities (%)",
+ "ch.chart.src": "ECB (BSI), {m}; BIS and quarterly BSI, {q}",
+ "ch.tip": "<b>{c}</b> · quadrant {q}<br>Sight deposits: {x}%<br>Dollar liabilities: {y}% ({s})<br>In the scenario: credit reduction {cr}% of loans",
+ "ch.axis.x": "Sight deposits over liabilities",
+ "ch.legend": "dollars: source {s}",
+ "ch.quadrants": "The four quadrants",
+ "ch.quadrants.help": "Select a quadrant to highlight it in the chart. Rank correlation between the two axes: {r}: those exposed on one channel tend not to be on the other.",
+ "ch.noCountry": "no country",
+ "ch.countries": "Countries"
+}

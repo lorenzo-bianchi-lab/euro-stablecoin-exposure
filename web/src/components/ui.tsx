@@ -1,12 +1,26 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight, Download, Info, RotateCw, SlidersHorizontal } from "lucide-react";
 import { bn, locale, t } from "../i18n";
 import type { Scenario } from "../lib/model";
 import { CREDIT_VARIANTS, DEPOSIT_IDS, RULE_IDS, downloadCsv } from "../lib/util";
 
-export const Card = ({ title, children, actions }: { title?: string; children: ReactNode; actions?: ReactNode }) => (
-  <section className="card">
+export const Card = ({ title, children, actions, id }: { title?: string; children: ReactNode; actions?: ReactNode; id?: string }) => (
+  <section className="card" id={id}>
     {(title || actions) && <header className="card-head">{title && <h2>{title}</h2>}{actions}</header>}
     {children}
+  </section>
+);
+
+/** Il risultato principale di una sezione: un numero grande, il suo intervallo e una frase. A destra, se serve, un grafico o altri indicatori. */
+export const Hero = ({ label, value, range, text, children }: { label: string; value: string; range?: string; text?: ReactNode; children?: ReactNode }) => (
+  <section className={children ? "hero" : "hero single"} aria-label={label}>
+    <div>
+      <div className="hero-label">{label}</div>
+      <div className="hero-value"><span key={value} className="changed">{value}</span></div>
+      {range && <div className="hero-range">{range}</div>}
+      {text && <p className="hero-text">{text}</p>}
+    </div>
+    {children && <div className="hero-side">{children}</div>}
   </section>
 );
 
@@ -17,30 +31,41 @@ type Vars = Record<string, string | number>;
  */
 export const Note = ({ id, vars }: { id: string; vars?: Vars }) => (
   <details className="note">
-    <summary><span className="note-i" aria-hidden="true">!</span><span className="note-s">{t(`${id}.s`, vars)}</span><span className="note-more">{t("note.details")}</span></summary>
+    <summary><span className="note-i" aria-hidden="true"><Info /></span><span className="note-s">{t(`${id}.s`, vars)}</span><span className="note-more">{t("note.details")}</span></summary>
     <p>{t(`${id}.d`, vars)}</p>
   </details>
 );
 
+/** Indicatore secondario. Quando il valore cambia compare con una breve transizione. */
 export const Kpi = ({ label, value, sub, range }: { label: string; value: string; sub?: string; range?: string }) => (
   <div className="kpi">
     <div className="kpi-label">{label}</div>
-    <div className="kpi-value">{value}</div>
+    <div className="kpi-value"><span key={value} className="changed">{value}</span></div>
     {range && <div className="kpi-range">{range}</div>}
     {sub && <div className="kpi-sub">{sub}</div>}
   </div>
 );
 
+/** Stato di caricamento (sagome al posto del contenuto) o di errore (messaggio e pulsante per ricaricare). */
 export const Loading = ({ error }: { error?: string | null }) =>
-  error ? <p className="alert">{t("ui.dataUnavailable")}: {error}</p> : <p className="muted" data-loading="">{t("ui.loading")}</p>;
+  error ? (
+    <div className="alert" role="alert"><span><strong>{t("ui.error")}</strong> {t("ui.dataUnavailable")}: {error}</span>
+      <button className="btn small" onClick={() => window.location.reload()}><RotateCw className="icon" aria-hidden="true" />{t("ui.retry")}</button></div>
+  ) : (
+    <div className="skeleton" data-loading="" role="status" aria-label={t("ui.loading")}><span /><span /><span /></div>
+  );
 
 export interface Column<T> { key: string; label: string; value: (r: T) => string | number | null; format?: (r: T) => ReactNode; numeric?: boolean; wrap?: boolean }
 
-/** Tabella ordinabile con download CSV. Se non entra nella pagina scorre al proprio interno, con la prima colonna fissa. */
-export function DataTable<T>({ columns, rows, csvName, initialSort, footer, onRow }: {
-  columns: Column<T>[]; rows: T[]; csvName: string; initialSort?: { key: string; dir: 1 | -1 }; footer?: ReactNode[]; onRow?: (r: T) => void;
+/**
+ * Tabella ordinabile con download CSV. Se non entra nella pagina scorre al proprio interno, con la prima
+ * colonna fissa. Con `pageSize` mostra una pagina alla volta; il CSV contiene sempre tutte le righe.
+ */
+export function DataTable<T>({ columns, rows, csvName, initialSort, footer, onRow, pageSize, compact }: {
+  columns: Column<T>[]; rows: T[]; csvName: string; initialSort?: { key: string; dir: 1 | -1 }; footer?: ReactNode[]; onRow?: (r: T) => void; pageSize?: number; compact?: boolean;
 }) {
   const [sort, setSort] = useState(initialSort ?? { key: columns[0].key, dir: 1 as 1 | -1 });
+  const [page, setPage] = useState(0);
   const sorted = useMemo(() => {
     const col = columns.find((c) => c.key === sort.key) ?? columns[0];
     return [...rows].sort((a, b) => {
@@ -50,31 +75,45 @@ export function DataTable<T>({ columns, rows, csvName, initialSort, footer, onRo
       return sort.dir * String(x).localeCompare(String(y), locale());
     });
   }, [rows, columns, sort]);
+  useEffect(() => { setPage(0); }, [rows.length, sort.key, sort.dir]);
+  const size = pageSize ?? sorted.length, pages = Math.max(1, Math.ceil(sorted.length / Math.max(1, size)));
+  const current = Math.min(page, pages - 1), shown = pageSize ? sorted.slice(current * size, current * size + size) : sorted;
   const click = (key: string, numeric?: boolean) => setSort((s) => (s.key === key ? { key, dir: (-s.dir) as 1 | -1 } : { key, dir: numeric ? -1 : 1 }));
   const cls = (c?: Column<T>) => [c?.numeric ? "num" : "", c?.wrap ? "wrap" : ""].join(" ").trim();
   return (
     <div>
-      <div className="table-wrap">
-        <table>
+      <div className="table-wrap" tabIndex={0} role="region" aria-label={csvName.replace(/\.csv$/, "").replace(/_/g, " ")}>
+        <table className={compact ? "compact" : undefined}>
           <thead><tr>{columns.map((c) => (
             <th key={c.key} className={cls(c)} aria-sort={sort.key === c.key ? (sort.dir < 0 ? "descending" : "ascending") : undefined}>
               <button onClick={() => click(c.key, c.numeric)}>{c.label}{sort.key === c.key ? (sort.dir < 0 ? " ▼" : " ▲") : ""}</button>
             </th>))}</tr></thead>
-          <tbody>{sorted.map((r, i) => (
-            <tr key={i} onClick={onRow ? () => onRow(r) : undefined} className={onRow ? "clickable" : ""}>
-              {columns.map((c) => <td key={c.key} className={cls(c)}>{c.format ? c.format(r) : c.value(r)}</td>)}
-            </tr>))}</tbody>
+          <tbody>
+            {shown.map((r, i) => (
+              <tr key={i} onClick={onRow ? () => onRow(r) : undefined} onKeyDown={onRow ? (e) => { if (e.key === "Enter") onRow(r); } : undefined} tabIndex={onRow ? 0 : undefined} className={onRow ? "clickable" : ""}>
+                {columns.map((c) => <td key={c.key} className={cls(c)}>{c.format ? c.format(r) : c.value(r)}</td>)}
+              </tr>))}
+            {shown.length === 0 && <tr><td colSpan={columns.length} className="text muted">{t("ui.noRows")}</td></tr>}
+          </tbody>
           {footer && <tfoot><tr>{footer.map((f, i) => <td key={i} className={cls(columns[i])}>{f}</td>)}</tr></tfoot>}
         </table>
       </div>
-      <button className="btn small no-print" onClick={() => downloadCsv(csvName, columns.map((c) => c.label), sorted.map((r) => columns.map((c) => c.value(r))))}>{t("ui.csv")}</button>
+      <div className="table-foot no-print">
+        <button className="btn small" onClick={() => downloadCsv(csvName, columns.map((c) => c.label), sorted.map((r) => columns.map((c) => c.value(r))))}><Download className="icon" aria-hidden="true" />{t("ui.csv")}</button>
+        {pageSize && sorted.length > size && (
+          <div className="pager">
+            <span aria-live="polite">{t("ui.pager", { a: current * size + 1, b: Math.min(sorted.length, current * size + size), n: sorted.length })}</span>
+            <button className="btn small icon-only" data-page="prev" disabled={current === 0} onClick={() => setPage(current - 1)} aria-label={t("ui.prev")}><ChevronLeft className="icon" aria-hidden="true" /></button>
+            <button className="btn small icon-only" data-page="next" disabled={current >= pages - 1} onClick={() => setPage(current + 1)} aria-label={t("ui.next")}><ChevronRight className="icon" aria-hidden="true" /></button>
+          </div>)}
+      </div>
     </div>
   );
 }
 
 /** Tabella semplice, con lo stesso contenitore a scorrimento interno di DataTable. */
-export const SimpleTable = ({ head, rows, numeric = [] }: { head?: ReactNode[]; rows: ReactNode[][]; numeric?: number[] }) => (
-  <div className="table-wrap"><table>
+export const SimpleTable = ({ head, rows, numeric = [], compact }: { head?: ReactNode[]; rows: ReactNode[][]; numeric?: number[]; compact?: boolean }) => (
+  <div className="table-wrap"><table className={compact ? "compact" : undefined}>
     {head && <thead><tr>{head.map((h, i) => <th key={i} className={numeric.includes(i) ? "num" : ""}>{h}</th>)}</tr></thead>}
     <tbody>{rows.map((r, j) => <tr key={j}>{r.map((c, i) => <td key={i} className={numeric.includes(i) ? "num" : "text"}>{c}</td>)}</tr>)}</tbody>
   </table></div>
@@ -91,14 +130,20 @@ export const Slider = ({ label, value, min, max, step, onChange, display, id }: 
   <div className="field">
     <label htmlFor={id}>{label}</label>
     <div className="slider-value">{display}</div>
-    <input id={id} type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    <input id={id} type="range" min={min} max={max} step={step} value={value} aria-valuetext={display} onChange={(e) => onChange(Number(e.target.value))} />
   </div>
 );
 
+/** Scelta tra poche alternative, come pulsanti affiancati. */
+export const Segmented = <T extends string>({ value, options, onChange, label }: { value: T; options: [T, string][]; onChange: (v: T) => void; label: string }) => (
+  <div className="segmented" role="group" aria-label={label}>
+    {options.map(([v, l]) => <button key={v} className="btn small" aria-pressed={v === value} onClick={() => onChange(v)}>{l}</button>)}
+  </div>
+);
+
+type ScenarioProps = { scenario: Scenario; set: (p: Record<string, string | number | null>) => void; presets: { id: string; eur: number }[]; fx: number; prefix?: string; compact?: boolean };
 /** Comandi dello scenario: scrivono nell'indirizzo, quindi lo scenario si conserva tra le sezioni e si può condividere. */
-export function ScenarioControls({ scenario, set, presets, fx, prefix = "", compact = false }: {
-  scenario: Scenario; set: (p: Record<string, string | number | null>) => void; presets: { id: string; eur: number }[]; fx: number; prefix?: string; compact?: boolean;
-}) {
+export function ScenarioControls({ scenario, set, presets, fx, prefix = "", compact = false }: ScenarioProps) {
   const k = (name: string) => prefix + name;
   return (
     <div>
@@ -113,9 +158,27 @@ export function ScenarioControls({ scenario, set, presets, fx, prefix = "", comp
       </div>
       {!compact && (
         <div className="presets" aria-label={t("sc.presets")}>
-          {presets.map((p) => <button key={p.id} className={`btn small ${Math.abs(p.eur - scenario.importo) < 0.05 ? "active" : ""}`} onClick={() => set({ [k("imp")]: Number(p.eur.toFixed(2)) })}>{t(`preset.${p.id}`)}: {bn(p.eur)}</button>)}
+          {presets.map((p) => <button key={p.id} className="btn small" aria-pressed={Math.abs(p.eur - scenario.importo) < 0.05} onClick={() => set({ [k("imp")]: Number(p.eur.toFixed(2)) })}><span>{t(`preset.${p.id}`)}</span><span className="num">{bn(p.eur)}</span></button>)}
         </div>
       )}
     </div>
+  );
+}
+
+/**
+ * Pannello stabile dello scenario: resta fermo a sinistra mentre i risultati scorrono (dentro `.split`).
+ * Su schermi stretti si richiude e mostra lo scenario in una riga.
+ */
+export function ScenarioPanel({ title, summary, ...props }: ScenarioProps & { title?: string; summary: string }) {
+  const [open, setOpen] = useState(() => window.matchMedia("(min-width: 1024px)").matches);
+  return (
+    <aside className="panel" data-open={open} aria-label={title ?? t("sc.panel")}>
+      <div className="panel-head">
+        <h2>{title ?? t("sc.panel")}</h2>
+        <button className="btn small panel-toggle" aria-expanded={open} onClick={() => setOpen(!open)}><SlidersHorizontal className="icon" aria-hidden="true" />{t(open ? "sc.hide" : "sc.edit")}</button>
+      </div>
+      <p className="panel-summary">{summary}</p>
+      <div className="panel-body"><ScenarioControls {...props} /></div>
+    </aside>
   );
 }

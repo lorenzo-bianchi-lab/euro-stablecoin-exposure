@@ -1,0 +1,107 @@
+/* Sistema grafico di "Euro Stablecoin Exposure Monitor": l'unico file in cui si decidono colori,
+   tipografia, spaziature, raggi, ombre e stati. Componenti (base.css) e grafici (components/Chart.tsx)
+   leggono questi valori e non ne definiscono altri.
+
+   Direzione: rapporto di banca centrale. Blu profondo come colore principale, un solo accento (rame)
+   usato con parsimonia per ciò che va notato; superfici quasi bianche, linee sottili. Il tema scuro
+   ha gli stessi ruoli con valori propri, non è un'inversione. Nessun colore è preso da marchi di
+   istituzioni. I rapporti di contrasto sono verificati da tests/contrast.test.ts. */
+
+/* ---------- caratteri: file locali, licenza SIL Open Font License 1.1 */
+@font-face { font-family: "Source Serif 4 Variable"; font-style: normal; font-display: swap; font-weight: 200 900;
+  src: url("../../node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Source Serif 4 Variable"; font-style: normal; font-display: swap; font-weight: 200 900;
+  src: url("../../node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02AF, U+1E00-1E9F, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113; }
+@font-face { font-family: "Inter Variable"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+25B2, U+25BC, U+FEFF, U+FFFD; }
+@font-face { font-family: "Inter Variable"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("../../node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02AF, U+1E00-1E9F, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113; }
+
+:root {
+  /* ---------- tipografia: un carattere per i titoli, uno per testo e numeri (cifre tabulari) */
+  --font-title: "Source Serif 4 Variable", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-text: "Inter Variable", Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-features: "tnum" 1, "lnum" 1, "cv05" 1, "ss03" 1;
+  --text-xs: 0.75rem;   /* 12 px: note, fonti, etichette degli assi */
+  --text-sm: 0.8125rem; /* 13 px: tabelle, didascalie */
+  --text-md: 0.9375rem; /* 15 px: testo */
+  --text-lg: 1.0625rem; /* 17 px: sommari */
+  --title-sm: 1.0625rem; --title-md: 1.3125rem; --title-lg: 1.875rem; --title-xl: 2.375rem;
+  --figure-md: 1.5rem; --figure-lg: 2.5rem;      /* numeri in evidenza */
+  --leading-tight: 1.2; --leading-text: 1.55;
+  --weight-text: 400; --weight-strong: 600; --weight-title: 600;
+
+  /* ---------- spaziature (multipli di 4), raggi, misure */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-pill: 999px;
+  --side-width: 252px; --content-width: 1120px; --panel-width: 312px; --bar-height: 56px;
+  --motion-fast: 120ms; --motion: 220ms; --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---------- colori, tema chiaro */
+  --bg: #f5f6f8;            /* fondo della pagina */
+  --surface: #ffffff;       /* schede, barra laterale */
+  --surface-2: #eef1f6;     /* fondi secondari: intestazioni di tabella, campi */
+  --ink: #0f1b2d;           /* testo */
+  --ink-2: #45526a;         /* testo secondario */
+  --ink-3: #5f6b80;         /* didascalie; minimo per testo piccolo */
+  --line: #d8dde6;          /* bordi e griglie */
+  --line-strong: #8590a3;   /* bordi di campi e comandi (3:1 sul fondo) */
+  --primary: #163b6e;       /* blu profondo: titoli attivi, collegamenti, pulsante principale */
+  --primary-hover: #0f2c55;
+  --on-primary: #ffffff;
+  --primary-soft: #e7edf6;  /* voce attiva, righe evidenziate */
+  --accent: #a8481f;        /* l'unico accento: ciò che va notato (segnalazioni, selezione, serie a confronto) */
+  --accent-soft: #f8ebe4;
+  --positive: #1a7352;
+  --danger: #a3271f;
+  --notice-bg: #fbf4e2; --notice-ink: #5a4300; --notice-line: #e6d39a;   /* avvertenze sui limiti */
+  --shadow-sm: 0 1px 2px rgba(15, 27, 45, 0.06);
+  --shadow-md: 0 4px 16px rgba(15, 27, 45, 0.08), 0 1px 2px rgba(15, 27, 45, 0.06);
+  --shadow-lg: 0 16px 40px rgba(15, 27, 45, 0.18);
+  --focus: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);          /* anello del fuoco da tastiera */
+  --scrim: rgba(15, 27, 45, 0.45);
+
+  /* ---------- grafici: serie (ordine fisso; ogni serie ha anche un tratto e una forma, in Chart.tsx) */
+  --chart-1: #163b6e; --chart-2: #a8481f; --chart-3: #4f86c6; --chart-4: #6b7689; --chart-5: #2a8c82; --chart-6: #8a6bb1;
+  --chart-grid: #e3e7ee; --chart-axis: #5f6b80; --chart-band: #dbe5f3;
+  --chart-tooltip-bg: #0f1b2d; --chart-tooltip-ink: #ffffff;
+  /* sequenziale per la mappa, dal valore più basso al più alto; fuori dall'area euro */
+  --map-1: #e3ebf6; --map-2: #b7cbe6; --map-3: #86a8d3; --map-4: #4f7fb8; --map-5: #163b6e;
+  --map-none: #e9ecf0; --map-border: #ffffff; --map-selected: #a8481f;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b1320;
+  --surface: #121c2c;
+  --surface-2: #1a2638;
+  --ink: #e9eef5;
+  --ink-2: #b4c0d1;
+  --ink-3: #93a1b6;
+  --line: #26344a;
+  --line-strong: #5b6c88;
+  --primary: #9bbcf0;
+  --primary-hover: #b9d0f5;
+  --on-primary: #0b1320;
+  --primary-soft: #1a2c48;
+  --accent: #f0a070;
+  --accent-soft: #3a2418;
+  --positive: #5cc79d;
+  --danger: #f08a80;
+  --notice-bg: #2d2614; --notice-ink: #f0dca0; --notice-line: #5c4d22;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --scrim: rgba(0, 0, 0, 0.6);
+
+  --chart-1: #8fb4ea; --chart-2: #f0a070; --chart-3: #4f8fd8; --chart-4: #a3aebf; --chart-5: #5cc4b8; --chart-6: #b79be0;
+  --chart-grid: #223046; --chart-axis: #93a1b6; --chart-band: #1c2f4d;
+  --chart-tooltip-bg: #e9eef5; --chart-tooltip-ink: #0b1320;
+  --map-1: #1d2f4f; --map-2: #2b4a7b; --map-3: #3f6aa8; --map-4: #6f9ad6; --map-5: #b9d2f2;
+  --map-none: #1a2332; --map-border: #0b1320; --map-selected: #f0a070;
+  color-scheme: dark;
+}

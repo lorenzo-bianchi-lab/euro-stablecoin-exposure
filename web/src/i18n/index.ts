@@ -6,7 +6,7 @@ type Vars = Record<string, string | number>;
 
 let lang: Lang = "en";
 let dict: Record<string, string> = {};
-const loaders: Record<Lang, () => Promise<unknown>> = { en: () => import("./en.json"), it: () => import("./it.json") };
+const loaders: Record<Lang, () => Promise<unknown>> = { en: () => import("./en"), it: () => import("./it") };
 
 export async function loadLang(l: Lang): Promise<void> {
   dict = ((await loaders[l]()) as { default: Record<string, string> }).default;
@@ -37,6 +37,8 @@ export const day = (iso?: string | null) => (iso ? date(iso.slice(0, 10), { day:
 export const month = (ym?: string | null) => (ym ? date(ym.slice(0, 7) + "-01", { month: "long", year: "numeric" }) : t("fmt.na"));
 export const quarter = (q?: string | null) => (q ? t("fmt.quarter", { q: q.slice(-1), y: q.slice(0, 4) }) : t("fmt.na"));
 export const country = (code: string) => t(`country.${code}`);
+/** Elenco in prosa: "A, B and C". */
+export const listing = (items: string[]) => (items.length < 2 ? items.join("") : items.slice(0, -1).join(", ") + t("fmt.and") + items[items.length - 1]);
 /** Data di una fonte, secondo il tipo dichiarato nei dati. */
 export function sourceDate(kind: string, value: string): string {
   switch (kind) {
