@@ -1,4 +1,4 @@
-"""Genera la sintesi di una pagina (SINTESI.md) dai risultati dei quattro moduli.
+"""Genera la sintesi di una pagina (SINTESI.md) dai risultati dei moduli.
 
 Legge solo i file in data/processed: non scarica e non ricalcola nulla. Ogni frase è
 costruita dai dati, così la pagina resta vera a ogni aggiornamento.
@@ -18,7 +18,8 @@ PROC = ROOT / "data" / "processed"
 OUT = ROOT / "SINTESI.md"
 MONTHS = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"]
 SERIES_LABELS = {"usdt": "USDT", "usdt_senza_coinbase": "USDT senza Coinbase", "usdc": "USDC", "usdc_senza_coinbase": "USDC senza Coinbase"}
-SCENARIO_LABELS = {"M1_oggi_base": "Oggi, quota 7,5%", "M1_oggi_alto": "Oggi, quota 15%", "S1_base_2030": "ESM base 2030",
+SCENARIO_LABELS = {"P_minimo": "Stima propria, minimo", "P_centrale": "**Stima propria, centro**", "P_massimo": "Stima propria, massimo",
+                   "M1_oggi_base": "Confronto: ipotesi ESM oggi (7,5%)", "S1_base_2030": "ESM base 2030",
                    "S2_alto_2030": "ESM alto 2030", "S3_alto_2030_quota_doppia": "ESM alto 2030, quota 15%"}
 MODULES = {"modulo1": "1 - Livello", "modulo2": "2 - Andamento", "modulo3": "3 - Vulnerabilità", "modulo4": "4 - Scenari",
            "modulo5": "5 - Credito e trasmissione"}
@@ -70,37 +71,36 @@ def main() -> None:
     add("# Sintesi - esposizione dell'area euro alle stablecoin in dollari")
     add("")
     add(f"Pagina generata il {day(datetime.now().strftime('%Y-%m-%d'))} da `src/summary.py`. Non va modificata a mano: si rigenera con")
-    add(f"`.venv/bin/python src/run_all.py`. Versione interattiva: [cruscotto]({PAGES}).")
+    add(f"`.venv/bin/python src/run_all.py`. Versione interattiva: [applicazione]({PAGES}).")
     add("")
-    add("Il programma non stima quante stablecoin detengono i residenti dell'area euro: con dati")
-    add("gratuiti non è possibile. Parte da un livello ipotizzato da fonti esterne e mostra come")
-    add("si muove l'attività in euro, quali sistemi bancari hanno la raccolta più esposta e")
-    add("quanto peserebbe ogni livello di adozione, paese per paese.")
+    add("Il programma stima un intervallo per le stablecoin in dollari detenute dai residenti dell'area")
+    add("euro, non una misura: parte da un'indagine BCE e da ipotesi dichiarate. Mostra poi come si")
+    add("muove l'attività in euro, quali sistemi bancari hanno la raccolta più esposta e quanto")
+    add("peserebbe ogni livello di adozione su depositi e credito, paese per paese.")
     add("")
 
     # 1. Livello
     lv, circ, dep = m1["livello"], m1["circolazione_mld_usd"], m1["rapporto_con_i_depositi"]
-    add(f"## 1. Livello: {n(lv['base_mld_eur'])} - {n(lv['alto_mld_eur'])} miliardi di euro")
+    own = load("level_own.json")
+    ref, b1 = own["livello_di_riferimento"], own["B1"]["famiglie"]
+    add(f"## 1. Livello: {n(ref['centrale_mld_eur'])} miliardi di euro, intervallo {n(ref['minimo_mld_eur'])} - {n(ref['massimo_mld_eur'])}")
     add("")
-    add(f"Stablecoin in dollari attribuite all'area euro applicando le quote assunte dall'ESM (7,5% e 15%)")
-    add(f"alla circolazione di USDT e USDC del {day(m1['data_circolazione'])}: {n(circ['usdt_piu_usdc'])} miliardi di dollari.")
+    add("Stima propria dal basso: famiglie dell'area euro × quota che detiene stablecoin × importo medio")
+    add(f"detenuto × quota in dollari, dall'indagine BCE sui consumatori. Il programma stima un intervallo.")
     add("")
-    add("| | Miliardi di dollari | Miliardi di euro | Sui depositi a vista dell'area |")
-    add("|---|---|---|---|")
-    add(f"| Quota 7,5% | {n(lv['base_mld_usd'])} | {n(lv['base_mld_eur'])} | {pct(dep['livello_base_su_depositi'], 2)} |")
-    add(f"| Quota 15% | {n(lv['alto_mld_usd'])} | {n(lv['alto_mld_eur'])} | {pct(dep['livello_alto_su_depositi'], 2)} |")
+    add("| | Miliardi di euro | Cosa rappresenta |")
+    add("|---|---|---|")
+    add(f"| Minimo | {n(ref['minimo_mld_eur'])} | Ipotesi prudenti su importi e quota in dollari |")
+    add(f"| **Centro** | **{n(ref['centrale_mld_eur'])}** | Livello di riferimento del programma |")
+    add(f"| Massimo | {n(ref['massimo_mld_eur'])} | Ipotesi alte su importi e quota in dollari |")
+    add(f"| Estremo superiore dichiarato | {n(ref['estremo_superiore_dichiarato_mld_eur'])} | Variante individui: conta più volte la stessa famiglia |")
+    add(f"| Confronto: ipotesi ESM, quota 7,5% | {n(lv['base_mld_eur'])} | Quota assunta dall'ESM × circolazione di USDT e USDC del {day(m1['data_circolazione'])} ({n(circ['usdt_piu_usdc'])} mld $) |")
+    add(f"| Confronto: ipotesi ESM, quota 15% | {n(lv['alto_mld_eur'])} | Come sopra, quota doppia |")
     add("")
-    add(f"È un'ipotesi esterna applicata, non una stima. Accanto: il {pct(m1['diffusione_bce']['quota_consumatori'], 0)} dei consumatori")
-    add(f"dichiara di possedere stablecoin (BCE, {month(m1['diffusione_bce']['mese'])}).")
-    if (PROC / "level_own.json").exists():
-        own = load("level_own.json")
-        b1, v = own["B1"]["famiglie"], own["verdetto"]
-        add("")
-        add(f"Stima propria dal basso, dall'indagine BCE: {n(b1['centrale_mld_eur'])} miliardi di euro (da {n(b1['minimo_mld_eur'])} a {n(b1['massimo_mld_eur'])}).")
-        if v["esito"] == "intervallo proprio":
-            add(f"Le stime {', '.join(v['stime_concordi'])} concordano entro un fattore 3: intervallo proprio {n(v['intervallo_mld_eur'][0])} - {n(v['intervallo_mld_eur'][1])} miliardi di euro.")
-        else:
-            add(f"Le altre strade non hanno dato una stima concorde: il programma pubblica come proprio solo il minimo, {n(v['minimo_mld_eur'])} miliardi di euro.")
+    add("L'indagine copre 11 paesi ed è definita sperimentale dalla BCE; l'estensione a 21 paesi è un'ipotesi.")
+    add("Le altre due strade tentate (riserve degli exchange, dati nazionali) non confermano la stima: il")
+    add("criterio fissato nel report 08 avrebbe pubblicato solo il minimo. La scelta dell'intervallo come")
+    add("riferimento è del 25 novembre 2026, successiva ai risultati, ed è annotata nel registro di SPEC.md.")
     add("")
 
     # 2. Andamento
@@ -167,13 +167,13 @@ def main() -> None:
     for key, label in SCENARIO_LABELS.items():
         if key in ea.index:
             r = ea.loc[key]
-            credito = "n.d." if cr is None or key not in cr.index else f"{n(cr.loc[key, 'soglia_mld'])} (da {n(cr.loc[key, 'basso_mld'])} a {n(cr.loc[key, 'alto_mld'])})"
+            credito = "n.d." if cr is None or key not in cr.index else f"{n(cr.loc[key, 'uniforme_mld'])} (da {n(cr.loc[key, 'basso_mld'])} a {n(cr.loc[key, 'alto_mld'])})"
             add(f"| {label} | {n(r.importo_mld_usd, 0 if r.importo_mld_usd >= 100 else 1)} | {n(r.deflusso_mld_eur)} | {pct(r.perdita_depositi_a_vista, 2 if r.perdita_depositi_a_vista < 0.01 else 1)} | {pct(r.aumento_raccolta_ingrosso, 2 if r.aumento_raccolta_ingrosso < 0.01 else 1)} | {credito} |")
     add("")
     thr = {round(t["perdita_depositi_a_vista_area"], 2): t for t in m4["soglie"]}
     t5 = thr[0.05]
     add(f"Perché l'area perda il 5% dei depositi a vista servirebbero {n(t5['importo_mld_usd'], 0)} miliardi di dollari di stablecoin")
-    add(f"detenute dai residenti, {n(t5['importo_mld_usd'] / lv['base_mld_usd'], 0)} volte il livello di base di oggi.")
+    add(f"detenute dai residenti, {n(t5['importo_mld_usd'] / (ref['centrale_mld_eur'] * m4['cambio_usd_per_eur']), 0)} volte il centro della stima propria.")
     byc = pd.read_csv(PROC / "m4_scenarios_by_country.csv")
     s2 = byc[(byc.scenario == "S2_alto_2030") & (byc.regola_paesi == "R1") & (byc.regola_depositi == "T1")].sort_values("aumento_raccolta_ingrosso", ascending=False)
     lead, last = s2.head(3), s2.iloc[-1]
@@ -181,7 +181,8 @@ def main() -> None:
     add(", ".join(f"{r.nome} (+{pct(r.aumento_raccolta_ingrosso, 0)})" for r in lead.itertuples()) + f" e minimo in {last.nome} (+{pct(last.aumento_raccolta_ingrosso, 1)}).")
     add("È un calcolo contabile con sostituzione piena dei depositi, non una previsione. Il credito in meno")
     add("applica coefficienti del Working Paper BCE 3199, stimati su singole banche, ad aggregati nazionali:")
-    add("il primo valore è la variante a soglia, tra parentesi l'intervallo tra coefficiente basso e alto.")
+    add("il primo valore è la regola uniforme (0,5 euro di prestiti per euro di depositi), tra parentesi")
+    add("l'intervallo tra coefficiente basso e alto. Variante continua e a soglia nell'applicazione.")
     add("")
     if (PROC / "m5_two_channel_map.csv").exists():
         mp = pd.read_csv(PROC / "m5_two_channel_map.csv", index_col=0)
@@ -199,7 +200,7 @@ def main() -> None:
     # Avvertenze e stato
     add("## Cosa questa pagina non dice")
     add("")
-    add("- Non misura quante stablecoin detengono i residenti dell'area euro: i livelli sono ipotesi o triangolazioni.")
+    add("- Non misura quante stablecoin detengono i residenti dell'area euro: stima un intervallo da un'indagine e da ipotesi dichiarate.")
     add("- Non stima effetti causali: il credito in meno applica coefficienti pubblicati, come ordine di grandezza.")
     add("- Non è un sistema di allerta precoce: la segnalazione marca valori insoliti, non anticipa i depositi.")
     add("")

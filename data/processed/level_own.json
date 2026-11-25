@@ -1,5 +1,14 @@
 {
-  "avvertenza": "Triangolazione di fonti indirette, non una misura delle detenzioni dei residenti.",
+  "avvertenza": "Stima da indagine con ipotesi dichiarate, non una misura delle detenzioni dei residenti.",
+  "livello_di_riferimento": {
+    "definizione": "Stima propria dal basso (B1, variante famiglie), dall'indagine BCE sui consumatori",
+    "minimo_mld_eur": 8.938106163934425,
+    "centrale_mld_eur": 15.363067023494356,
+    "massimo_mld_eur": 23.140227533444126,
+    "estremo_superiore_dichiarato_mld_eur": 41.959848828218206,
+    "nota_estremo_superiore": "Variante individui, massimo: conta ogni adulto di una famiglia detentrice come detentore",
+    "decisione": "Livello di riferimento per decisione del 2026-11-25 (prompt 5), successiva ai risultati e in deroga al criterio del report 08, che non era soddisfatto."
+  },
   "B1": {
     "somma_percentuali_lette": 99.43,
     "importo_medio_per_detentore_eur": {

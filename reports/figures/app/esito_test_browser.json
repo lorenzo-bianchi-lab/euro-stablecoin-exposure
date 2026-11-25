@@ -1,0 +1,69 @@
+{
+ "eseguito": "2026-11-25T14:30:06.219Z",
+ "sezioni": [
+  {
+   "sezione": "panoramica",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 1
+  },
+  {
+   "sezione": "simulatore",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 2
+  },
+  {
+   "sezione": "mappa",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 1
+  },
+  {
+   "sezione": "paese/IT",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 3
+  },
+  {
+   "sezione": "canali",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 1
+  },
+  {
+   "sezione": "monitor",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 2
+  },
+  {
+   "sezione": "livello",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 3
+  },
+  {
+   "sezione": "confronto",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 0
+  },
+  {
+   "sezione": "metodo",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 0
+  }
+ ],
+ "indirizzoCondivisibile": {
+  "importo": "300,0 mld € · 340,7 mld $",
+  "regola": "R3",
+  "depositi": "T2",
+  "credito": "continua",
+  "deflusso": "150,0 mld €",
+  "tema": "dark",
+  "dopoNavigazione": "/mappa?imp=300&sost=50&reg=R3&dep=T2&cred=continua"
+ },
+ "falliti": []
+}

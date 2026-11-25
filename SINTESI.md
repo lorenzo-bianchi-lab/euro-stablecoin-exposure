@@ -1,28 +1,31 @@
 # Sintesi - esposizione dell'area euro alle stablecoin in dollari
 
 Pagina generata il 25 novembre 2026 da `src/summary.py`. Non va modificata a mano: si rigenera con
-`.venv/bin/python src/run_all.py`. Versione interattiva: [cruscotto](https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/).
+`.venv/bin/python src/run_all.py`. Versione interattiva: [applicazione](https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/).
 
-Il programma non stima quante stablecoin detengono i residenti dell'area euro: con dati
-gratuiti non è possibile. Parte da un livello ipotizzato da fonti esterne e mostra come
-si muove l'attività in euro, quali sistemi bancari hanno la raccolta più esposta e
-quanto peserebbe ogni livello di adozione, paese per paese.
+Il programma stima un intervallo per le stablecoin in dollari detenute dai residenti dell'area
+euro, non una misura: parte da un'indagine BCE e da ipotesi dichiarate. Mostra poi come si
+muove l'attività in euro, quali sistemi bancari hanno la raccolta più esposta e quanto
+peserebbe ogni livello di adozione su depositi e credito, paese per paese.
 
-## 1. Livello: 16,7 - 33,4 miliardi di euro
+## 1. Livello: 15,4 miliardi di euro, intervallo 8,9 - 23,1
 
-Stablecoin in dollari attribuite all'area euro applicando le quote assunte dall'ESM (7,5% e 15%)
-alla circolazione di USDT e USDC del 24 novembre 2026: 244,2 miliardi di dollari.
+Stima propria dal basso: famiglie dell'area euro × quota che detiene stablecoin × importo medio
+detenuto × quota in dollari, dall'indagine BCE sui consumatori. Il programma stima un intervallo.
 
-| | Miliardi di dollari | Miliardi di euro | Sui depositi a vista dell'area |
-|---|---|---|---|
-| Quota 7,5% | 18,3 | 16,7 | 0,21% |
-| Quota 15% | 36,6 | 33,4 | 0,42% |
+| | Miliardi di euro | Cosa rappresenta |
+|---|---|---|
+| Minimo | 8,9 | Ipotesi prudenti su importi e quota in dollari |
+| **Centro** | **15,4** | Livello di riferimento del programma |
+| Massimo | 23,1 | Ipotesi alte su importi e quota in dollari |
+| Estremo superiore dichiarato | 42,0 | Variante individui: conta più volte la stessa famiglia |
+| Confronto: ipotesi ESM, quota 7,5% | 16,7 | Quota assunta dall'ESM × circolazione di USDT e USDC del 25 novembre 2026 (243,4 mld $) |
+| Confronto: ipotesi ESM, quota 15% | 33,3 | Come sopra, quota doppia |
 
-È un'ipotesi esterna applicata, non una stima. Accanto: il 5% dei consumatori
-dichiara di possedere stablecoin (BCE, agosto 2025).
-
-Stima propria dal basso, dall'indagine BCE: 15,4 miliardi di euro (da 8,9 a 23,1).
-Le altre strade non hanno dato una stima concorde: il programma pubblica come proprio solo il minimo, 8,9 miliardi di euro.
+L'indagine copre 11 paesi ed è definita sperimentale dalla BCE; l'estensione a 21 paesi è un'ipotesi.
+Le altre due strade tentate (riserve degli exchange, dati nazionali) non confermano la stima: il
+criterio fissato nel report 08 avrebbe pubblicato solo il minimo. La scelta dell'intervallo come
+riferimento è del 25 novembre 2026, successiva ai risultati, ed è annotata nel registro di SPEC.md.
 
 ## 2. Andamento: quota EUR dei volumi stablecoin/fiat, settimana 16-22 novembre 2026
 
@@ -68,19 +71,22 @@ La classifica ordina la struttura della raccolta, non la probabilità che i depo
 
 | Scenario | Stablecoin detenute (mld $) | Depositi da sostituire (mld €) | Depositi a vista persi | Raccolta all'ingrosso in più | Credito in meno (mld €) |
 |---|---|---|---|---|---|
-| Oggi, quota 7,5% | 18,3 | 16,1 | 0,20% | 0,13% | 3,6 (da 2,8 a 19,3) |
-| Oggi, quota 15% | 36,6 | 32,3 | 0,39% | 0,26% | 7,1 (da 5,5 a 38,6) |
-| ESM base 2030 | 143 | 125,9 | 1,5% | 1,0% | 27,7 (da 21,5 a 150,8) |
-| ESM alto 2030 | 300 | 264,2 | 3,2% | 2,1% | 58,2 (da 45,2 a 316,3) |
-| ESM alto 2030, quota 15% | 600 | 528,4 | 6,5% | 4,2% | 116,4 (da 90,3 a 632,5) |
+| Stima propria, minimo | 10,1 | 8,9 | 0,11% | 0,07% | 4,5 (da 1,5 a 10,7) |
+| **Stima propria, centro** | 17,4 | 15,4 | 0,19% | 0,12% | 7,7 (da 2,6 a 18,4) |
+| Stima propria, massimo | 26,3 | 23,1 | 0,28% | 0,19% | 11,6 (da 4,0 a 27,7) |
+| Confronto: ipotesi ESM oggi (7,5%) | 18,3 | 16,1 | 0,20% | 0,13% | 8,0 (da 2,7 a 19,2) |
+| ESM base 2030 | 143 | 125,9 | 1,5% | 1,0% | 63,0 (da 21,5 a 150,8) |
+| ESM alto 2030 | 300 | 264,2 | 3,2% | 2,1% | 132,1 (da 45,2 a 316,3) |
+| ESM alto 2030, quota 15% | 600 | 528,4 | 6,5% | 4,2% | 264,2 (da 90,3 a 632,5) |
 
 Perché l'area perda il 5% dei depositi a vista servirebbero 464 miliardi di dollari di stablecoin
-detenute dai residenti, 25 volte il livello di base di oggi.
+detenute dai residenti, 27 volte il centro della stima propria.
 Nello scenario ESM alto l'aumento di raccolta all'ingrosso necessario è massimo in
 Lettonia (+48%), Slovenia (+27%), Lituania (+25%) e minimo in Francia (+0,7%).
 È un calcolo contabile con sostituzione piena dei depositi, non una previsione. Il credito in meno
 applica coefficienti del Working Paper BCE 3199, stimati su singole banche, ad aggregati nazionali:
-il primo valore è la variante a soglia, tra parentesi l'intervallo tra coefficiente basso e alto.
+il primo valore è la regola uniforme (0,5 euro di prestiti per euro di depositi), tra parentesi
+l'intervallo tra coefficiente basso e alto. Variante continua e a soglia nell'applicazione.
 
 ## 5. Mappa a due canali
 
@@ -96,7 +102,7 @@ politica monetaria interna sulle banche già finanziate in dollari.
 
 ## Cosa questa pagina non dice
 
-- Non misura quante stablecoin detengono i residenti dell'area euro: i livelli sono ipotesi o triangolazioni.
+- Non misura quante stablecoin detengono i residenti dell'area euro: stima un intervallo da un'indagine e da ipotesi dichiarate.
 - Non stima effetti causali: il credito in meno applica coefficienti pubblicati, come ordine di grandezza.
 - Non è un sistema di allerta precoce: la segnalazione marca valori insoliti, non anticipa i depositi.
 
@@ -104,7 +110,7 @@ politica monetaria interna sulle banche già finanziate in dollari.
 
 | Modulo | Dati aggiornati a | Ultima esecuzione | Dettagli |
 |---|---|---|---|
-| 1 - Livello | 24 novembre 2026 | riuscita | [06_modulo1_livello.md](reports/06_modulo1_livello.md) |
+| 1 - Livello | 25 novembre 2026 | riuscita | [06_modulo1_livello.md](reports/06_modulo1_livello.md) |
 | 2 - Andamento | settimana 16-22 novembre 2026 | riuscita | [03_modulo2_indice.md](reports/03_modulo2_indice.md) |
 | 3 - Vulnerabilità | settembre 2026 | riuscita | [04_modulo3_classifica.md](reports/04_modulo3_classifica.md) |
 | 4 - Scenari | bilanci di settembre 2026 | riuscita | [05_modulo4_scenari.md](reports/05_modulo4_scenari.md) |
