@@ -4,7 +4,7 @@ Documento di riferimento del progetto. Va riletto all'inizio di ogni sessione di
 prima di scrivere codice o report. Ogni modifica a obiettivo, moduli o criteri passa da
 qui e viene annotata nel registro in fondo.
 
-Ultimo aggiornamento: 2026-11-25 (prompt 6).
+Ultimo aggiornamento: 2026-11-26 (prompt 7).
 
 ## 0. Obiettivo non negoziabile
 
@@ -337,6 +337,41 @@ verificata solo la disponibilità dei dati EBA (quali file, quali voci, quante b
   Nessuna esposizione in dollari nei dati. La variante continua per banca non è
   calcolata: gli ancoraggi tra banche non erano definiti prima dei risultati.
 
+### Estetica e identità (2026-11-26, prompt 7)
+
+In questo prompt non cambia nessun calcolo: moduli, strato dati e modello
+dell'applicazione restano quelli del prompt 6, e tutti i test esistenti devono restare
+verdi. Cambia solo la presentazione. Criteri scritti prima del lavoro.
+
+- **Nome**: "Euro Stablecoin Exposure Monitor". Nessun logo, colore o marchio della BCE o
+  di altre istituzioni. In fondo a ogni pagina: "Progetto universitario, non affiliato
+  alla BCE".
+- **Sistema grafico in un unico file** (`web/src/styles/tokens.css`): colori, tipografia
+  (un carattere per i titoli, uno per testo e numeri, cifre tabulari), spaziature,
+  raggi, ombre, stati. Direzione: istituzionale, sobria, blu profondo con un solo colore
+  d'accento; tema scuro allo stesso livello. Un tema unico per i grafici, letto dagli
+  stessi token: palette per serie, palette sequenziale per la mappa, griglie leggere,
+  etichette dirette al posto delle legende dove possibile; le serie si distinguono
+  anche per tratto o forma, non solo per colore.
+- **Pagine nuove**: pagina iniziale con una frase su cosa fa il programma, tre risultati
+  generati dai dati correnti (livello stimato, paesi più esposti per ciascun canale,
+  effetto dello scenario alto), mappa d'anteprima e ingressi agli strumenti; pagina
+  "About" con scopo, autori (segnaposto), fonti e licenze.
+- **Sezioni**: un risultato principale in evidenza per sezione; comandi dello scenario
+  in un pannello stabile; tabella delle banche con paginazione; mappa con proiezione
+  equivalente, legenda a classi e paese selezionato in evidenza; rapporto stampabile di
+  due pagine con intestazione, data dei dati e scenario; navigazione mobile dedicata.
+- **Completato quando**: (a) tutti i test del prompt 6 passano, con le sole modifiche
+  rese necessarie dalle nuove pagine e dalla paginazione, elencate nel report; (b) un
+  controllo automatico verifica il contrasto AA (4,5:1 per il testo, 3:1 per testo
+  grande ed elementi grafici) sui token dei due temi e sul testo reso in ogni pagina;
+  (c) ogni pagina si usa da tastiera con fuoco visibile, ogni grafico ha un testo
+  alternativo, e con la preferenza di riduzione del movimento non ci sono animazioni;
+  (d) esistono screenshot prima e dopo di ogni sezione a 1280 e 390 pixel nei due temi
+  (`reports/figures/app/before`, `after`), e ogni screenshot "dopo" è stato guardato;
+  (e) il peso delle pagine è riportato prima e dopo.
+- **Stato**: in corso.
+
 ### Aggiornamento e sintesi
 
 Un solo comando aggiorna i moduli nell'ordine giusto e rigenera la pagina di sintesi e i
@@ -463,3 +498,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-25 | Prompt 6. Criteri fissati prima dei risultati: Bybit fuori dall'indice per tutto lo storico, con la misura della variazione; un solo cambio per tutto il programma; rifiniture dell'applicazione; inglese come lingua principale; modulo 6 sulle singole banche con i dati dell'esercizio di trasparenza EBA 2025 (verificata solo la disponibilità: 119 banche, dati al 30 giugno 2025, nessuna scomposizione per valuta) |
 | 2026-11-25 | Prompt 6 completato (`reports/12_rifiniture_lingua_banche.md`): sette rifiniture applicate; indice senza Bybit (in media -0,40 punti per USDT, -0,12 per USDC); cambio unico; applicazione in inglese e italiano con 587 testi per lingua; modulo 6 con 85 banche in 18 paesi e sezione "Banche". Test: 22 Python, 31 dell'applicazione, browser su undici pagine nelle due lingue |
 | 2026-11-25 | Aggiornamento automatico avviato a mano dopo il prompt 6: tutti i passi riusciti su GitHub (dati, 22 test, compilazione, test nel browser, pubblicazione). Indice calcolato su GitHub e indice calcolato in locale identici su 102 settimane; nessuna fonte aggiornata in parte. L'applicazione ora chiede sempre al server se i file di dati sono cambiati, per non mostrare dati vecchi dopo un aggiornamento |
+| 2026-11-26 | Prompt 7. Criteri fissati prima del lavoro: nessun calcolo cambia; nome "Euro Stablecoin Exposure Monitor"; sistema grafico in un unico file; pagina iniziale e pagina About; ridisegno delle dieci sezioni; controlli di contrasto e accessibilità. Salvati gli screenshot "prima" (44, in `reports/figures/app/before`) |
