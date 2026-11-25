@@ -139,32 +139,44 @@ applicazione e chiede a GitHub Pages di ripubblicare. Se un modulo fallisce
 l'aggiornamento prosegue con l'ultimo dato valido; se falliscono i test non viene
 pubblicato nulla.
 
-**Stato al 2026-11-25: scritta, non ancora in funzione.** GitHub ha rifiutato il
-caricamento del file perché l'accesso usato in questa sessione non ha il permesso
-`workflow`. Il file è in un commit locale; per attivarlo servono due comandi dal
-proprietario del repository:
+**Stato al 2026-11-25: in funzione.** Il primo caricamento era stato rifiutato da GitHub
+perché l'accesso usato non aveva il permesso `workflow`; concesso il permesso, la Action
+è stata caricata e avviata a mano.
 
-```bash
-gh auth refresh -h github.com -s workflow
-git push
-```
+Prima esecuzione ([run 45646686279](https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure/actions/runs/45646686279)), durata 5 minuti:
 
-Di conseguenza l'esecuzione della Action su GitHub non è stata verificata. Verificati in
-locale, con gli stessi comandi che la Action esegue: l'aggiornamento completo dalle
-fonti (tutti i moduli riusciti, 12 fonti su 12 aggiornate o statiche), i test, la
-compilazione e i test nel browser. Verificato anche il caso della fonte che fallisce:
-con il modulo 2 marcato come fallito, `meta.json` porta l'avviso "Fonti non aggiornate
-nell'ultima esecuzione, mostrate con l'ultimo dato valido" e la fonte con la data
-dell'ultimo dato.
+| Passo | Esito |
+|---|---|
+| Aggiornamento dei dati | Completo: tutti i moduli riusciti, nessuna fonte ferma |
+| Test dei calcoli e dello strato dati | 13 su 13, compresi il confronto tra applicazione e script e la riproducibilità (su Linux, con dati prodotti lì) |
+| Compilazione dell'applicazione | Riuscita |
+| Test nel browser | 9 sezioni su 9, 0 errori in console, 0 pixel di sbordo a 390 pixel |
+| Pubblicazione | Commit automatico `0b711f2`, 67 file |
+| Ricostruzione del sito | Richiesta e completata; il sito mostra i dati di questa esecuzione |
 
-Due punti restano da osservare alla prima esecuzione su GitHub:
+Il caso della fonte che fallisce del tutto è stato verificato in locale: con il modulo 2
+marcato come fallito, `meta.json` porta l'avviso "Fonti non aggiornate nell'ultima
+esecuzione, mostrate con l'ultimo dato valido" e la fonte con la data dell'ultimo dato.
 
-- alcuni exchange possono rifiutare le richieste dai server di GitHub, che sono negli
-  Stati Uniti. In quel caso il modulo 2 trattiene la settimana (regola delle settimane
-  incomplete) e l'applicazione lo segnala: l'indice settimanale non si aggiornerebbe da
-  lì, pur restando corretto;
-- il file sintattico è stato controllato, ma permessi e ripubblicazione del sito si
-  vedono solo eseguendolo.
+**Una fonte non risponde dai server di GitHub: Bybit.** Dalle macchine di GitHub le sue
+cinque coppie ricevono "403 Forbidden"; dal computer locale rispondono. Conseguenze:
+
+- per le settimane già scaricate restano i dati di Bybit presenti nel repository;
+- per le settimane nuove calcolate dalla Action Bybit mancherà. Pesa lo 0,5% dei volumi
+  totali dell'indice e tra l'1% e il 2,5% di quelli contro euro: è sotto la soglia del 2%
+  dei volumi totali che fa trattenere una settimana, quindi la settimana viene
+  pubblicata senza Bybit. La quota EUR pubblicata dalla Action sarà perciò leggermente
+  più bassa di quella che darebbe un'esecuzione locale;
+- l'applicazione elenca le coppie senza risposta nella sezione "Metodo e dati", ma la
+  fonte resta marcata "aggiornata" e non compare l'avviso in cima alla pagina.
+
+Non è stato aggirato il blocco. Rimedi possibili, non applicati: eseguire
+l'aggiornamento da un computer in Europa, oppure togliere Bybit dall'indice per tutta la
+serie, così che locale e automatico coincidano.
+
+Resta non osservata l'esecuzione pianificata del lunedì: finora la Action è partita solo
+a mano. GitHub sospende le esecuzioni pianificate dopo 60 giorni senza attività nel
+repository.
 
 ## 6. Scelte tecniche
 

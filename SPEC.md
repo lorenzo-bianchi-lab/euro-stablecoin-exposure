@@ -238,9 +238,10 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
 - **Stato**: applicazione completata e pubblicata il 2026-11-25
   (`reports/11_applicazione.md`), criteri da (a) a (e) soddisfatti. Indirizzo:
   https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
-  L'aggiornamento automatico è scritto (`.github/workflows/aggiornamento.yml`) ma non
-  ancora in funzione: il caricamento richiede il permesso `workflow`, che l'accesso
-  usato il 2026-11-25 non aveva. La sua esecuzione su GitHub non è verificata.
+  L'aggiornamento automatico (`.github/workflows/aggiornamento.yml`) è in funzione dal
+  2026-11-25: prima esecuzione, avviata a mano, riuscita in tutti i passi. Dai server di
+  GitHub Bybit non risponde (403): le settimane nuove calcolate lì escono senza Bybit,
+  che pesa lo 0,5% dei volumi; l'applicazione lo elenca in "Metodo e dati".
 
 ### Aggiornamento e sintesi
 
@@ -356,4 +357,5 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-25 | Aggiunti il modulo 5 (credito e trasmissione), il livello proprio, la regola R3, il test e la segnalazione del modulo 2, il cruscotto e i test automatici. Ridefinite le tre non-promesse della sezione 4 |
 | 2026-11-25 | Modulo 5 completato; livello proprio: criterio non soddisfatto, pubblicato il minimo di B1; regola R3 aggiunta; test del modulo 2 nullo; cruscotto pubblicato e test automatici superati |
 | 2026-11-25 | Prompt 5. Sezione 0: il prodotto finale è un'applicazione web completa. Il livello di riferimento diventa la stima propria (15,4; 8,9 - 23,1), per decisione successiva ai risultati e in deroga al criterio del report 08, che resta agli atti. Credito: regola uniforme in evidenza, variante continua definita prima del calcolo. Aggiunti strato dati JSON, aggiornamento automatico e applicazione |
-| 2026-11-25 | Applicazione completata (`reports/11_applicazione.md`): nove sezioni, strato dati in 29 file JSON, calcoli nel browser coincidenti con gli script su nove scenari, test nel browser superati. Aggiornamento automatico del lunedì scritto, non ancora caricato su GitHub (manca il permesso `workflow`) |
+| 2026-11-25 | Applicazione completata (`reports/11_applicazione.md`): nove sezioni, strato dati in 29 file JSON, calcoli nel browser coincidenti con gli script su nove scenari, test nel browser superati. Aggiornamento automatico del lunedì scritto |
+| 2026-11-25 | Aggiornamento automatico in funzione: prima esecuzione su GitHub riuscita (dati, 13 test, compilazione, test nel browser, pubblicazione). Bybit non risponde dai server di GitHub: annotato nel report 11 |
