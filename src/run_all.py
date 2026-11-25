@@ -2,7 +2,7 @@
 
 Ordine: modulo 3 (bilanci bancari), modulo 1 (livello, usa i depositi del modulo 3),
 modulo 2 (indice settimanale), livello proprio, modulo 4 (scenari), modulo 5 (credito e
-mappa a due canali), test del modulo 2, poi sintesi ed esportazione dei dati per l'applicazione.
+mappa a due canali), modulo 6 (singole banche, dati EBA), test del modulo 2, poi sintesi ed esportazione dei dati per l'applicazione.
 Se un modulo fallisce, per esempio perché una fonte non risponde, gli altri proseguono
 con i dati già presenti e la sintesi lo segnala.
 
@@ -21,7 +21,7 @@ from pathlib import Path
 SRC = Path(__file__).resolve().parent
 PROC = SRC.parent / "data" / "processed"
 STEPS = [("modulo3", "module3_ranking.py"), ("modulo1", "module1_level.py"), ("modulo2", "module2_index.py"),
-         ("livello_proprio", "level_own.py"), ("modulo4", "module4_scenarios.py"), ("modulo5", "module5_credit.py"),
+         ("livello_proprio", "level_own.py"), ("modulo4", "module4_scenarios.py"), ("modulo5", "module5_credit.py"), ("modulo6", "module6_banks.py"),
          ("test_modulo2", "module2_link_test.py")]
 
 
