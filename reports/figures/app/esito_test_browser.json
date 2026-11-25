@@ -1,69 +1,304 @@
 {
- "eseguito": "2026-11-25T16:01:49.943Z",
+ "eseguito": "2026-11-25T22:59:00.223Z",
  "sezioni": [
   {
-   "sezione": "panoramica",
+   "sezione": "overview",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 1
+   "grafici": 1,
+   "avvertenze": 4,
+   "tabelle1280": 2,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 0,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
-   "sezione": "simulatore",
+   "sezione": "simulator",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 2
+   "grafici": 2,
+   "avvertenze": 3,
+   "tabelle1280": 1,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 1,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
-   "sezione": "mappa",
+   "sezione": "map",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 1
+   "grafici": 4,
+   "avvertenze": 1,
+   "tabelle1280": 1,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 0,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
-   "sezione": "paese/IT",
+   "sezione": "country/IT",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 3
+   "grafici": 3,
+   "avvertenze": 2,
+   "tabelle1280": 1,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 1,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
-   "sezione": "canali",
+   "sezione": "banks",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 1
+   "grafici": 1,
+   "avvertenze": 5,
+   "tabelle1280": 2,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 2,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
+  },
+  {
+   "sezione": "banks/R0MUWSFPU8MPRO8K5P83",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 1,
+   "avvertenze": 3,
+   "tabelle1280": 2,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 1,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
+  },
+  {
+   "sezione": "channels",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 1,
+   "avvertenze": 1,
+   "tabelle1280": 1,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 1,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
    "sezione": "monitor",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 2
+   "grafici": 2,
+   "avvertenze": 4,
+   "tabelle1280": 4,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 3,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
-   "sezione": "livello",
+   "sezione": "level",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 3
+   "grafici": 3,
+   "avvertenze": 5,
+   "tabelle1280": 0,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 0,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
-   "sezione": "confronto",
+   "sezione": "compare",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 0
+   "grafici": 0,
+   "avvertenze": 2,
+   "tabelle1280": 4,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 3,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   },
   {
-   "sezione": "metodo",
+   "sezione": "method",
    "erroriConsole": [],
    "sbordo390": 0,
-   "grafici": 0
+   "grafici": 0,
+   "avvertenze": 3,
+   "tabelle1280": 5,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 3,
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
   }
  ],
- "indirizzoCondivisibile": {
-  "importo": "300,0 mld € · 340,7 mld $",
+ "indirizzo": {
+  "importo": "€300.0 bn · $328.0 bn",
   "regola": "R3",
   "depositi": "T2",
   "credito": "continua",
-  "deflusso": "150,0 mld €",
+  "deflusso": "€150.0 bn",
   "tema": "dark",
-  "dopoNavigazione": "/mappa?imp=300&sost=50&reg=R3&dep=T2&cred=continua"
+  "dopoNavigazione": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua",
+  "riquadriMappa": 3,
+  "dopoCambioLingua": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua&lang=it",
+  "italiano": {
+   "titolo": "Simulatore",
+   "importo": "300,0 mld € · 328,0 mld $",
+   "url": "#/simulator?imp=300&sost=50&reg=R3&dep=T2&cred=continua&lang=it"
+  },
+  "vecchioIndirizzo": {
+   "titolo": "Simulatore",
+   "importo": "120,0 mld € · 131,2 mld $"
+  }
+ },
+ "avvertenza": {
+  "righeChiusa": 1,
+  "caratteriDelDettaglio": 274,
+  "siApre": true
+ },
+ "indicatoreFonti": {
+  "porta_a": "/method",
+  "testo": "All updatable sources responded in the last run."
+ },
+ "rapporto": {
+  "titoloA": "Report on scenario A",
+  "titoloAB": "Report comparing scenarios A and B",
+  "colonneAB": [
+   "Quantity",
+   "Scenario A",
+   "Scenario B",
+   "B relative to A"
+  ],
+  "inStampa": {
+   "visibili": [
+    "H1",
+    "card report"
+   ],
+   "comandi": 0
+  },
+  "indirizzo": "/compare?rep=ab"
+ },
+ "banche": {
+  "righe": 85,
+  "righeItalia": 12,
+  "righeRicerca": 1,
+  "scheda": "UNICREDIT, SOCIETA' PER AZIONI",
+  "indirizzo": "/banks/549300TRUWO2CD2G5692?bc=IT"
+ },
+ "avvio": {
+  "method": {
+   "file": [
+    "index",
+    "react",
+    "en",
+    "Method"
+   ],
+   "kb": 193
+  },
+  "overview": {
+   "file": [
+    "index",
+    "react",
+    "en",
+    "Chart",
+    "model",
+    "shared",
+    "Overview",
+    "charts"
+   ],
+   "kb": 802
+  }
  },
  "falliti": []
 }
