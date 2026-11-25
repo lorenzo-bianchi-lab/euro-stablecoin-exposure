@@ -32,15 +32,121 @@
     }
   },
   "B2": {
-    "esito": "non calcolata"
+    "esito": "nessun numero",
+    "motivo": "Le riserve dei clienti sono pubbliche per alcuni exchange, ma non esiste un indicatore gratuito e scaricabile della provenienza degli utenti per paese: senza quello le riserve non si possono attribuire all'area euro.",
+    "saldi_dei_clienti_usd": [
+      {
+        "exchange": "Binance",
+        "data": "2026-11-12",
+        "usdt": 24299050229.07,
+        "usdc": 5621797389.82,
+        "campo": "customerLiability",
+        "verifica": "letto alla fonte il 2026-11-25"
+      },
+      {
+        "exchange": "KuCoin",
+        "data": "2026-10-31",
+        "usdt": 809327271.06,
+        "usdc": 71709768.86,
+        "campo": "userAsset",
+        "verifica": "letto alla fonte il 2026-11-25"
+      },
+      {
+        "exchange": "OKX",
+        "data": "2026-11-01",
+        "usdt": 7955760726,
+        "usdc": 1849091337,
+        "verifica": "letto dalla ricerca sulla pagina dell'exchange, non ricontrollato"
+      },
+      {
+        "exchange": "Bybit",
+        "data": "2026-10-27",
+        "usdt": 3309755958,
+        "usdc": 140934805,
+        "verifica": "letto dalla ricerca, non ricontrollato; non è chiaro se siano saldi dei clienti o dei portafogli"
+      },
+      {
+        "exchange": "Bitget",
+        "data": "2026-11-12",
+        "usdt": 753602113,
+        "usdc": 184613051,
+        "verifica": "letto dalla ricerca, non ricontrollato"
+      },
+      {
+        "exchange": "Gate",
+        "data": "2026-10-18",
+        "usdt": 832598051,
+        "usdc": null,
+        "verifica": "letto dalla ricerca, non ricontrollato"
+      }
+    ],
+    "senza_importi": [
+      "Kraken (pubblica solo rapporti di copertura)",
+      "Coinbase",
+      "Crypto.com (ultima attestazione del 2022)",
+      "HTX (solo totale non suddiviso)"
+    ],
+    "provenienza_utenti": {
+      "fonte": "Similarweb, pagina gratuita, primi cinque paesi per traffico, ottobre 2026 (letta dalla ricerca in un browser; non scaricabile da script)",
+      "binance.com": "Corea del Sud 10,59%, Brasile 6,77%, Ucraina 5,86%, Venezuela 5,64%, Turchia 4,36%, altri 66,79%: nessun paese dell'area euro tra i primi cinque",
+      "bitvavo.com": "Paesi Bassi 62,78%, Germania 15,16%, Belgio 6,57%, Austria 3,98%, Spagna 2,66%",
+      "altri": "nessun dato: il sito limita le consultazioni; l'API di Similarweb e quella di Cloudflare Radar richiedono un accesso"
+    },
+    "totale_saldi_clienti_mld_usd": 45.828240699809996,
+    "di_cui_verificati_alla_fonte_mld_usd": 30.801884658809996
   },
   "B3": {
-    "esito": "non calcolata"
+    "esito": "calcolata",
+    "ipotesi": "OAM non distingue le stablecoin: si applica la quota del 10% sul mercato cripto (WP 3199) e la quota in dollari di B1",
+    "quota_italia_sui_possessori_dell_area": 0.16710603113830252,
+    "quota_paesi_bassi_sui_possessori_dell_area": 0.031085681865583588,
+    "italia_stablecoin_stimate_mld_eur": 0.21564142460000002,
+    "minimo_mld_eur": 0.7796448746245818,
+    "centrale_mld_eur": 0.9006242517214997,
+    "massimo_mld_eur": 1.0216036288184176,
+    "controllo_paesi_bassi": {
+      "stablecoin_massime_mld_eur": 0.032,
+      "area_euro_massimo_implicito_mld_eur": 0.7184443767360178,
+      "nota": "DNB misura le stablecoin (meno dell'1%); il dato dà un tetto, non un valore centrale"
+    },
+    "italia_con_quota_olandese_mld_eur": 0.09006242517214998,
+    "fonti": {
+      "italia": {
+        "fonte": "OAM, Analisi dell'undicesima trasmissione dei flussi VASP (terzo trimestre 2025), pp. 8-9",
+        "url": "https://www.organismo-am.it/analisi-e-ricerche",
+        "data": "2025-09-30",
+        "controvalore_cripto_eur": 2156414246,
+        "clienti_con_cripto": 1245082,
+        "vasp_che_hanno_inviato": 85,
+        "vasp_iscritti": 125,
+        "dettaglio_per_tipo": "assente: nessuna cifra sulle stablecoin",
+        "verifica": "letto sul PDF il 2026-11-25"
+      },
+      "quota_stablecoin_sul_mercato_cripto": {
+        "valore": 0.1,
+        "fonte": "ECB Working Paper 3199, sezione 2, p. 8: circa 10% a novembre 2025"
+      },
+      "paesi_bassi": {
+        "fonte": "DNB, nota statistica del 27 ottobre 2026",
+        "url": "https://www.dnb.nl/en/general-news/statistical-news/2026/dutch-households-hold-3-2-billion-in-crypto-assets-with-dutch-service-providers/",
+        "data": "2026-06-30",
+        "controvalore_cripto_famiglie_eur": 3200000000,
+        "quota_stablecoin_massima": 0.01,
+        "verifica": "letto sulla pagina il 2026-11-25"
+      },
+      "altri_paesi": "Austria: l'indagine HFCS 2023 della OeNB dà la quota di famiglie con cripto-attività ma nessun valore in stablecoin. Per gli altri paesi la ricerca non ha trovato statistiche ufficiali sul valore detenuto."
+    }
   },
   "valori_centrali_mld_eur": {
-    "B1": 15.363067023494356
+    "B1": 15.363067023494356,
+    "B3": 0.9006242517214997
   },
-  "confronti": [],
+  "confronti": [
+    {
+      "coppia": "B1-B3",
+      "fattore": 17.058242651281702
+    }
+  ],
   "fattore_massimo_ammesso": 3.0,
   "verdetto": {
     "esito": "solo minimo di B1",

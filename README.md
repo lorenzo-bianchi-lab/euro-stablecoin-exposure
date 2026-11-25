@@ -12,8 +12,10 @@ abbandonato: i test preliminari hanno mostrato che con dati gratuiti non è stim
 
 ## In breve
 
+- **Cruscotto interattivo**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
 - **Risultati in una pagina**: [SINTESI.md](SINTESI.md), generata dal codice.
-- **Aggiornare tutto**: `.venv/bin/python src/run_all.py` (circa cinque minuti, nessuna chiave API).
+- **Aggiornare tutto**: `.venv/bin/python src/run_all.py` (circa sei minuti, nessuna chiave API).
+- **Test**: `.venv/bin/python -m unittest discover -s tests -v`.
 - **Cosa fa e cosa non promette**: [SPEC.md](SPEC.md). Va letto per primo.
 
 I report numerati in `reports/` sono fotografie alla data indicata; la sintesi e i file
@@ -64,6 +66,18 @@ euro (quota 7,5%) e 33,4 (quota 15%). È un'ipotesi esterna applicata, non una s
 Dettagli in [reports/06_modulo1_livello.md](reports/06_modulo1_livello.md).
 Aggiornamento: `.venv/bin/python src/module1_level.py`.
 
+Estensioni del 2026-11-25:
+
+- **Credito e trasmissione** ([report 07](reports/07_modulo5_credito.md)): prestiti in
+  meno per scenario e paese con i coefficienti del WP 3199, e mappa a due canali.
+- **Livello proprio e regola R3** ([report 08](reports/08_livello_proprio.md)): stima dal
+  basso di 15,4 miliardi di euro, di cui il programma pubblica solo il minimo (8,9)
+  perché le altre strade non la confermano; ripartizione tra paesi per possessori di
+  cripto-attività.
+- **Test predittivo e segnalazione** ([report 09](reports/09_modulo2_segnale.md)):
+  l'indice settimanale non anticipa i depositi; ha però una regola di segnalazione.
+- **Cruscotto e test** ([report 10](reports/10_cruscotto_e_test.md)).
+
 ## Struttura
 
 | Percorso | Contenuto |
@@ -73,6 +87,8 @@ Aggiornamento: `.venv/bin/python src/module1_level.py`.
 | `src/` | Script Python |
 | `notebooks/` | Notebook esplorativi |
 | `reports/` | Report in Markdown |
+| `docs/` | Cruscotto pubblicato con GitHub Pages |
+| `tests/` | Test automatici |
 
 ## Come riprodurre
 
@@ -84,7 +100,7 @@ python3 -m venv .venv
 ```
 
 Ogni modulo si può eseguire da solo: `src/module1_level.py`, `src/module2_index.py`,
-`src/module3_ranking.py`, `src/module4_scenarios.py`. Gli script dei test preliminari
+`src/module3_ranking.py`, `src/module4_scenarios.py`, `src/module5_credit.py`. Gli script dei test preliminari
 (report 00, 01 e 02) restano in `src/` e sono descritti nei rispettivi report.
 
 ## Chiavi API

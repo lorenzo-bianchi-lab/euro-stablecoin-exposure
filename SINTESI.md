@@ -108,9 +108,9 @@ politica monetaria interna sulle banche già finanziate in dollari.
 | 2 - Andamento | settimana 16-22 novembre 2026 | riuscita | [03_modulo2_indice.md](reports/03_modulo2_indice.md) |
 | 3 - Vulnerabilità | settembre 2026 | riuscita | [04_modulo3_classifica.md](reports/04_modulo3_classifica.md) |
 | 4 - Scenari | bilanci di settembre 2026 | riuscita | [05_modulo4_scenari.md](reports/05_modulo4_scenari.md) |
-| 5 - Credito e trasmissione | bilanci di settembre 2026 | non registrata | [07_modulo5_credito.md](reports/07_modulo5_credito.md) |
+| 5 - Credito e trasmissione | bilanci di settembre 2026 | riuscita | [07_modulo5_credito.md](reports/07_modulo5_credito.md) |
 
-Ultimo aggiornamento completo: 24 novembre 2026, modalità con scarico dalle fonti.
+Ultimo aggiornamento completo: 25 novembre 2026, modalità con scarico dalle fonti.
 Definizioni, fonti, limiti e metodi scartati: [SPEC.md](SPEC.md).
 
 ---

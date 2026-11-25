@@ -38,7 +38,7 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   sostituzione dei depositi;
 - quanto cambierebbe la raccolta di ciascun paese sotto diversi livelli di adozione.
 
-## 2. I quattro moduli
+## 2. I moduli
 
 ### Modulo 1 - Livello (da fonti esterne, non stimato)
 
@@ -149,6 +149,10 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   dei risultati (`reports/07_modulo5_credito.md`, sezione 2); (c) per ogni scenario e
   paese esistono prestiti in meno con intervallo, variante a soglia e variante uniforme;
   (d) la mappa a due canali copre i 21 paesi o dichiara quali mancano e perché.
+- **Stato**: completato il 2026-11-25 (`reports/07_modulo5_credito.md`,
+  `src/module5_credit.py`). Soglia di quota retail: 75° percentile tra i paesi (92,4%),
+  cinque paesi sopra. Mappa: 13 paesi con dati BRI, 8 con la scomposizione trimestrale
+  per valuta del BSI.
 
 ### Estensioni dei moduli 1, 2 e 4 (aggiunte il 2026-11-25)
 
@@ -157,12 +161,17 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   dati nazionali). Criterio fissato prima: se almeno due delle tre stime centrali stanno
   entro un fattore 3, il modulo 1 pubblica un intervallo proprio accanto all'ipotesi
   ESM; altrimenti pubblica il minimo di B1. Metodo in `reports/08_livello_proprio.md`.
+  **Esito del 2026-11-25: criterio non soddisfatto.** B1 = 15,4 miliardi di euro, B3 =
+  0,9, B2 senza numero. Il modulo 1 pubblica come proprio solo il minimo di B1, 8,9
+  miliardi di euro, accanto all'ipotesi ESM.
 - **Modulo 4, regola R3**: ripartizione tra paesi basata sulla quota di possessori di
   cripto-attività, se un'indagine la dà per almeno 15 paesi dell'area euro.
+  **Esito: aggiunta.** Indagine SPACE 2024 della BCE, 20 paesi su 21 (Bulgaria imputata).
 - **Modulo 2, collegamento e segnalazione**: test pre-registrato sul contenuto predittivo
   dei volumi stablecoin contro euro per i depositi a vista delle famiglie, riportato
   anche se nullo; regola di segnalazione esplicita sull'indice. Metodo in
-  `reports/09_modulo2_segnale.md`.
+  `reports/09_modulo2_segnale.md`. **Esito: test nullo** (p = 0,31; nessun miglioramento
+  fuori campione). L'indice resta descrittivo; la regola di segnalazione è attiva.
 
 ### Cruscotto e test (aggiunti il 2026-11-25)
 
@@ -175,6 +184,8 @@ delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
   somma delle ripartizioni, riproducibilità senza rete.
 - **Completato quando**: il cruscotto ricalcola nel browser gli stessi numeri degli
   script per almeno uno scenario di controllo, e tutti i test passano.
+- **Stato**: completato il 2026-11-25 (`reports/10_cruscotto_e_test.md`). Indirizzo:
+  https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
 
 ### Aggiornamento e sintesi
 
@@ -183,7 +194,8 @@ sintesi:
 
     .venv/bin/python src/run_all.py
 
-- Ordine: modulo 3, modulo 1, modulo 2, modulo 4, sintesi. Circa cinque minuti.
+- Ordine: modulo 3, modulo 1, modulo 2, livello proprio, modulo 4, modulo 5, test del
+  modulo 2, sintesi, cruscotto. Circa sei minuti.
 - `SINTESI.md` è generata da `src/summary.py` a partire dai file in `data/processed`:
   non si modifica a mano.
 - Se una fonte non risponde, il modulo corrispondente fallisce senza toccare i dati
@@ -202,6 +214,12 @@ sintesi:
 | DefiLlama, API delle stablecoin | Modulo 1: circolazione di USDT, USDC e totale | Gratis, senza chiave | Confermata; coincide con CoinGecko entro lo 0,4% |
 | CoinGecko, `circulating_supply` | Modulo 1: controllo | Gratis, senza chiave | Confermata |
 | Eurostat, famiglie (`lfst_hhnhtych`) | Modulo 1: controllo di coerenza | Gratis, senza chiave | Confermata: 21 paesi, 2025 |
+| ECB Data Portal, BSI trimestrale per valuta | Modulo 5: passività in dollari degli otto paesi senza dati BRI | Gratis, senza chiave | Confermata: depositi in dollari di residenti per 21 paesi; altre componenti per 16-17 |
+| BCE, indagine SPACE 2024, dati dei grafici | Regola R3: possessori di cripto-attività per paese | File pubblico | Verificata: 20 paesi su 21 |
+| BCE, Bollettino 7/2026, grafico B riquadro b | Livello proprio B1 | Solo immagine | Percentuali misurate sull'immagine |
+| OAM (Italia) e DNB (Paesi Bassi) | Livello proprio B3 | Documenti pubblici | Verificate; OAM non distingue le stablecoin |
+| Proof of reserves degli exchange | Livello proprio B2 | Binance e KuCoin leggibili da script | Saldi letti; inutilizzabili senza la provenienza degli utenti |
+| Eurostat, popolazione per età e famiglie | Livello proprio e regola R3 | Gratis, senza chiave | Confermata |
 | BRI, statistiche bancarie territoriali (LBS) | Modulo 3: passività in valuta estera e in dollari | Gratis, senza chiave | Confermata: 4 serie, 13 paesi su 21, trimestrale, fino a 2026-Q2 |
 | ECB Data Portal, tasso di cambio di riferimento (EXR) | Modulo 4: conversione degli importi in dollari | Gratis, senza chiave | Confermata |
 | Eurostat, popolazione al 1° gennaio (`demo_pjan`) | Modulo 4: ripartizione pro capite | Gratis, senza chiave | Confermata: 21 paesi, 2025 |
@@ -246,6 +264,10 @@ esplicita. Restano veri nella forma qui sotto.
 | Proxy 1 usata come livello | `reports/00_test_H1.md` | Misura la quota di trading in euro, non le detenzioni; va dal 12% (USDT) al 50% (USDC). Resta in uso solo come andamento, nel modulo 2 |
 | Chiave Dune per migliorare le etichette | `reports/01_test_proxy3.md` | La tabella di Dune usa le stesse liste pubbliche già provate |
 | Dataset BSI per le passività in valuta estera | `reports/02_benchmark_e_modulo3.md` | La scomposizione per valuta non è pubblicata per depositi, titoli e totale del passivo. Sostituito dalle statistiche BRI |
+| Dati bancari consolidati della BCE per le passività in valuta | `reports/07_modulo5_credito.md` | Il dataset ha la dimensione di valuta ma contiene solo il totale. Sostituito dal BSI trimestrale |
+| B2: riserve dei clienti degli exchange ripartite per paese | `reports/08_livello_proprio.md` | Nessun indicatore gratuito e scaricabile della provenienza degli utenti |
+| B3 come stima del livello | `reports/08_livello_proprio.md` | Le statistiche nazionali vedono solo i prestatori registrati nel paese: 17 volte sotto la stima dal basso |
+| Indice del modulo 2 come anticipatore dei depositi | `reports/09_modulo2_segnale.md` | Test pre-registrato nullo: p = 0,31, nessun miglioramento fuori campione |
 | Istantanea CoinGecko come serie storica | `reports/00_test_H1.md` | L'API gratuita restituisce solo le ultime 24 ore |
 
 ## 6. Regole di lavoro
@@ -274,3 +296,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-24 | Modulo 1 completato (`reports/06_modulo1_livello.md`): livello di base 16,7 miliardi di euro, alto 33,4. Tutti e quattro i moduli sono completi |
 | 2026-11-24 | Aggiunti il comando unico `src/run_all.py` e la sintesi generata `SINTESI.md` |
 | 2026-11-25 | Aggiunti il modulo 5 (credito e trasmissione), il livello proprio, la regola R3, il test e la segnalazione del modulo 2, il cruscotto e i test automatici. Ridefinite le tre non-promesse della sezione 4 |
+| 2026-11-25 | Modulo 5 completato; livello proprio: criterio non soddisfatto, pubblicato il minimo di B1; regola R3 aggiunta; test del modulo 2 nullo; cruscotto pubblicato e test automatici superati |

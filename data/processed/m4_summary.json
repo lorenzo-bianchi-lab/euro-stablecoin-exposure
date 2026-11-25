@@ -102,6 +102,31 @@
       "quota_circolazione_alto_2030": 0.23222299418606604
     }
   ],
+  "regola_R3": {
+    "fonte": "BCE, indagine SPACE 2024, grafico 41 (file dei dati dei grafici, foglio 'Chart 41')",
+    "anno": "2024",
+    "paesi_con_dato": 20,
+    "paesi_imputati": [
+      "BG"
+    ],
+    "correlazione_di_rango_R3_R1": 0.922077922077922,
+    "correlazione_di_rango_R3_R2": 0.9662337662337662,
+    "primi_cinque_R3": [
+      "BG",
+      "SI",
+      "HR",
+      "LV",
+      "SK"
+    ],
+    "variazione_massima_rispetto_a_R1": {
+      "paese": "BG",
+      "rapporto": 2.748547779238356
+    },
+    "variazione_minima_rispetto_a_R1": {
+      "paese": "LU",
+      "rapporto": 0.2362865971835024
+    }
+  },
   "confronto_regole_S2": {
     "correlazione_di_rango_R1_R2_effetto": 0.8948051948051948,
     "correlazione_di_rango_R1_R2_aumento_ingrosso": 0.92987012987013,
