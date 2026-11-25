@@ -72,6 +72,25 @@ def update_store(end: datetime, full: bool) -> dict:
             "pairs_ok": sum(1 for r in log if r[4] == "ok"), "pairs_error": [f"{r[0]} {r[1]}" for r in log if r[4] == "errore"]}
 
 
+def incomplete_weeks(d: pd.DataFrame, tolerance: float = 0.02) -> dict[str, dict]:
+    """Settimane in cui mancano exchange che nelle quattro precedenti pesavano più della tolleranza.
+
+    Serve all'aggiornamento automatico: se una fonte non risponde, la settimana non viene
+    pubblicata, si tiene l'ultima valida e la mancanza viene segnalata.
+    """
+    vol = d.pivot_table(index="week", columns="exchange", values="volume_stable", aggfunc="sum").fillna(0).sort_index()
+    share = vol.div(vol.sum(axis=1), axis=0)
+    out = {}
+    for i in range(4, len(vol)):
+        prev, cur = share.iloc[i - 4:i], vol.iloc[i]
+        expected = prev.columns[(prev > 0).all()]
+        missing = [e for e in expected if cur[e] == 0]
+        lost = float(prev[missing].mean().sum()) if missing else 0.0
+        if lost > tolerance:
+            out[vol.index[i]] = {"exchange_mancanti": missing, "quota_di_volume_mancante": lost}
+    return out
+
+
 def eur_share(df: pd.DataFrame) -> float:
     total = df.volume_stable.sum()
     return float(df.loc[df.fiat == "EUR", "volume_stable"].sum() / total) if total else float("nan")
@@ -151,6 +170,9 @@ def main() -> None:
     d = d[d.date < end.strftime("%Y-%m-%d")].copy()
     d["week"] = pd.to_datetime(d.date).dt.to_period("W-SUN").dt.start_time.dt.strftime("%Y-%m-%d")
 
+    held_back = incomplete_weeks(d)
+    if held_back:  # le settimane incomplete non entrano nell'indice pubblicato
+        d = d[~d.week.isin(held_back)].copy()
     main_d = d[d.week >= MAIN_START]
     idx_main = weekly_index(main_d)
     idx_long = weekly_index(d, LONG_EXCLUDED)
@@ -218,6 +240,7 @@ def main() -> None:
         "calcolato_il": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "scarico": fetch_info,
         "riproducibilita": repro,
+        "settimane_trattenute": held_back,
         "segnalazione": segnalazione,
         "indice_principale": {"prima_settimana": weeks_main[0], "ultima_settimana": weeks_main[-1], "settimane": len(weeks_main),
                               "serie": {n: stats(idx_main[n]) for n in names}},
