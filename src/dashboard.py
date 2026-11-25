@@ -53,7 +53,10 @@ def build_data() -> dict:
     rules = [{"id": "R1", "nome": "R1 - in proporzione ai depositi a vista"}, {"id": "R2", "nome": "R2 - pro capite"}]
     if r3 is not None:
         rules.append({"id": "R3", "nome": "R3 - in proporzione ai possessori di cripto-attività"})
-    presets = [{"nome": "Oggi, quota 7,5%", "usd": round(m1["livello"]["base_mld_usd"], 1)},
+    presets = []
+    if own is not None:
+        presets.append({"nome": "Minimo proprio", "usd": round(own["B1"]["famiglie"]["minimo_mld_eur"] * m1["cambio"]["usd_per_eur"], 1)})
+    presets += [{"nome": "Oggi, quota 7,5%", "usd": round(m1["livello"]["base_mld_usd"], 1)},
                {"nome": "Oggi, quota 15%", "usd": round(m1["livello"]["alto_mld_usd"], 1)},
                {"nome": "ESM base 2030", "usd": 143}, {"nome": "ESM alto 2030", "usd": 300}, {"nome": "ESM alto, quota 15%", "usd": 600}]
     return {
@@ -263,7 +266,7 @@ function showTip(e, html) { tip.innerHTML = html; tip.style.display = 'block'; c
 function hideTip() { tip.style.display = 'none'; }
 const svgEl = (tag, attrs, parent) => { const n = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
 
-const state = {amount: D.presets[0].usd, sigma: 1, rule: 'R1', variant: 'soglia', sort: 'effettoPp', dir: -1, tok: 'usdt'};
+const state = {amount: (D.presets.find(p => p.nome.startsWith('Oggi, quota 7,5')) || D.presets[0]).usd, sigma: 1, rule: 'R1', variant: 'soglia', sort: 'effettoPp', dir: -1, tok: 'usdt'};
 const COLS = [
   {k: 'nome', t: 'Paese'}, {k: 'deflusso', t: 'Deflusso (mld €)', f: v => nf(v, 1)}, {k: 'persiVista', t: 'Depositi a vista persi', f: v => pc(v, 1)},
   {k: 'effettoPp', t: 'Effetto sulla raccolta (punti del passivo)', f: v => nf(v, 2), bar: true}, {k: 'aumentoIngrosso', t: "Raccolta all'ingrosso in più", f: v => pc(v, 1)},
@@ -359,7 +362,9 @@ function init() {
   $('tok').addEventListener('change', e => { state.tok = e.target.value; drawIndex(); });
   $('tab').tHead.addEventListener('click', e => { const k = e.target.dataset.k; if (!k) return; if (state.sort === k) state.dir = -state.dir; else { state.sort = k; state.dir = k === 'nome' ? 1 : -1; } render(); });
   const L = D.livello; let note = `Livello secondo l'ipotesi ESM al ${L.data.split('-').reverse().join('/')}: ${nf(L.baseUsd, 1)} mld $ con quota 7,5% e ${nf(L.altoUsd, 1)} con quota 15%.`;
-  if (L.b1) note += ` Stima dal basso con l'indagine BCE: ${nf(L.b1.centrale, 1)} mld € (da ${nf(L.b1.minimo, 1)} a ${nf(L.b1.massimo, 1)}).`;
+  if (L.b1 && L.proprio) note += L.proprio.esito === 'intervallo proprio'
+    ? ` Intervallo proprio del programma: da ${nf(L.proprio.intervallo_mld_eur[0], 1)} a ${nf(L.proprio.intervallo_mld_eur[1], 1)} mld €.`
+    : ` Stima propria dal basso, dall'indagine BCE: ${nf(L.b1.centrale, 1)} mld € al centro; il programma pubblica come proprio solo il minimo, ${nf(L.b1.minimo, 1)} mld €, perché le altre strade non la confermano.`;
   $('levelNote').textContent = note;
   render(); drawIndex();
 }
