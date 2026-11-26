@@ -1,4 +1,6 @@
-# euro-stablecoin-exposure
+# Euro Stablecoin Exposure Monitor
+
+Repository: `euro-stablecoin-exposure`. Progetto universitario, non affiliato alla BCE.
 
 *English summary.* A university project (ESCP) addressed to the ECB: a web application
 that estimates a range for dollar stablecoins held by euro area residents (EUR 15.4
@@ -22,7 +24,7 @@ dichiarato: conta più volte la stessa famiglia.
 ## In breve
 
 - **Applicazione web**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
-  In inglese, con l'italiano selezionabile. Dieci sezioni: panoramica, simulatore, mappa
+  In inglese, con l'italiano selezionabile. Pagina iniziale, pagina About e dieci sezioni: panoramica, simulatore, mappa
   d'Europa, scheda paese, banche, mappa a due canali, monitor settimanale, stima del
   livello, confronto ed esportazione, metodo e dati.
 - **Risultati in una pagina**: [SINTESI.md](SINTESI.md), generata dal codice.
@@ -30,7 +32,8 @@ dichiarato: conta più volte la stessa famiglia.
   API), poi `npm run build` in `web/`. Ogni lunedì lo fa da sola una GitHub Action.
 - **Test**: `.venv/bin/python -m unittest discover -s tests -v`; in `web/`, `npm test`
   (calcoli dell'applicazione contro gli script, traduzioni complete) e `npm run e2e`
-  (ogni sezione nel browser, nelle due lingue).
+  (ogni pagina nel browser, nelle due lingue e nei due temi); `node tests/shots.mjs` per
+  gli screenshot.
 - **Cosa fa e cosa non promette**: [SPEC.md](SPEC.md). Va letto per primo.
 
 I report numerati in `reports/` sono fotografie alla data indicata; l'applicazione, la
@@ -103,6 +106,11 @@ Estensioni del 2026-11-25:
   pubblici dell'esercizio di trasparenza EBA 2025, con quota retail, effetto dello
   scenario e confronto con il modulo 5. Aggiornamento: `.venv/bin/python src/module6_banks.py`.
 
+- **Estetica e identità** ([report 13](reports/13_estetica_e_identita.md)): sistema
+  grafico in un unico file, pagina iniziale con i tre risultati generati dai dati,
+  pagina About, sezioni ridisegnate, rapporto stampabile di due pagine, controlli di
+  contrasto e di accessibilità. Nessun calcolo cambiato.
+
 ## Struttura
 
 | Percorso | Contenuto |
@@ -112,7 +120,8 @@ Estensioni del 2026-11-25:
 | `src/` | Script Python: i moduli, `run_all.py`, `summary.py`, `export_app_data.py` |
 | `web/` | Applicazione (React, Vite, TypeScript, ECharts) e i suoi test |
 | `web/public/data/` | Strato dati: un file JSON per sezione (numeri e codici), descritto in `README.md` nella stessa cartella |
-| `web/src/i18n/`, `src/i18n/` | Testi dell'applicazione in inglese e in italiano; traduzione dei testi presi da SPEC.md |
+| `web/src/styles/tokens.css` | Sistema grafico: colori, caratteri, spaziature, palette dei grafici, nei due temi |
+| `web/src/i18n/`, `src/i18n/` | Testi dell'applicazione in inglese e in italiano, un file per sezione; traduzione dei testi presi da SPEC.md |
 | `docs/` | Applicazione compilata, pubblicata con GitHub Pages |
 | `reports/` | Report in Markdown; `reports/figures/app/` contiene gli screenshot delle sezioni |
 | `tests/` | Test automatici in Python |

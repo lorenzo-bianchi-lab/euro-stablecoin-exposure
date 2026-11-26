@@ -370,7 +370,12 @@ verdi. Cambia solo la presentazione. Criteri scritti prima del lavoro.
   (d) esistono screenshot prima e dopo di ogni sezione a 1280 e 390 pixel nei due temi
   (`reports/figures/app/before`, `after`), e ogni screenshot "dopo" è stato guardato;
   (e) il peso delle pagine è riportato prima e dopo.
-- **Stato**: in corso.
+- **Stato**: completato il 2026-11-26 (`reports/13_estetica_e_identita.md`). Criteri da
+  (a) a (e) soddisfatti. Blu profondo `#163b6e` con accento rame `#a8481f`; Source Serif
+  4 per i titoli, Inter per testo e numeri. Dodici pagine: le dieci sezioni, la pagina
+  iniziale e About. Le sezioni sono state ridisegnate da dieci agenti in parallelo, uno
+  per sezione, poi uniformate. Le pagine pesano circa 90 kB compressi in più, per i
+  caratteri. Autori e licenza del codice restano da compilare.
 
 ### Aggiornamento e sintesi
 
@@ -499,3 +504,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-25 | Prompt 6 completato (`reports/12_rifiniture_lingua_banche.md`): sette rifiniture applicate; indice senza Bybit (in media -0,40 punti per USDT, -0,12 per USDC); cambio unico; applicazione in inglese e italiano con 587 testi per lingua; modulo 6 con 85 banche in 18 paesi e sezione "Banche". Test: 22 Python, 31 dell'applicazione, browser su undici pagine nelle due lingue |
 | 2026-11-25 | Aggiornamento automatico avviato a mano dopo il prompt 6: tutti i passi riusciti su GitHub (dati, 22 test, compilazione, test nel browser, pubblicazione). Indice calcolato su GitHub e indice calcolato in locale identici su 102 settimane; nessuna fonte aggiornata in parte. L'applicazione ora chiede sempre al server se i file di dati sono cambiati, per non mostrare dati vecchi dopo un aggiornamento |
 | 2026-11-26 | Prompt 7. Criteri fissati prima del lavoro: nessun calcolo cambia; nome "Euro Stablecoin Exposure Monitor"; sistema grafico in un unico file; pagina iniziale e pagina About; ridisegno delle dieci sezioni; controlli di contrasto e accessibilità. Salvati gli screenshot "prima" (44, in `reports/figures/app/before`) |
+| 2026-11-26 | Prompt 7 completato (`reports/13_estetica_e_identita.md`): sistema grafico in `web/src/styles/tokens.css`, nome "Euro Stablecoin Exposure Monitor", pagina iniziale con tre risultati generati dai dati, pagina About, dieci sezioni ridisegnate in parallelo e uniformate, rapporto stampabile di due pagine, navigazione mobile. Nessun calcolo cambiato. Test: 22 Python, 42 dell'applicazione (10 nuovi sul contrasto), browser su 13 pagine nelle due lingue e nei due temi |

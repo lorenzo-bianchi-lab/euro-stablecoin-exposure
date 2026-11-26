@@ -1,15 +1,45 @@
 {
- "eseguito": "2026-11-25T23:06:11.386Z",
+ "eseguito": "2026-11-26T00:04:53.618Z",
  "sezioni": [
+  {
+   "sezione": "home",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 1,
+   "graficiSenzaTestoAlternativo": 0,
+   "avvertenze": 0,
+   "tabelle1280": 0,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 0,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
+  },
   {
    "sezione": "overview",
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 1,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 4,
-   "tabelle1280": 2,
+   "tabelle1280": 1,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 0,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -26,10 +56,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 2,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 3,
    "tabelle1280": 1,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 1,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -46,10 +81,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 4,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 1,
    "tabelle1280": 1,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 0,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -66,10 +106,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 3,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 2,
    "tabelle1280": 1,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 1,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -86,10 +131,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 1,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 5,
    "tabelle1280": 2,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 2,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -106,10 +156,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 1,
-   "avvertenze": 3,
+   "graficiSenzaTestoAlternativo": 0,
+   "avvertenze": 4,
    "tabelle1280": 2,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 1,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -126,10 +181,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 1,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 1,
    "tabelle1280": 1,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 1,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -146,10 +206,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 2,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 4,
-   "tabelle1280": 4,
+   "tabelle1280": 5,
    "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 3,
+   "tabelleScorrevoli390": 2,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -166,10 +231,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 3,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 5,
    "tabelle1280": 0,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 0,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -186,10 +256,15 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 0,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 2,
    "tabelle1280": 4,
    "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 3,
+   "tabelleScorrevoli390": 2,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -206,10 +281,40 @@
    "erroriConsole": [],
    "sbordo390": 0,
    "grafici": 0,
+   "graficiSenzaTestoAlternativo": 0,
    "avvertenze": 3,
    "tabelle1280": 5,
    "tabelleTagliate1280": 0,
    "tabelleScorrevoli390": 3,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
+   "lingua": {
+    "en": {
+     "missing": [],
+     "foreign": []
+    },
+    "it": {
+     "missing": [],
+     "foreign": []
+    }
+   }
+  },
+  {
+   "sezione": "about",
+   "erroriConsole": [],
+   "sbordo390": 0,
+   "grafici": 0,
+   "graficiSenzaTestoAlternativo": 0,
+   "avvertenze": 0,
+   "tabelle1280": 2,
+   "tabelleTagliate1280": 0,
+   "tabelleScorrevoli390": 0,
+   "contrastoBasso": {
+    "chiaro": 0,
+    "scuro": 0
+   },
    "lingua": {
     "en": {
      "missing": [],
@@ -231,6 +336,7 @@
   "tema": "dark",
   "dopoNavigazione": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua",
   "riquadriMappa": 3,
+  "legendaMappa": 6,
   "dopoCambioLingua": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua&lang=it",
   "italiano": {
    "titolo": "Simulatore",
@@ -262,42 +368,330 @@
   ],
   "inStampa": {
    "visibili": [
-    "H1",
     "card report"
    ],
-   "comandi": 0
+   "comandi": 0,
+   "pagine": 2,
+   "intestazioni": [
+    "Euro Stablecoin Exposure MonitorData updated on 25 November 2026Bank balance she",
+    "Euro Stablecoin Exposure MonitorData updated on 25 November 2026Bank balance she"
+   ],
+   "pagineDelPdf": 2
   },
   "indirizzo": "/compare?rep=ab"
  },
  "banche": {
-  "righe": 85,
+  "banche": 85,
+  "righePrimaPagina": 20,
+  "righeSecondaPagina": 20,
   "righeItalia": 12,
   "righeRicerca": 1,
   "scheda": "UNICREDIT, SOCIETA' PER AZIONI",
   "indirizzo": "/banks/549300TRUWO2CD2G5692?bc=IT"
  },
- "avvio": {
-  "method": {
+ "tastiera": {
+  "home": {
+   "raggiunti": 26,
+   "tipi": [
+    "a",
+    "button"
+   ],
+   "senzaFuocoVisibile": []
+  },
+  "simulator": {
+   "raggiunti": 45,
+   "tipi": [
+    "a",
+    "button",
+    "input",
+    "select",
+    "summary",
+    "div",
+    "tr"
+   ],
+   "senzaFuocoVisibile": []
+  },
+  "map": {
+   "raggiunti": 45,
+   "tipi": [
+    "a",
+    "button",
+    "select",
+    "input",
+    "summary",
+    "div",
+    "tr"
+   ],
+   "senzaFuocoVisibile": []
+  },
+  "banks": {
+   "raggiunti": 45,
+   "tipi": [
+    "a",
+    "button",
+    "summary",
+    "select",
+    "input",
+    "div",
+    "tr"
+   ],
+   "senzaFuocoVisibile": []
+  },
+  "compare": {
+   "raggiunti": 43,
+   "tipi": [
+    "a",
+    "button",
+    "input",
+    "select",
+    "summary",
+    "div"
+   ],
+   "senzaFuocoVisibile": []
+  },
+  "saltoAlContenuto": "content"
+ },
+ "movimento": {
+  "normale": {
+   "animazioneValori": "settle",
+   "transizionePulsanti": "0.12s, 0.12s",
+   "grafici": [
+    "on"
+   ]
+  },
+  "ridotto": {
+   "animazioneValori": "none",
+   "transizionePulsanti": "0s",
+   "grafici": [
+    "off"
+   ]
+  }
+ },
+ "mobile": {
+  "voci": 4,
+  "vociMenu": 12,
+  "chiusoConEsc": true,
+  "dopoIlMenu": {
+   "sezione": "/monitor",
+   "menuAperto": 0
+  },
+  "dopoLaBarra": "/banks"
+ },
+ "condivisione": {
+  "titolo": true,
+  "mancanti": [],
+  "icona": true,
+  "og.png": 60575,
+  "favicon.svg": 445,
+  "icon-180.png": 2224
+ },
+ "peso": {
+  "home": {
+   "codice": 852,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 139,
+   "totale": 1114,
    "file": [
     "index",
     "react",
     "en",
-    "Method"
-   ],
-   "kb": 193
+    "Home",
+    "shared",
+    "model",
+    "arrow-right",
+    "EuroMap",
+    "Chart"
+   ]
   },
   "overview": {
+   "codice": 767,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 17,
+   "totale": 907,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "shared",
+    "Overview",
+    "arrow-right",
+    "model",
+    "Chart"
+   ]
+  },
+  "simulator": {
+   "codice": 767,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 17,
+   "totale": 906,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "model",
+    "Simulator",
+    "shared",
+    "Chart"
+   ]
+  },
+  "map": {
+   "codice": 854,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 139,
+   "totale": 1116,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "shared",
+    "MapEurope",
+    "model",
+    "EuroMap",
+    "arrow-right",
+    "Chart"
+   ]
+  },
+  "country/IT": {
+   "codice": 770,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 57,
+   "totale": 950,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "arrow-right",
+    "model",
+    "shared",
+    "CountrySheet",
+    "Chart"
+   ]
+  },
+  "banks": {
+   "codice": 776,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 52,
+   "totale": 951,
    "file": [
     "index",
     "react",
     "en",
     "shared",
     "model",
-    "Chart",
-    "Overview",
-    "charts"
-   ],
-   "kb": 802
+    "Banks",
+    "Chart"
+   ]
+  },
+  "banks/R0MUWSFPU8MPRO8K5P83": {
+   "codice": 776,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 52,
+   "totale": 951,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "shared",
+    "model",
+    "Banks",
+    "Chart"
+   ]
+  },
+  "channels": {
+   "codice": 768,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 17,
+   "totale": 908,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "shared",
+    "model",
+    "Channels",
+    "Chart"
+   ]
+  },
+  "monitor": {
+   "codice": 769,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 64,
+   "totale": 956,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "model",
+    "shared",
+    "Monitor",
+    "Chart"
+   ]
+  },
+  "level": {
+   "codice": 768,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 20,
+   "totale": 911,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "model",
+    "arrow-right",
+    "Level",
+    "Chart"
+   ]
+  },
+  "compare": {
+   "codice": 235,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 17,
+   "totale": 374,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "shared",
+    "model",
+    "Compare"
+   ]
+  },
+  "method": {
+   "codice": 226,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 32,
+   "totale": 381,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "Method"
+   ]
+  },
+  "about": {
+   "codice": 223,
+   "stile": 23,
+   "caratteri": 97,
+   "dati": 17,
+   "totale": 362,
+   "file": [
+    "index",
+    "react",
+    "en",
+    "About"
+   ]
   }
  },
  "falliti": []
