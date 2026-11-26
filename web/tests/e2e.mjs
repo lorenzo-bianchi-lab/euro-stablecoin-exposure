@@ -355,6 +355,147 @@ const extra = {};
   await ctx.close();
 }
 
+// ---- indirizzo senza sezione, selezione sulla mappa, avvertenze, About, visita guidata, nota metodologica
+{
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  const page = await ctx.newPage();
+  const errors = [];
+  watch(page, errors);
+  const closing = {};
+  await page.goto(base);
+  await page.waitForSelector("main .card", { timeout: 15000 });
+  closing.senzaSezione = await page.evaluate(() => ({ titolo: document.querySelector("h1")?.textContent, risultati: document.querySelectorAll("#findings .finding").length, attiva: document.querySelector("nav a.active")?.getAttribute("data-section") }));
+  if (closing.senzaSezione.titolo !== "Euro Stablecoin Exposure Monitor" || closing.senzaSezione.risultati !== 3 || closing.senzaSezione.attiva !== "home") fail(`l'indirizzo senza sezione non apre la pagina iniziale: ${JSON.stringify(closing.senzaSezione)}`);
+
+  await visit(page, "map");
+  const first = (await page.locator("main table tbody tr").first().locator("td").first().innerText()).trim();
+  const open = page.locator('main a.btn.primary[href*="country/"]');
+  closing.mappa = { piuAlto: first, selezionato: (await open.count()) ? (await page.locator("main .card h2").allInnerTexts()).includes(first) : false, indirizzo: page.url().split("#")[1] };
+  if (!closing.mappa.selezionato || /sel=/.test(closing.mappa.indirizzo)) fail(`la mappa non si apre con il paese dal valore più alto selezionato: ${JSON.stringify(closing.mappa)}`);
+  await page.locator("main .card-head button").first().click();
+  await page.waitForTimeout(300);
+  closing.mappa.dopoLaDeselezione = { collegamenti: await open.count(), indirizzo: page.url().split("#")[1] };
+  if (closing.mappa.dopoLaDeselezione.collegamenti !== 0 || !/sel=none/.test(closing.mappa.dopoLaDeselezione.indirizzo)) fail("sulla mappa la deselezione non funziona");
+
+  // avvertenze: sotto un grafico o una tabella (o sotto il risultato in evidenza o l'elenco a cui si riferiscono), in stile neutro
+  const notes = {};
+  for (const route of SECTIONS) {
+    await visit(page, route);
+    notes[route] = await page.evaluate(() => {
+      const probe = document.createElement("div"); probe.style.background = "var(--notice-bg)"; document.body.appendChild(probe);
+      const yellow = getComputedStyle(probe).backgroundColor; probe.remove();
+      const kind = (el) => {
+        for (let e = el.previousElementSibling; e; e = e.previousElementSibling) {
+          if (e.matches("details.note, p, ul.legend, .insets, .table-foot, .row")) continue;
+          if (e.querySelector(":scope select, :scope input") && !e.querySelector(":scope figure.chart, :scope .table-wrap")) continue; // un comando tra il grafico e la sua avvertenza
+          if (e.matches("figure.chart") || e.querySelector(":scope figure.chart")) return "grafico";
+          if (e.matches(".table-wrap, table") || e.querySelector(":scope .table-wrap")) return "tabella";
+          if (e.matches(".hero")) return "risultato";
+          if (e.matches("ul, ol, dl, .kpis")) return "elenco";
+          return "altro:" + e.tagName.toLowerCase() + "." + e.className;
+        }
+        const parent = el.parentElement?.previousElementSibling;
+        return parent?.matches(".hero") ? "risultato" : "inizio";
+      };
+      const all = [...document.querySelectorAll("details.note")];
+      const count = {};
+      for (const n of all) { const k = kind(n); count[k] = (count[k] ?? 0) + 1; }
+      return { posizione: count, gialle: all.filter((n) => getComputedStyle(n).backgroundColor === yellow).map((n) => n.className), attive: all.filter((n) => n.classList.contains("active")).length };
+    });
+    const bad = Object.keys(notes[route].posizione).filter((k) => k.startsWith("altro") || k === "inizio");
+    if (bad.length) fail(`${route}: avvertenze non sotto un grafico, una tabella o il risultato a cui si riferiscono (${bad.join(", ")})`);
+    if (notes[route].gialle.some((c) => !c.includes("active"))) fail(`${route}: un'avvertenza ordinaria è ancora gialla`);
+  }
+  closing.avvertenze = notes;
+  const placed = Object.values(notes).reduce((a, n) => { for (const [k, v] of Object.entries(n.posizione)) a[k] = (a[k] ?? 0) + v; return a; }, {});
+  closing.avvertenzePerPosizione = placed;
+  if ((placed.grafico ?? 0) + (placed.tabella ?? 0) < 20) fail(`poche avvertenze sotto grafici e tabelle: ${JSON.stringify(placed)}`);
+
+  for (const [lang, names] of [["en", "[NAMES TO BE INSERTED]"], ["it", "[NOMI DA INSERIRE]"]]) {
+    await visit(page, "about" + (lang === "it" ? "?lang=it" : ""));
+    const authors = await page.locator("#authors").innerText();
+    if (!authors.includes(names) || !authors.includes("ESCP Business School")) fail(`About (${lang}): mancano autori, corso o università: ${authors.replace(/\s+/g, " ")}`);
+    closing["about_" + lang] = authors.replace(/\s+/g, " ");
+  }
+
+  // visita guidata: cinque passi nell'ordine, saltabile con il pulsante e con Esc, nelle due lingue
+  const tour = { passi: [] };
+  for (const lang of ["en", "it"]) {
+    await visit(page, "home" + (lang === "it" ? "?lang=it" : ""));
+    await page.click("#tour-start");
+    for (let step = 1; step <= 5; step++) {
+      await page.waitForSelector(`.tour[data-step="${step}"]`, { timeout: 15000 });
+      await page.waitForSelector("main .card", { timeout: 15000 });
+      const text = await page.locator(".tour").innerText();
+      if (lang === "en") tour.passi.push({ passo: step, sezione: page.url().split("#/")[1].split("?")[0], titolo: text.split("\n").filter(Boolean)[1] });
+      if (text.includes("⟦") || text.length < 120) fail(`visita guidata (${lang}), passo ${step}: testo mancante`);
+      await page.click("#tour-next");
+    }
+    await page.waitForSelector(".tour", { state: "detached", timeout: 5000 }).catch(() => {});
+    if ((await page.locator(".tour").count()) || /tour=/.test(page.url())) fail(`visita guidata (${lang}): non si chiude all'ultimo passo`);
+  }
+  if (tour.passi.map((x) => x.sezione).join() !== "home,simulator,map,banks,monitor") fail(`visita guidata: ordine dei passi inatteso ${tour.passi.map((x) => x.sezione).join()}`);
+  await visit(page, "home?tour=1");
+  await page.click("#tour-skip");
+  await page.waitForTimeout(300);
+  tour.saltataConIlPulsante = (await page.locator(".tour").count()) === 0;
+  await visit(page, "simulator?tour=2");
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(300);
+  tour.saltataConEsc = (await page.locator(".tour").count()) === 0;
+  await visit(page, "simulator?tour=2");
+  await page.click('nav a[data-section="overview"]');
+  await page.waitForTimeout(400);
+  tour.chiusaDallaNavigazione = !/tour=/.test(page.url());
+  if (!tour.saltataConIlPulsante || !tour.saltataConEsc || !tour.chiusaDallaNavigazione) fail(`visita guidata: non si salta: ${JSON.stringify(tour)}`);
+  closing.visitaGuidata = tour;
+
+  await visit(page, "method");
+  const noteHref = await page.locator("#method-note").getAttribute("href");
+  let notePages = 0, noteKb = 0;
+  try { const pdf = await readFile(join(DOCS, noteHref)); noteKb = Math.round(pdf.length / 1024); notePages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length; } catch { /* file mancante */ }
+  closing.notaMetodologica = { collegamento: noteHref, pagine: notePages, kB: noteKb };
+  if (notePages !== 2) fail(`la nota metodologica collegata da Metodo e dati non è un PDF di due pagine: ${JSON.stringify(closing.notaMetodologica)}`);
+  if (errors.length) fail(`errori in console nei controlli di chiusura: ${errors.slice(0, 3).join(" | ")}`);
+  Object.assign(extra, { chiusura: closing });
+  await ctx.close();
+}
+
+// ---- grafici completi: dopo tre secondi i punti disegnati coincidono con i punti dei dati, a scheda visibile
+// e a scheda in secondo piano (documento nascosto e nessun fotogramma di animazione: è ciò che accade anche
+// in stampa o in una cattura quando l'animazione non parte)
+{
+  const complete = {};
+  for (const mode of ["visibile", "secondoPiano"]) {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    if (mode === "secondoPiano") await ctx.addInitScript(() => {
+      Object.defineProperty(document, "visibilityState", { get: () => "hidden" });
+      Object.defineProperty(document, "hidden", { get: () => true });
+      window.requestAnimationFrame = () => 0;
+    });
+    for (const route of SECTIONS) {
+      const page = await ctx.newPage();
+      await page.goto(base + "#/" + route);
+      await page.waitForTimeout(3000);
+      const state = await page.evaluate(() => [...document.querySelectorAll('figure.chart [role="img"]')].map((el) => {
+        const canvas = el.querySelector("canvas");
+        let painted = 0;
+        if (canvas) { const d = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data; for (let i = 3; i < d.length; i += 4 * 97) if (d[i] > 0) painted++; }
+        return { ...(el.__state ? el.__state() : { expected: -1, drawn: -1 }), dipinto: painted, nascosto: document.visibilityState };
+      }));
+      await page.close();
+      complete[route] ??= {};
+      complete[route][mode] = { grafici: state.length, puntiDeiDati: state.reduce((a, x) => a + x.expected, 0), puntiDisegnati: state.reduce((a, x) => a + x.drawn, 0) };
+      const bad = state.filter((x) => x.expected <= 0 || x.drawn !== x.expected || x.dipinto < 5); // dipinto: campioni di pixel non trasparenti; i riquadri della mappa sono piccoli
+      if (bad.length) fail(`${route} (${mode}): ${bad.length} grafici incompleti dopo 3 secondi: ${JSON.stringify(bad.slice(0, 2))}`);
+      const expectedCharts = results.find((r) => r.sezione === route)?.grafici ?? 0;
+      if (state.length !== expectedCharts) fail(`${route} (${mode}): ${state.length} grafici presenti dopo 3 secondi, attesi ${expectedCharts}`);
+    }
+    await ctx.close();
+  }
+  extra.graficiCompleti = complete;
+}
+
 // ---- anteprima di condivisione e icona
 {
   const html = await readFile(join(DOCS, "index.html"), "utf-8");
@@ -394,6 +535,8 @@ const out = { eseguito: new Date().toISOString(), sezioni: results, ...extra, fa
 await writeFile(join(OUT, "esito_test_browser.json"), JSON.stringify(out, null, 1));
 for (const r of results) console.log(`${r.sezione.padEnd(28)} grafici ${r.grafici}  avvertenze ${r.avvertenze}  tabelle ${r.tabelle1280} (tagliate ${r.tabelleTagliate1280}, scorrevoli a 390: ${r.tabelleScorrevoli390})  contrasto basso ${r.contrastoBasso.chiaro}/${r.contrastoBasso.scuro}  errori ${r.erroriConsole.length}  sbordo a 390 px: ${r.sbordo390} px`);
 console.log("peso (kB non compressi, codice/totale):", Object.entries(extra.peso ?? {}).map(([k, v]) => `${k.split("/")[0]} ${v.codice}/${v.totale}`).join("  "));
+console.log("grafici completi (punti dei dati/disegnati, visibile | secondo piano):", Object.entries(extra.graficiCompleti ?? {}).filter(([, v]) => v.visibile.grafici).map(([k, v]) => `${k.split("/")[0]} ${v.visibile.puntiDeiDati}/${v.visibile.puntiDisegnati} | ${v.secondoPiano.puntiDeiDati}/${v.secondoPiano.puntiDisegnati}`).join("  "));
+console.log("avvertenze per posizione:", JSON.stringify(extra.chiusura?.avvertenzePerPosizione), "visita guidata:", extra.chiusura?.visitaGuidata.passi.map((x) => x.sezione).join(" > "), "nota:", JSON.stringify(extra.chiusura?.notaMetodologica));
 console.log("banche:", JSON.stringify(extra.banche), "rapporto:", extra.rapporto?.titoloAB, "pagine del PDF:", extra.rapporto?.inStampa.pagineDelPdf);
 console.log(failures.length ? "FALLITI:\n- " + failures.join("\n- ") : "tutti i controlli superati");
 process.exit(failures.length ? 1 : 0);

@@ -56,6 +56,9 @@ jobs:
       - name: Test dei calcoli e dello strato dati
         run: python -m unittest discover -s tests -v
 
+      - name: Nota metodologica con i numeri aggiornati
+        run: cd web && npm run note
+
       - name: Compilazione dell'applicazione
         run: cd web && npm run build
 
@@ -66,7 +69,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw data/processed web/public/data web/tests/fixtures.json docs SINTESI.md
+          git add data/raw data/processed web/public/data web/public/methodological-note.pdf web/tests/fixtures.json docs SINTESI.md
           if git diff --cached --quiet; then
             echo "Nessun dato nuovo: niente da pubblicare."
           else

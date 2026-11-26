@@ -22,5 +22,7 @@
  "home.tool.level": "How the reference level is estimated, assumption by assumption.",
  "home.tool.compare": "Two scenarios side by side and a printable report.",
  "home.updated": "Data updated on {d}. Balance sheets of {m}.",
- "home.alt": "Map of the euro area coloured by sight deposits over liabilities; highest: {top}."
+ "home.alt": "Map of the euro area coloured by sight deposits over liabilities; highest: {top}.",
+ "home.tour": "Take the guided tour",
+ "home.tour.text": "Five steps, about three minutes."
 }

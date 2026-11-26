@@ -17,12 +17,11 @@ export default function About(_: { data: AppData }) {
         <p className="muted">{t("about.independent")}</p>
       </Card>
       <Card title={t("about.authors")}>
-        <p className="muted tiny">{t("about.authors.text")}</p>
         <dl className="facts" id="authors">
-          {[1, 2, 3].map((i) => <div key={i} style={{ display: "contents" }}><dt>{t("about.author.name")}</dt><dd>{t("about.author.role")}</dd></div>)}
-          <dt>{t("about.author.supervisor")}</dt><dd>{t("about.author.role")}</dd>
+          <dt>{t("about.authors")}</dt><dd>{t("about.authors.names")}</dd>
+          <dt>{t("about.course.label")}</dt><dd>{t("about.course")}</dd>
+          <dt>{t("about.university.label")}</dt><dd>{t("about.university")}</dd>
         </dl>
-        <p className="muted tiny" style={{ marginTop: "var(--space-4)", marginBottom: 0 }}>{t("about.contact")}</p>
       </Card>
       <Card title={t("about.sources")}>
         <p>{t("about.sources.text")} <a href={route.href("method")}>{t("nav.method")}</a></p>

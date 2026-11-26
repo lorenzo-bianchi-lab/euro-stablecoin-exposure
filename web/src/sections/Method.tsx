@@ -63,7 +63,7 @@ export default function Method({ data }: { data: AppData }) {
 
       <Card id="me-state" title={t("me.state")}>
         {flagged.length > 0
-          ? <ul className="plain" id="source-notice" style={{ marginTop: 0, maxWidth: "80ch" }}>{flagged.map((s) => <li key={s.id}><span className="state signal">{t(`source.${s.id}`)}: {t(`me.state.${stateKey(s.stato)}`)}</span>. {detail(s)}</li>)}</ul>
+          ? <ul className="plain flagged" id="source-notice" style={{ marginTop: 0, maxWidth: "80ch" }}>{flagged.map((s) => <li key={s.id}><span className="state signal">{t(`source.${s.id}`)}: {t(`me.state.${stateKey(s.stato)}`)}</span>. {detail(s)}</li>)}</ul>
           : <p className="muted" id="source-notice">{t(offline ? "me.allOffline" : "me.allUpdated")}</p>}
         <DataTable csvName="source_status.csv" rows={meta.fonti} compact columns={[
           { key: "nome", label: t("col.source"), wrap: true, value: (r) => t(`source.${r.id}`) },
@@ -99,6 +99,7 @@ export default function Method({ data }: { data: AppData }) {
           <li><a href={`${m.repo}/tree/main/reports`}>{t("me.docs.reports")}</a>: {t("me.docs.reports.text")}</li>
           <li><a href="./data/README.md">{t("me.docs.data")}</a> {t("me.docs.data.text", { n: meta.file.length })}</li>
           <li><a href={m.repo}>{t("me.docs.code")}</a>.</li>
+          <li><a id="method-note" href="./methodological-note.pdf">{t("me.docs.note")}</a>: {t("me.docs.note.text")}</li>
         </ul>
       </Card>
     </>

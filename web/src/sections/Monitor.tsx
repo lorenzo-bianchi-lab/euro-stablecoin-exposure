@@ -61,12 +61,6 @@ export default function Monitor() {
         <SimpleTable compact numeric={[1]} head={[t("col.series"), t("col.eurShare"), t("col.state")]}
           rows={last.map((u) => [t(`series.${u.serie}.short`), pct(u.quota), state(u)])} />
       </Hero>
-      <div style={{ marginBottom: "var(--space-5)" }}>
-        <Note id="note.monitor" />
-        {d && <Note id="note.excluded" vars={{ ex: ex.esclusi.join(", "), usdt: signed(d.usdt.media, 2), usdc: signed(d.usdc.media, 2), max: nf(d.usdt.massima_assoluta, 1), w: day(d.usdt.settimana_della_massima), n: ex.segnalazioni_cambiate ?? 0 }} />}
-        {m.fontiMancanti && m.fontiMancanti.coppie.length > 0 && (
-          <Note id="note.missing" vars={{ ex: m.fontiMancanti.exchange.join(", "), n: m.fontiMancanti.coppie.length, x: pct(m.fontiMancanti.quotaVolume), d: day(m.fontiMancanti.datiFinoAl) }} />)}
-      </div>
 
       <Card>
         <div className="controls no-print" style={{ marginBottom: "var(--space-2)" }}>
@@ -84,6 +78,10 @@ export default function Monitor() {
             xAxis: { type: "category", data: weeks, boundaryGap: false, ...axisStyle(p), splitLine: { show: false } },
             yAxis: { type: "value", min: 0, ...axisStyle(p), axisLabel: pctLabel(p) },
           })} />
+        <Note id="note.monitor" />
+        {d && <Note id="note.excluded" vars={{ ex: ex.esclusi.join(", "), usdt: signed(d.usdt.media, 2), usdc: signed(d.usdc.media, 2), max: nf(d.usdt.massima_assoluta, 1), w: day(d.usdt.settimana_della_massima), n: ex.segnalazioni_cambiate ?? 0 }} />}
+        {m.fontiMancanti && m.fontiMancanti.coppie.length > 0 && (
+          <Note id="note.missing" active vars={{ ex: m.fontiMancanti.exchange.join(", "), n: m.fontiMancanti.coppie.length, x: pct(m.fontiMancanti.quotaVolume), d: day(m.fontiMancanti.datiFinoAl) }} />)}
         {per === "long" && <Note id="note.long" />}
       </Card>
 

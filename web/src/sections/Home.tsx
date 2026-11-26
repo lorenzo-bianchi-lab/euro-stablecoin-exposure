@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowLeftRight, Building2, LineChart, Map as MapIcon, Ruler, SlidersHorizontal, type LucideIcon } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, Building2, Compass, LineChart, Map as MapIcon, Ruler, SlidersHorizontal, type LucideIcon } from "lucide-react";
 import { EuroMap } from "../components/EuroMap";
 import { Card } from "../components/ui";
 import { bn, country, day, listing, month, nf, pct, t } from "../i18n";
@@ -30,7 +30,11 @@ export default function Home({ data }: { data: AppData }) {
   ];
   return (
     <>
-      <p className="lead" style={{ marginTop: 0, marginBottom: "var(--space-5)" }}>{t("home.tagline")}</p>
+      <p className="lead" style={{ marginTop: 0, marginBottom: "var(--space-4)" }}>{t("home.tagline")}</p>
+      <p className="row" style={{ marginBottom: "var(--space-5)" }}>
+        <a className="btn primary" id="tour-start" href={route.href("home", { tour: 1 })}><Compass className="icon" aria-hidden="true" />{t("home.tour")}</a>
+        <span className="muted tiny">{t("home.tour.text")}</span>
+      </p>
       <h2 className="sr-only">{t("home.findings")}</h2>
       <div className="grid3" id="findings">
         {findings.map((f, i) => (

@@ -40,7 +40,7 @@ const subscribe = (cb: () => void) => { window.addEventListener("hashchange", cb
 export function useRoute() {
   const hash = useSyncExternalStore(subscribe, () => window.location.hash);
   const { parts, params } = parse(hash);
-  const section = ALIASES[parts[0]] ?? parts[0] ?? "overview";
+  const section = ALIASES[parts[0]] ?? parts[0] ?? "home";
   const href = (path: string, extra?: Record<string, string | number | null>) => {
     const p = new URLSearchParams(params);
     if (extra) for (const [k, v] of Object.entries(extra)) v === null ? p.delete(k) : p.set(k, String(v));

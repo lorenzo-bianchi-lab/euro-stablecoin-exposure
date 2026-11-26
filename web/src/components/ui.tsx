@@ -27,10 +27,11 @@ export const Hero = ({ label, value, range, text, children }: { label: string; v
 type Vars = Record<string, string | number>;
 /**
  * Avvertenza sui limiti, accanto ai numeri a cui si riferisce: una riga sempre visibile
- * (chiave id.s) e il testo completo che si apre con "dettagli" (chiave id.d).
+ * (chiave id.s) e il testo completo che si apre con "dettagli" (chiave id.d). Va messa sotto il grafico o
+ * la tabella a cui si riferisce. Lo stile è neutro; `active` (giallo) è riservato a una segnalazione in corso.
  */
-export const Note = ({ id, vars }: { id: string; vars?: Vars }) => (
-  <details className="note">
+export const Note = ({ id, vars, active = false }: { id: string; vars?: Vars; active?: boolean }) => (
+  <details className={active ? "note active" : "note"}>
     <summary><span className="note-i" aria-hidden="true"><Info /></span><span className="note-s">{t(`${id}.s`, vars)}</span><span className="note-more">{t("note.details")}</span></summary>
     <p>{t(`${id}.d`, vars)}</p>
   </details>

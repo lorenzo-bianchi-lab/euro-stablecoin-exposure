@@ -33,7 +33,6 @@ export default function Simulator({ data, scenario }: { data: AppData; scenario:
           </Hero>
           <div style={{ marginTop: "calc(-1 * var(--space-3))", marginBottom: "var(--space-5)" }}>
             <Note id="note.band" vars={{ a: nf(sim.livello.minimo, 1), b: nf(sim.livello.massimo, 1), c: nf(sim.livello.centrale, 1) }} />
-            <Note id="note.flow" />
             <p className="muted tiny" style={{ margin: "var(--space-2) 0 0" }}>{t("sim.share")}</p>
           </div>
 
@@ -47,6 +46,7 @@ export default function Simulator({ data, scenario }: { data: AppData; scenario:
                 series: [{ type: "bar", data: byEffect.map((r) => +r.effettoPp.toFixed(4)), itemStyle: { color: p.series[0], borderRadius: [0, 3, 3, 0] }, barMaxWidth: 13,
                   label: barLabel(p, (v) => nf(v, 2)), cursor: "pointer" }],
               })} />
+            <Note id="note.flow" />
           </Card>
 
           <Card>

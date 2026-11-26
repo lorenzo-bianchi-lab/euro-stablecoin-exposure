@@ -5,11 +5,6 @@
  "about.purpose.2": "It does three things: it estimates a range for the dollar stablecoins held by euro area residents; it describes which national banking systems, and which banks, have the funding most exposed to a substitution of deposits; and it computes, for any level of adoption, the effect on deposits, wholesale funding and credit. Every figure comes with its limits, and the scenarios are assumptions, not forecasts.",
  "about.independent": "The project is independent. It is not affiliated with, endorsed by or produced for the ECB, the ESM, the EBA or any other institution whose data or papers it uses, and it uses none of their logos or visual identities.",
  "about.authors": "Authors",
- "about.authors.text": "Names to be completed by the authors.",
- "about.author.name": "[Author name]",
- "about.author.role": "[Programme, institution]",
- "about.author.supervisor": "[Supervisor, if any]",
- "about.contact": "Contact: [e-mail address to be added]",
  "about.sources": "Data sources",
  "about.sources.text": "All data come from public sources, free of charge and without access keys. Each remains under its provider's terms of use; this application publishes only aggregates and indicators computed from them. The status of each source at the last update is in \"Method and data\".",
  "about.col.source": "Source",
@@ -44,5 +39,10 @@
  "about.lic.charts": "Charts: Apache ECharts",
  "about.lic.ui": "Interface and build: React, Vite, TypeScript",
  "about.repo": "Source code, specification and reports",
- "about.repo.text": "The specification (SPEC.md) and the numbered reports document every decision, test and discarded method. They are written in Italian."
+ "about.repo.text": "The specification (SPEC.md) and the numbered reports document every decision, test and discarded method. They are written in Italian.",
+ "about.authors.names": "[NAMES TO BE INSERTED]",
+ "about.course.label": "Course",
+ "about.course": "Economics and finance",
+ "about.university.label": "University",
+ "about.university": "ESCP Business School"
 }

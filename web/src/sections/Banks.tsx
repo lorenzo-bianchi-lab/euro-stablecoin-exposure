@@ -66,9 +66,6 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
         </div>
       </Hero>
       <div style={{ marginBottom: "var(--space-5)" }}>
-        <Note id="note.banks.compare" />
-        <Note id="note.banks.public" vars={{ d: day(f.dati_al.banche), m: month(f.dati_al.bilanciPaese) }} />
-        <Note id="note.banks.scenario" />
         <p className="muted tiny" style={{ marginTop: "var(--space-2)" }}>{t("bk.scenario", { s: describe(scenario, fx) })} <a href={route.href("simulator")}>{t("bk.change")}</a></p>
       </div>
 
@@ -111,6 +108,8 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
           { key: "usa", label: t("bk.col.us"), numeric: true, value: (r) => r.usa, format: (r) => (r.usa === null ? "–" : pct(r.usa)) },
         ]} />
         <p className="muted tiny"><span className="tag" style={{ marginLeft: 0 }}>{t("bk.tag")}</span> {t("bk.tagR", { x: pct(f.soglia) })}</p>
+        <Note id="note.banks.public" vars={{ d: day(f.dati_al.banche), m: month(f.dati_al.bilanciPaese) }} />
+        <Note id="note.banks.scenario" />
         <Note id="note.banks.usd" vars={{ n: f.copertura.conUsa }} />
       </section>
 
@@ -127,6 +126,7 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
           { key: "alto", label: t("col.perEuroHigh"), numeric: true, value: (r) => r.alto, format: (r) => nf(r.alto, 2) },
         ]} />
         <Note id="note.banks.coverage" vars={{ list: f.criterio.paesiSenzaBanche.map(country).join(", ") }} />
+        <Note id="note.banks.compare" />
         <p className="muted tiny" style={{ marginTop: "var(--space-3)", marginBottom: 0 }}>{t("bk.excluded", { n: f.criterio.escluse.length, list: f.criterio.escluse.map((b) => b.nome).join("; ") })}</p>
       </Card>
     </>
@@ -167,10 +167,6 @@ function BankSheet({ b, f, data, scenario }: { b: Line; f: BanksFile; data: AppD
           <Kpi label={t("col.us")} value={b.usa === null ? "–" : pct(b.usa)} sub={t(b.usa === null ? "bk.sheet.us.none" : "bk.sheet.us.sub")} />
         </div>
       </Hero>
-      <div style={{ marginBottom: "var(--space-5)" }}>
-        <Note id="note.banks.public" vars={{ d: day(f.dati_al.banche), m: month(f.dati_al.bilanciPaese) }} />
-        <Note id="note.banks.usd" vars={{ n: f.copertura.conUsa }} />
-      </div>
 
       <Card>
         <Chart title={t("bk.sheet.chart")} unit={t("bk.sheet.chart.unit")} source={src} height={300} alt={chartAlt} deps={[b.lei]}
@@ -181,7 +177,8 @@ function BankSheet({ b, f, data, scenario }: { b: Line; f: BanksFile; data: AppD
             series: [{ type: "bar", barMaxWidth: 16, label: barLabel(p, (v) => nf(v, 1) + "%"),
               data: share.map((v, i) => ({ value: v, itemStyle: { color: i < 4 ? p.series[0] : i < 7 ? p.series[2] : p.series[3], borderRadius: [0, 3, 3, 0] } })) }],
           })} />
-        <p className="muted tiny" style={{ marginBottom: 0 }}>{t("bk.sheet.chart.help")}</p>
+        <p className="muted tiny">{t("bk.sheet.chart.help")}</p>
+        <Note id="note.banks.public" vars={{ d: day(f.dati_al.banche), m: month(f.dati_al.bilanciPaese) }} />
       </Card>
 
       <Card title={t("bk.sheet.effects")}>

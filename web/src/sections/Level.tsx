@@ -53,7 +53,6 @@ export default function Level({ data }: { data: AppData }) {
             <Slider id="usd" label={t("lv.usdShare")} value={Math.round(usd * 100)} min={40} max={100} step={1} onChange={(v) => route.setParams({ usd: v })} display={pct(usd, 0)} />
             <Slider id="det" label={t("lv.holders")} value={+(holders * 100).toFixed(1)} min={1} max={10} step={0.5} onChange={(v) => route.setParams({ det: v })} display={pct(holders, 1)} />
           </div>
-          <Note id="note.units" />
           <button className="btn small" style={{ marginTop: "var(--space-2)" }} onClick={reset}><RotateCcw className="icon" aria-hidden="true" />{t("lv.reset")}</button>
         </aside>
 
@@ -87,7 +86,8 @@ export default function Level({ data }: { data: AppData }) {
                   data: compare.map((c) => ({ value: +c.value.toFixed(2), itemStyle: { color: c.kind === "chosen" ? p.accent : c.kind === "esm" ? p.ink2 : p.series[0], borderRadius: [0, 3, 3, 0] },
                     label: c.kind === "chosen" ? { fontWeight: 600, color: p.ink } : undefined })) }],
               })} />
-            <p className="muted tiny" style={{ margin: 0 }}>{t("lv.cmp.key")}</p>
+            <p className="muted tiny">{t("lv.cmp.key")}</p>
+            <Note id="note.units" />
           </Card>
 
           <Card>

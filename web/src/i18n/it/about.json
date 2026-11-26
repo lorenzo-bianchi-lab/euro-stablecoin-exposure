@@ -5,11 +5,6 @@
  "about.purpose.2": "Fa tre cose: stima un intervallo per le stablecoin in dollari detenute dai residenti dell'area euro; descrive quali sistemi bancari nazionali, e quali banche, hanno la raccolta più esposta a una sostituzione dei depositi; e calcola, per qualsiasi livello di adozione, l'effetto su depositi, raccolta all'ingrosso e credito. Ogni numero è accompagnato dai suoi limiti, e gli scenari sono ipotesi, non previsioni.",
  "about.independent": "Il progetto è indipendente. Non è affiliato alla BCE, all'ESM, all'EBA né ad alcuna delle istituzioni di cui usa dati o studi, non è approvato né prodotto per loro, e non ne usa loghi o identità visive.",
  "about.authors": "Autori",
- "about.authors.text": "Nomi da compilare a cura degli autori.",
- "about.author.name": "[Nome dell'autore]",
- "about.author.role": "[Corso di studi, istituzione]",
- "about.author.supervisor": "[Relatore, se presente]",
- "about.contact": "Contatto: [indirizzo e-mail da aggiungere]",
  "about.sources": "Fonti dei dati",
  "about.sources.text": "Tutti i dati vengono da fonti pubbliche, gratuite e senza chiavi di accesso. Ciascuna resta soggetta alle condizioni d'uso di chi la pubblica; questa applicazione pubblica solo aggregati e indicatori calcolati a partire da quei dati. Lo stato di ogni fonte all'ultimo aggiornamento è in \"Metodo e dati\".",
  "about.col.source": "Fonte",
@@ -44,5 +39,10 @@
  "about.lic.charts": "Grafici: Apache ECharts",
  "about.lic.ui": "Interfaccia e compilazione: React, Vite, TypeScript",
  "about.repo": "Codice sorgente, specifica e report",
- "about.repo.text": "La specifica (SPEC.md) e i report numerati documentano ogni decisione, ogni test e ogni metodo scartato."
+ "about.repo.text": "La specifica (SPEC.md) e i report numerati documentano ogni decisione, ogni test e ogni metodo scartato.",
+ "about.authors.names": "[NOMI DA INSERIRE]",
+ "about.course.label": "Corso",
+ "about.course": "Economia e finanza",
+ "about.university.label": "Università",
+ "about.university": "ESCP Business School"
 }

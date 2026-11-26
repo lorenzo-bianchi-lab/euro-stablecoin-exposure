@@ -41,7 +41,8 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
   const area = ind.area?.(tot);
   const byCode = Object.fromEntries(values.map((v) => [v.code, v.value]));
   const selParam = route.params.get("sel");
-  const sel = selParam && selParam in byCode ? selParam : null;
+  // senza scelta nell'indirizzo è selezionato il paese con il valore più alto; "none" è la deselezione esplicita
+  const sel = selParam === "none" ? null : selParam && selParam in byCode ? selParam : ranked[0]?.code ?? null;
   const select = (code: string) => route.setParams({ sel: code });
   const label = t(`map.ind.${key}`), unit = t(`map.unit.${key}`);
   const f = (x: number, d = ind.digits) => nf(x, d);
@@ -90,7 +91,7 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
           </Card>
           <div className="grid2">
             <Card title={sel ? country(sel) : t("map.sel.title")}
-              actions={sel ? <button className="btn small" onClick={() => route.setParams({ sel: null })}><X className="icon" aria-hidden="true" />{t("map.sel.clear")}</button> : undefined}>
+              actions={sel ? <button className="btn small" onClick={() => route.setParams({ sel: "none" })}><X className="icon" aria-hidden="true" />{t("map.sel.clear")}</button> : undefined}>
               {sel && selIdx >= 0 ? (
                 <div aria-live="polite">
                   <div className="kpis">

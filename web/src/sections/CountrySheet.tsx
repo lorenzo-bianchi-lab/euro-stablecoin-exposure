@@ -70,7 +70,6 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
           <Kpi label={t("cs.kpi.usd")} value={pct(c.usd)} sub={t("cs.kpi.usd.sub", { s: t(`usdSource.${c.fonteUsd}`) })} />
           <Kpi label={t("cs.kpi.owners")} value={pct(c.quotaPossessori)} sub={t(c.possessoriImputati ? "cs.kpi.owners.imputed" : "cs.kpi.owners.survey")} />
         </div>
-        <Note id="note.country" />
       </Hero>
 
       {!file || !series ? <Card><Loading error={error} /></Card> : (() => {
@@ -125,6 +124,7 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
                     xAxis: xAxis(p, im),
                     yAxis: { type: "value", inverse: true, min: 1, max: tot, interval: 5, ...axisStyle(p) },
                   })} />
+                <Note id="note.country" />
               </Card>
               {quadrant}
             </div>

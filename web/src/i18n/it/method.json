@@ -86,5 +86,7 @@
  "me.kpi.flagged.sub": "con l'ultimo dato valido o aggiornate in parte",
  "me.kpi.modules": "Moduli riusciti",
  "me.kpi.modules.sub": "un modulo fallito conserva i dati precedenti",
- "me.toc": "In questa pagina"
+ "me.toc": "In questa pagina",
+ "me.docs.note": "Nota metodologica (PDF, due pagine, in inglese)",
+ "me.docs.note.text": "fonti, formule e limiti in breve, con i numeri ai dati più recenti."
 }

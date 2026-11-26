@@ -39,7 +39,7 @@ export default function Overview({ data }: { data: AppData }) {
       <div className="grid2 top">
         <Card title={t("ov.flags")} actions={link("monitor", t("ov.openMonitor"))}>
           {attive.length === 0 ? <p>{t("ov.flags.none")}</p> : (
-            <ul className="plain" style={{ marginTop: 0 }}>{attive.map((k) => (
+            <ul className="plain flagged" id="active-flags" style={{ marginTop: 0 }}>{attive.map((k) => (
               <li key={k}><strong>{t(`series.${k}.short`)}</strong> <span className={`badge accent state ${flagKey(o.indice[k].stato)}`}>{t(`flag.${flagKey(o.indice[k].stato)}`)}</span>{" "}
                 <span className="muted">{t("ov.flags.gaps", { q: signed(o.indice[k].scarto_quota, 1), v: signed(o.indice[k].scarto_volume, 1) })}</span></li>))}
             </ul>)}

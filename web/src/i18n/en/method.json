@@ -86,5 +86,7 @@
  "me.kpi.flagged.sub": "last valid data kept, or partly updated",
  "me.kpi.modules": "Modules succeeded",
  "me.kpi.modules.sub": "a failed module keeps its previous data",
- "me.toc": "On this page"
+ "me.toc": "On this page",
+ "me.docs.note": "Methodological note (PDF, two pages)",
+ "me.docs.note.text": "sources, formulas and limits in brief, with the figures at the latest data."
 }

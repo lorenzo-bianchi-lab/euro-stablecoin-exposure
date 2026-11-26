@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
-    "e2e": "node tests/e2e.mjs"
+    "e2e": "node tests/e2e.mjs",
+    "note": "node tests/note.mjs",
+    "shots": "node tests/shots.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",

@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useState, type ComponentType } from "react";
 import { ArrowLeftRight, BookOpen, Building2, Flag, Home as HomeIcon, Info, Languages, LayoutDashboard, LineChart, Map as MapIcon, Menu, Moon, Ruler, ScatterChart, SlidersHorizontal, Sun, X, type LucideIcon } from "lucide-react";
 import { Loading } from "./components/ui";
 import { ThemeContext } from "./components/theme";
+import { Tour } from "./components/Tour";
 import { day, getLang, loadLang, t, type Lang } from "./i18n";
 import type { Scenario } from "./lib/model";
 import type { AppData, Meta, Overview, SimData } from "./lib/types";
@@ -73,7 +74,8 @@ export default function App() {
   const scenario = data ? readScenario(route.params, Number(data.sim.livello.centrale.toFixed(2))) : null;
   const View = section.view;
   const other: Lang = loaded === "en" ? "it" : "en";
-  const to = (id: string) => route.href(id === "country" ? `country/${route.section === "country" && route.arg ? route.arg : "IT"}` : id);
+  // i collegamenti della navigazione chiudono la visita guidata; quelli dentro le pagine la conservano
+  const to = (id: string) => route.href(id === "country" ? `country/${route.section === "country" && route.arg ? route.arg : "IT"}` : id, { tour: null });
   const brand = <a className="brand" href={route.href("home")}><Mark /><span className="brand-name"><span>{t("app.brand1")}</span><span>{t("app.brand2")}</span></span></a>;
   const links = (attr: boolean) => SECTIONS.map((s, i) => (
     <span key={s.id} style={{ display: "contents" }}>
@@ -115,6 +117,7 @@ export default function App() {
           )}
           <footer className="foot"><strong>{t("app.disclaimer")}</strong><span>{t("app.footer")}</span></footer>
         </main>
+        <Tour step={Number(route.params.get("tour")) || 0} section={section.id} href={route.href} />
         <nav className="tabbar" aria-label={t("side.sections")}>
           {TABS.map((id) => { const s = SECTIONS.find((x) => x.id === id)!; return <a key={id} data-tab={id} href={to(id)} className={id === section.id ? "active" : ""} aria-current={id === section.id ? "page" : undefined}><s.icon className="icon" aria-hidden="true" />{t(`nav.${id}`)}</a>; })}
           <button onClick={() => setDrawer(true)} aria-label={t("side.menu")}><Menu className="icon" aria-hidden="true" />{t("side.more")}</button>

@@ -84,6 +84,43 @@ interface Props {
   onClick?: (params: { name?: string; data?: unknown; seriesName?: string }) => void;
   deps?: unknown[];
 }
+const MERGE = { replaceMerge: ["series", "legend", "grid", "xAxis", "yAxis", "visualMap", "tooltip"] };
+
+/**
+ * Punti dei dati e punti effettivamente disegnati nella loro posizione finale. Serve al test nel browser:
+ * un grafico è completo quando i due numeri coincidono (barre alla loro lunghezza, punti alla loro
+ * posizione, linee non tagliate dall'animazione d'ingresso, regioni della mappa presenti).
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export function chartState(c: echarts.ECharts): { expected: number; drawn: number } {
+  let expected = 0, drawn = 0;
+  const near = (a: number, b: number) => Math.abs(a - b) < 0.75;
+  (c as any).getModel().getSeries().forEach((s: any) => {
+    const data = s.getData(), view = (c as any).getViewOfSeriesModel(s);
+    if (s.subType === "line") {
+      const pts: ArrayLike<number> = data.getLayout("points") ?? [], line = view?._polyline;
+      const finite = (a: ArrayLike<number>) => { let n = 0; for (let i = 0; i < a.length; i += 2) if (Number.isFinite(a[i]) && Number.isFinite(a[i + 1])) n++; return n; };
+      const want = finite(pts);
+      let got = line ? finite(line.shape.points ?? []) : 0;
+      const clip = view?._lineGroup?.getClipPath?.(), area = s.coordinateSystem?.getArea?.();
+      if (clip?.shape?.width !== undefined && area?.width && clip.shape.width < area.width - 1) got = Math.floor((got * Math.max(0, clip.shape.width)) / area.width);
+      expected += want; drawn += Math.min(got, want);
+      return;
+    }
+    for (let i = 0; i < data.count(); i++) {
+      const el = data.getItemGraphicEl(i), layout = data.getItemLayout(i);
+      if (s.subType === "map") { if (!Number.isFinite(data.get(data.mapDimension("value"), i))) continue; expected++; if (el) drawn++; continue; }
+      if (!layout) continue;
+      if (s.subType === "bar") { expected++; if (el && near(el.shape.width, layout.width) && near(el.shape.height, layout.height)) drawn++; continue; }
+      if (!Number.isFinite(layout[0]) || !Number.isFinite(layout[1])) continue;
+      expected++;
+      if (el && near(el.x, layout[0]) && near(el.y, layout[1]) && el.scaleX !== 0) drawn++;
+    }
+  });
+  return { expected, drawn };
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 let fontsReady = false;
 const fontWaiters = new Set<() => void>();
 if (typeof document !== "undefined" && document.fonts) document.fonts.ready.then(() => { fontsReady = true; fontWaiters.forEach((f) => f()); fontWaiters.clear(); });
@@ -97,6 +134,8 @@ export function Chart({ title, unit = "", source, height = 320, note, bare = fal
   const [fonts, setFonts] = useState(fontsReady);
   const click = useRef(onClick);
   click.current = onClick;
+  const last = useRef<Record<string, unknown> | null>(null);
+  const drawn = useRef(false);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -104,18 +143,32 @@ export function Chart({ title, unit = "", source, height = 320, note, bare = fal
     chart.current = c;
     c.on("click", (params) => click.current?.(params as never));
     setNarrow(el.clientWidth < 560);
-    const ro = new ResizeObserver(() => { c.resize(); setNarrow(el.clientWidth < 560); });
+    (el as unknown as { __state: () => { expected: number; drawn: number } }).__state = () => chartState(c);
+    const ro = new ResizeObserver(() => { c.resize({ animation: { duration: 0 } }); c.getZr().flush(); setNarrow(el.clientWidth < 560); });
     ro.observe(el);
     const onFonts = () => setFonts(true);
     if (!fontsReady) fontWaiters.add(onFonts);
-    return () => { fontWaiters.delete(onFonts); ro.disconnect(); c.dispose(); chart.current = null; };
+    // Se la scheda va in secondo piano o si stampa mentre una transizione è in corso, il grafico viene
+    // portato subito allo stato finale: non resta mai disegnato a metà.
+    const settle = () => { if (last.current) { c.setOption({ ...last.current, animation: false }, MERGE); c.getZr().flush(); } };
+    document.addEventListener("visibilitychange", settle);
+    window.addEventListener("beforeprint", settle);
+    return () => { document.removeEventListener("visibilitychange", settle); window.removeEventListener("beforeprint", settle); fontWaiters.delete(onFonts); ro.disconnect(); c.dispose(); chart.current = null; };
   }, []);
 
   useEffect(() => {
     const p: Palette = { ...readTokens(theme), narrow };
-    const move = !reducedMotion();
-    chart.current?.setOption({ animation: move, animationDuration: 320, animationDurationUpdate: 260, animationEasing: "cubicOut", animationEasingUpdate: "cubicOut",
-      textStyle: { color: p.ink2, fontFamily: p.font }, color: p.series, ...option(p) }, { replaceMerge: ["series", "legend", "grid", "xAxis", "yAxis", "visualMap", "tooltip"] });
+    const c = chart.current;
+    if (!c) return;
+    // Il primo disegno è sempre completo e immediato: nessuna animazione d'ingresso, e il canvas viene dipinto
+    // subito senza aspettare il fotogramma successivo, che una scheda in secondo piano, una stampa o una cattura
+    // possono non ricevere mai. Le transizioni valgono solo per gli aggiornamenti successivi, a scheda visibile.
+    const move = drawn.current && !reducedMotion() && document.visibilityState === "visible";
+    const opt: Record<string, unknown> = { animationDuration: 0, animationDurationUpdate: 260, animationEasingUpdate: "cubicOut", textStyle: { color: p.ink2, fontFamily: p.font }, color: p.series, ...option(p) };
+    last.current = opt;
+    c.setOption({ ...opt, animation: move }, MERGE);
+    if (!move) c.getZr().flush();
+    drawn.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme, narrow, fonts, getLang(), ...deps]);
 

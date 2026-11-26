@@ -22,5 +22,7 @@
  "home.tool.level": "Come è stimato il livello di riferimento, ipotesi per ipotesi.",
  "home.tool.compare": "Due scenari affiancati e un rapporto da stampare.",
  "home.updated": "Dati aggiornati il {d}. Bilanci di {m}.",
- "home.alt": "Mappa dell'area euro colorata per depositi a vista sul passivo; valori più alti: {top}."
+ "home.alt": "Mappa dell'area euro colorata per depositi a vista sul passivo; valori più alti: {top}.",
+ "home.tour": "Fai la visita guidata",
+ "home.tour.text": "Cinque passi, circa tre minuti."
 }
