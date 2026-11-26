@@ -342,6 +342,8 @@ const extra = {};
   mobile.chiusoConEsc = (await page.locator(".drawer").count()) === 0;
   await page.click(".topbar button");
   await page.click('.drawer nav a[data-section="monitor"]');
+  await page.waitForSelector(".drawer", { state: "detached", timeout: 5000 }).catch(() => {});
+  await page.waitForFunction(() => location.hash.startsWith("#/monitor"), null, { timeout: 5000 }).catch(() => {});
   await page.waitForSelector("main .card", { timeout: 15000 });
   mobile.dopoIlMenu = { sezione: page.url().split("#")[1], menuAperto: await page.locator(".drawer").count() };
   await page.click('.tabbar a[data-tab="banks"]');

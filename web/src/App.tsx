@@ -97,7 +97,7 @@ export default function App() {
         {drawer ? (
           <div className="drawer" role="dialog" aria-modal="true" aria-label={t("side.menu")}>
             <div className="drawer-head">{brand}<button className="btn icon-only" onClick={() => setDrawer(false)} aria-label={t("side.close")} autoFocus><X className="icon" aria-hidden="true" /></button></div>
-            <nav aria-label={t("side.sections")}>{links(true)}</nav>
+            <nav aria-label={t("side.sections")} onClick={(e) => { if ((e.target as HTMLElement).closest("a")) setDrawer(false); }}>{links(true)}</nav>
             {tools}
           </div>
         ) : (

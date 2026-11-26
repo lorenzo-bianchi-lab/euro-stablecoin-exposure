@@ -1,5 +1,5 @@
 {
- "eseguito": "2026-11-26T00:04:53.618Z",
+ "eseguito": "2026-11-26T16:01:13.554Z",
  "sezioni": [
   {
    "sezione": "home",
@@ -497,15 +497,15 @@
     "react",
     "en",
     "Home",
-    "shared",
     "model",
     "arrow-right",
+    "shared",
     "EuroMap",
     "Chart"
    ]
   },
   "overview": {
-   "codice": 767,
+   "codice": 768,
    "stile": 23,
    "caratteri": 97,
    "dati": 17,
@@ -514,10 +514,10 @@
     "index",
     "react",
     "en",
-    "shared",
-    "Overview",
     "arrow-right",
     "model",
+    "shared",
+    "Overview",
     "Chart"
    ]
   },
@@ -547,11 +547,11 @@
     "index",
     "react",
     "en",
-    "shared",
-    "MapEurope",
     "model",
-    "EuroMap",
+    "shared",
     "arrow-right",
+    "MapEurope",
+    "EuroMap",
     "Chart"
    ]
   },
@@ -565,8 +565,8 @@
     "index",
     "react",
     "en",
-    "arrow-right",
     "model",
+    "arrow-right",
     "shared",
     "CountrySheet",
     "Chart"
@@ -598,9 +598,9 @@
     "index",
     "react",
     "en",
+    "Banks",
     "shared",
     "model",
-    "Banks",
     "Chart"
    ]
   },
@@ -614,9 +614,9 @@
     "index",
     "react",
     "en",
+    "Channels",
     "shared",
     "model",
-    "Channels",
     "Chart"
    ]
   },
