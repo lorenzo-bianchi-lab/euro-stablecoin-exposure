@@ -9,7 +9,7 @@ import { chromium } from "playwright-core";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 const data = async (f) => JSON.parse(await readFile(join(here, "../public/data", f), "utf-8"));
-const [ov, sim, mon, bk, meta, lv] = await Promise.all(["panoramica.json", "simulatore.json", "monitor.json", "banche.json", "meta.json", "livello.json"].map(data));
+const [ov, sim, mon, bk, meta, lv] = await Promise.all(["overview.json", "simulator.json", "monitor.json", "banks.json", "meta.json", "level.json"].map(data));
 const font = async (pkg, file) => (await readFile(join(here, `../node_modules/@fontsource-variable/${pkg}/files/${file}`))).toString("base64");
 const serif = await font("source-serif-4", "source-serif-4-latin-wght-normal.woff2"), sans = await font("inter", "inter-latin-wght-normal.woff2");
 
@@ -94,7 +94,7 @@ table{border-collapse:collapse;width:100%;font-size:7.9pt;margin:2pt 0 5pt}th,td
 <li><b>Bank data</b> are consolidated groups including activities outside the euro area, dated June 2025, with no currency breakdown; three countries have no bank in the sample.</li>
 <li><b>Not covered:</b> over-the-counter and peer-to-peer trading, decentralised finance, stablecoins other than USDT and USDC, future adoption.</li>
 </ul>
-<p>Full specification, decision log and reports (in Italian), code and data: github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure. Application: sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure.</p>
+<p>Full specification, decision log and reports (in Italian), code and data: github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure. Application: lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure.</p>
 <div class="foot"><span>Euro Stablecoin Exposure Monitor · methodological note · generated from the data updated on ${updated}</span><span>University project, not affiliated with the ECB</span></div>
 </body></html>`;
 

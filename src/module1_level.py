@@ -1,7 +1,7 @@
 """Modulo 1: livello delle stablecoin in dollari attribuibile all'area euro, da fonti esterne.
 
 Applica le quote assunte dall'ESM Working Paper 79 (7,5% e 15%) alla circolazione
-corrente, come definito in reports/06_modulo1_livello.md (sezione 2). Non è una stima.
+corrente, come definito in reports/06_module1_level.md (sezione 2). Non è una stima.
 
 Uso: python src/module1_level.py            # scarica i dati e ricalcola
      python src/module1_level.py --offline  # ricalcola dai file già scaricati
@@ -208,7 +208,7 @@ def plot(monthly: pd.DataFrame) -> None:
     ax.set_title("Stablecoin in dollari attribuite all'area euro secondo le ipotesi ESM", loc="left", fontsize=12, color=ink)
     fig.tight_layout()
     FIG.mkdir(parents=True, exist_ok=True)
-    fig.savefig(FIG / "06_livello.png", dpi=160, facecolor=surface)
+    fig.savefig(FIG / "06_level.png", dpi=160, facecolor=surface)
     plt.close(fig)
 
 

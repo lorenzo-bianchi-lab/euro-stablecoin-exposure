@@ -8,11 +8,11 @@ University project (ESCP Business School, economics and finance), addressed to a
 at the European Central Bank. **It is not affiliated with the ECB** or with any other
 institution whose data it uses.
 
-- **Application**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
-- **Methodological note** (PDF, two pages): https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/methodological-note.pdf
+- **Application**: https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/
+- **Methodological note** (PDF, two pages): https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/methodological-note.pdf
 - **Specification and decision log**: [SPEC.md](SPEC.md) (in Italian)
 - **Reports**, one per test and module: [reports/](reports/) (in Italian)
-- **Release notes**: [RELEASE_NOTES.md](RELEASE_NOTES.md)
+- **Release notes**: [CHANGELOG.md](CHANGELOG.md)
 
 ## What it does
 
@@ -56,7 +56,7 @@ Tested with Python 3.14, Node.js 24 and Google Chrome (Chrome is needed only for
 browser tests, the screenshots and the PDF note).
 
 ```bash
-git clone https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure.git
+git clone https://github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure.git
 cd euro-stablecoin-exposure
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt     # pinned versions
@@ -80,12 +80,12 @@ npm run build                                 # application into ../docs
 ```
 
 `run_all.py` runs the modules in order, then writes the one-page summary
-([SINTESI.md](SINTESI.md), in Italian) and the JSON files the application reads
+([SUMMARY.md](SUMMARY.md), in Italian) and the JSON files the application reads
 (`web/public/data/`). If a source does not respond, the module that uses it fails, its
 previous results are kept, the others go on, and the application flags the source in the
 side bar and in "Method and data".
 
-**Automatic update.** A GitHub Action ([aggiornamento.yml](.github/workflows/aggiornamento.yml))
+**Automatic update.** A GitHub Action ([weekly-update.yml](.github/workflows/weekly-update.yml))
 does all of the above every Monday at 06:00 UTC, runs every test and publishes. If a test
 fails nothing is published and the site stays as it was.
 
@@ -94,12 +94,12 @@ late, and GitHub disables schedules after 60 days without repository activity.
 
 - On GitHub: *Actions* → *Aggiornamento settimanale*; a scheduled run shows the event
   `schedule` (manual ones show `workflow_dispatch`).
-- From a terminal: `gh run list --workflow aggiornamento.yml --event schedule --limit 5`
+- From a terminal: `gh run list --workflow weekly-update.yml --event schedule --limit 5`
 - In the repository: a commit by `github-actions[bot]` titled
   "Aggiornamento automatico dei dati (date, completo)" on that Monday.
 - In the application: "Data updated on ..." in the side bar shows that Monday.
 
-To start a run by hand: `gh workflow run aggiornamento.yml`, or *Run workflow* on the
+To start a run by hand: `gh workflow run weekly-update.yml`, or *Run workflow* on the
 same page.
 
 ## Tests

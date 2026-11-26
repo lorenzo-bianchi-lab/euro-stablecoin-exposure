@@ -76,32 +76,36 @@ def spec_bullets(title: str) -> list[str]:
     return [re.sub(r"\s+", " ", i).replace("**", "").strip() for i in items]
 
 
-def spec_en() -> dict[str, str]:
-    return json.loads((ROOT / "src" / "i18n" / "spec_en.json").read_text(encoding="utf-8"))
+SPEC_SOURCES, SPEC_LIMITS, SPEC_DISCARDED = "## 3. Confirmed data sources", "## 4. What the programme does NOT promise", "## 5. Discarded methods"
+
+
+def spec_it() -> dict[str, str]:
+    """Italian version of the SPEC.md texts shown by the application (SPEC.md itself is in English)."""
+    return json.loads((ROOT / "src" / "i18n" / "spec_it.json").read_text(encoding="utf-8"))
 
 
 def spec_strings() -> list[str]:
     """Tutti i testi di SPEC.md che l'applicazione mostra: servono al test sulle traduzioni."""
     out: list[str] = []
-    for title in ("## 3. Fonti dati confermate", "## 5. Metodi scartati"):
+    for title in (SPEC_SOURCES, SPEC_DISCARDED):
         rows = spec_table(title)
         out += list(rows[0]) + [v for r in rows for v in r.values()]
-    return out + spec_bullets("## 4. Cosa il programma NON promette")
+    return out + spec_bullets(SPEC_LIMITS)
 
 
 def bilingual_table(title: str) -> dict:
-    """Tabella di SPEC.md in italiano e in inglese: intestazioni e righe come liste, nello stesso ordine."""
-    en = spec_en()
+    """A SPEC.md table in English and Italian: headers and rows as lists, in the same order."""
+    it = spec_it()
     rows = spec_table(title)
     head = list(rows[0])
-    tr = lambda v: en.get(v, v)
-    return {"it": {"colonne": head, "righe": [[r[h] for h in head] for r in rows]},
-            "en": {"colonne": [tr(h) for h in head], "righe": [[tr(r[h]) for h in head] for r in rows]}}
+    tr = lambda v: it.get(v, v)
+    return {"en": {"colonne": head, "righe": [[r[h] for h in head] for r in rows]},
+            "it": {"colonne": [tr(h) for h in head], "righe": [[tr(r[h]) for h in head] for r in rows]}}
 
 
 def gisco(offline: bool) -> None:
     """Confini dei paesi da Eurostat GISCO, scala 1:20 milioni, ridotti all'Europa."""
-    path = OUT / "geo" / "europa.geo.json"
+    path = OUT / "geo" / "europe.geo.json"
     if path.exists() or offline:
         return
     r = requests.get(GISCO, timeout=180)
@@ -253,9 +257,9 @@ def main() -> None:
     month = m3["ultimo_mese"]
     try:
         gisco(offline)
-        geo_ok = (OUT / "geo" / "europa.geo.json").exists()
+        geo_ok = (OUT / "geo" / "europe.geo.json").exists()
     except Exception as exc:  # la mappa resta quella già presente, se c'è
-        geo_ok = (OUT / "geo" / "europa.geo.json").exists()
+        geo_ok = (OUT / "geo" / "europe.geo.json").exists()
         print(f"confini GISCO non scaricati: {exc}")
 
     # ---- simulatore: bilanci, pesi e coefficienti con cui il browser rifà i calcoli
@@ -286,7 +290,7 @@ def main() -> None:
         {"id": "S3", "eur": 600 / fx},
     ]
     coef = m5s["coefficienti"]
-    write("simulatore.json", "Bilanci bancari per paese, pesi delle regole di ripartizione e coefficienti: tutto ciò che serve a rifare nel browser i calcoli dei moduli 4 e 5.",
+    write("simulator.json", "Bilanci bancari per paese, pesi delle regole di ripartizione e coefficienti: tutto ciò che serve a rifare nel browser i calcoli dei moduli 4 e 5.",
           {"bilanci": month, "cambio": inp["data_cambio"]},
           {"paesi[].vista": "depositi a vista di famiglie e imprese, miliardi di euro", "paesi[].vistaFam": "depositi a vista delle famiglie", "paesi[].clientela": "depositi totali di famiglie e imprese",
            "paesi[].ingrosso": "titoli di debito emessi più depositi da IFM", "paesi[].totale": "totale del passivo", "paesi[].prestiti": "prestiti a famiglie e imprese",
@@ -308,7 +312,7 @@ def main() -> None:
     parts = [c for c in comp.columns if c not in ("paese", "mese", "totale_passivo_mln", "scarto")]
     for code in NAMES:
         c, i = comp[comp.paese == code].sort_values("mese"), idx3[idx3.paese == code].sort_values("mese")
-        write(f"paesi/{code}.json", f"Serie storiche mensili di {NAMES[code]}: composizione del passivo e indicatore di esposizione.", {"bilanci": c.mese.max()},
+        write(f"countries/{code}.json", f"Serie storiche mensili di {NAMES[code]}: composizione del passivo e indicatore di esposizione.", {"bilanci": c.mese.max()},
               {"composizione.voci": "quote sul totale del passivo, una serie per voce", "composizione.totale": "totale del passivo, miliardi di euro",
                "indicatore.posizione": "posizione in classifica tra i paesi con dati in quel mese", "indicatore.c1,c2,c3": "componenti dell'indicatore (quote)"},
               {"code": code, "nome": NAMES[code],
@@ -317,7 +321,7 @@ def main() -> None:
                               "c1": i.C1.round(4).tolist(), "c2": i.C2.round(4).tolist(), "c3": i.C3.round(4).tolist()}})
 
     # ---- mappa a due canali
-    write("canali.json", "Mappa a due canali: depositi a vista sul passivo e passività in dollari, con ciò che ogni quadrante implica per la trasmissione.",
+    write("channels.json", "Mappa a due canali: depositi a vista sul passivo e passività in dollari, con ciò che ogni quadrante implica per la trasmissione.",
           {"bilanci": month, "dollari": m5s["mappa"]["trimestre_bri"]},
           {"quadranti": "A depositi alti e dollari bassi, B entrambi alti, C depositi bassi e dollari alti, D entrambi bassi; i testi sono nell'applicazione", "confrontoFonti": "paragonabilità tra misura BRI e misura BSI trimestrale"},
           {"mediane": {"c1": m5s["mappa"]["mediana_depositi_a_vista"], "usd": m5s["mappa"]["mediana_dollari"]},
@@ -353,7 +357,7 @@ def main() -> None:
     # ---- stima del livello
     ms = pd.read_csv(PROC / "m1_monthly_series.csv", index_col=0)
     b1 = own["B1"]
-    write("livello.json", "Stima dal basso del valore di stablecoin in dollari detenuto nell'area euro, con le ipotesi modificabili, e confronto con l'ipotesi ESM.",
+    write("level.json", "Stima dal basso del valore di stablecoin in dollari detenuto nell'area euro, con le ipotesi modificabili, e confronto con l'ipotesi ESM.",
           {"indagine": "agosto e novembre 2025", "circolazione": m1["data_circolazione"]},
           {"fasce[].percentuale": "quota di detentori nella fascia, misurata sul grafico B riquadro b del riquadro BCE", "fasce[].minimo, massimo": "estremi della fascia in euro (per l'ultima, aperta, il massimo è un'ipotesi)", "unita": "famiglie e adulti dei 21 paesi (Eurostat)",
            "quotaDollari": "minimo, centrale e massimo della quota in dollari", "esm.serie": "livello ESM di base a fine mese, miliardi di euro"},
@@ -367,18 +371,18 @@ def main() -> None:
 
     # ---- metodo e dati
     sources = sources_status(status, m1, m2, m3, m4s, m5s)
-    en = spec_en()
-    limits = spec_bullets("## 4. Cosa il programma NON promette")
-    write("metodo.json", "Fonti, limiti dichiarati e metodi scartati, in italiano e in inglese.", {"aggiornamento": status.get("eseguito_il", NOW)},
+    it = spec_it()
+    limits = spec_bullets(SPEC_LIMITS)
+    write("method.json", "Fonti, limiti dichiarati e metodi scartati, in italiano e in inglese.", {"aggiornamento": status.get("eseguito_il", NOW)},
           {"fonti": "tabella delle fonti di SPEC.md (sezione 3)", "limiti": "sezione 4 di SPEC.md", "metodiScartati": "sezione 5 di SPEC.md",
-           "it, en": "ogni voce è esportata nelle due lingue; l'inglese viene da src/i18n/spec_en.json"},
-          {"fonti": bilingual_table("## 3. Fonti dati confermate"), "limiti": {"it": limits, "en": [en.get(x, x) for x in limits]},
-           "metodiScartati": bilingual_table("## 5. Metodi scartati"), "repo": "https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure"})
+           "en, it": "each item is exported in both languages; the Italian comes from src/i18n/spec_it.json"},
+          {"fonti": bilingual_table(SPEC_SOURCES), "limiti": {"en": limits, "it": [it.get(x, x) for x in limits]},
+           "metodiScartati": bilingual_table(SPEC_DISCARDED), "repo": "https://github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure"})
 
     # ---- banche (modulo 6)
     if (PROC / "m6_summary.json").exists():
         payload, dates, fields = banks_payload(m5s)
-        write("banche.json", "Singole banche dell'area euro dall'esercizio di trasparenza EBA 2025: bilanci, quota retail, copertura per paese e confronto con il modulo 5. Dati pubblici per banca, non dati di vigilanza.",
+        write("banks.json", "Singole banche dell'area euro dall'esercizio di trasparenza EBA 2025: bilanci, quota retail, copertura per paese e confronto con il modulo 5. Dati pubblici per banca, non dati di vigilanza.",
               dates, fields, payload)
 
     # ---- panoramica
@@ -387,7 +391,7 @@ def main() -> None:
     pick = lambda df, s: df[(df.scenario == s) & (df.regola_paesi == "R1") & (df.get("regola_depositi", "T1") == "T1")].iloc[0]
     e_c, c_c = pick(ea, "P_centrale"), cr[(cr.scenario == "P_centrale") & (cr.regola_paesi == "R1")].iloc[0]
     last_flags = m2["segnalazione"]["ultima_settimana"]
-    write("panoramica.json", "Indicatori chiave, segnalazioni attive e date dei dati.", {"bilanci": month, "settimana": m2["indice_principale"]["ultima_settimana"], "circolazione": m1["data_circolazione"]},
+    write("overview.json", "Indicatori chiave, segnalazioni attive e date dei dati.", {"bilanci": month, "settimana": m2["indice_principale"]["ultima_settimana"], "circolazione": m1["data_circolazione"]},
           {"livello": "stima propria in miliardi di euro", "scenarioCentrale": "effetto del livello centrale con regola R1 e sostituzione piena", "indice[serie]": "quota EUR dell'ultima settimana e stato della segnalazione"},
           {"livello": {"minimo": ref["minimo_mld_eur"], "centrale": ref["centrale_mld_eur"], "massimo": ref["massimo_mld_eur"], "estremoSuperiore": ref["estremo_superiore_dichiarato_mld_eur"],
                        "esmBase": m1["livello"]["base_mld_eur"], "esmAlto": m1["livello"]["alto_mld_eur"]},
@@ -401,7 +405,7 @@ def main() -> None:
     # ---- meta
     fresh = [x for x in sources if x["stato"] == "ultimo_valido"]
     partial = [x for x in sources if x["stato"] == "parziale"]
-    files = sorted(DOCS) + ["meta.json"] + (["geo/europa.geo.json"] if geo_ok else [])
+    files = sorted(DOCS) + ["meta.json"] + (["geo/europe.geo.json"] if geo_ok else [])
     write("meta.json", "Stato dell'aggiornamento e di ogni fonte, ed elenco dei file di dati.", {"aggiornamento": status.get("eseguito_il", NOW)},
           {"fonti[].stato": "aggiornata, parziale (manca una parte minore), ultimo_valido (la fonte non ha risposto), non_aggiornata (ricalcolo senza scarico), statica",
            "fonti[].tipoData": "come leggere datiAl: giorno, settimana (lunedì), mese, trimestre, anno, testo (chiave di traduzione)",
@@ -416,7 +420,7 @@ def main() -> None:
               "I file contengono numeri e codici. I testi dell'interfaccia, in inglese e in italiano, sono in `web/src/i18n/`; i nomi dei paesi si ricavano dal codice.", ""]
     for name in sorted(DOCS):
         readme += [f"## {name}", "", DOCS[name]["descrizione"], ""] + [f"- `{k}`: {v}" for k, v in DOCS[name]["campi"].items()] + [""]
-    readme += ["## geo/europa.geo.json", "", "Confini dei paesi europei da Eurostat GISCO (Countries 2024, scala 1:20 milioni), con `code`, `name` e `area_euro`. © EuroGeographics per i confini amministrativi.", ""]
+    readme += ["## geo/europe.geo.json", "", "Confini dei paesi europei da Eurostat GISCO (Countries 2024, scala 1:20 milioni), con `code`, `name` e `area_euro`. © EuroGeographics per i confini amministrativi.", ""]
     (OUT / "README.md").write_text("\n".join(readme), encoding="utf-8")
     size = sum(p.stat().st_size for p in OUT.rglob("*.json")) / 1024
     print(f"dati dell'applicazione: {len(list(OUT.rglob('*.json')))} file JSON, {size:.0f} KB; fonti non aggiornate: {len(fresh)}, aggiornate in parte: {len(partial)}")

@@ -7,7 +7,7 @@
     "ultimo_mese": "2026-10",
     "ritardi": 1,
     "coefficienti_volumi": [
-      0.004393153073408251
+      0.004393153073408252
     ],
     "errori_standard": [
       0.004686934534363171
@@ -28,19 +28,19 @@
       "ultimo_mese": "2026-10",
       "ritardi": 2,
       "coefficienti_volumi": [
-        0.004967053771462521,
-        -0.002784299821268138
+        0.004967053771462523,
+        -0.0027842998212681378
       ],
       "errori_standard": [
-        0.004622526622294994,
-        0.004439933345354776
+        0.004622526622294995,
+        0.004439933345354778
       ],
-      "p_value": 0.3678449520529156,
+      "p_value": 0.36784495205291556,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
       "rmse_con_volumi": 0.6142180115102162,
-      "rmse_solo_ritardi": 0.5476604187533973,
-      "rapporto_rmse": 1.1215307706704811,
+      "rmse_solo_ritardi": 0.5476604187533974,
+      "rapporto_rmse": 1.121530770670481,
       "migliora_fuori_campione": false,
       "aiuta_a_prevedere": false
     },
@@ -50,17 +50,17 @@
       "ultimo_mese": "2026-10",
       "ritardi": 1,
       "coefficienti_volumi": [
-        0.004537409223385126
+        0.004537409223385112
       ],
       "errori_standard": [
-        0.0030752265401337167
+        0.0030752265401337163
       ],
-      "p_value": 0.15050505320767016,
+      "p_value": 0.15050505320767127,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
-      "rmse_con_volumi": 0.5803097130302182,
-      "rmse_solo_ritardi": 0.6080645748948024,
-      "rapporto_rmse": 0.95435540399737,
+      "rmse_con_volumi": 0.5803097130302166,
+      "rmse_solo_ritardi": 0.6080645748948014,
+      "rapporto_rmse": 0.9543554039973691,
       "migliora_fuori_campione": true,
       "aiuta_a_prevedere": false
     },
@@ -70,12 +70,12 @@
       "ultimo_mese": "2026-10",
       "ritardi": 1,
       "coefficienti_volumi": [
-        0.022178654215442805
+        0.022178654215442795
       ],
       "errori_standard": [
-        0.037227108178733564
+        0.03722710817873357
       ],
-      "p_value": 0.554606207696961,
+      "p_value": 0.5546062076969613,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
       "rmse_con_volumi": 0.5526484998499576,
@@ -93,9 +93,9 @@
         0.0023944017137080857
       ],
       "errori_standard": [
-        0.00409660782494414
+        0.0040966078249441385
       ],
-      "p_value": 0.5620973463602927,
+      "p_value": 0.5620973463602926,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
       "rmse_con_volumi": 0.5620992440490463,
@@ -110,10 +110,10 @@
       "ultimo_mese": "2026-10",
       "ritardi": 1,
       "coefficienti_volumi": [
-        0.0032790753327400835
+        0.0032790753327400844
       ],
       "errori_standard": [
-        0.004355563857900525
+        0.004355563857900526
       ],
       "p_value": 0.45584272320446406,
       "significativo_5_per_cento": false,
@@ -134,7 +134,7 @@
     "volume_mensile_medio_contro_eur_mld": 3.080451090023478,
     "dev_std_variazione_depositi_pp": 0.7270519371550607,
     "dev_std_variazione_volumi_pp": 21.891441570400925,
-    "correlazione_contemporanea": -0.001952920851112666,
+    "correlazione_contemporanea": -0.0019529208511126885,
     "correlazione_con_ritardo": 0.13468945643092795
   }
 }

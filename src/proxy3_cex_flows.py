@@ -1,6 +1,6 @@
 """Proxy 3: flussi on-chain verso exchange pesati per la quota EUR di ciascun exchange.
 
-Applica il metodo pre-registrato in reports/01_test_proxy3.md (sezione 2) ai file
+Applica il metodo pre-registrato in reports/01_proxy3_test.md (sezione 2) ai file
 prodotti da cex_flows_fetch.py e ai volumi della proxy 1.
 
 Uso: python src/proxy3_cex_flows.py
@@ -13,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-RAW, PROC = ROOT / "data" / "raw", ROOT / "data" / "processed"
+RAW, PROC = ROOT / "data" / "archive" / "raw", ROOT / "data" / "archive" / "processed"  # discarded method: data kept in data/archive
 
 # Nome nel pannello della proxy 1 -> etichette corrispondenti nelle liste Dune
 PANEL_TO_LABELS = {

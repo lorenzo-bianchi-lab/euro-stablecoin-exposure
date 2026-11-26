@@ -23,7 +23,7 @@ START = int(datetime(2026, 10, 12, tzinfo=timezone.utc).timestamp())
 END = int(datetime(2026, 11, 23, tzinfo=timezone.utc).timestamp())
 TRANSFER = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
 ZERO = "0x" + "0" * 64
-OUT = Path(__file__).resolve().parents[1] / "data" / "raw"
+OUT = Path(__file__).resolve().parents[1] / "data" / "archive" / "raw"  # discarded method: data kept in data/archive
 
 CHAINS = {
     "eth": {

@@ -57,7 +57,7 @@ export default function App() {
 
   useEffect(() => { let alive = true; loadLang(route.lang).then(() => alive && setLoaded(route.lang)); return () => { alive = false; }; }, [route.lang]);
   useEffect(() => {
-    Promise.all([fetchJson<SimData>("simulatore.json"), fetchJson<Meta>("meta.json"), fetchJson<Overview>("panoramica.json")])
+    Promise.all([fetchJson<SimData>("simulator.json"), fetchJson<Meta>("meta.json"), fetchJson<Overview>("overview.json")])
       .then(([sim, meta, overview]) => setData({ sim, meta, overview }))
       .catch((e) => setError(String(e.message ?? e)));
   }, []);

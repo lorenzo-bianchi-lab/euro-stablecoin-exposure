@@ -5,14 +5,14 @@ import { describe, expect, it } from "vitest";
 import { bankEffects, compute, levelEstimate, totals, type Bank, type Coefficients, type Country, type CreditVariant, type LevelBand, type Scenario } from "../src/lib/model";
 
 const read = (p: string) => JSON.parse(readFileSync(new URL(p, import.meta.url), "utf-8"));
-const sim = read("../public/data/simulatore.json") as { paesi: Country[]; coefficienti: Coefficients };
-const livello = read("../public/data/livello.json") as { fasce: LevelBand[]; quotaDetentori: number; quotaDollari: Record<string, number>; unita: Record<string, number> };
+const sim = read("../public/data/simulator.json") as { paesi: Country[]; coefficienti: Coefficients };
+const livello = read("../public/data/level.json") as { fasce: LevelBand[]; quotaDetentori: number; quotaDollari: Record<string, number>; unita: Record<string, number> };
 const fx = read("./fixtures.json") as {
   casi: { scenario: Omit<Scenario, "credito">; paesi: Record<string, Record<string, number>>; totale: Record<string, number> }[];
   livello: Record<string, Record<string, number>>;
   banche: { scenario: Omit<Scenario, "credito">; banche: Record<string, Record<string, number>> }[];
 };
-const banche = read("../public/data/banche.json") as { banche: Bank[] };
+const banche = read("../public/data/banks.json") as { banche: Bank[] };
 const VARIANTI: CreditVariant[] = ["uniforme", "basso", "alto", "soglia", "continua"];
 // i dati esportati sono arrotondati a sei decimali: la tolleranza è sull'ultima cifra, in termini relativi
 const close = (a: number, b: number) => expect(Math.abs(a - b)).toBeLessThanOrEqual(1e-5 * Math.max(1, Math.abs(b)));

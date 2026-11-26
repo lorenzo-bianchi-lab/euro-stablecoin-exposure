@@ -1,7 +1,7 @@
 """Modulo 2: indice settimanale della quota EUR dei volumi stablecoin/fiat.
 
 Aggiorna l'archivio cumulativo dei volumi giornalieri e calcola le serie definite in
-reports/03_modulo2_indice.md (sezione 2): USDT e USDC, con e senza Coinbase, su due
+reports/03_module2_weekly_index.md (sezione 2): USDT e USDC, con e senza Coinbase, su due
 finestre (principale dal 2024-12-09, lunga dal 2023-01-02 senza Kraken e Gemini).
 
 Uso: python src/module2_index.py            # aggiorna l'archivio (ultime settimane) e ricalcola
@@ -147,7 +147,7 @@ def weekly_index(d: pd.DataFrame, excluded: list[str] | None = None) -> pd.DataF
 
 
 def signals(d: pd.DataFrame) -> pd.DataFrame:
-    """Regola di segnalazione (reports/09_modulo2_segnale.md, sezione 2.5).
+    """Regola di segnalazione (reports/09_module2_signal_test.md, sezione 2.5).
 
     Per ogni serie e settimana: scarto della quota EUR e scarto del volume contro EUR
     rispetto alle 52 settimane precedenti, esclusa quella osservata.
@@ -296,8 +296,8 @@ def main() -> None:
     (PROC / "m2_summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
     if tmp.exists():
         tmp.unlink()
-    plot(idx_main, "03_indice_principale.png", f"Quota EUR dei volumi stablecoin/fiat, indice principale ({main_d.exchange.nunique()} exchange)")
-    plot(idx_long, "03_indice_lungo.png", "Quota EUR dei volumi stablecoin/fiat, indice lungo (senza Kraken e Gemini)")
+    plot(idx_main, "03_main_index.png", f"Quota EUR dei volumi stablecoin/fiat, indice principale ({main_d.exchange.nunique()} exchange)")
+    plot(idx_long, "03_long_index.png", "Quota EUR dei volumi stablecoin/fiat, indice lungo (senza Kraken e Gemini)")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     if fetch_info.get("modalita") != "offline" and fetch_info.get("pairs_ok", 1) == 0:
         sys.exit("nessun exchange ha risposto: indice ricalcolato dall'archivio, nessun dato nuovo")

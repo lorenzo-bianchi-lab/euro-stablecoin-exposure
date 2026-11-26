@@ -2,7 +2,7 @@
 
 Legge i CSV prodotti da exchange_fetch.py e coingecko_snapshot.py e calcola la stima
 centrale, l'intervallo e i controlli di robustezza definiti nel metodo pre-registrato
-(reports/00_test_H1.md, sezione 2.1).
+(reports/00_h1_feasibility_test.md, sezione 2.1).
 
 Uso: python src/proxy1_exchange.py
 """
@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-RAW, PROC = ROOT / "data" / "raw", ROOT / "data" / "processed"
+RAW, PROC = ROOT / "data" / "archive" / "raw", ROOT / "data" / "archive" / "processed"  # discarded method: data kept in data/archive
 
 
 def eur_share(df: pd.DataFrame, col: str = "volume_stable") -> float:

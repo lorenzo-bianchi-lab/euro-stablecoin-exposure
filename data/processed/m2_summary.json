@@ -1,18 +1,7 @@
 {
-  "calcolato_il": "2026-11-26T16:39:38+00:00",
+  "calcolato_il": "2026-11-26T23:47:45+00:00",
   "scarico": {
-    "fetched_from": "2026-10-20",
-    "fetched_to_excl": "2026-11-23",
-    "rows_fetched": 4560,
-    "rows_compared": 4560,
-    "rows_revised": 44,
-    "max_relative_revision": 0.16908766828283064,
-    "rows_added": 0,
-    "pairs_ok": 137,
-    "pairs_error": [
-      "Bitget RONUSDT"
-    ],
-    "modalita": "incrementale"
+    "modalita": "offline"
   },
   "riproducibilita": {
     "settimane_confrontate_con_esecuzione_precedente": 102,
@@ -85,13 +74,13 @@
       "usdt": {
         "stato": "nessuno",
         "scarto_quota": -1.1551841782530288,
-        "scarto_volume": -0.14085568081659391,
+        "scarto_volume": -0.14085568081659375,
         "quota_eur": 0.10161796823263257,
         "volume_eur_mld": 0.68938645791
       },
       "usdt_senza_coinbase": {
         "stato": "nessuno",
-        "scarto_quota": -1.4987861306145898,
+        "scarto_quota": -1.4987861306145895,
         "scarto_volume": -0.5291625595126925,
         "quota_eur": 0.08966279111819234,
         "volume_eur_mld": 0.57292171628
@@ -99,14 +88,14 @@
       "usdc": {
         "stato": "da verificare",
         "scarto_quota": 0.6688176389519416,
-        "scarto_volume": 2.4315024278039985,
+        "scarto_volume": 2.431502427803999,
         "quota_eur": 0.5427418896080541,
         "volume_eur_mld": 1.5802204300999998
       },
       "usdc_senza_coinbase": {
         "stato": "nessuno",
         "scarto_quota": 0.35736030868327495,
-        "scarto_volume": 1.7704944981618815,
+        "scarto_volume": 1.7704944981618813,
         "quota_eur": 0.4770161013769548,
         "volume_eur_mld": 1.1512088464
       }
@@ -342,8 +331,8 @@
       "usdt": 0.7049441226734758,
       "usdt_senza_coinbase": 0.7417298616673712,
       "usdc": 0.865152541916206,
-      "usdc_senza_coinbase": 0.8202926614465369,
-      "totale": 0.8520108809407718
+      "usdc_senza_coinbase": 0.8202926614465366,
+      "totale": 0.8520108809407715
     }
   },
   "pannello_costante": {

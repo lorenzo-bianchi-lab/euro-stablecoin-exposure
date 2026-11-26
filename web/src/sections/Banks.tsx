@@ -19,7 +19,7 @@ const rel = (a: number | null, b: number | null) => {
 export default function Banks({ data, scenario, lei }: { data: AppData; scenario: Scenario; lei: string | null }) {
   const { sim } = data;
   const route = useRoute();
-  const { data: f, error } = useJson<BanksFile>("banche.json");
+  const { data: f, error } = useJson<BanksFile>("banks.json");
   const { rows } = useResults(sim, scenario);
   const [query, setQuery] = useState("");
   const lost = useMemo(() => Object.fromEntries(rows.map((r) => [r.code, r.persiCategoria])), [rows]);

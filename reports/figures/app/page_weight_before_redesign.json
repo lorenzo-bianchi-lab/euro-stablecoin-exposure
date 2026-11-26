@@ -1,0 +1,101 @@
+{
+ "overview": {
+  "code": 802,
+  "style": 7,
+  "fonts": 0,
+  "data": 17,
+  "total": 827,
+  "totalCompressed": 274,
+  "requests": 14
+ },
+ "simulator": {
+  "code": 802,
+  "style": 7,
+  "fonts": 0,
+  "data": 17,
+  "total": 827,
+  "totalCompressed": 274,
+  "requests": 14
+ },
+ "map": {
+  "code": 802,
+  "style": 7,
+  "fonts": 0,
+  "data": 139,
+  "total": 950,
+  "totalCompressed": 314,
+  "requests": 15
+ },
+ "country": {
+  "code": 804,
+  "style": 7,
+  "fonts": 0,
+  "data": 57,
+  "total": 869,
+  "totalCompressed": 286,
+  "requests": 15
+ },
+ "banks": {
+  "code": 810,
+  "style": 7,
+  "fonts": 0,
+  "data": 52,
+  "total": 870,
+  "totalCompressed": 288,
+  "requests": 15
+ },
+ "bank_sheet": {
+  "code": 810,
+  "style": 7,
+  "fonts": 0,
+  "data": 52,
+  "total": 870,
+  "totalCompressed": 288,
+  "requests": 15
+ },
+ "channels": {
+  "code": 802,
+  "style": 7,
+  "fonts": 0,
+  "data": 17,
+  "total": 827,
+  "totalCompressed": 275,
+  "requests": 15
+ },
+ "monitor": {
+  "code": 804,
+  "style": 7,
+  "fonts": 0,
+  "data": 64,
+  "total": 876,
+  "totalCompressed": 286,
+  "requests": 15
+ },
+ "level": {
+  "code": 802,
+  "style": 7,
+  "fonts": 0,
+  "data": 20,
+  "total": 830,
+  "totalCompressed": 275,
+  "requests": 14
+ },
+ "compare": {
+  "code": 200,
+  "style": 7,
+  "fonts": 0,
+  "data": 17,
+  "total": 225,
+  "totalCompressed": 73,
+  "requests": 12
+ },
+ "method": {
+  "code": 193,
+  "style": 7,
+  "fonts": 0,
+  "data": 32,
+  "total": 232,
+  "totalCompressed": 77,
+  "requests": 11
+ }
+}

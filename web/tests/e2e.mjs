@@ -16,7 +16,7 @@ import { chromium } from "playwright-core";
 const here = fileURLToPath(new URL(".", import.meta.url));
 const DOCS = resolve(here, "../../docs"), OUT = resolve(here, "../../reports/figures/app");
 const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".md": "text/markdown", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".png": "image/png" };
-const banks = JSON.parse(await readFile(join(DOCS, "data/banche.json"), "utf-8"));
+const banks = JSON.parse(await readFile(join(DOCS, "data/banks.json"), "utf-8"));
 const firstBank = [...banks.banche].sort((a, b) => b.attivo - a.attivo)[0];
 const SECTIONS = ["home", "overview", "simulator", "map", "country/IT", "banks", `banks/${firstBank.lei}`, "channels", "monitor", "level", "compare", "method", "about"];
 const NO_NOTES = ["home", "about"]; // pagine di presentazione: non mostrano numeri con avvertenze proprie
@@ -532,7 +532,7 @@ const extra = {};
 await browser.close();
 server.close();
 const out = { eseguito: new Date().toISOString(), sezioni: results, ...extra, falliti: failures };
-await writeFile(join(OUT, "esito_test_browser.json"), JSON.stringify(out, null, 1));
+await writeFile(join(OUT, "browser_test_results.json"), JSON.stringify(out, null, 1));
 for (const r of results) console.log(`${r.sezione.padEnd(28)} grafici ${r.grafici}  avvertenze ${r.avvertenze}  tabelle ${r.tabelle1280} (tagliate ${r.tabelleTagliate1280}, scorrevoli a 390: ${r.tabelleScorrevoli390})  contrasto basso ${r.contrastoBasso.chiaro}/${r.contrastoBasso.scuro}  errori ${r.erroriConsole.length}  sbordo a 390 px: ${r.sbordo390} px`);
 console.log("peso (kB non compressi, codice/totale):", Object.entries(extra.peso ?? {}).map(([k, v]) => `${k.split("/")[0]} ${v.codice}/${v.totale}`).join("  "));
 console.log("grafici completi (punti dei dati/disegnati, visibile | secondo piano):", Object.entries(extra.graficiCompleti ?? {}).filter(([, v]) => v.visibile.grafici).map(([k, v]) => `${k.split("/")[0]} ${v.visibile.puntiDeiDati}/${v.visibile.puntiDisegnati} | ${v.secondoPiano.puntiDeiDati}/${v.secondoPiano.puntiDisegnati}`).join("  "));

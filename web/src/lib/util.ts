@@ -2,7 +2,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { getLang, type Lang } from "../i18n";
 import type { CreditVariant, DepositType, Rule, Scenario } from "./model";
 
-export const REPO = "https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure";
+export const REPO = "https://github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure";
 
 // ---------- dati: l'applicazione legge solo i file JSON esportati dallo script di aggiornamento
 const cache = new Map<string, Promise<unknown>>();

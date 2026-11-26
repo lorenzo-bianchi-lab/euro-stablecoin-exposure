@@ -1,6 +1,6 @@
 """Modulo 2, test pre-registrato: i volumi stablecoin contro euro anticipano i depositi?
 
-Metodo e criterio in reports/09_modulo2_segnale.md (sezioni 1 e 2). Confronta un modello
+Metodo e criterio in reports/09_module2_signal_test.md (sezioni 1 e 2). Confronta un modello
 con i soli ritardi dei depositi a vista delle famiglie con uno che aggiunge il ritardo
 dei volumi, nel campione e fuori campione. Il risultato va riportato anche se nullo.
 

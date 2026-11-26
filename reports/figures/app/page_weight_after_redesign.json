@@ -1,0 +1,119 @@
+{
+ "home": {
+  "code": 852,
+  "style": 23,
+  "fonts": 97,
+  "data": 139,
+  "total": 1114,
+  "totalCompressed": 433,
+  "requests": 18
+ },
+ "overview": {
+  "code": 767,
+  "style": 23,
+  "fonts": 97,
+  "data": 17,
+  "total": 907,
+  "totalCompressed": 365,
+  "requests": 16
+ },
+ "simulator": {
+  "code": 767,
+  "style": 23,
+  "fonts": 97,
+  "data": 17,
+  "total": 906,
+  "totalCompressed": 365,
+  "requests": 15
+ },
+ "map": {
+  "code": 854,
+  "style": 23,
+  "fonts": 97,
+  "data": 139,
+  "total": 1116,
+  "totalCompressed": 433,
+  "requests": 18
+ },
+ "country": {
+  "code": 770,
+  "style": 23,
+  "fonts": 97,
+  "data": 57,
+  "total": 950,
+  "totalCompressed": 377,
+  "requests": 17
+ },
+ "banks": {
+  "code": 776,
+  "style": 23,
+  "fonts": 97,
+  "data": 52,
+  "total": 951,
+  "totalCompressed": 379,
+  "requests": 16
+ },
+ "bank_sheet": {
+  "code": 776,
+  "style": 23,
+  "fonts": 97,
+  "data": 52,
+  "total": 951,
+  "totalCompressed": 379,
+  "requests": 16
+ },
+ "channels": {
+  "code": 768,
+  "style": 23,
+  "fonts": 97,
+  "data": 17,
+  "total": 908,
+  "totalCompressed": 366,
+  "requests": 16
+ },
+ "monitor": {
+  "code": 769,
+  "style": 23,
+  "fonts": 97,
+  "data": 64,
+  "total": 956,
+  "totalCompressed": 376,
+  "requests": 16
+ },
+ "level": {
+  "code": 768,
+  "style": 23,
+  "fonts": 97,
+  "data": 20,
+  "total": 911,
+  "totalCompressed": 366,
+  "requests": 16
+ },
+ "compare": {
+  "code": 235,
+  "style": 23,
+  "fonts": 97,
+  "data": 17,
+  "total": 374,
+  "totalCompressed": 185,
+  "requests": 14
+ },
+ "method": {
+  "code": 226,
+  "style": 23,
+  "fonts": 97,
+  "data": 32,
+  "total": 381,
+  "totalCompressed": 188,
+  "requests": 13
+ },
+ "about": {
+  "code": 223,
+  "style": 23,
+  "fonts": 97,
+  "data": 17,
+  "total": 362,
+  "totalCompressed": 181,
+  "requests": 12
+ }
+}

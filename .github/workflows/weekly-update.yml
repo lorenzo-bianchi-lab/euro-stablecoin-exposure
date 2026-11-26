@@ -1,0 +1,84 @@
+# Weekly update: downloads the data, recomputes the modules, regenerates the data of the
+# application and the methodological note, rebuilds the application and publishes it.
+#
+# If a source does not respond, the module that uses it fails: its results stay those of
+# the last successful run (they are in the repository) and the application flags it. If a
+# test fails instead, nothing is published and the site stays as it was.
+name: Weekly update
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # every Monday at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: weekly-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Dependencies
+        run: |
+          pip install -r requirements.txt
+          cd web && npm ci
+
+      - name: Data update
+        id: data
+        run: |
+          if python src/run_all.py; then
+            echo "outcome=complete" >> "$GITHUB_OUTPUT"
+          else
+            echo "outcome=partial" >> "$GITHUB_OUTPUT"
+            echo "::warning::At least one module failed: the application shows its last valid data and flags it."
+          fi
+
+      - name: Tests of the calculations and of the data layer
+        run: python -m unittest discover -s tests -v
+
+      - name: Methodological note with the updated figures
+        run: cd web && npm run note
+
+      - name: Build of the application
+        run: cd web && npm run build
+
+      - name: Browser tests
+        run: cd web && npm run e2e
+
+      - name: Publish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/raw data/processed web/public/data web/public/methodological-note.pdf web/tests/fixtures.json docs SUMMARY.md
+          if git diff --cached --quiet; then
+            echo "No new data: nothing to publish."
+          else
+            git commit -m "Automatic data update ($(date -u +%F), ${{ steps.data.outputs.outcome }})"
+            git push
+          fi
+
+      - name: Request a rebuild of the site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" \
+            || echo "::warning::Site rebuild not requested; it will happen at the next push."

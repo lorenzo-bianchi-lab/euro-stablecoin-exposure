@@ -1,4 +1,4 @@
-"""Genera la sintesi di una pagina (SINTESI.md) dai risultati dei moduli.
+"""Genera la sintesi di una pagina (SUMMARY.md) dai risultati dei moduli.
 
 Legge solo i file in data/processed: non scarica e non ricalcola nulla. Ogni frase è
 costruita dai dati, così la pagina resta vera a ogni aggiornamento.
@@ -15,7 +15,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 PROC = ROOT / "data" / "processed"
-OUT = ROOT / "SINTESI.md"
+OUT = ROOT / "SUMMARY.md"
 MONTHS = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"]
 SERIES_LABELS = {"usdt": "USDT", "usdt_senza_coinbase": "USDT senza Coinbase", "usdc": "USDC", "usdc_senza_coinbase": "USDC senza Coinbase"}
 SCENARIO_LABELS = {"P_minimo": "Stima propria, minimo", "P_centrale": "**Stima propria, centro**", "P_massimo": "Stima propria, massimo",
@@ -23,7 +23,7 @@ SCENARIO_LABELS = {"P_minimo": "Stima propria, minimo", "P_centrale": "**Stima p
                    "S2_alto_2030": "ESM alto 2030", "S3_alto_2030_quota_doppia": "ESM alto 2030, quota 15%"}
 MODULES = {"modulo1": "1 - Livello", "modulo2": "2 - Andamento", "modulo3": "3 - Vulnerabilità", "modulo4": "4 - Scenari",
            "modulo5": "5 - Credito e trasmissione", "modulo6": "6 - Singole banche"}
-PAGES = "https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/"
+PAGES = "https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/"
 QUADRANTS = {"A": "depositi alti, dollari bassi", "B": "entrambi alti", "C": "depositi bassi, dollari alti", "D": "entrambi bassi"}
 
 
@@ -233,9 +233,9 @@ def main() -> None:
     add("|---|---|---|---|")
     dates = {"modulo1": day(m1["data_circolazione"]), "modulo2": "settimana " + week(ip["ultima_settimana"]),
              "modulo3": month(m3["ultimo_mese"]), "modulo4": "bilanci di " + month(m4["mese_bilanci"])}
-    reports = {"modulo1": "reports/06_modulo1_livello.md", "modulo2": "reports/03_modulo2_indice.md",
-               "modulo3": "reports/04_modulo3_classifica.md", "modulo4": "reports/05_modulo4_scenari.md",
-               "modulo5": "reports/07_modulo5_credito.md", "modulo6": "reports/12_rifiniture_lingua_banche.md"}
+    reports = {"modulo1": "reports/06_module1_level.md", "modulo2": "reports/03_module2_weekly_index.md",
+               "modulo3": "reports/04_module3_ranking.md", "modulo4": "reports/05_module4_scenarios.md",
+               "modulo5": "reports/07_module5_credit.md", "modulo6": "reports/12_refinements_language_banks.md"}
     dates["modulo5"] = "bilanci di " + month(m4["mese_bilanci"])
     dates["modulo6"] = "30 giugno 2025"
     for key, label in MODULES.items():

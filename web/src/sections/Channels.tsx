@@ -14,7 +14,7 @@ const CORNER: Record<string, string> = { C: "insideTopRight", B: "insideTopRight
 export default function Channels({ data, scenario }: { data: AppData; scenario: Scenario }) {
   const { sim } = data;
   const route = useRoute();
-  const { data: ch, error } = useJson<ChannelsFile>("canali.json");
+  const { data: ch, error } = useJson<ChannelsFile>("channels.json");
   const { rows } = useResults(sim, scenario);
   const sel = route.params.get("q");
   if (!ch) return <Loading error={error} />;

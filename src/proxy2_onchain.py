@@ -1,7 +1,7 @@
 """Proxy 2: quota "orario europeo" dei trasferimenti on-chain di USDT e USDC.
 
 Legge i campioni di blocchi prodotti da onchain_fetch.py e applica il metodo
-pre-registrato (reports/00_test_H1.md, sezione 2.2): profilo orario UTC, scomposizione
+pre-registrato (reports/00_h1_feasibility_test.md, sezione 2.2): profilo orario UTC, scomposizione
 in tre fasce con minimi quadrati non negativi (metodo A) e partizione semplice
 08:00-16:00 UTC (metodo B).
 
@@ -19,7 +19,8 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-RAW, PROC, FIG = ROOT / "data" / "raw", ROOT / "data" / "processed", ROOT / "reports" / "figures"
+RAW, PROC = ROOT / "data" / "archive" / "raw", ROOT / "data" / "archive" / "processed"  # discarded method: data kept in data/archive
+FIG = ROOT / "reports" / "figures"
 START = datetime(2026, 10, 12, tzinfo=timezone.utc)
 END = datetime(2026, 11, 23, tzinfo=timezone.utc)
 ZONES = {"asia": "Asia/Shanghai", "europe": "Europe/Berlin", "americas": "America/New_York"}
@@ -177,7 +178,7 @@ def plot(profiles: dict, series: list) -> None:
     fig.suptitle("Profilo orario dei trasferimenti, giorni feriali, 12 ott - 22 nov 2026", x=0.01, ha="left", fontsize=12, color=ink)
     fig.tight_layout(rect=(0, 0, 1, 0.94))
     FIG.mkdir(parents=True, exist_ok=True)
-    fig.savefig(FIG / "00_profili_orari.png", dpi=160, facecolor=surface)
+    fig.savefig(FIG / "00_hourly_profiles.png", dpi=160, facecolor=surface)
 
 
 if __name__ == "__main__":

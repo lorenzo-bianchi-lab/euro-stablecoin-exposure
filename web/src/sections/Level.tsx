@@ -8,7 +8,7 @@ import { useJson, useRoute } from "../lib/util";
 
 export default function Level({ data }: { data: AppData }) {
   const route = useRoute();
-  const { data: lv, error } = useJson<LevelFile>("livello.json");
+  const { data: lv, error } = useJson<LevelFile>("level.json");
   if (!lv) return <Loading error={error} />;
   const g = (k: string) => route.params.get(k);
   const clamp = (v: string | null, d: number, lo: number, hi: number) => { const x = v === null ? NaN : Number(v); return Number.isFinite(x) ? Math.min(hi, Math.max(lo, x)) : d; };

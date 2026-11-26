@@ -5,7 +5,7 @@ Generati da `src/export_app_data.py`. Schema 2.0.0. Non modificare a mano.
 Ogni file contiene `schema`, `file`, `generato_il`, `dati_al`, `descrizione` e `campi` (la documentazione dei campi), più i dati.
 I file contengono numeri e codici. I testi dell'interfaccia, in inglese e in italiano, sono in `web/src/i18n/`; i nomi dei paesi si ricavano dal codice.
 
-## banche.json
+## banks.json
 
 Singole banche dell'area euro dall'esercizio di trasparenza EBA 2025: bilanci, quota retail, copertura per paese e confronto con il modulo 5. Dati pubblici per banca, non dati di vigilanza.
 
@@ -20,14 +20,203 @@ Singole banche dell'area euro dall'esercizio di trasparenza EBA 2025: bilanci, q
 - `paesi[].m5`: lo stesso rapporto con le varianti del modulo 5 sugli aggregati nazionali
 - `confronto`: somma sui paesi coperti, miliardi di euro
 
-## canali.json
+## channels.json
 
 Mappa a due canali: depositi a vista sul passivo e passività in dollari, con ciò che ogni quadrante implica per la trasmissione.
 
 - `quadranti`: A depositi alti e dollari bassi, B entrambi alti, C depositi bassi e dollari alti, D entrambi bassi; i testi sono nell'applicazione
 - `confrontoFonti`: paragonabilità tra misura BRI e misura BSI trimestrale
 
-## livello.json
+## countries/AT.json
+
+Serie storiche mensili di Austria: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/BE.json
+
+Serie storiche mensili di Belgio: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/BG.json
+
+Serie storiche mensili di Bulgaria: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/CY.json
+
+Serie storiche mensili di Cipro: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/DE.json
+
+Serie storiche mensili di Germania: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/EE.json
+
+Serie storiche mensili di Estonia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/ES.json
+
+Serie storiche mensili di Spagna: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/FI.json
+
+Serie storiche mensili di Finlandia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/FR.json
+
+Serie storiche mensili di Francia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/GR.json
+
+Serie storiche mensili di Grecia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/HR.json
+
+Serie storiche mensili di Croazia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/IE.json
+
+Serie storiche mensili di Irlanda: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/IT.json
+
+Serie storiche mensili di Italia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/LT.json
+
+Serie storiche mensili di Lituania: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/LU.json
+
+Serie storiche mensili di Lussemburgo: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/LV.json
+
+Serie storiche mensili di Lettonia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/MT.json
+
+Serie storiche mensili di Malta: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/NL.json
+
+Serie storiche mensili di Paesi Bassi: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/PT.json
+
+Serie storiche mensili di Portogallo: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/SI.json
+
+Serie storiche mensili di Slovenia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## countries/SK.json
+
+Serie storiche mensili di Slovacchia: composizione del passivo e indicatore di esposizione.
+
+- `composizione.voci`: quote sul totale del passivo, una serie per voce
+- `composizione.totale`: totale del passivo, miliardi di euro
+- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
+- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
+
+## level.json
 
 Stima dal basso del valore di stablecoin in dollari detenuto nell'area euro, con le ipotesi modificabili, e confronto con l'ipotesi ESM.
 
@@ -46,14 +235,14 @@ Stato dell'aggiornamento e di ogni fonte, ed elenco dei file di dati.
 - `fonti[].dettaglio`: per gli exchange: coppie senza risposta con la loro quota dei volumi, coppie mai disponibili, settimane trattenute
 - `aggiornamento.modalita`: online (con scarico dalle fonti) oppure offline
 
-## metodo.json
+## method.json
 
 Fonti, limiti dichiarati e metodi scartati, in italiano e in inglese.
 
 - `fonti`: tabella delle fonti di SPEC.md (sezione 3)
 - `limiti`: sezione 4 di SPEC.md
 - `metodiScartati`: sezione 5 di SPEC.md
-- `it, en`: ogni voce è esportata nelle due lingue; l'inglese viene da src/i18n/spec_en.json
+- `en, it`: each item is exported in both languages; the Italian comes from src/i18n/spec_it.json
 
 ## monitor.json
 
@@ -67,196 +256,7 @@ Indice settimanale della quota EUR dei volumi stablecoin/fiat, volumi assoluti, 
 - `fontiMancanti`: coppie con storico che non hanno risposto all'ultimo scarico, con la loro quota dei volumi; null se hanno risposto tutte
 - `volumi`: miliardi di unità di stablecoin (circa dollari) a settimana
 
-## paesi/AT.json
-
-Serie storiche mensili di Austria: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/BE.json
-
-Serie storiche mensili di Belgio: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/BG.json
-
-Serie storiche mensili di Bulgaria: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/CY.json
-
-Serie storiche mensili di Cipro: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/DE.json
-
-Serie storiche mensili di Germania: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/EE.json
-
-Serie storiche mensili di Estonia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/ES.json
-
-Serie storiche mensili di Spagna: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/FI.json
-
-Serie storiche mensili di Finlandia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/FR.json
-
-Serie storiche mensili di Francia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/GR.json
-
-Serie storiche mensili di Grecia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/HR.json
-
-Serie storiche mensili di Croazia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/IE.json
-
-Serie storiche mensili di Irlanda: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/IT.json
-
-Serie storiche mensili di Italia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/LT.json
-
-Serie storiche mensili di Lituania: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/LU.json
-
-Serie storiche mensili di Lussemburgo: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/LV.json
-
-Serie storiche mensili di Lettonia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/MT.json
-
-Serie storiche mensili di Malta: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/NL.json
-
-Serie storiche mensili di Paesi Bassi: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/PT.json
-
-Serie storiche mensili di Portogallo: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/SI.json
-
-Serie storiche mensili di Slovenia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## paesi/SK.json
-
-Serie storiche mensili di Slovacchia: composizione del passivo e indicatore di esposizione.
-
-- `composizione.voci`: quote sul totale del passivo, una serie per voce
-- `composizione.totale`: totale del passivo, miliardi di euro
-- `indicatore.posizione`: posizione in classifica tra i paesi con dati in quel mese
-- `indicatore.c1,c2,c3`: componenti dell'indicatore (quote)
-
-## panoramica.json
+## overview.json
 
 Indicatori chiave, segnalazioni attive e date dei dati.
 
@@ -264,7 +264,7 @@ Indicatori chiave, segnalazioni attive e date dei dati.
 - `scenarioCentrale`: effetto del livello centrale con regola R1 e sostituzione piena
 - `indice[serie]`: quota EUR dell'ultima settimana e stato della segnalazione
 
-## simulatore.json
+## simulator.json
 
 Bilanci bancari per paese, pesi delle regole di ripartizione e coefficienti: tutto ciò che serve a rifare nel browser i calcoli dei moduli 4 e 5.
 
@@ -283,6 +283,6 @@ Bilanci bancari per paese, pesi delle regole di ripartizione e coefficienti: tut
 - `cambioUsdPerEur`: cambio unico del programma: riferimento BCE più recente alla data della circolazione (modulo 1)
 - `paesi[].fonteUsd`: BRI oppure BSI (trimestrale per valuta)
 
-## geo/europa.geo.json
+## geo/europe.geo.json
 
 Confini dei paesi europei da Eurostat GISCO (Countries 2024, scala 1:20 milioni), con `code`, `name` e `area_euro`. © EuroGeographics per i confini amministrativi.

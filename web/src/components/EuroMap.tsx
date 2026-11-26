@@ -32,7 +32,7 @@ function bounds(features: Feature[], pad: number): Box {
 }
 /** Scarica i confini una volta, li proietta e li registra: la mappa principale e una copia per ogni riquadro. */
 export function loadMap() {
-  ready ??= fetchJson<Geo>("geo/europa.geo.json").then((g) => {
+  ready ??= fetchJson<Geo>("geo/europe.geo.json").then((g) => {
     const features = g.features.map((f) => ({ ...f, geometry: { type: "MultiPolygon", coordinates: f.geometry.coordinates.map((poly) => poly.map((ring) => ring.map(project))) } }));
     const projected = { type: "FeatureCollection", features };
     echarts.registerMap("europa", projected as never);

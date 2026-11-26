@@ -22,7 +22,7 @@ import requests
 
 H1_START = datetime(2026, 10, 12, tzinfo=timezone.utc)
 H1_END = datetime(2026, 11, 23, tzinfo=timezone.utc)  # escluso
-OUT = Path(__file__).resolve().parents[1] / "data" / "raw"
+OUT = Path(__file__).resolve().parents[1] / "data" / "archive" / "raw"  # standalone runs (test H1) write to the archive; module 2 uses collect()
 DAY = 86400
 
 session = requests.Session()

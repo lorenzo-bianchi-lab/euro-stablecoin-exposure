@@ -1,7 +1,7 @@
 """Modulo 5: dal deflusso di depositi al credito, e mappa a due canali.
 
 Applica ai deflussi del modulo 4 i coefficienti del Working Paper BCE 3199, come
-definito in reports/07_modulo5_credito.md (sezione 2). Sono coefficienti stimati su
+definito in reports/07_module5_credit.md (sezione 2). Sono coefficienti stimati su
 singole banche applicati ad aggregati nazionali: ordini di grandezza, non previsioni.
 
 Uso: python src/module5_credit.py            # scarica le serie aggiuntive e ricalcola
@@ -231,7 +231,7 @@ def plot(mp: pd.DataFrame, med_x: float, med_y: float) -> None:
     ax.set_title("Mappa a due canali: depositi a vista e raccolta in dollari", loc="left", fontsize=12, color=ink)
     fig.tight_layout()
     FIG.mkdir(parents=True, exist_ok=True)
-    fig.savefig(FIG / "07_mappa_due_canali.png", dpi=160, facecolor=surface)
+    fig.savefig(FIG / "07_two_channel_map.png", dpi=160, facecolor=surface)
     plt.close(fig)
 
 

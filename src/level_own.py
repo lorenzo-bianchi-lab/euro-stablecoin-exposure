@@ -1,6 +1,6 @@
 """Livello proprio: stime indipendenti del valore detenuto dai residenti dell'area euro.
 
-Metodo e criterio in reports/08_livello_proprio.md (sezioni 1 e 2).
+Metodo e criterio in reports/08_own_level_estimate.md (sezioni 1 e 2).
 B1: dal basso, con la distribuzione degli importi dell'indagine BCE (grafico B, riquadro b).
 B2 e B3: lette da data/raw/level_own_inputs.json, dove ogni cifra esterna è annotata con
 la fonte; se una strada non ha prodotto un numero, lì è scritto il motivo.

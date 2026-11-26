@@ -92,10 +92,10 @@ class Applicazione(unittest.TestCase):
     """L'applicazione legge solo i file JSON esportati e rifà i calcoli nel browser con le stesse formule."""
 
     DATA = ROOT / "web" / "public" / "data"
-    SECTIONS = ["panoramica.json", "simulatore.json", "canali.json", "monitor.json", "livello.json", "metodo.json", "meta.json", "banche.json"]
+    SECTIONS = ["overview.json", "simulator.json", "channels.json", "monitor.json", "level.json", "method.json", "meta.json", "banks.json"]
 
     def test_ogni_file_e_versionato_e_documentato(self):
-        files = [self.DATA / f for f in self.SECTIONS] + sorted((self.DATA / "paesi").glob("*.json"))
+        files = [self.DATA / f for f in self.SECTIONS] + sorted((self.DATA / "countries").glob("*.json"))
         self.assertEqual(len(files), len(self.SECTIONS) + 21)
         for f in files:
             doc = json.loads(f.read_text(encoding="utf-8"))
@@ -117,9 +117,9 @@ class Applicazione(unittest.TestCase):
         """Modulo 1, modulo 4 e applicazione usano lo stesso cambio: l'ipotesi ESM ha un solo valore."""
         m1 = json.loads((PROC / "m1_level.json").read_text())
         m4s = json.loads((PROC / "m4_summary.json").read_text())
-        sim = json.loads((self.DATA / "simulatore.json").read_text(encoding="utf-8"))
-        ov = json.loads((self.DATA / "panoramica.json").read_text(encoding="utf-8"))
-        lv = json.loads((self.DATA / "livello.json").read_text(encoding="utf-8"))
+        sim = json.loads((self.DATA / "simulator.json").read_text(encoding="utf-8"))
+        ov = json.loads((self.DATA / "overview.json").read_text(encoding="utf-8"))
+        lv = json.loads((self.DATA / "level.json").read_text(encoding="utf-8"))
         self.assertEqual(m1["cambio"]["usd_per_eur"], m4s["cambio_usd_per_eur"])
         self.assertAlmostEqual(sim["cambioUsdPerEur"], m1["cambio"]["usd_per_eur"], places=6)
         esm = {p["id"]: p["eur"] for p in sim["predefiniti"]}["ESM_oggi"]
@@ -129,15 +129,15 @@ class Applicazione(unittest.TestCase):
     def test_i_testi_di_spec_hanno_tutti_una_traduzione(self):
         """Nessuna stringa non tradotta tra i testi che l'applicazione prende da SPEC.md."""
         import export_app_data as exp
-        en = exp.spec_en()
-        missing = [x for x in exp.spec_strings() if x not in en or not en[x].strip()]
-        self.assertEqual(missing, [], "testi di SPEC.md senza traduzione in src/i18n/spec_en.json")
-        metodo = json.loads((self.DATA / "metodo.json").read_text(encoding="utf-8"))
+        it = exp.spec_it()
+        missing = [x for x in exp.spec_strings() if x not in it or not it[x].strip()]
+        self.assertEqual(missing, [], "SPEC.md texts without an Italian version in src/i18n/spec_it.json")
+        metodo = json.loads((self.DATA / "method.json").read_text(encoding="utf-8"))
         self.assertEqual(len(metodo["limiti"]["it"]), len(metodo["limiti"]["en"]))
         self.assertEqual(len(metodo["fonti"]["it"]["righe"]), len(metodo["fonti"]["en"]["righe"]))
 
     def test_i_dati_del_simulatore_coincidono_con_i_bilanci(self):
-        sim = json.loads((self.DATA / "simulatore.json").read_text(encoding="utf-8"))
+        sim = json.loads((self.DATA / "simulator.json").read_text(encoding="utf-8"))
         b, pop, fx = balance_sheets()
         self.assertEqual(len(sim["paesi"]), 21)
         ref = json.loads((PROC / "level_own.json").read_text())["livello_di_riferimento"]
@@ -272,13 +272,13 @@ class Riproducibilita(unittest.TestCase):
             for f in self.FILES:
                 self.assert_same(f, PROC / f, work / "data" / "processed" / f)
             # anche i dati dell'applicazione: stessi paesi e stessi numeri del simulatore
-            old = json.loads((ROOT / "web" / "public" / "data" / "simulatore.json").read_text(encoding="utf-8"))
-            new = json.loads((work / "web" / "public" / "data" / "simulatore.json").read_text(encoding="utf-8"))
+            old = json.loads((ROOT / "web" / "public" / "data" / "simulator.json").read_text(encoding="utf-8"))
+            new = json.loads((work / "web" / "public" / "data" / "simulator.json").read_text(encoding="utf-8"))
             self.assertEqual([c["code"] for c in old["paesi"]], [c["code"] for c in new["paesi"]])
             for c_old, c_new in zip(old["paesi"], new["paesi"]):
                 for k, v in c_old.items():
                     if isinstance(v, float):
-                        self.assertAlmostEqual(v, c_new[k], delta=1.5e-6, msg=f"simulatore.json {c_old['code']}.{k}")
+                        self.assertAlmostEqual(v, c_new[k], delta=1.5e-6, msg=f"simulator.json {c_old['code']}.{k}")
 
     def test_il_confronto_tollera_solo_l_ultima_cifra(self):
         with tempfile.TemporaryDirectory() as tmp:

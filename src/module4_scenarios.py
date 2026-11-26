@@ -1,6 +1,6 @@
 """Modulo 4: scenari di adozione delle stablecoin in dollari e raccolta bancaria per paese.
 
-Esercizio contabile definito in reports/05_modulo4_scenari.md (sezione 2): dato un importo
+Esercizio contabile definito in reports/05_module4_scenarios.md (sezione 2): dato un importo
 di stablecoin detenute nell'area euro, lo ripartisce tra i paesi e calcola di quanto si
 riduce la raccolta di ciascuno e quanta raccolta all'ingrosso servirebbe per sostituirla.
 

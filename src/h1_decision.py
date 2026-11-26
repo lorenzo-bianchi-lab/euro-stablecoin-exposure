@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-PROC = Path(__file__).resolve().parents[1] / "data" / "processed"
+PROC = Path(__file__).resolve().parents[1] / "data" / "archive" / "processed"  # discarded method: data kept in data/archive
 
 
 def verdict(r: float) -> str:

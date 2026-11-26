@@ -30,7 +30,7 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
   const c = sim.paesi.find((x) => x.code === code) ?? sim.paesi.find((x) => x.code === "IT")!;
   const name = country(c.code);
   const tot = sim.paesi.length;
-  const { data: file, error } = useJson<CountryFile>(`paesi/${c.code}.json`);
+  const { data: file, error } = useJson<CountryFile>(`countries/${c.code}.json`);
   const effects = useMemo(() => sim.predefiniti.map((p) => {
     const r = compute(sim.paesi, sim.coefficienti, { ...scenario, importo: p.eur }).find((x) => x.code === c.code)!;
     return { ...r, id: p.id, importo: p.eur };

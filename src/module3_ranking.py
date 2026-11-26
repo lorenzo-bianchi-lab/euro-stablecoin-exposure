@@ -1,6 +1,6 @@
 """Modulo 3: struttura della raccolta bancaria per paese e classifica di esposizione.
 
-Applica il metodo pre-registrato in reports/04_modulo3_classifica.md (sezioni 1 e 2):
+Applica il metodo pre-registrato in reports/04_module3_ranking.md (sezioni 1 e 2):
 tabella di composizione del passivo, tre componenti, indicatore principale e cinque
 pesature alternative.
 
@@ -245,7 +245,7 @@ def plot_ranking(now: pd.DataFrame, latest: str) -> None:
     ax.set_title(f"Esposizione strutturale della raccolta bancaria, {latest}", loc="left", fontsize=12, color=ink)
     fig.tight_layout()
     FIG.mkdir(parents=True, exist_ok=True)
-    fig.savefig(FIG / "04_classifica.png", dpi=160, facecolor=surface)
+    fig.savefig(FIG / "04_ranking.png", dpi=160, facecolor=surface)
     plt.close(fig)
 
 
@@ -272,7 +272,7 @@ def plot_evolution(now: pd.DataFrame, latest: str, evo: dict) -> None:
     ax.set_title("Quantità in gioco (C1): dieci anni fa e oggi", loc="left", fontsize=12, color=ink)
     ax.legend(frameon=False, fontsize=9, labelcolor=muted, loc="lower right")
     fig.tight_layout()
-    fig.savefig(FIG / "04_evoluzione_c1.png", dpi=160, facecolor=surface)
+    fig.savefig(FIG / "04_c1_over_time.png", dpi=160, facecolor=surface)
     plt.close(fig)
 
 

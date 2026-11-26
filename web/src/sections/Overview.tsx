@@ -6,7 +6,7 @@ import type { AppData } from "../lib/types";
 import { useRoute } from "../lib/util";
 import { SERIES_IDS, flagKey } from "./shared";
 
-/** Panoramica: il livello stimato in evidenza, poi segnalazioni, date dei dati e la classifica della raccolta. Nessun calcolo nuovo: solo i valori di panoramica.json. */
+/** Panoramica: il livello stimato in evidenza, poi segnalazioni, date dei dati e la classifica della raccolta. Nessun calcolo nuovo: solo i valori di overview.json. */
 export default function Overview({ data }: { data: AppData }) {
   const { overview: o, meta, sim } = data;
   const route = useRoute();

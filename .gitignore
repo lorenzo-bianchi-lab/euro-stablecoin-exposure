@@ -1,34 +1,35 @@
-# Segreti: le chiavi API vivono solo in .env
+# Secrets: API keys live only in .env
 .env
 .env.*
 !.env.example
 
-# Ambiente Python
+# Python environment
 .venv/
 venv/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+.ruff_cache/
 
-# Sistema
+# System
 .DS_Store
 
-# Dati: i file grezzi voluminosi non vanno nel repository (limite 50 MB)
+# Data: large raw files do not go in the repository (50 MB limit)
 data/raw/**/*.jsonl
 data/raw/**/*.json.gz
 data/raw/**/*.parquet
 *.zip
 
-# Etichette di terzi (Dune Spellbook, licenza BSL): si scaricano con lo script, non si committano
-data/raw/labels/
+# Third-party labels (Dune Spellbook, BSL licence): downloaded by the script, not committed
+data/archive/raw/labels/
 
-# File di lavoro del censimento dei flussi (una riga per blocco): si committa solo la tabella giornaliera
-data/raw/cex_flows_eth.csv
-data/raw/cex_flows_tron.csv
-data/raw/cex_flows_*_by_address.csv
+# Working files of the flow census (one row per block): only the daily table is committed
+data/archive/raw/cex_flows_eth.csv
+data/archive/raw/cex_flows_tron.csv
+data/archive/raw/cex_flows_*_by_address.csv
 
-# Risultato dell'ultimo importo libero richiesto al modulo 4
+# Result of the last free amount requested from module 4
 data/processed/m4_custom.csv
 
-# Esercizio di trasparenza EBA: i file completi si riscaricano con il modulo 6; si committa solo l'estratto
+# EBA transparency exercise: the full files are downloaded again by module 6; only the extract is committed
 data/raw/eba_te2025/

@@ -11,7 +11,7 @@ const here = fileURLToPath(new URL(".", import.meta.url));
 const arg = (name, fallback) => { const i = process.argv.indexOf(`--${name}`); return i > 0 ? process.argv[i + 1] : fallback; };
 const DIR = resolve(arg("dir", join(here, "../../docs")));
 const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".png": "image/png" };
-const banks = JSON.parse(await readFile(join(DIR, "data/banche.json"), "utf-8"));
+const banks = JSON.parse(await readFile(join(DIR, "data/banks.json"), "utf-8"));
 const lei = [...banks.banche].sort((a, b) => b.attivo - a.attivo)[0].lei;
 const routes = arg("routes", `home,overview,simulator,map,country/IT,banks,banks/${lei},channels,monitor,level,compare,method,about`).split(",").map((r) => r.replace("LEI", lei));
 const server = createServer(async (req, res) => {

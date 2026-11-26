@@ -67,7 +67,7 @@ describe("chiavi usate dal codice", () => {
 });
 
 describe("chiavi richieste dai dati", () => {
-  const sim = read("../public/data/simulatore.json"), meta = read("../public/data/meta.json"), mon = read("../public/data/monitor.json"), ch = read("../public/data/canali.json");
+  const sim = read("../public/data/simulator.json"), meta = read("../public/data/meta.json"), mon = read("../public/data/monitor.json"), ch = read("../public/data/channels.json");
   const need: string[] = [
     ...sim.paesi.map((c: { code: string }) => `country.${c.code}`), ...sim.predefiniti.map((p: { id: string }) => `preset.${p.id}`),
     ...sim.paesi.map((c: { fonteUsd: string }) => `usdSource.${c.fonteUsd}`), ...meta.fonti.map((s: { id: string }) => `source.${s.id}`),
@@ -86,7 +86,7 @@ describe("chiavi richieste dai dati", () => {
     for (const s of flags) expect(["segnale", "da verificare", "nessuno", "storico insufficiente"]).toContain(s);
   });
   it("i testi ricavati da SPEC.md sono esportati nelle due lingue, con lo stesso numero di voci", () => {
-    const m = read("../public/data/metodo.json");
+    const m = read("../public/data/method.json");
     for (const k of ["fonti", "metodiScartati"]) {
       expect(m[k].en.righe.length).toBe(m[k].it.righe.length);
       expect(m[k].en.righe.flat().filter((c: string, i: number) => c === m[k].it.righe.flat()[i] && /[àèéìòù]| (di|del|della|per|con) /.test(c))).toEqual([]);

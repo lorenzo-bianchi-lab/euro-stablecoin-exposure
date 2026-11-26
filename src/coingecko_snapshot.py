@@ -20,7 +20,7 @@ FIAT = set("USD EUR GBP TRY BRL KRW JPY AUD CAD CHF MXN ARS PLN RON UAH ZAR CZK 
 COINS = {"tether": "USDT", "usd-coin": "USDC"}
 MIN_USD = 100_000
 MAX_PAGES = 150
-OUT = Path(__file__).resolve().parents[1] / "data" / "raw"
+OUT = Path(__file__).resolve().parents[1] / "data" / "archive" / "raw"  # discarded method: data kept in data/archive
 
 
 def main() -> None:

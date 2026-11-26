@@ -25,7 +25,7 @@ const PARTS: [string, string][] = [["me-state", "me.state"], ["me-modules", "me.
 
 export default function Method({ data }: { data: AppData }) {
   const { meta } = data;
-  const { data: m, error } = useJson<MethodFile>("metodo.json");
+  const { data: m, error } = useJson<MethodFile>("method.json");
   if (!m) return <Loading error={error} />;
   const lang = getLang();
   const table = (tb: BiTable, name: string, pageSize: number) => (
