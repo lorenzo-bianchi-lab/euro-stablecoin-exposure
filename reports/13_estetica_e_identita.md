@@ -136,7 +136,11 @@ Corretto durante la revisione:
   una pubblicazione definitiva.
 - **Stato "fonte con problemi"** in Metodo e dati: non verificato a schermo, perché oggi
   tutte le fonti sono aggiornate.
-- **Esecuzione pianificata del lunedì**: ancora non osservata.
+- **Esecuzione pianificata del lunedì**: ancora non osservata. L'esecuzione avviata a
+  mano dopo il ridisegno è fallita la prima volta su un solo controllo (la chiusura del
+  menu mobile, per una questione di tempi sui server di GitHub) e non ha pubblicato
+  nulla, come previsto quando un test fallisce. Dopo la correzione del menu e del test è
+  riuscita in tutti i passi.
 
 ---
 
