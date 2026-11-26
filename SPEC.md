@@ -4,7 +4,7 @@ Documento di riferimento del progetto. Va riletto all'inizio di ogni sessione di
 prima di scrivere codice o report. Ogni modifica a obiettivo, moduli o criteri passa da
 qui e viene annotata nel registro in fondo.
 
-Ultimo aggiornamento: 2026-11-26 (prompt 7).
+Ultimo aggiornamento: 2026-11-26 (prompt 8).
 
 ## 0. Obiettivo non negoziabile
 
@@ -377,6 +377,26 @@ verdi. Cambia solo la presentazione. Criteri scritti prima del lavoro.
   per sezione, poi uniformate. Le pagine pesano circa 90 kB compressi in più, per i
   caratteri. Autori e licenza del codice restano da compilare.
 
+### Chiusura e versione 1.0 (2026-11-26, prompt 8)
+
+Nessun calcolo cambia e tutti i test restano verdi. Criteri scritti prima del lavoro.
+
+- **Correzioni**: (1) l'indirizzo senza sezione apre la pagina iniziale; (2) il primo
+  disegno di ogni grafico è completo e immediato, senza animazione, anche con la scheda
+  in secondo piano, in stampa o in una cattura, e un test confronta per ogni pagina i
+  punti disegnati con i punti dei dati dopo tre secondi, a scheda visibile e non; (3) la
+  mappa si apre con il paese dal valore più alto già selezionato; (4) le avvertenze
+  stanno sotto il grafico o la tabella a cui si riferiscono, in stile neutro, e resta
+  gialla solo una segnalazione attiva, senza eliminarne nessuna; (5) la pagina About
+  riporta autori (segnaposto "[NOMI DA INSERIRE]"), corso e università.
+- **Completamento**: (6) visita guidata in cinque passi (pagina iniziale, simulatore,
+  mappa, banche, monitor), avviabile dalla pagina iniziale e saltabile; (7) README in
+  inglese e nota metodologica di due pagine in inglese, scaricabile da "Method and
+  data"; (8) esecuzione completa da un clone pulito seguendo solo il README; (9)
+  verifica dell'aggiornamento pianificato, o istruzioni scritte per farla; (10)
+  etichetta della versione 1.0 con note di rilascio.
+- **Stato**: in corso.
+
 ### Aggiornamento e sintesi
 
 Un solo comando aggiorna i moduli nell'ordine giusto e rigenera la pagina di sintesi e i
@@ -506,3 +526,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-26 | Prompt 7. Criteri fissati prima del lavoro: nessun calcolo cambia; nome "Euro Stablecoin Exposure Monitor"; sistema grafico in un unico file; pagina iniziale e pagina About; ridisegno delle dieci sezioni; controlli di contrasto e accessibilità. Salvati gli screenshot "prima" (44, in `reports/figures/app/before`) |
 | 2026-11-26 | Prompt 7 completato (`reports/13_estetica_e_identita.md`): sistema grafico in `web/src/styles/tokens.css`, nome "Euro Stablecoin Exposure Monitor", pagina iniziale con tre risultati generati dai dati, pagina About, dieci sezioni ridisegnate in parallelo e uniformate, rapporto stampabile di due pagine, navigazione mobile. Nessun calcolo cambiato. Test: 22 Python, 42 dell'applicazione (10 nuovi sul contrasto), browser su 13 pagine nelle due lingue e nei due temi |
 | 2026-11-26 | Aggiornamento automatico avviato a mano dopo il prompt 7. Prima esecuzione: fallito un controllo del test nel browser (chiusura del menu mobile, per una questione di tempi sui server di GitHub), quindi niente pubblicazione da parte dell'Action, come previsto. Corretti il menu, che ora si chiude subito al clic, e il test. Seconda esecuzione: tutti i passi riusciti |
+| 2026-11-26 | Prompt 8. Criteri fissati prima del lavoro: cinque correzioni (indirizzo, primo disegno dei grafici, selezione sulla mappa, avvertenze neutre sotto grafici e tabelle, About), visita guidata, README e nota metodologica in inglese, clone pulito, verifica dell'aggiornamento pianificato, versione 1.0 |
