@@ -1,158 +1,168 @@
 # Euro Stablecoin Exposure Monitor
 
-Repository: `euro-stablecoin-exposure`. Progetto universitario, non affiliato alla BCE.
+A web application that estimates how many dollar stablecoins (USDT, USDC) euro area
+residents hold and shows what each level of adoption would mean for bank deposits,
+wholesale funding and credit, country by country and bank by bank.
 
-*English summary.* A university project (ESCP) addressed to the ECB: a web application
-that estimates a range for dollar stablecoins held by euro area residents (EUR 15.4
-billion, between 8.9 and 23.1), and shows what each adoption level would mean for
-deposits and credit, country by country and bank by bank. The application is in English
-and Italian: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
-The documentation below, SPEC.md and the reports are in Italian.
+University project (ESCP Business School, economics and finance), addressed to analysts
+at the European Central Bank. **It is not affiliated with the ECB** or with any other
+institution whose data it uses.
 
-Progetto universitario (ESCP, economia e finanza) destinato alla BCE. Il programma stima
-un intervallo per le stablecoin in dollari (USDT, USDC) detenute dai residenti dell'area
-euro, non una misura: 15,4 miliardi di euro, tra 8,9 e 23,1, da un'indagine BCE e da
-ipotesi dichiarate. Mostra poi come si muove l'attività in euro, quali sistemi bancari
-nazionali hanno la raccolta più esposta a una sostituzione dei depositi e quanto
-peserebbe ogni livello di adozione su depositi e credito, paese per paese. Riferimento:
-ECB Working Paper n. 3199 (marzo 2026).
+- **Application**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
+- **Methodological note** (PDF, two pages): https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/methodological-note.pdf
+- **Specification and decision log**: [SPEC.md](SPEC.md) (in Italian)
+- **Reports**, one per test and module: [reports/](reports/) (in Italian)
+- **Release notes**: [RELEASE_NOTES.md](RELEASE_NOTES.md)
 
-L'ipotesi dell'ESM (7,5% e 15% della circolazione) è riportata come confronto. La
-variante della stima calcolata sugli individui (42,0 miliardi) è un estremo superiore
-dichiarato: conta più volte la stessa famiglia.
+## What it does
 
-## In breve
+1. **Level.** Estimates a range for the dollar stablecoins held in the euro area (centre
+   about EUR 15 billion) from an ECB consumer survey, with every assumption adjustable,
+   and compares it with the ESM assumption.
+2. **Exposure.** Ranks the 21 national banking systems by how exposed their funding is to
+   a substitution of deposits, and places each on two channels: sight deposits and
+   dollar funding.
+3. **Scenarios.** For any amount held, computes by country the deposits to be replaced,
+   the extra wholesale funding and the reduction in credit, with a range. All scenario
+   calculations run in the browser.
+4. **Banks.** Applies the same scenario to 85 euro area banks from the public EBA
+   transparency exercise.
+5. **Monitor.** Tracks the weekly share of stablecoin trading against the euro on 24
+   exchanges, with a rule that flags unusual weeks.
+6. **Export.** Compares two scenarios, downloads every table as CSV and prints a
+   two-page report.
 
-- **Applicazione web**: https://sqsw5ryvdh-netizen.github.io/euro-stablecoin-exposure/
-  In inglese, con l'italiano selezionabile. Pagina iniziale, pagina About e dieci sezioni: panoramica, simulatore, mappa
-  d'Europa, scheda paese, banche, mappa a due canali, monitor settimanale, stima del
-  livello, confronto ed esportazione, metodo e dati.
-- **Risultati in una pagina**: [SINTESI.md](SINTESI.md), generata dal codice.
-- **Aggiornare tutto**: `.venv/bin/python src/run_all.py` (circa sei minuti, nessuna chiave
-  API), poi `npm run build` in `web/`. Ogni lunedì lo fa da sola una GitHub Action.
-- **Test**: `.venv/bin/python -m unittest discover -s tests -v`; in `web/`, `npm test`
-  (calcoli dell'applicazione contro gli script, traduzioni complete) e `npm run e2e`
-  (ogni pagina nel browser, nelle due lingue e nei due temi); `node tests/shots.mjs` per
-  gli screenshot.
-- **Cosa fa e cosa non promette**: [SPEC.md](SPEC.md). Va letto per primo.
+The reference is ECB Working Paper No 3199, "Stablecoins and monetary policy
+transmission" (March 2026). Scenarios are assumptions, not forecasts.
 
-I report numerati in `reports/` sono fotografie alla data indicata; l'applicazione, la
-sintesi e i file in `data/processed/` riflettono l'ultimo aggiornamento.
+## Open it
 
-## Cronologia
+Open the link above. No account, no installation; it works from a phone (390 px) up.
 
-Test preliminari e moduli, nell'ordine in cui sono stati fatti.
+- English by default; **Italiano** in the side bar. The choice is kept in the address
+  (`?lang=it`), like the scenario, so any page can be shared as a link.
+- Light and dark theme follow the system; the side bar has a switch.
+- **Guided tour**: "Take the guided tour" on the home page. Five steps, also usable as a
+  script for a demo:
+  1. *Home*: the three results at the latest data.
+  2. *Simulator*: pick the preset "ESM high 2030" and read deposits and credit.
+  3. *Map of Europe*: the same scenario by country; the top country is already selected.
+  4. *Banks*: the scenario down to the single bank; open a bank's sheet.
+  5. *Weekly monitor*: the index of trading against the euro and its flags.
 
-Fase 0: test di fattibilità "go / no-go" dell'ipotesi H1.
+## Run it locally
 
-> H1: indicatori pubblici indipendenti danno stime tra loro coerenti della quota
-> di attività in stablecoin in dollari attribuibile all'area euro.
-
-Risultato (2026-11-23): **GO CON RISERVA**, con R = 2,16. La proxy sugli exchange dà
-24,3%, quella sugli orari on-chain 52,4%. Dettagli, limiti e benchmark in
-[reports/00_test_H1.md](reports/00_test_H1.md).
-
-Test della proxy 3 (2026-11-24): **SOLO ANDAMENTO**. I flussi verso exchange pesati per
-quota EUR danno 38,4%, sopra il tetto del 30%, e risentono di etichette incomplete.
-Dettagli in [reports/01_test_proxy3.md](reports/01_test_proxy3.md).
-
-Verifica dei benchmark e delle serie BCE per il modulo 3 (2026-11-24): tutte le cifre
-esterne ritrovate negli originali; 12 serie di bilancio bancario scaricabili per i 21
-paesi dell'area euro, più le passività in valuta estera e in dollari dalla BRI per 13 paesi. Dettagli in
-[reports/02_benchmark_e_modulo3.md](reports/02_benchmark_e_modulo3.md).
-
-Modulo 2 (2026-11-24): indice settimanale della quota EUR dei volumi stablecoin/fiat,
-quattro serie su 102 settimane. Ultima settimana: USDT 11,9%, USDC 54,9%. Dettagli in
-[reports/03_modulo2_indice.md](reports/03_modulo2_indice.md). Aggiornamento:
-`.venv/bin/python src/module2_index.py`.
-
-Modulo 3 (2026-11-24): classifica dei 21 paesi dell'area euro per esposizione
-strutturale della raccolta bancaria (dati di settembre 2026). In testa Slovenia,
-Lettonia e Bulgaria; in coda Francia, Lussemburgo e Paesi Bassi. Dettagli in
-[reports/04_modulo3_classifica.md](reports/04_modulo3_classifica.md). Aggiornamento:
-`.venv/bin/python src/module3_ranking.py`.
-
-Modulo 4 (2026-11-24): scenari di adozione per paese. Al livello ipotizzato dall'ESM
-per oggi (19 miliardi di dollari) l'effetto è lo 0,2% dei depositi a vista dell'area;
-per arrivare al 5% servirebbero 464 miliardi di dollari. Dettagli in
-[reports/05_modulo4_scenari.md](reports/05_modulo4_scenari.md). Un livello qualsiasi:
-`.venv/bin/python src/module4_scenarios.py --importo-usd 250`.
-
-Modulo 1 (2026-11-24): livello attribuibile all'area euro applicando le quote assunte
-dall'ESM alla circolazione corrente di USDT e USDC. Al 24 novembre 2026: 16,7 miliardi di
-euro (quota 7,5%) e 33,4 (quota 15%). È un'ipotesi esterna applicata, non una stima.
-Dettagli in [reports/06_modulo1_livello.md](reports/06_modulo1_livello.md).
-Aggiornamento: `.venv/bin/python src/module1_level.py`.
-
-Estensioni del 2026-11-25:
-
-- **Credito e trasmissione** ([report 07](reports/07_modulo5_credito.md)): prestiti in
-  meno per scenario e paese con i coefficienti del WP 3199, e mappa a due canali.
-- **Livello proprio e regola R3** ([report 08](reports/08_livello_proprio.md)): stima dal
-  basso di 15,4 miliardi di euro (8,9 - 23,1); le altre due strade non la confermano.
-  Ripartizione tra paesi per possessori di cripto-attività.
-- **Test predittivo e segnalazione** ([report 09](reports/09_modulo2_segnale.md)):
-  l'indice settimanale non anticipa i depositi; ha però una regola di segnalazione.
-- **Cruscotto e test** ([report 10](reports/10_cruscotto_e_test.md)): sostituito
-  dall'applicazione.
-- **Dal motore al programma** ([report 11](reports/11_applicazione.md)): la stima propria
-  diventa il livello di riferimento, con il suo intervallo; il credito in evidenza usa
-  la regola uniforme del WP 3199 con intervallo basso-alto e una variante continua;
-  strato dati in JSON, applicazione web a nove sezioni, aggiornamento settimanale.
-
-- **Rifiniture, inglese, singole banche** ([report 12](reports/12_rifiniture_lingua_banche.md)):
-  Bybit fuori dall'indice settimanale, un solo cambio per tutto il programma,
-  applicazione in inglese e italiano, e modulo 6: 85 banche dell'area euro dai dati
-  pubblici dell'esercizio di trasparenza EBA 2025, con quota retail, effetto dello
-  scenario e confronto con il modulo 5. Aggiornamento: `.venv/bin/python src/module6_banks.py`.
-
-- **Estetica e identità** ([report 13](reports/13_estetica_e_identita.md)): sistema
-  grafico in un unico file, pagina iniziale con i tre risultati generati dai dati,
-  pagina About, sezioni ridisegnate, rapporto stampabile di due pagine, controlli di
-  contrasto e di accessibilità. Nessun calcolo cambiato.
-
-## Struttura
-
-| Percorso | Contenuto |
-|---|---|
-| `data/raw/` | Dati scaricati dalle API, senza modifiche |
-| `data/processed/` | Tabelle aggregate prodotte dai moduli |
-| `src/` | Script Python: i moduli, `run_all.py`, `summary.py`, `export_app_data.py` |
-| `web/` | Applicazione (React, Vite, TypeScript, ECharts) e i suoi test |
-| `web/public/data/` | Strato dati: un file JSON per sezione (numeri e codici), descritto in `README.md` nella stessa cartella |
-| `web/src/styles/tokens.css` | Sistema grafico: colori, caratteri, spaziature, palette dei grafici, nei due temi |
-| `web/src/i18n/`, `src/i18n/` | Testi dell'applicazione in inglese e in italiano, un file per sezione; traduzione dei testi presi da SPEC.md |
-| `docs/` | Applicazione compilata, pubblicata con GitHub Pages |
-| `reports/` | Report in Markdown; `reports/figures/app/` contiene gli screenshot delle sezioni |
-| `tests/` | Test automatici in Python |
-| `.github/workflows/` | Aggiornamento automatico del lunedì |
-
-## Come riprodurre
+Tested with Python 3.14, Node.js 24 and Google Chrome (Chrome is needed only for the
+browser tests, the screenshots and the PDF note).
 
 ```bash
+git clone https://github.com/sqsw5ryvdh-netizen/euro-stablecoin-exposure.git
+cd euro-stablecoin-exposure
 python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt   # versioni bloccate
-.venv/bin/python src/run_all.py             # moduli, sintesi e dati dell'applicazione
-.venv/bin/python src/run_all.py --offline   # ricalcolo dai dati già scaricati
-cd web && npm ci && npm run build           # applicazione compilata in docs/
-npm run dev                                 # applicazione in locale
+.venv/bin/pip install -r requirements.txt     # pinned versions
+cd web
+npm ci
+npm run dev                                   # the application at http://localhost:5173
 ```
 
-Ogni modulo si può eseguire da solo: `src/module1_level.py`, `src/module2_index.py`,
-`src/module3_ranking.py`, `src/module4_scenarios.py`, `src/module5_credit.py`,
-`src/module6_banks.py`, `src/level_own.py`. Gli script dei test preliminari (report 00, 01 e 02) restano in
-`src/` e sono descritti nei rispettivi report.
+The repository already contains the data and the built application (`docs/`), so the
+application also opens from any static server without building:
+`python3 -m http.server -d docs 8000`, then http://localhost:8000.
 
-Se una fonte non risponde, il modulo che la usa fallisce, i suoi risultati restano quelli
-dell'ultima esecuzione riuscita e l'applicazione lo segnala in alto e nella sezione
-"Metodo e dati".
+## Update the data
 
-## Chiavi API
+```bash
+.venv/bin/python src/run_all.py               # all modules from the sources, about 5 minutes, no API keys
+.venv/bin/python src/run_all.py --offline     # recompute from the data already downloaded
+cd web
+npm run note                                  # methodological note with the new figures
+npm run build                                 # application into ../docs
+```
 
-Le chiavi vanno solo nel file `.env` (escluso da git); `.env.example` elenca i nomi
-attesi. Tutto il programma usa esclusivamente endpoint pubblici senza chiave.
+`run_all.py` runs the modules in order, then writes the one-page summary
+([SINTESI.md](SINTESI.md), in Italian) and the JSON files the application reads
+(`web/public/data/`). If a source does not respond, the module that uses it fails, its
+previous results are kept, the others go on, and the application flags the source in the
+side bar and in "Method and data".
 
-## Regole sui dati
+**Automatic update.** A GitHub Action ([aggiornamento.yml](.github/workflows/aggiornamento.yml))
+does all of the above every Monday at 06:00 UTC, runs every test and publishes. If a test
+fails nothing is published and the site stays as it was.
 
-- Nessun dato inventato o simulato: se una fonte non è raggiungibile, il report lo dichiara.
-- Nessun file di dati oltre 50 MB nel repository.
+**How to check that the scheduled run started by itself.** Scheduled runs can start
+late, and GitHub disables schedules after 60 days without repository activity.
+
+- On GitHub: *Actions* → *Aggiornamento settimanale*; a scheduled run shows the event
+  `schedule` (manual ones show `workflow_dispatch`).
+- From a terminal: `gh run list --workflow aggiornamento.yml --event schedule --limit 5`
+- In the repository: a commit by `github-actions[bot]` titled
+  "Aggiornamento automatico dei dati (date, completo)" on that Monday.
+- In the application: "Data updated on ..." in the side bar shows that Monday.
+
+To start a run by hand: `gh workflow run aggiornamento.yml`, or *Run workflow* on the
+same page.
+
+## Tests
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v   # balance sheets, scenarios, data layer, banks, reproducibility
+cd web
+npm test            # the application's calculations against the Python modules; translations; colour contrast
+npm run build
+npm run e2e         # every page in the browser: both languages, both themes, 1280 and 390 px
+npm run shots       # screenshots of every page (optional)
+```
+
+The browser test checks, among other things, that no page logs an error, that every
+chart is completely drawn after three seconds (also with the tab in the background),
+that text meets AA contrast, that every page works from the keyboard and that the
+printable report is two pages.
+
+## Repository structure
+
+| Path | Content |
+|---|---|
+| `src/` | Python modules: `module1_level.py` to `module6_banks.py`, `level_own.py`, `run_all.py`, `summary.py`, `export_app_data.py` |
+| `data/raw/` | Data as downloaded from the sources (for the EBA exercise, the rows used) |
+| `data/processed/` | Tables and summaries produced by the modules |
+| `web/` | The application: React, Vite, TypeScript, ECharts |
+| `web/src/styles/tokens.css` | The design system: colours, type, spacing, chart palette, both themes |
+| `web/src/i18n/` | Interface texts in English and Italian, one file per section |
+| `web/public/data/` | The data layer: JSON files (numbers and codes) read by the application |
+| `web/tests/` | Tests of the application, screenshots, methodological note |
+| `docs/` | The built application, published with GitHub Pages |
+| `reports/` | Reports in Italian; `reports/figures/app/` holds screenshots and test results |
+| `tests/` | Python tests |
+| `.github/workflows/` | The weekly automatic update |
+
+No API keys are needed: every source is public and free. If keys are ever added they go
+in `.env` (excluded from git; see `.env.example`).
+
+## Limits
+
+- **No measurement of residence.** Holdings by euro area residents are not observed.
+  The level is a survey-based estimate from 11 countries extended to 21, and two other
+  routes attempted did not confirm it.
+- **No country-level adoption.** The allocation rules distribute a total; they do not
+  measure national holdings.
+- **No causal estimate.** Credit effects apply coefficients published in ECB Working
+  Paper 3199, estimated on individual banks, to national aggregates and to consolidated
+  banks: orders of magnitude, not forecasts.
+- **No early warning.** The flagging rule marks unusual weeks; a pre-registered test
+  found no predictive content for deposits.
+- **Rankings describe funding structure**, not the probability of outflows nor the
+  soundness of any banking system or bank.
+- **Bank data** are public data on consolidated groups dated June 2025, with no currency
+  breakdown; three countries have no bank in the sample.
+- **Not covered**: over-the-counter and peer-to-peer trading, decentralised finance,
+  stablecoins other than USDT and USDC, future adoption.
+
+The full list, with the methods tried and discarded, is in [SPEC.md](SPEC.md) and in
+"Method and data" in the application.
+
+## Authors and licence
+
+Authors: [NAMES TO BE INSERTED], economics and finance, ESCP Business School.
+The licence of the code is to be chosen by the authors. Typefaces: Source Serif 4 and
+Inter (SIL Open Font License 1.1); icons: Lucide (ISC); charts: Apache ECharts
+(Apache 2.0). Country boundaries: Eurostat GISCO, © EuroGeographics.
