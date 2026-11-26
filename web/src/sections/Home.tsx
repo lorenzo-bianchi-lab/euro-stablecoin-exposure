@@ -47,7 +47,7 @@ export default function Home({ data }: { data: AppData }) {
       </div>
       <div className="grid2 top">
         <Card title={t("home.map")} actions={<a className="btn small" href={route.href("map", { ind: "c1" })}>{t("home.map.open")}<ArrowRight className="icon" aria-hidden="true" /></a>}>
-          <EuroMap title={t("map.ind.c1")} unit={t("home.map.unit")} source={t("src.bsi", { m: month(o.dati_al.bilanci) })} values={values} digits={1} height={380}
+          <EuroMap title={t("map.ind.c1")} unit={t("home.map.unit")} source={t("src.map", { m: month(o.dati_al.bilanci) })} values={values} digits={1} height={380}
             alt={t("home.alt", { top: listing(dep.map((c) => item(c.code, pct(c.c1)))) })} onSelect={(code) => { window.location.hash = route.href(`country/${code}`); }} />
         </Card>
         <section aria-label={t("home.tools")}>

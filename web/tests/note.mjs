@@ -38,8 +38,8 @@ table{border-collapse:collapse;width:100%;font-size:7.9pt;margin:2pt 0 5pt}th,td
 .foot{font-size:7.2pt;color:#45526a;border-top:1px solid #d8dde6;padding-top:3pt;margin-top:6pt;display:flex;justify-content:space-between}
 .page2{break-before:page}b{font-weight:600}
 </style></head><body>
-<div class="head"><div><h1>Euro Stablecoin Exposure Monitor</h1><div class="lead">Methodological note · version 1.0</div></div>
-<div class="meta">Data updated on ${updated}<br>Bank balance sheets of ${month(sim.meseBilanci)}<br>University project, not affiliated with the ECB</div></div>
+<div class="head"><div><h1>Euro Stablecoin Exposure Monitor</h1><div class="lead">Methodological note · version 1.1 · Lorenzo Bianchi</div></div>
+<div class="meta">Data updated on ${updated}<br>Bank balance sheets of ${month(sim.meseBilanci)}<br>Independent university project (ESCP Business School)</div></div>
 
 <p class="lead">The programme estimates a range for the dollar stablecoins (USDT, USDC) held by euro area residents and computes, for any level of adoption, the effect on bank deposits, wholesale funding and credit, by country and by bank. It is descriptive: scenarios are assumptions, not forecasts. Reference: ECB Working Paper No 3199, "Stablecoins and monetary policy transmission" (March 2026).</p>
 
@@ -94,8 +94,8 @@ table{border-collapse:collapse;width:100%;font-size:7.9pt;margin:2pt 0 5pt}th,td
 <li><b>Bank data</b> are consolidated groups including activities outside the euro area, dated June 2025, with no currency breakdown; three countries have no bank in the sample.</li>
 <li><b>Not covered:</b> over-the-counter and peer-to-peer trading, decentralised finance, stablecoins other than USDT and USDC, future adoption.</li>
 </ul>
-<p>Full specification, decision log and reports (in Italian), code and data: github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure. Application: lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure.</p>
-<div class="foot"><span>Euro Stablecoin Exposure Monitor · methodological note · generated from the data updated on ${updated}</span><span>University project, not affiliated with the ECB</span></div>
+<p>Full specification, decision log, reports, code and data: github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure. Application: lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure.</p>
+<div class="foot"><span>Euro Stablecoin Exposure Monitor · methodological note · generated from the data updated on ${updated}</span><span>Independent university project (ESCP Business School). Not affiliated with any institution whose data it uses.</span></div>
 </body></html>`;
 
 const browser = await chromium.launch({ channel: process.env.CHROME_CHANNEL ?? "chrome", headless: true });

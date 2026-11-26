@@ -115,7 +115,7 @@ export default function App() {
           {!data || !scenario ? <Loading error={error} /> : (
             <Suspense fallback={<Loading />}><View data={data} scenario={scenario} arg={route.arg} /></Suspense>
           )}
-          <footer className="foot"><strong>{t("app.disclaimer")}</strong><span>{t("app.footer")}</span></footer>
+          <footer className="foot"><span>{t("app.disclaimer")}</span></footer>
         </main>
         <Tour step={Number(route.params.get("tour")) || 0} section={section.id} href={route.href} />
         <nav className="tabbar" aria-label={t("side.sections")}>

@@ -19,7 +19,7 @@ h1{font:600 76px/1.05 T;letter-spacing:-.015em;margin:28px 0 0}p{font-size:30px;
 .f{display:flex;justify-content:space-between;align-items:center;font-size:22px;color:#b7c8e6;border-top:1px solid #3b5a8c;padding-top:24px}.a{color:#f0a070;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:20px}</style>
 <div class="c"><div>${mark(84)}<h1>Euro Stablecoin<br>Exposure Monitor</h1></div>
 <p>Dollar stablecoins and euro area banks: estimated level, scenarios by country and by bank, credit, weekly monitor.</p>
-<div class="f"><span class="a">University project</span><span>Not affiliated with the ECB</span></div></div>`;
+<div class="f"><span class="a">ESCP Business School</span><span>Independent university project</span></div></div>`;
 const icon = `<style>${css}.i{width:180px;height:180px;background:#163b6e;display:flex;align-items:center;justify-content:center}</style><div class="i">${mark(150)}</div>`;
 const browser = await chromium.launch({ channel: process.env.CHROME_CHANNEL ?? "chrome", headless: true });
 for (const [html, w, h, file] of [[og, 1200, 630, "og.png"], [icon, 180, 180, "icon-180.png"]]) {

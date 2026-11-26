@@ -34,7 +34,7 @@ describe("file di traduzione", () => {
   });
   it("le due lingue non hanno testi identici dove dovrebbero differire", () => {
     const same = Object.keys(en).filter((k) => en[k] === it_[k] && /[a-z]{4,} [a-z]{4,}/i.test(en[k]));
-    expect(same.filter((k) => !/^(source\.esm_wp79|ov\.dates\.fx\.value|app\.|nav\.about|home\.item|about\.lic\.|about\.university$)/.test(k))).toEqual([]);
+    expect(same.filter((k) => !/^(source\.esm_wp79|ov\.dates\.fx\.value|app\.|nav\.about|home\.item|about\.lic\.|about\.university$|about\.authors\.names$)/.test(k))).toEqual([]);
   });
 });
 
