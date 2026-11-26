@@ -1,12 +1,12 @@
 {
-  "calcolato_il": "2026-11-26T16:03:47+00:00",
+  "calcolato_il": "2026-11-26T16:39:38+00:00",
   "scarico": {
     "fetched_from": "2026-10-20",
     "fetched_to_excl": "2026-11-23",
     "rows_fetched": 4560,
     "rows_compared": 4560,
-    "rows_revised": 15,
-    "max_relative_revision": 0.03195210906566858,
+    "rows_revised": 44,
+    "max_relative_revision": 0.16908766828283064,
     "rows_added": 0,
     "pairs_ok": 137,
     "pairs_error": [
@@ -340,10 +340,10 @@
     },
     "correlazione_con_principale": {
       "usdt": 0.7049441226734758,
-      "usdt_senza_coinbase": 0.7417298616673711,
-      "usdc": 0.8651525419162058,
-      "usdc_senza_coinbase": 0.8202926614465368,
-      "totale": 0.8520108809407716
+      "usdt_senza_coinbase": 0.7417298616673712,
+      "usdc": 0.865152541916206,
+      "usdc_senza_coinbase": 0.8202926614465369,
+      "totale": 0.8520108809407718
     }
   },
   "pannello_costante": {

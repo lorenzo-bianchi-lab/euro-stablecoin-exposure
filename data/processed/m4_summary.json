@@ -139,8 +139,8 @@
     "paesi_imputati": [
       "BG"
     ],
-    "correlazione_di_rango_R3_R1": 0.9233766233766234,
-    "correlazione_di_rango_R3_R2": 0.9688311688311686,
+    "correlazione_di_rango_R3_R1": 0.9233766233766233,
+    "correlazione_di_rango_R3_R2": 0.9688311688311685,
     "primi_cinque_R3": [
       "BG",
       "SI",
@@ -178,7 +178,7 @@
         "perdita_depositi_clientela": 0.01980268446611981
       }
     },
-    "correlazione_di_rango_T1_T2": 0.9636363636363637,
+    "correlazione_di_rango_T1_T2": 0.9636363636363635,
     "correlazione_di_rango_T1_T3": 0.9285714285714284
   },
   "sensibilita_S2_area_euro": {
