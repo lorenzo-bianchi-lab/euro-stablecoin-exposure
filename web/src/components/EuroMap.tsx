@@ -73,11 +73,12 @@ export function EuroMap({ title, unit, source, values, digits, height = 480, alt
     const cls = classes(values, p.ramp), last = cls.length - 1;
     return {
       tooltip: { ...tooltipStyle(p), trigger: "item", formatter: (x: { name: string }) => (x.name in by ? `<b>${country(x.name)}</b><br>${nf(by[x.name], digits)}` : t("map.outside")) },
-      visualMap: { show: false, type: "piecewise", pieces: cls.map((c, i) => ({ gte: c.min, ...(i === last ? { lte: c.max } : { lt: c.max }), color: c.color })), outOfRange: { color: p.none } },
+      visualMap: { show: false, type: "piecewise", // la prima classe è aperta in basso e l'ultima in alto: minimo e massimo non possono cadere fuori per un arrotondamento
+        pieces: cls.map((c, i) => ({ ...(i === 0 ? {} : { gte: c.min }), ...(i === last ? {} : { lt: c.max }), ...(cls.length === 1 ? { gte: -Infinity } : {}), color: c.color })), outOfRange: { color: p.none } },
       series: [{ type: "map", map: inset ? `europa-${inset}` : "europa", nameProperty: "code", roam: false, aspectScale: 1, boundingCoords: inset ? geo.boxes[inset] : geo.frame,
         left: inset ? 4 : 0, right: inset ? 4 : 0, top: inset ? 4 : 0, bottom: inset ? 4 : 0,
         itemStyle: { areaColor: p.none, borderColor: p.border, borderWidth: 0.7 }, emphasis: { label: { show: false }, itemStyle: { areaColor: null, borderColor: p.selected, borderWidth: 1.6 } }, select: { disabled: true }, label: { show: false },
-        data: values.map((v) => ({ name: v.code, value: +v.value.toFixed(6), ...(v.code === selected ? { itemStyle: { borderColor: p.selected, borderWidth: 2.4 } } : {}) })) }],
+        data: values.map((v) => ({ name: v.code, value: v.value, ...(v.code === selected ? { itemStyle: { borderColor: p.selected, borderWidth: 2.4 } } : {}) })) }],
     };
   };
   const chart = <Chart bare={!!inset} title={title} unit={unit} source={source} height={height} alt={alt} deps={[values, selected, geo]} option={option} onClick={(p) => { if (p.name && p.name in by) onSelect?.(p.name); }} />;

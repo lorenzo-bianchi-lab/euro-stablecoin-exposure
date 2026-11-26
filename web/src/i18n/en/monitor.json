@@ -25,5 +25,17 @@
  "mo.flagged": "Flagged weeks",
  "mo.data": "Index data",
  "mo.col.usdtEur": "USDT against EUR (bn)",
- "mo.col.usdcEur": "USDC against EUR (bn)"
+ "mo.col.usdcEur": "USDC against EUR (bn)",
+ "mo.hero.label": "EUR share of {s} volumes, week of {d}",
+ "mo.hero.range": "{chg} percentage points on the previous week · 52-week average {avg}",
+ "mo.hero.state.signal": "Flag: the EUR share and the volume against the euro both deviate by more than 2 standard deviations, with the same sign (share {sq}, volume {sv}).",
+ "mo.hero.state.check": "To be checked: only one of the two gaps exceeds 2 standard deviations (share {sq}, volume {sv}).",
+ "mo.hero.state.none": "No flag: both gaps are within 2 standard deviations (share {sq}, volume {sv}).",
+ "mo.hero.state.short": "No flag can be computed: the series does not yet have 52 weeks of history.",
+ "mo.hero.state.na": "The flag status is not available for this week.",
+ "mo.hero.side": "All four series, last week",
+ "mo.col.gapShare": "Share gap",
+ "mo.col.gapVolume": "Volume gap",
+ "mo.alt.share": "Weekly EUR share over {n} weeks. {s}: high of {max} in the week of {wMax}, low of {min} in the week of {wMin}.",
+ "mo.alt.vol": "Weekly volumes against the euro: highest {max} in the week of {wMax}, lowest {min} in the week of {wMin}."
 }

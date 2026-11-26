@@ -1,6 +1,5 @@
 {
- "me.state": "Stato dell'aggiornamento",
- "me.lastRun": "Ultima esecuzione: {d}, {mode}. L'aggiornamento automatico è previsto ogni lunedì.",
+ "me.state": "Stato per fonte",
  "me.mode.online": "con scarico dalle fonti",
  "me.mode.offline": "ricalcolo senza scarico",
  "me.allUpdated": "Tutte le fonti aggiornabili hanno risposto nell'ultima esecuzione.",
@@ -66,7 +65,7 @@
  "coef.7.name": "Trasmissione ai tassi sui depositi",
  "coef.7.value": "circa 10%; oltre 30% per banche dipendenti dall'ingrosso",
  "coef.7.origin": "Sezione 4.2, figura 9",
- "me.sources": "Fonti",
+ "me.sources": "Fonti e accesso",
  "me.discarded": "Metodi scartati",
  "me.docs": "Documentazione",
  "me.docs.spec": "obiettivo, moduli, criteri e registro delle decisioni.",
@@ -74,5 +73,18 @@
  "me.docs.reports.text": "un documento per ogni test e modulo, con limiti e cose non riuscite.",
  "me.docs.data": "Descrizione dei file di dati",
  "me.docs.data.text": "letti da questa applicazione ({n} file).",
- "me.docs.code": "Codice sorgente"
+ "me.docs.code": "Codice sorgente",
+ "me.hero.label": "Ultimo aggiornamento",
+ "me.hero.range": "Esecuzione {mode}; l'aggiornamento automatico è previsto ogni lunedì.",
+ "me.hero.ok": "In questa esecuzione sono state aggiornate {u} delle {n} fonti aggiornabili, nessuna con problemi; le altre {s} sono documenti pubblicati che non cambiano.",
+ "me.hero.flagged": "In questa esecuzione sono state aggiornate {u} delle {n} fonti aggiornabili; {f} hanno conservato l'ultimo dato valido o sono aggiornate solo in parte. Le altre {s} sono documenti pubblicati che non cambiano.",
+ "me.hero.offline": "In questa esecuzione non è stata interrogata nessuna fonte: i risultati sono stati ricalcolati dai dati già scaricati. {s} fonti sono documenti pubblicati che non cambiano.",
+ "me.kpi.of": "{a} su {b}",
+ "me.kpi.updated": "Fonti aggiornate",
+ "me.kpi.updated.sub": "tra quelle aggiornabili; escluse {s} fonti statiche",
+ "me.kpi.flagged": "Fonti ferme o parziali",
+ "me.kpi.flagged.sub": "con l'ultimo dato valido o aggiornate in parte",
+ "me.kpi.modules": "Moduli riusciti",
+ "me.kpi.modules.sub": "un modulo fallito conserva i dati precedenti",
+ "me.toc": "In questa pagina"
 }

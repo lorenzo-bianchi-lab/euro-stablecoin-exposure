@@ -1,8 +1,6 @@
 {
- "ov.kpis": "Indicatori chiave",
  "ov.kpi.level": "Stablecoin in dollari detenute nell'area euro",
  "ov.kpi.level.range": "intervallo {a} – {b}",
- "ov.kpi.level.sub": "estremo superiore dichiarato {x}",
  "ov.kpi.esm": "Confronto: ipotesi ESM",
  "ov.kpi.esm.sub": "con quota 15%: {x}",
  "ov.kpi.outflow": "Depositi da sostituire al livello centrale",
@@ -28,5 +26,10 @@
  "ov.sources": "Fonti e stato dell'aggiornamento",
  "ov.exposed": "Dove la raccolta è più esposta",
  "ov.chart.title": "Depositi a vista di famiglie e imprese sul totale del passivo",
- "ov.chart.unit": "percentuale, paesi in ordine di classifica"
+ "ov.chart.unit": "percentuale; paesi in ordine di classifica, clic su un paese per aprirne la scheda",
+ "ov.hero.text": "Valore centrale della stima da indagine per i {n} paesi dell'area euro. L'estremo superiore dichiarato è {x}.",
+ "ov.chart.alt": "Barre orizzontali per {n} paesi in ordine di classifica. La quota più alta è quella di {hi}, {a}; la più bassa quella di {lo}, {b}.",
+ "ov.pick": "Apri la scheda di un paese",
+ "ov.pick.none": "Scegli un paese",
+ "ov.chart.rank": "{n}. {c}"
 }

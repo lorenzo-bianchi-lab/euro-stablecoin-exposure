@@ -25,5 +25,22 @@
  "map.ind.usd": "Struttura: passività in dollari",
  "map.unit.usd": "percentuale del passivo",
  "map.ind.quotaPossessori": "Possessori di cripto-attività",
- "map.unit.quotaPossessori": "percentuale degli adulti"
+ "map.unit.quotaPossessori": "percentuale degli adulti",
+ "map.static": "Questo indicatore descrive la struttura dei bilanci: non cambia con lo scenario.",
+ "map.linkedOff": "Scenario (non usato da questo indicatore)",
+ "map.hero.label": "Valore più alto · {ind}",
+ "map.hero.range": "{c}, {u}",
+ "map.hero.scen": "In questo scenario il paese più colpito è {c} ({v}). Il dato dell'area euro è {area} e il paese mediano si ferma a {med}; il meno colpito è {low} ({lv}).",
+ "map.hero.struct": "Il valore più alto è in {c} ({v}). La mediana dei {n} paesi è {med}; il valore più basso è in {low} ({lv}).",
+ "map.alt": "Mappa dell'area euro colorata per {ind} ({u}): massimo in {c} ({v}), minimo in {low} ({lv}).",
+ "map.insetAlt": "Riquadro ingrandito di {c}: {v} {u}.",
+ "map.kpi.area": "Area euro",
+ "map.kpi.total": "Totale dell'area euro",
+ "map.kpi.median": "Mediana dei {n} paesi",
+ "map.kpi.low": "Valore più basso",
+ "map.sel.title": "Paese selezionato",
+ "map.sel.clear": "Deseleziona",
+ "map.sel.rank": "Posizione {r} su {n}",
+ "map.sel.open": "Apri la scheda paese",
+ "map.sel.none": "Scegli un paese sulla mappa, in un riquadro o nella tabella per vederne qui i valori."
 }

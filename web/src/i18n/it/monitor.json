@@ -25,5 +25,17 @@
  "mo.flagged": "Settimane segnalate",
  "mo.data": "Dati dell'indice",
  "mo.col.usdtEur": "USDT contro EUR (mld)",
- "mo.col.usdcEur": "USDC contro EUR (mld)"
+ "mo.col.usdcEur": "USDC contro EUR (mld)",
+ "mo.hero.label": "Quota EUR dei volumi {s}, settimana del {d}",
+ "mo.hero.range": "{chg} punti percentuali sulla settimana precedente · media a 52 settimane {avg}",
+ "mo.hero.state.signal": "Segnalazione: la quota EUR e il volume contro euro si discostano entrambi di oltre 2 deviazioni standard, con lo stesso segno (quota {sq}, volume {sv}).",
+ "mo.hero.state.check": "Da verificare: solo uno dei due scarti supera 2 deviazioni standard (quota {sq}, volume {sv}).",
+ "mo.hero.state.none": "Nessuna segnalazione: i due scarti restano entro 2 deviazioni standard (quota {sq}, volume {sv}).",
+ "mo.hero.state.short": "Nessuna segnalazione calcolabile: la serie non ha ancora 52 settimane di storico.",
+ "mo.hero.state.na": "Lo stato della segnalazione non è disponibile per questa settimana.",
+ "mo.hero.side": "Le quattro serie, ultima settimana",
+ "mo.col.gapShare": "Scarto quota",
+ "mo.col.gapVolume": "Scarto volume",
+ "mo.alt.share": "Quota EUR settimanale su {n} settimane. {s}: massimo {max} nella settimana del {wMax}, minimo {min} nella settimana del {wMin}.",
+ "mo.alt.vol": "Volumi settimanali contro euro: massimo {max} nella settimana del {wMax}, minimo {min} nella settimana del {wMin}."
 }

@@ -71,7 +71,8 @@ svg.icon { width: 18px; height: 18px; flex: none; stroke-width: 1.75; }
 .stack > * + * { margin-top: var(--space-3); }
 /* pannello stabile a sinistra e contenuto a destra; su schermi stretti il pannello va sopra */
 .split { display: grid; grid-template-columns: var(--panel-width) minmax(0, 1fr); gap: var(--space-5); align-items: start; margin-bottom: var(--space-5); }
-.split > .panel { position: sticky; top: var(--space-4); }
+.split > .panel, .split > .stack { position: sticky; top: var(--space-4); }
+.split > .stack > * + * { margin-top: var(--space-4); }
 
 /* risultato principale della sezione */
 .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-5) var(--space-6); align-items: center; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--primary);
@@ -84,6 +85,7 @@ svg.icon { width: 18px; height: 18px; flex: none; stroke-width: 1.75; }
 .hero-side { min-width: 0; }
 
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: var(--space-4) var(--space-5); margin: 0 0 var(--space-4); }
+.kpis.col { grid-template-columns: minmax(0, 1fr); margin-bottom: 0; }   /* in colonna, accanto al risultato principale */
 .kpi { min-width: 0; padding-left: var(--space-3); border-left: 2px solid var(--line); }
 .kpi-label { font-size: var(--text-sm); color: var(--ink-2); line-height: 1.3; }
 .kpi-value { font: var(--weight-strong) var(--figure-md)/1.25 var(--font-text); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; overflow-wrap: anywhere; }
@@ -99,7 +101,6 @@ svg.icon { width: 18px; height: 18px; flex: none; stroke-width: 1.75; }
 .note-i svg { width: 15px; height: 15px; }
 .note-s { flex: 1; min-width: 0; }
 .note-more { flex: none; text-decoration: underline; font-size: var(--text-xs); }
-.note[open] .note-more { opacity: 0.65; }
 .note p { margin: var(--space-2) 0 2px 23px; line-height: 1.5; }
 .alert { background: var(--accent-soft); color: var(--ink); border: 1px solid var(--accent); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--text-md); display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; }
 
@@ -130,6 +131,7 @@ input[type="range"] { width: 100%; accent-color: var(--primary); height: 24px; m
 .panel-head h2 { font: var(--weight-strong) var(--text-sm)/1.2 var(--font-text); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
 .panel .controls { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
 .panel .presets { gap: var(--space-1); }
+.panel select { font-size: var(--text-sm); }
 .panel .presets .btn { width: 100%; justify-content: space-between; font-weight: 400; }
 .panel-summary { font-size: var(--text-sm); color: var(--ink-2); margin: 0; }
 .panel-toggle { display: none; }
@@ -142,6 +144,7 @@ td { white-space: nowrap; }
 th { vertical-align: bottom; font-weight: var(--weight-strong); font-size: var(--text-xs); letter-spacing: 0.02em; color: var(--ink-2); min-width: 60px; line-height: 1.25; border-bottom: 1px solid var(--line-strong); }
 td.wrap { white-space: normal; min-width: 150px; overflow-wrap: anywhere; }
 td.text { white-space: normal; }
+td.nowrap, th.nowrap, .nowrap { white-space: nowrap; }
 th.wrap { min-width: 150px; }
 th:first-child, td:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); }
 td:first-child.wrap { min-width: 130px; }
@@ -226,7 +229,10 @@ dl.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
   .card, .hero { padding: var(--space-4); margin-bottom: var(--space-4); }
   .grid2, .grid3, .split { gap: var(--space-4); margin-bottom: var(--space-4); }
   .split { grid-template-columns: minmax(0, 1fr); }
-  .split > .panel { position: static; }
+  .split > .panel, .split > .stack { position: static; }
+  .hero .kpis, .hero .kpis.col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  dl.facts { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2) var(--space-4); }
+  .wide-only { display: none; }
   .hero { grid-template-columns: minmax(0, 1fr); }
   .hero-value { font-size: 2rem; }
   .panel-toggle { display: inline-flex; }

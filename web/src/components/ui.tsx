@@ -61,8 +61,10 @@ export interface Column<T> { key: string; label: string; value: (r: T) => string
  * Tabella ordinabile con download CSV. Se non entra nella pagina scorre al proprio interno, con la prima
  * colonna fissa. Con `pageSize` mostra una pagina alla volta; il CSV contiene sempre tutte le righe.
  */
-export function DataTable<T>({ columns, rows, csvName, initialSort, footer, onRow, pageSize, compact }: {
+export function DataTable<T>({ columns, rows, csvName, initialSort, footer, onRow, pageSize, compact, selected }: {
   columns: Column<T>[]; rows: T[]; csvName: string; initialSort?: { key: string; dir: 1 | -1 }; footer?: ReactNode[]; onRow?: (r: T) => void; pageSize?: number; compact?: boolean;
+  /** riga da evidenziare come selezionata */
+  selected?: (r: T) => boolean;
 }) {
   const [sort, setSort] = useState(initialSort ?? { key: columns[0].key, dir: 1 as 1 | -1 });
   const [page, setPage] = useState(0);
@@ -90,7 +92,7 @@ export function DataTable<T>({ columns, rows, csvName, initialSort, footer, onRo
             </th>))}</tr></thead>
           <tbody>
             {shown.map((r, i) => (
-              <tr key={i} onClick={onRow ? () => onRow(r) : undefined} onKeyDown={onRow ? (e) => { if (e.key === "Enter") onRow(r); } : undefined} tabIndex={onRow ? 0 : undefined} className={onRow ? "clickable" : ""}>
+              <tr key={i} onClick={onRow ? () => onRow(r) : undefined} onKeyDown={onRow ? (e) => { if (e.key === "Enter") onRow(r); } : undefined} tabIndex={onRow ? 0 : undefined} className={[onRow ? "clickable" : "", selected?.(r) ? "selected" : ""].join(" ").trim()} aria-selected={selected ? selected(r) : undefined}>
                 {columns.map((c) => <td key={c.key} className={cls(c)}>{c.format ? c.format(r) : c.value(r)}</td>)}
               </tr>))}
             {shown.length === 0 && <tr><td colSpan={columns.length} className="text muted">{t("ui.noRows")}</td></tr>}

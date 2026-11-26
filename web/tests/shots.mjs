@@ -43,6 +43,8 @@ for (const route of routes) {
       await page.goto(`${base}#/${route}${lang === "en" ? "" : "?lang=" + lang}`);
       await page.waitForSelector("main h1", { timeout: 15000 });
       await page.waitForFunction(() => !document.querySelector("[data-loading]"), null, { timeout: 15000 });
+      // nella cattura a pagina intera la barra di navigazione fissa finirebbe a metà pagina: la si mette in fondo
+      await page.addStyleTag({ content: ".tabbar{position:static !important}.main{padding-bottom:24px !important}" });
       await page.waitForTimeout(900);
       await page.screenshot({ path: join(OUT, `${name}_${w}_${theme}${lang === "en" ? "" : "_" + lang}.jpg`), fullPage: true, type: "jpeg", quality: Number(arg("quality", "62")) });
       n++;

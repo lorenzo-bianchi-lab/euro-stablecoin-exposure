@@ -1,6 +1,5 @@
 {
- "me.state": "Update status",
- "me.lastRun": "Last run: {d}, {mode}. The automatic update is scheduled every Monday.",
+ "me.state": "Status by source",
  "me.mode.online": "with download from the sources",
  "me.mode.offline": "recomputed without download",
  "me.allUpdated": "All updatable sources responded in the last run.",
@@ -66,7 +65,7 @@
  "coef.7.name": "Pass-through to deposit rates",
  "coef.7.value": "about 10%; over 30% for wholesale-dependent banks",
  "coef.7.origin": "Section 4.2, Figure 9",
- "me.sources": "Sources",
+ "me.sources": "Sources and access",
  "me.discarded": "Discarded methods",
  "me.docs": "Documentation",
  "me.docs.spec": "objective, modules, criteria and decision log (in Italian).",
@@ -74,5 +73,18 @@
  "me.docs.reports.text": "one document per test and module, with limits and what did not work (in Italian).",
  "me.docs.data": "Description of the data files",
  "me.docs.data.text": "read by this application ({n} files; in Italian).",
- "me.docs.code": "Source code"
+ "me.docs.code": "Source code",
+ "me.hero.label": "Last update",
+ "me.hero.range": "Run {mode}; the automatic update is scheduled every Monday.",
+ "me.hero.ok": "{u} of {n} updatable sources were updated in this run and none reported a problem; the other {s} are published documents that do not change.",
+ "me.hero.flagged": "{u} of {n} updatable sources were updated in this run; {f} kept their last valid data or were only partly updated. The other {s} are published documents that do not change.",
+ "me.hero.offline": "No source was queried in this run: the results were recomputed from the data already downloaded. {s} sources are published documents that do not change.",
+ "me.kpi.of": "{a} of {b}",
+ "me.kpi.updated": "Sources updated",
+ "me.kpi.updated.sub": "of the updatable ones; {s} static sources excluded",
+ "me.kpi.flagged": "Sources stalled or partial",
+ "me.kpi.flagged.sub": "last valid data kept, or partly updated",
+ "me.kpi.modules": "Modules succeeded",
+ "me.kpi.modules.sub": "a failed module keeps its previous data",
+ "me.toc": "On this page"
 }

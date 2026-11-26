@@ -49,7 +49,7 @@
   --ink-2: #45526a;         /* testo secondario */
   --ink-3: #5f6b80;         /* didascalie; minimo per testo piccolo */
   --line: #d8dde6;          /* bordi e griglie */
-  --line-strong: #8590a3;   /* bordi di campi e comandi (3:1 sul fondo) */
+  --line-strong: #7e899c;   /* bordi di campi e comandi (3:1 sul fondo) */
   --primary: #163b6e;       /* blu profondo: titoli attivi, collegamenti, pulsante principale */
   --primary-hover: #0f2c55;
   --on-primary: #ffffff;
@@ -70,8 +70,8 @@
   --chart-grid: #e3e7ee; --chart-axis: #5f6b80; --chart-band: #dbe5f3;
   --chart-tooltip-bg: #0f1b2d; --chart-tooltip-ink: #ffffff;
   /* sequenziale per la mappa, dal valore più basso al più alto; fuori dall'area euro */
-  --map-1: #e3ebf6; --map-2: #b7cbe6; --map-3: #86a8d3; --map-4: #4f7fb8; --map-5: #163b6e;
-  --map-none: #e9ecf0; --map-border: #ffffff; --map-selected: #a8481f;
+  --map-1: #cddbf0; --map-2: #a3bde2; --map-3: #7499cf; --map-4: #446fae; --map-5: #163b6e;
+  --map-none: #eceef1; --map-border: #ffffff; --map-selected: #a8481f;
   color-scheme: light;
 }
 
@@ -98,10 +98,10 @@
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
   --scrim: rgba(0, 0, 0, 0.6);
 
-  --chart-1: #8fb4ea; --chart-2: #f0a070; --chart-3: #4f8fd8; --chart-4: #a3aebf; --chart-5: #5cc4b8; --chart-6: #b79be0;
+  --chart-1: #a3c2f1; --chart-2: #e0854f; --chart-3: #4f8fd8; --chart-4: #a3aebf; --chart-5: #5cc4b8; --chart-6: #b79be0;
   --chart-grid: #223046; --chart-axis: #93a1b6; --chart-band: #1c2f4d;
   --chart-tooltip-bg: #e9eef5; --chart-tooltip-ink: #0b1320;
-  --map-1: #1d2f4f; --map-2: #2b4a7b; --map-3: #3f6aa8; --map-4: #6f9ad6; --map-5: #b9d2f2;
-  --map-none: #1a2332; --map-border: #0b1320; --map-selected: #f0a070;
+  --map-1: #27406b; --map-2: #33578f; --map-3: #4a76b4; --map-4: #78a2dc; --map-5: #b9d2f2;
+  --map-none: #18202c; --map-border: #0b1320; --map-selected: #f0a070;
   color-scheme: dark;
 }

@@ -1,8 +1,6 @@
 {
- "ov.kpis": "Key indicators",
  "ov.kpi.level": "Dollar stablecoins held in the euro area",
  "ov.kpi.level.range": "range {a} – {b}",
- "ov.kpi.level.sub": "declared upper extreme {x}",
  "ov.kpi.esm": "For comparison: ESM assumption",
  "ov.kpi.esm.sub": "with a 15% share: {x}",
  "ov.kpi.outflow": "Deposits to be replaced at the central level",
@@ -28,5 +26,10 @@
  "ov.sources": "Sources and update status",
  "ov.exposed": "Where funding is most exposed",
  "ov.chart.title": "Sight deposits of households and firms over total liabilities",
- "ov.chart.unit": "per cent, countries in ranking order"
+ "ov.chart.unit": "per cent; countries in ranking order, click one to open its sheet",
+ "ov.hero.text": "Central value of the survey-based estimate for the {n} euro area countries. The declared upper extreme is {x}.",
+ "ov.chart.alt": "Horizontal bars for {n} countries in ranking order. The highest share is {hi} at {a}, the lowest {lo} at {b}.",
+ "ov.pick": "Open a country sheet",
+ "ov.pick.none": "Choose a country",
+ "ov.chart.rank": "{n}. {c}"
 }

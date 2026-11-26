@@ -25,5 +25,22 @@
  "map.ind.usd": "Structure: dollar liabilities",
  "map.unit.usd": "per cent of liabilities",
  "map.ind.quotaPossessori": "Crypto-asset owners",
- "map.unit.quotaPossessori": "per cent of adults"
+ "map.unit.quotaPossessori": "per cent of adults",
+ "map.static": "This indicator describes balance-sheet structure: it does not change with the scenario.",
+ "map.linkedOff": "Scenario (not used by this indicator)",
+ "map.hero.label": "Highest value · {ind}",
+ "map.hero.range": "{c}, {u}",
+ "map.hero.scen": "Under this scenario {c} is the most affected country ({v}). The euro-area figure is {area} and the median country stands at {med}; {low} is least affected ({lv}).",
+ "map.hero.struct": "{c} has the highest value ({v}). The median of the {n} countries is {med}; the lowest value is in {low} ({lv}).",
+ "map.alt": "Map of the euro area coloured by {ind} ({u}): highest in {c} ({v}), lowest in {low} ({lv}).",
+ "map.insetAlt": "Enlarged inset of {c}: {v} {u}.",
+ "map.kpi.area": "Euro area",
+ "map.kpi.total": "Euro area total",
+ "map.kpi.median": "Median of {n} countries",
+ "map.kpi.low": "Lowest",
+ "map.sel.title": "Selected country",
+ "map.sel.clear": "Clear",
+ "map.sel.rank": "Rank {r} of {n}",
+ "map.sel.open": "Open the country sheet",
+ "map.sel.none": "Select a country on the map, in an inset or in the table to see its values here."
 }

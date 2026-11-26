@@ -123,7 +123,7 @@ export function Chart({ title, unit = "", source, height = 320, note, bare = fal
   return (
     <figure className={bare ? "chart bare" : "chart"}>
       <figcaption><strong>{title}</strong>{unit && <span className="unit">{unit}</span>}</figcaption>
-      <div ref={ref} style={{ height }} role="img" aria-label={label} />
+      <div ref={ref} style={{ height }} role="img" aria-label={label} data-motion={reducedMotion() ? "off" : "on"} />
       {alt && <p className="sr-only">{alt}</p>}
       {source && <p className="source">{t("chart.source")}: {source}{note ? ` · ${note}` : ""}</p>}
     </figure>
