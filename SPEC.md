@@ -395,7 +395,11 @@ Nessun calcolo cambia e tutti i test restano verdi. Criteri scritti prima del la
   data"; (8) esecuzione completa da un clone pulito seguendo solo il README; (9)
   verifica dell'aggiornamento pianificato, o istruzioni scritte per farla; (10)
   etichetta della versione 1.0 con note di rilascio.
-- **Stato**: in corso.
+- **Stato**: completato il 2026-11-26 (`reports/14_chiusura.md`). Punti da 1 a 8 e 10
+  fatti; il clone pulito è riuscito senza correzioni. Punto 9: nessuna esecuzione
+  pianificata è ancora partita, perché il workflow esiste dal 25 novembre; il primo
+  lunedì utile è il 30 novembre 2026 e il README dice come controllarlo. Versione 1.0
+  etichettata (`v1.0`).
 
 ### Aggiornamento e sintesi
 
@@ -405,7 +409,7 @@ dati dell'applicazione:
     .venv/bin/python src/run_all.py
 
 - Ordine: modulo 3, modulo 1, modulo 2, livello proprio, modulo 4, modulo 5, modulo 6,
-  test del modulo 2, sintesi, dati dell'applicazione. Circa sei minuti. Il modulo 6 usa
+  test del modulo 2, sintesi, dati dell'applicazione. Circa cinque minuti. Il modulo 6 usa
   l'estratto EBA già nel repository e non scarica nulla, salvo `--download`. L'applicazione si
   ricompila con `npm run build` in `web/`.
 - `SINTESI.md` è generata da `src/summary.py` a partire dai file in `data/processed`:
@@ -527,3 +531,4 @@ esplicita. Restano veri nella forma qui sotto.
 | 2026-11-26 | Prompt 7 completato (`reports/13_estetica_e_identita.md`): sistema grafico in `web/src/styles/tokens.css`, nome "Euro Stablecoin Exposure Monitor", pagina iniziale con tre risultati generati dai dati, pagina About, dieci sezioni ridisegnate in parallelo e uniformate, rapporto stampabile di due pagine, navigazione mobile. Nessun calcolo cambiato. Test: 22 Python, 42 dell'applicazione (10 nuovi sul contrasto), browser su 13 pagine nelle due lingue e nei due temi |
 | 2026-11-26 | Aggiornamento automatico avviato a mano dopo il prompt 7. Prima esecuzione: fallito un controllo del test nel browser (chiusura del menu mobile, per una questione di tempi sui server di GitHub), quindi niente pubblicazione da parte dell'Action, come previsto. Corretti il menu, che ora si chiude subito al clic, e il test. Seconda esecuzione: tutti i passi riusciti |
 | 2026-11-26 | Prompt 8. Criteri fissati prima del lavoro: cinque correzioni (indirizzo, primo disegno dei grafici, selezione sulla mappa, avvertenze neutre sotto grafici e tabelle, About), visita guidata, README e nota metodologica in inglese, clone pulito, verifica dell'aggiornamento pianificato, versione 1.0 |
+| 2026-11-26 | Prompt 8 completato (`reports/14_chiusura.md`) e versione 1.0 etichettata: pagina iniziale come indirizzo predefinito; grafici completi al primo disegno, con un test che confronta punti disegnati e punti dei dati a scheda visibile e in secondo piano; mappa con selezione iniziale; 33 avvertenze in stile neutro sotto grafici e tabelle; visita guidata in cinque passi; README e nota metodologica in inglese; clone pulito riuscito seguendo solo il README. Aggiornamento pianificato da verificare lunedì 30 novembre 2026 |
