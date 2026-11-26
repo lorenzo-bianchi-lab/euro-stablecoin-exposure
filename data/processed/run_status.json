@@ -1,38 +1,38 @@
 {
-  "eseguito_il": "2026-11-25T23:00:05+00:00",
+  "eseguito_il": "2026-11-26T16:01:57+00:00",
   "modalita": "con scarico dalle fonti",
   "moduli": {
     "modulo3": {
       "esito": "ok",
-      "secondi": 55.6
+      "secondi": 29.0
     },
     "modulo1": {
       "esito": "ok",
-      "secondi": 2.0
+      "secondi": 2.3
     },
     "modulo2": {
       "esito": "ok",
-      "secondi": 75.0
+      "secondi": 79.8
     },
     "livello_proprio": {
       "esito": "ok",
-      "secondi": 1.1
+      "secondi": 2.3
     },
     "modulo4": {
       "esito": "ok",
-      "secondi": 1.1
+      "secondi": 1.4
     },
     "modulo5": {
       "esito": "ok",
-      "secondi": 37.7
+      "secondi": 26.8
     },
     "modulo6": {
       "esito": "ok",
-      "secondi": 0.4
+      "secondi": 0.5
     },
     "test_modulo2": {
       "esito": "ok",
-      "secondi": 0.3
+      "secondi": 0.4
     }
   }
 }

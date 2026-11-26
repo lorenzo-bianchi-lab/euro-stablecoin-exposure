@@ -2,139 +2,139 @@
   "domanda": "Le variazioni mensili dei volumi stablecoin contro euro aiutano a prevedere la variazione dei depositi a vista delle famiglie rispetto a un modello con soli ritardi?",
   "risposta": "no",
   "principale": {
-    "osservazioni": 43,
+    "osservazioni": 44,
     "primo_mese": "2023-03",
-    "ultimo_mese": "2026-09",
+    "ultimo_mese": "2026-10",
     "ritardi": 1,
     "coefficienti_volumi": [
-      0.004932802265491966
+      0.004393153073408251
     ],
     "errori_standard": [
-      0.004779637832409046
+      0.004686934534363171
     ],
-    "p_value": 0.3082508938201711,
+    "p_value": 0.35408332693608346,
     "significativo_5_per_cento": false,
     "previsioni_fuori_campione": 12,
-    "rmse_con_volumi": 0.538334977141433,
-    "rmse_solo_ritardi": 0.5337316090188399,
-    "rapporto_rmse": 1.0086248744590103,
+    "rmse_con_volumi": 0.5550015975022699,
+    "rmse_solo_ritardi": 0.5428468796352266,
+    "rapporto_rmse": 1.0223906930720699,
     "migliora_fuori_campione": false,
     "aiuta_a_prevedere": false
   },
   "varianti": {
     "due_ritardi": {
-      "osservazioni": 42,
+      "osservazioni": 43,
       "primo_mese": "2023-04",
-      "ultimo_mese": "2026-09",
+      "ultimo_mese": "2026-10",
       "ritardi": 2,
       "coefficienti_volumi": [
-        0.005427748735502748,
-        -0.003272686295268983
+        0.004967053771462519,
+        -0.00278429982126814
       ],
       "errori_standard": [
-        0.00468245963559262,
-        0.004447222152800334
+        0.004622526622294993,
+        0.004439933345354776
       ],
-      "p_value": 0.31593321513481115,
+      "p_value": 0.36784495205291573,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
-      "rmse_con_volumi": 0.6087344415550577,
-      "rmse_solo_ritardi": 0.5450777007613476,
-      "rapporto_rmse": 1.1167847092346583,
+      "rmse_con_volumi": 0.614218011510216,
+      "rmse_solo_ritardi": 0.5476604187533974,
+      "rapporto_rmse": 1.1215307706704807,
       "migliora_fuori_campione": false,
       "aiuta_a_prevedere": false
     },
     "variazioni_a_dodici_mesi": {
-      "osservazioni": 32,
+      "osservazioni": 33,
       "primo_mese": "2024-02",
-      "ultimo_mese": "2026-09",
+      "ultimo_mese": "2026-10",
       "ritardi": 1,
       "coefficienti_volumi": [
-        0.0044695947902551846
+        0.004537409223385126
       ],
       "errori_standard": [
-        0.003076745431447743
+        0.0030752265401337167
       ],
-      "p_value": 0.1570418394650328,
+      "p_value": 0.15050505320767016,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
-      "rmse_con_volumi": 0.5824826993401682,
-      "rmse_solo_ritardi": 0.6062369187515363,
-      "rapporto_rmse": 0.9608169369488636,
+      "rmse_con_volumi": 0.580309713030218,
+      "rmse_solo_ritardi": 0.6080645748948027,
+      "rapporto_rmse": 0.9543554039973693,
       "migliora_fuori_campione": true,
       "aiuta_a_prevedere": false
     },
     "quota_eur_al_posto_dei_volumi": {
-      "osservazioni": 43,
+      "osservazioni": 44,
       "primo_mese": "2023-03",
-      "ultimo_mese": "2026-09",
+      "ultimo_mese": "2026-10",
       "ritardi": 1,
       "coefficienti_volumi": [
-        0.02110017698130561
+        0.02217865421544281
       ],
       "errori_standard": [
-        0.03728974672937383
+        0.03722710817873358
       ],
-      "p_value": 0.5746606934859897,
+      "p_value": 0.5546062076969611,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
-      "rmse_con_volumi": 0.5445852614106222,
-      "rmse_solo_ritardi": 0.5337316090188399,
-      "rapporto_rmse": 1.0203354124214878,
+      "rmse_con_volumi": 0.5526484998499576,
+      "rmse_solo_ritardi": 0.5428468796352266,
+      "rapporto_rmse": 1.0180559575497925,
       "migliora_fuori_campione": false,
       "aiuta_a_prevedere": false
     },
     "solo_usdt": {
-      "osservazioni": 43,
+      "osservazioni": 44,
       "primo_mese": "2023-03",
-      "ultimo_mese": "2026-09",
+      "ultimo_mese": "2026-10",
       "ritardi": 1,
       "coefficienti_volumi": [
-        0.002852421016207785
+        0.0023944017137080857
       ],
       "errori_standard": [
-        0.0041675827163564095
+        0.0040966078249441385
       ],
-      "p_value": 0.4976499778834642,
+      "p_value": 0.5620973463602927,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
-      "rmse_con_volumi": 0.5482579405077364,
-      "rmse_solo_ritardi": 0.5337316090188399,
-      "rapporto_rmse": 1.0272165471248746,
+      "rmse_con_volumi": 0.5620992440490463,
+      "rmse_solo_ritardi": 0.5428468796352266,
+      "rapporto_rmse": 1.0354655523243619,
       "migliora_fuori_campione": false,
       "aiuta_a_prevedere": false
     },
     "solo_usdc": {
-      "osservazioni": 43,
+      "osservazioni": 44,
       "primo_mese": "2023-03",
-      "ultimo_mese": "2026-09",
+      "ultimo_mese": "2026-10",
       "ritardi": 1,
       "coefficienti_volumi": [
-        0.003433688901762837
+        0.0032790753327400835
       ],
       "errori_standard": [
-        0.00439552755951208
+        0.004355563857900526
       ],
-      "p_value": 0.4392970518626388,
+      "p_value": 0.4558427232044642,
       "significativo_5_per_cento": false,
       "previsioni_fuori_campione": 12,
-      "rmse_con_volumi": 0.5399197488536013,
-      "rmse_solo_ritardi": 0.5337316090188399,
-      "rapporto_rmse": 1.0115941040968832,
+      "rmse_con_volumi": 0.5517839632780679,
+      "rmse_solo_ritardi": 0.5428468796352266,
+      "rapporto_rmse": 1.0164633600709774,
       "migliora_fuori_campione": false,
       "aiuta_a_prevedere": false
     }
   },
   "varianti_significative": [],
   "dati": {
-    "mesi": 45,
+    "mesi": 46,
     "primo_mese": "2023-01",
-    "ultimo_mese": "2026-09",
-    "depositi_a_vista_famiglie_ultimo_mld_eur": 5526.080416528989,
-    "volume_mensile_medio_contro_eur_mld": 3.0501050931266667,
-    "dev_std_variazione_depositi_pp": 0.7335589343848081,
-    "dev_std_variazione_volumi_pp": 22.108188969409408,
-    "correlazione_contemporanea": 0.0005520758307944356,
-    "correlazione_con_ritardo": 0.1501207776863745
+    "ultimo_mese": "2026-10",
+    "depositi_a_vista_famiglie_ultimo_mld_eur": 5507.60353807402,
+    "volume_mensile_medio_contro_eur_mld": 3.080451090023478,
+    "dev_std_variazione_depositi_pp": 0.7270519371550607,
+    "dev_std_variazione_volumi_pp": 21.891441570400925,
+    "correlazione_contemporanea": -0.0019529208511126644,
+    "correlazione_con_ritardo": 0.13468945643092797
   }
 }
