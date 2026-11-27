@@ -1,0 +1,13 @@
+# Tool configuration only: the repository is a set of scripts run with `python src/...`,
+# not an installable package. Dependencies are pinned in requirements.txt (programme) and
+# requirements-dev.txt (formatter and static checks).
+
+[tool.ruff]
+line-length = 150
+target-version = "py314"
+# the scripts in src/ import each other as top-level modules (for example `import module4_scenarios`)
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# E, W: pycodestyle errors and warnings; F: pyflakes; I: import sorting; B: flake8-bugbear
+select = ["E", "F", "W", "I", "B"]

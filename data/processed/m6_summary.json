@@ -1,7 +1,7 @@
 {
-  "fonte": "EBA, esercizio di trasparenza 2025 (pubblicato il 4 dicembre 2025), database completo",
+  "fonte": "EBA, 2025 transparency exercise (published on 4 December 2025), full database",
   "data_dei_dati": "2025-06-30",
-  "avvertenza": "Dati pubblici per banca al massimo livello di consolidamento: non sono dati di vigilanza riservati e l'ordine non è un giudizio sulla solidità.",
+  "avvertenza": "Public bank-level data at the highest level of consolidation: they are not confidential supervisory data and the ordering is not a judgement on soundness.",
   "criterio_di_sufficienza": {
     "banche_minime": 50,
     "paesi_minimi": 15,
@@ -95,7 +95,7 @@
     "totale_attivo": true,
     "prestiti_a_famiglie_e_imprese": true,
     "esposizioni_in_dollari": false,
-    "nota_dollari": "Nessuna scomposizione per valuta. Sono riportate le esposizioni creditizie originarie verso controparti statunitensi, pubblicate solo quando gli Stati Uniti sono tra i primi dieci paesi della banca."
+    "nota_dollari": "No breakdown by currency. The original credit exposures to US counterparties are reported, published only when the United States is among the bank's top ten countries."
   },
   "soglia_quota_retail": {
     "percentile": 75,

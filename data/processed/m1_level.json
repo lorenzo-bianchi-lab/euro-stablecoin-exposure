@@ -1,6 +1,6 @@
 {
-  "calcolato_il": "2026-11-26T23:47:43+00:00",
-  "avvertenza": "Applicazione di un'ipotesi esterna (ESM Working Paper 79), non una stima.",
+  "calcolato_il": "2026-11-27T00:14:28+00:00",
+  "avvertenza": "Application of an external assumption (ESM Working Paper 79), not an estimate.",
   "data_circolazione": "2026-11-26",
   "circolazione_mld_usd": {
     "tutte_le_stablecoin_in_dollari": 282.71482,
@@ -24,7 +24,7 @@
     "base": 0.075,
     "alto": 0.15
   },
-  "base_di_calcolo": "USDT + USDC, la stessa base dell'ESM (WP 79, sezione 4.4.1)",
+  "base_di_calcolo": "USDT + USDC, the same base as the ESM (WP 79, section 4.4.1)",
   "livello": {
     "base_mld_usd": 18.248805225,
     "alto_mld_usd": 36.49761045,

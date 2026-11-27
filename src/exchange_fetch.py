@@ -1,15 +1,21 @@
-"""Scarica i volumi giornalieri delle coppie stablecoin/fiat dagli exchange (API pubbliche).
+"""Downloads the daily volumes of stablecoin/fiat pairs from the exchanges (public APIs).
 
-Per ogni coppia salva il volume giornaliero espresso in unità di stablecoin.
-Le coppie sono quelle elencate dagli endpoint "markets" dei singoli exchange il
-2026-11-23 (USDT o USDC contro una valuta fiat, in entrambi i versi).
+For each pair it saves the daily volume expressed in stablecoin units.
+The pairs are those listed by the "markets" endpoints of the individual exchanges on
+2026-11-23 (USDT or USDC against a fiat currency, in both directions).
 
-Ogni adattatore accetta una finestra qualsiasi e pagina le richieste quando l'API
-limita il numero di candele per chiamata.
+Each adapter accepts any window and pages the requests when the API limits the number
+of candles per call.
 
-Uso: python src/exchange_fetch.py                      # finestra del test H1
-     python src/exchange_fetch.py 2024-12-09 2026-11-23 nome_file
+Inputs: public APIs of the 24 exchanges in PANEL, no key.
+Outputs: used as a library by module 2 (collect(), which returns rows and log). Run on its own
+(H1 test, a discarded method), it writes data/archive/raw/exchange_daily_volumes.csv and
+exchange_fetch_log.csv, or <file_name>.csv and <file_name>_log.csv for another window.
+
+Usage: python src/exchange_fetch.py                      # window of the H1 test
+       python src/exchange_fetch.py 2024-12-09 2026-11-23 file_name
 """
+
 from __future__ import annotations
 
 import csv
@@ -21,7 +27,7 @@ from pathlib import Path
 import requests
 
 H1_START = datetime(2026, 10, 12, tzinfo=timezone.utc)
-H1_END = datetime(2026, 11, 23, tzinfo=timezone.utc)  # escluso
+H1_END = datetime(2026, 11, 23, tzinfo=timezone.utc)  # excluded
 OUT = Path(__file__).resolve().parents[1] / "data" / "archive" / "raw"  # standalone runs (test H1) write to the archive; module 2 uses collect()
 DAY = 86400
 
@@ -37,7 +43,7 @@ def get(url: str, **params):
             continue
         r.raise_for_status()
         return r.json()
-    raise RuntimeError("HTTP 429 ripetuto")
+    raise RuntimeError("HTTP 429 repeated")
 
 
 def day(ts) -> str:
@@ -56,8 +62,9 @@ def secs(x) -> float:
     return x / 1000 if x > 1e11 else x
 
 
-# Ogni adattatore riceve (simbolo, inizio, fine) in secondi Unix, con fine esclusa, e
-# restituisce una lista di (giorno, volume_base, volume_quotato|None, chiusura).
+# Each adapter receives (symbol, start, end) in Unix seconds, with the end excluded, and
+# returns a list of (day, base_volume, quote_volume|None, close).
+
 
 def binance_like(base_url):
     def f(sym, s, e):
@@ -69,11 +76,12 @@ def binance_like(base_url):
                 break
             cur = int(rows[-1][0] / 1000) + DAY
         return out
+
     return f
 
 
 def kraken(sym, s, e):
-    # Kraken restituisce al massimo le ultime 720 candele giornaliere, qualunque sia "since"
+    # Kraken returns at most the last 720 daily candles, whatever "since" is
     j = get("https://api.kraken.com/0/public/OHLC", pair=sym, interval=1440, since=s - DAY)
     if j.get("error"):
         raise RuntimeError(str(j["error"]))
@@ -83,7 +91,7 @@ def kraken(sym, s, e):
 
 def coinbase(sym, s, e):
     out = []
-    for a in range(s, e, 300 * DAY):  # massimo 300 candele per chiamata
+    for a in range(s, e, 300 * DAY):  # at most 300 candles per call
         b = min(a + 300 * DAY, e)
         rows = get(f"https://api.exchange.coinbase.com/products/{sym}/candles", granularity=DAY, start=iso(a), end=iso(b - 1))
         out += [(day(r[0]), float(r[5]), None, float(r[4])) for r in rows]
@@ -92,7 +100,7 @@ def coinbase(sym, s, e):
 
 
 def bitstamp(sym, s, e):
-    # l'API restituisce le ultime 1000 candele prima di "end": si pagina all'indietro
+    # the API returns the last 1000 candles before "end": pages go backwards
     out, end = [], e - 1
     while True:
         rows = get(f"https://www.bitstamp.net/api/v2/ohlc/{sym}/", step=DAY, limit=1000, end=end)["data"]["ohlc"]
@@ -123,7 +131,9 @@ def okx(sym, s, e):
 def bybit(sym, s, e):
     out, end = [], e * 1000 - 1
     while True:
-        rows = get("https://api.bybit.com/v5/market/kline", category="spot", symbol=sym, interval="D", start=s * 1000, end=end, limit=1000)["result"]["list"]
+        rows = get("https://api.bybit.com/v5/market/kline", category="spot", symbol=sym, interval="D", start=s * 1000, end=end, limit=1000)["result"][
+            "list"
+        ]
         out += [(day(r[0]), float(r[5]), float(r[6]), float(r[4])) for r in rows]
         if len(rows) < 1000:
             break
@@ -136,7 +146,7 @@ def upbit_like(base_url):
     key = "candle_date_time_kst" if bithumb else "candle_date_time_utc"
 
     def f(sym, s, e):
-        # Bithumb vuole la data senza "T" e "Z" e chiude il giorno alle 00:00 KST
+        # Bithumb wants the date without "T" and "Z" and closes the day at 00:00 KST
         out, to = [], datetime.fromtimestamp(e, timezone.utc).strftime("%Y-%m-%d %H:%M:%S") if bithumb else iso(e)
         first_day = day(s)
         while True:
@@ -150,16 +160,17 @@ def upbit_like(base_url):
             to = oldest.replace("T", " ") if bithumb else oldest + "Z"
             time.sleep(0.2)
         return out
+
     return f
 
 
 def btcturk(sym, s, e):
     j = get("https://graph-api.btcturk.com/v1/klines/history", symbol=sym, resolution=1440, **{"from": s, "to": e - 1})
-    return [(day(t), float(v), None, float(c)) for t, v, c in zip(j.get("t", []), j.get("v", []), j.get("c", []))]
+    return [(day(t), float(v), None, float(c)) for t, v, c in zip(j.get("t", []), j.get("v", []), j.get("c", []), strict=False)]
 
 
 def bitvavo(sym, s, e):
-    # "end" esclude la candela che inizia in quell'istante: si chiede un giorno in più e si filtra dopo
+    # "end" excludes the candle starting at that instant: one more day is requested and filtered afterwards
     rows = get(f"https://api.bitvavo.com/v2/{sym}/candles", interval="1d", start=s * 1000, end=(e + DAY) * 1000, limit=1440)
     return [(day(r[0]), float(r[5]), None, float(r[4])) for r in rows]
 
@@ -170,7 +181,7 @@ def bitfinex(sym, s, e):
 
 
 def gemini(sym, s, e):
-    # l'API restituisce una finestra fissa di candele giornaliere, senza parametri di data
+    # the API returns a fixed window of daily candles, with no date parameters
     rows = get(f"https://api.gemini.com/v2/candles/{sym}/1day")
     return [(day(r[0]), float(r[5]), None, float(r[4])) for r in rows]
 
@@ -178,7 +189,9 @@ def gemini(sym, s, e):
 def cryptocom(sym, s, e):
     out, end = [], e * 1000 - 1
     while True:
-        rows = get("https://api.crypto.com/exchange/v1/public/get-candlestick", instrument_name=sym, timeframe="1D", count=300, end_ts=end)["result"]["data"]
+        rows = get("https://api.crypto.com/exchange/v1/public/get-candlestick", instrument_name=sym, timeframe="1D", count=300, end_ts=end)["result"][
+            "data"
+        ]
         if not rows:
             break
         out += [(day(r["t"]), float(r["v"]), None, float(r["c"])) for r in rows]
@@ -195,12 +208,13 @@ def kucoin(sym, s, e):
 
 
 def gate(sym, s, e):
-    # al massimo 1000 candele per chiamata; le finestre troppo vecchie vengono rifiutate e saltate
+    # at most 1000 candles per call; windows that are too old are refused and skipped
     out = []
     for a in range(s, e, 900 * DAY):
         try:
-            rows = get("https://api.gateio.ws/api/v4/spot/candlesticks", currency_pair=sym, interval="1d",
-                       **{"from": a, "to": min(a + 900 * DAY, e) - 1})
+            rows = get(
+                "https://api.gateio.ws/api/v4/spot/candlesticks", currency_pair=sym, interval="1d", **{"from": a, "to": min(a + 900 * DAY, e) - 1}
+            )
         except requests.HTTPError:
             continue
         out += [(day(r[0]), float(r[6]), float(r[1]), float(r[2])) for r in rows]
@@ -208,11 +222,12 @@ def gate(sym, s, e):
 
 
 def mexc(sym, s, e):
-    # MEXC risponde solo a finestre brevi: si procede a blocchi di 400 giorni
+    # MEXC only answers short windows: requests go in blocks of 400 days
     out = []
     for a in range(s, e, 400 * DAY):
-        rows = get("https://api.mexc.com/api/v3/klines", symbol=sym, interval="1d", startTime=a * 1000,
-                   endTime=min(a + 400 * DAY, e) * 1000 - 1, limit=1000)
+        rows = get(
+            "https://api.mexc.com/api/v3/klines", symbol=sym, interval="1d", startTime=a * 1000, endTime=min(a + 400 * DAY, e) * 1000 - 1, limit=1000
+        )
         out += [(day(r[0]), float(r[5]), float(r[7]), float(r[4])) for r in rows]
         time.sleep(0.15)
     return out
@@ -254,7 +269,7 @@ def coinone(sym, s, e):
 
 
 def korbit(sym, s, e):
-    # le candele Korbit iniziano alle 00:00 KST (15:00 UTC del giorno prima): si usa la data KST
+    # Korbit candles start at 00:00 KST (15:00 UTC of the previous day): the KST date is used
     out, end = [], e * 1000
     while True:
         rows = get("https://api.korbit.co.kr/v2/candles", symbol=sym, interval="1D", limit=200, end=end)["data"]
@@ -285,74 +300,138 @@ def btcmarkets(sym, s, e):
 
 def bitso(sym, s, e):
     j = get("https://api.bitso.com/v3/ohlc", book=sym, time_bucket=DAY, start=s * 1000, end=e * 1000)
-    # i giorni Bitso iniziano alle 06:00 UTC: si attribuisce il giorno di inizio
+    # Bitso days start at 06:00 UTC: the starting day is assigned
     return [(day(r["bucket_start_time"]), float(r["volume"]), None, float(r["last_rate"])) for r in j["payload"]]
 
 
-# (exchange, adattatore, [(simbolo, stablecoin, fiat, stablecoin_è_base)])
+# (exchange, adapter, [(symbol, stablecoin, fiat, stablecoin_is_base)])
 def p(sym, stable, fiat, base=True):
     return (sym, stable, fiat, base)
 
 
 PANEL = [
-    ("Binance", binance_like("https://data-api.binance.vision"), [
-        p("EURUSDT", "USDT", "EUR", False), p("EURUSDC", "USDC", "EUR", False),
-        p("GBPUSDT", "USDT", "GBP", False), p("AUDUSDT", "USDT", "AUD", False), p("AUDUSDC", "USDC", "AUD", False),
-        *[p(f"USDT{f}", "USDT", f) for f in "USD TRY BRL ARS MXN COP ZAR IDR THB AED KZT PLN RON CZK UAH NGN RUB".split()],
-        *[p(f"USDC{f}", "USDC", f) for f in "USD TRY BRL ARS MXN IDR THB AED PLN RON CZK".split()],
-    ]),
+    (
+        "Binance",
+        binance_like("https://data-api.binance.vision"),
+        [
+            p("EURUSDT", "USDT", "EUR", False),
+            p("EURUSDC", "USDC", "EUR", False),
+            p("GBPUSDT", "USDT", "GBP", False),
+            p("AUDUSDT", "USDT", "AUD", False),
+            p("AUDUSDC", "USDC", "AUD", False),
+            *[p(f"USDT{f}", "USDT", f) for f in "USD TRY BRL ARS MXN COP ZAR IDR THB AED KZT PLN RON CZK UAH NGN RUB".split()],
+            *[p(f"USDC{f}", "USDC", f) for f in "USD TRY BRL ARS MXN IDR THB AED PLN RON CZK".split()],
+        ],
+    ),
     ("Binance.US", binance_like("https://api.binance.us"), [p("USDTUSD", "USDT", "USD"), p("USDCUSD", "USDC", "USD")]),
-    ("Kraken", kraken, [
-        *[p(f"USDT{f}", "USDT", f) for f in "USD EUR GBP CHF CAD AUD JPY".split()],
-        *[p(f"USDC{f}", "USDC", f) for f in "USD EUR GBP CHF CAD AUD".split()],
-    ]),
-    ("Coinbase", coinbase, [
-        *[p(f"USDT-{f}", "USDT", f) for f in "USD EUR GBP".split()],
-        *[p(f"USDC-{f}", "USDC", f) for f in "EUR GBP AUD BRL CAD INR SGD".split()],
-    ]),
+    (
+        "Kraken",
+        kraken,
+        [
+            *[p(f"USDT{f}", "USDT", f) for f in "USD EUR GBP CHF CAD AUD JPY".split()],
+            *[p(f"USDC{f}", "USDC", f) for f in "USD EUR GBP CHF CAD AUD".split()],
+        ],
+    ),
+    (
+        "Coinbase",
+        coinbase,
+        [
+            *[p(f"USDT-{f}", "USDT", f) for f in "USD EUR GBP".split()],
+            *[p(f"USDC-{f}", "USDC", f) for f in "EUR GBP AUD BRL CAD INR SGD".split()],
+        ],
+    ),
     ("Bitstamp", bitstamp, [p("usdtusd", "USDT", "USD"), p("usdteur", "USDT", "EUR"), p("usdcusd", "USDC", "USD"), p("usdceur", "USDC", "EUR")]),
-    ("OKX", okx, [
-        *[p(f"USDT-{f}", "USDT", f) for f in "USD EUR TRY BRL AUD AED SGD".split()],
-        *[p(f"USDC-{f}", "USDC", f) for f in "EUR TRY BRL AUD AED SGD PLN".split()],
-        p("RON-USDT", "USDT", "RON", False), p("RON-USDC", "USDC", "RON", False),
-    ]),
-    # Bybit è fuori dal pannello dal 2026-11-25 (SPEC, prompt 6): non risponde dai server di GitHub,
-    # quindi esecuzione locale e automatica davano indici diversi. Coppie: USDTEUR, USDCEUR, USDTUSD, USDTPLN, USDTAED.
+    (
+        "OKX",
+        okx,
+        [
+            *[p(f"USDT-{f}", "USDT", f) for f in "USD EUR TRY BRL AUD AED SGD".split()],
+            *[p(f"USDC-{f}", "USDC", f) for f in "EUR TRY BRL AUD AED SGD PLN".split()],
+            p("RON-USDT", "USDT", "RON", False),
+            p("RON-USDC", "USDC", "RON", False),
+        ],
+    ),
+    # Bybit is out of the panel since 2026-11-25 (SPEC, prompt 6): it does not respond from GitHub's servers,
+    # so local and automatic runs gave different indices. Pairs: USDTEUR, USDCEUR, USDTUSD, USDTPLN, USDTAED.
     ("Upbit", upbit_like("https://api.upbit.com"), [p("KRW-USDT", "USDT", "KRW"), p("KRW-USDC", "USDC", "KRW")]),
     ("Bithumb", upbit_like("https://api.bithumb.com"), [p("KRW-USDT", "USDT", "KRW"), p("KRW-USDC", "USDC", "KRW")]),
     ("Coinone", coinone, [p("USDT", "USDT", "KRW"), p("USDC", "USDC", "KRW")]),
     ("Korbit", korbit, [p("usdt_krw", "USDT", "KRW"), p("usdc_krw", "USDC", "KRW")]),
     ("BtcTurk", btcturk, [p("USDTTRY", "USDT", "TRY"), p("USDCTRY", "USDC", "TRY")]),
     ("Bitvavo", bitvavo, [p("USDC-EUR", "USDC", "EUR")]),
-    ("Bitfinex", bitfinex, [p("tUSTUSD", "USDT", "USD"), p("tUDCUSD", "USDC", "USD"), p("tEURUST", "USDT", "EUR", False), p("tGBPUST", "USDT", "GBP", False)]),
-    ("Gemini", gemini, [p("usdtusd", "USDT", "USD"), p("usdcusd", "USDC", "USD"), p("eurusdc", "USDC", "EUR", False), p("audusdc", "USDC", "AUD", False)]),
+    (
+        "Bitfinex",
+        bitfinex,
+        [p("tUSTUSD", "USDT", "USD"), p("tUDCUSD", "USDC", "USD"), p("tEURUST", "USDT", "EUR", False), p("tGBPUST", "USDT", "GBP", False)],
+    ),
+    (
+        "Gemini",
+        gemini,
+        [p("usdtusd", "USDT", "USD"), p("usdcusd", "USDC", "USD"), p("eurusdc", "USDC", "EUR", False), p("audusdc", "USDC", "AUD", False)],
+    ),
     ("Crypto.com", cryptocom, [p("USDT_USD", "USDT", "USD"), p("EUR_USDT", "USDT", "EUR", False)]),
     ("KuCoin", kucoin, [p("USDT-EUR", "USDT", "EUR"), p("USDC-EUR", "USDC", "EUR")]),
     ("Gate", gate, [p("USDT_USD", "USDT", "USD"), p("CAD_USDT", "USDT", "CAD", False), p("RON_USDT", "USDT", "RON", False)]),
-    ("Bitget", bitget, [
-        p("USDTEUR", "USDT", "EUR"), p("USDCEUR", "USDC", "EUR"), p("USDTUSD", "USDT", "USD"), p("USDCUSD", "USDC", "USD"),
-        p("USDTBRL", "USDT", "BRL"), p("USDTVND", "USDT", "VND"), p("RONUSDT", "USDT", "RON", False),
-    ]),
-    ("MEXC", mexc, [
-        p("EURUSDT", "USDT", "EUR", False), p("USDCEUR", "USDC", "EUR"), p("USDUSDT", "USDT", "USD", False), p("USDUSDC", "USDC", "USD", False),
-        p("BRLUSDT", "USDT", "BRL", False), p("USDTBRL", "USDT", "BRL"), p("USDCBRL", "USDC", "BRL"), p("ARSUSDT", "USDT", "ARS", False),
-        p("COPUSDT", "USDT", "COP", False), p("MXNUSDT", "USDT", "MXN", False), p("PLNUSDT", "USDT", "PLN", False),
-        p("PLNUSDC", "USDC", "PLN", False), p("RONUSDT", "USDT", "RON", False),
-    ]),
-    ("WhiteBIT", whitebit, [
-        *[p(f"USDT_{f}", "USDT", f) for f in "USD EUR GBP CHF TRY PLN CZK UAH KZT".split()],
-        *[p(f"USDC_{f}", "USDC", f) for f in "USD EUR GBP CHF TRY".split()],
-        p("RON_USDT", "USDT", "RON", False),
-    ]),
+    (
+        "Bitget",
+        bitget,
+        [
+            p("USDTEUR", "USDT", "EUR"),
+            p("USDCEUR", "USDC", "EUR"),
+            p("USDTUSD", "USDT", "USD"),
+            p("USDCUSD", "USDC", "USD"),
+            p("USDTBRL", "USDT", "BRL"),
+            p("USDTVND", "USDT", "VND"),
+            p("RONUSDT", "USDT", "RON", False),
+        ],
+    ),
+    (
+        "MEXC",
+        mexc,
+        [
+            p("EURUSDT", "USDT", "EUR", False),
+            p("USDCEUR", "USDC", "EUR"),
+            p("USDUSDT", "USDT", "USD", False),
+            p("USDUSDC", "USDC", "USD", False),
+            p("BRLUSDT", "USDT", "BRL", False),
+            p("USDTBRL", "USDT", "BRL"),
+            p("USDCBRL", "USDC", "BRL"),
+            p("ARSUSDT", "USDT", "ARS", False),
+            p("COPUSDT", "USDT", "COP", False),
+            p("MXNUSDT", "USDT", "MXN", False),
+            p("PLNUSDT", "USDT", "PLN", False),
+            p("PLNUSDC", "USDC", "PLN", False),
+            p("RONUSDT", "USDT", "RON", False),
+        ],
+    ),
+    (
+        "WhiteBIT",
+        whitebit,
+        [
+            *[p(f"USDT_{f}", "USDT", f) for f in "USD EUR GBP CHF TRY PLN CZK UAH KZT".split()],
+            *[p(f"USDC_{f}", "USDC", f) for f in "USD EUR GBP CHF TRY".split()],
+            p("RON_USDT", "USDT", "RON", False),
+        ],
+    ),
     ("Indodax", indodax, [p("USDTIDR", "USDT", "IDR"), p("USDCIDR", "USDC", "IDR")]),
     ("CoinDCX", coindcx, [p("I-USDT_INR", "USDT", "INR"), p("I-USDC_INR", "USDC", "INR")]),
     ("BTC Markets", btcmarkets, [p("USDT-AUD", "USDT", "AUD"), p("USDC-AUD", "USDC", "AUD")]),
-    ("Bitso", bitso, [p("usdt_mxn", "USDT", "MXN"), p("usdt_brl", "USDT", "BRL"), p("usdt_ars", "USDT", "ARS"), p("usdt_cop", "USDT", "COP"), p("usd_usdt", "USDT", "USD", False)]),
+    (
+        "Bitso",
+        bitso,
+        [
+            p("usdt_mxn", "USDT", "MXN"),
+            p("usdt_brl", "USDT", "BRL"),
+            p("usdt_ars", "USDT", "ARS"),
+            p("usdt_cop", "USDT", "COP"),
+            p("usd_usdt", "USDT", "USD", False),
+        ],
+    ),
 ]
 
 
 def collect(start: datetime, end: datetime, verbose: bool = True) -> tuple[list[list], list[list]]:
-    """Scarica tutte le coppie del pannello nella finestra [start, end). Restituisce righe e registro."""
+    """Downloads all the pairs of the panel in the window [start, end). Returns rows and log."""
     s, e = int(start.timestamp()), int(end.timestamp())
     lo, hi = start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
     rows, log = [], []
@@ -368,11 +447,23 @@ def collect(start: datetime, end: datetime, verbose: bool = True) -> tuple[list[
                 if lo <= d < hi:
                     by_day[d] = vbase if is_base else (vquote if vquote is not None else vbase * close)
             rows += [[exch, sym, stable, fiat, d, round(v, 2)] for d, v in sorted(by_day.items())]
-            log.append([exch, sym, stable, fiat, "ok" if by_day else "nessun dato nella finestra", len(by_day),
-                        min(by_day, default=""), max(by_day, default=""), ""])
+            # the status values ("ok", "errore", "nessun dato nella finestra") are codes stored in the logs
+            log.append(
+                [
+                    exch,
+                    sym,
+                    stable,
+                    fiat,
+                    "ok" if by_day else "nessun dato nella finestra",
+                    len(by_day),
+                    min(by_day, default=""),
+                    max(by_day, default=""),
+                    "",
+                ]
+            )
             time.sleep(0.25)
         if verbose:
-            print(exch, "fatto", flush=True)
+            print(exch, "done", flush=True)
     return rows, log
 
 
@@ -392,13 +483,13 @@ def main() -> None:
         start = datetime.strptime(sys.argv[1], "%Y-%m-%d").replace(tzinfo=timezone.utc)
         end = datetime.strptime(sys.argv[2], "%Y-%m-%d").replace(tzinfo=timezone.utc)
         name = sys.argv[3] if len(sys.argv) > 3 else f"exchange_daily_volumes_{sys.argv[1]}_{sys.argv[2]}"
-    else:  # finestra e nomi di file del test H1
+    else:  # window and file names of the H1 test
         start, end, name = H1_START, H1_END, "exchange_daily_volumes"
     rows, log = collect(start, end)
     save(rows, log, name)
-    if name == "exchange_daily_volumes":  # il test H1 legge il registro con questo nome
+    if name == "exchange_daily_volumes":  # the H1 test reads the log under this name
         (OUT / "exchange_daily_volumes_log.csv").replace(OUT / "exchange_fetch_log.csv")
-    print(f"{len(rows)} righe; coppie ok {sum(1 for r in log if r[4] == 'ok')}/{len(log)}")
+    print(f"{len(rows)} rows; pairs ok {sum(1 for r in log if r[4] == 'ok')}/{len(log)}")
 
 
 if __name__ == "__main__":

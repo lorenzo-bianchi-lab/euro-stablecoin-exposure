@@ -1,11 +1,18 @@
-"""Campiona gli eventi Transfer di USDT e USDC da RPC pubblici (Ethereum e Tron).
+"""Samples the Transfer events of USDT and USDC from public RPCs (Ethereum and Tron).
 
-Campione sistematico: un blocco ogni STEP nella finestra pre-registrata. Per ogni
-blocco campionato salva solo gli aggregati per token (conteggi e valore), non i log.
-Lo script riprende da dove si era fermato se il CSV esiste già.
+Systematic sample: one block every STEP in the pre-registered window. For each sampled
+block it saves only the aggregates by token (counts and value), not the logs.
+The script resumes from where it stopped if the CSV already exists.
 
-Uso: python src/onchain_fetch.py [eth|tron]
+Discarded method: proxy 2, hourly profile of on-chain transfers (reports/00_h1_feasibility_test.md,
+SPEC.md section 5). Its data are kept in data/archive/.
+
+Inputs: public Ethereum and Tron JSON-RPC endpoints (no key).
+Outputs: data/archive/raw/onchain_block_samples_eth.csv and onchain_block_samples_tron.csv.
+
+Usage: python src/onchain_fetch.py [eth|tron]
 """
+
 from __future__ import annotations
 
 import csv
@@ -36,11 +43,11 @@ CHAINS = {
         "workers": 4,
     },
     "tron": {
-        # TronGrid senza chiave limita a 3 richieste al secondo: si usano i nodi PublicNode
+        # TronGrid without a key is limited to 3 requests per second: the PublicNode nodes are used
         "rpcs": ["https://tron-evm-rpc.publicnode.com", "https://tron-rpc.publicnode.com/jsonrpc"],
-        # i nodi PublicNode non restituiscono le intestazioni dei blocchi vecchi: per quelle si usa TronGrid
+        # the PublicNode nodes do not return the headers of old blocks: TronGrid is used for those
         "header_rpcs": ["https://api.trongrid.io/jsonrpc"],
-        # TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t in formato esadecimale
+        # TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t in hexadecimal format
         "tokens": {"0xa614f803b6fd780986a42c78ec9c7f77e6ded13c": "USDT"},
         "step": 200,
         "workers": 2,
@@ -53,7 +60,7 @@ _counter = itertools.count()
 
 
 def rpc(urls: list[str], method: str, params: list, tries: int = 8):
-    """Chiamata JSON-RPC con rotazione degli endpoint e attesa crescente sugli errori."""
+    """JSON-RPC call with rotation of the endpoints and increasing wait on errors."""
     last = None
     for attempt in range(tries):
         url = urls[next(_counter) % len(urls)]
@@ -66,10 +73,10 @@ def rpc(urls: list[str], method: str, params: list, tries: int = 8):
                 last = str(j.get("error", j))[:200]
             else:
                 last = f"HTTP {r.status_code}"
-        except Exception as exc:  # rete instabile: si ritenta
+        except Exception as exc:  # unstable network: retry
             last = f"{type(exc).__name__}: {exc}"[:200]
         time.sleep(min(30, 0.5 * 2**attempt))
-    raise RuntimeError(f"{method} fallita dopo {tries} tentativi: {last}")
+    raise RuntimeError(f"{method} failed after {tries} attempts: {last}")
 
 
 def block_ts(urls, n: int) -> int:
@@ -77,7 +84,7 @@ def block_ts(urls, n: int) -> int:
 
 
 def first_block_at(urls, ts: int) -> int:
-    """Primo blocco con timestamp >= ts (ricerca binaria)."""
+    """First block with timestamp >= ts (binary search)."""
     hi = int(rpc(urls, "eth_blockNumber", []), 16)
     lo = max(1, hi - 3_000_000)
     while lo < hi:
@@ -90,10 +97,18 @@ def first_block_at(urls, ts: int) -> int:
 
 
 def sample_block(chain: str, cfg: dict, n: int) -> list[list]:
-    logs = rpc(cfg["rpcs"], "eth_getLogs", [{
-        "fromBlock": hex(n), "toBlock": hex(n),
-        "address": list(cfg["tokens"]), "topics": [TRANSFER],
-    }])
+    logs = rpc(
+        cfg["rpcs"],
+        "eth_getLogs",
+        [
+            {
+                "fromBlock": hex(n),
+                "toBlock": hex(n),
+                "address": list(cfg["tokens"]),
+                "topics": [TRANSFER],
+            }
+        ],
+    )
     ts = None
     agg = {tok: [0, 0, 0.0, 0] for tok in cfg["tokens"].values()}  # n, n_retail, value, n_mintburn
     for lg in logs:
@@ -113,7 +128,7 @@ def sample_block(chain: str, cfg: dict, n: int) -> list[list]:
             a[1] += 1
     if ts is None:
         ts = block_ts(cfg.get("header_rpcs", cfg["rpcs"]), n)
-    if ts > 10_000_000_000:  # alcuni nodi Tron rispondono in millisecondi
+    if ts > 10_000_000_000:  # some Tron nodes answer in milliseconds
         ts //= 1000
     return [[chain, tok, n, ts, a[0], a[1], round(a[2], 2), a[3]] for tok, a in agg.items()]
 
@@ -128,7 +143,7 @@ def run(chain: str) -> None:
     hdr = cfg.get("header_rpcs", cfg["rpcs"])
     b0, b1 = first_block_at(hdr, START), first_block_at(hdr, END)
     todo = [n for n in range(b0, b1, cfg["step"]) if n not in done]
-    print(f"[{chain}] blocchi {b0}-{b1}, campione {len(range(b0, b1, cfg['step']))}, da scaricare {len(todo)}", flush=True)
+    print(f"[{chain}] blocks {b0}-{b1}, sample {len(range(b0, b1, cfg['step']))}, to download {len(todo)}", flush=True)
     lock = threading.Lock()
     new = not path.exists()
     with path.open("a", newline="") as f:
@@ -144,7 +159,7 @@ def run(chain: str) -> None:
             except Exception as exc:
                 with lock:
                     fails += 1
-                    print(f"[{chain}] blocco {n} saltato: {exc}", flush=True)
+                    print(f"[{chain}] block {n} skipped: {exc}", flush=True)
                 return
             with lock:
                 w.writerows(rows)
@@ -153,8 +168,8 @@ def run(chain: str) -> None:
             for i, _ in enumerate(ex.map(work, todo), 1):
                 if i % 500 == 0:
                     f.flush()
-                    print(f"[{chain}] {i}/{len(todo)} (falliti {fails})", flush=True)
-    print(f"[{chain}] finito, falliti {fails}", flush=True)
+                    print(f"[{chain}] {i}/{len(todo)} (failed {fails})", flush=True)
+    print(f"[{chain}] finished, failed {fails}", flush=True)
 
 
 if __name__ == "__main__":

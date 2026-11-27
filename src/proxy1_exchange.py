@@ -1,11 +1,21 @@
-"""Proxy 1: quota EUR dei volumi stablecoin/fiat sugli exchange.
+"""Proxy 1: EUR share of stablecoin/fiat volumes on the exchanges.
 
-Legge i CSV prodotti da exchange_fetch.py e coingecko_snapshot.py e calcola la stima
-centrale, l'intervallo e i controlli di robustezza definiti nel metodo pre-registrato
-(reports/00_h1_feasibility_test.md, sezione 2.1).
+Reads the CSV files produced by exchange_fetch.py and coingecko_snapshot.py and computes the
+central estimate, the interval and the robustness checks defined in the pre-registered method
+(reports/00_h1_feasibility_test.md, section 2.1).
 
-Uso: python src/proxy1_exchange.py
+Discarded method: proxy 1 used as a level measures the share of trading against the euro, not
+holdings (SPEC.md section 5); it survives only as a trend, in module 2. Its data are kept in
+data/archive/.
+
+Inputs: data/archive/raw/exchange_daily_volumes.csv and coingecko_fiat_tickers_snapshot.csv.
+Outputs: data/archive/processed/proxy1_summary.json, proxy1_volume_by_fiat.csv,
+proxy1_volume_by_exchange.csv, proxy1_weekly_eur_share.csv, proxy1_coingecko_by_fiat.csv and
+proxy1_coingecko_by_exchange.csv.
+
+Usage: python src/proxy1_exchange.py
 """
+
 from __future__ import annotations
 
 import json

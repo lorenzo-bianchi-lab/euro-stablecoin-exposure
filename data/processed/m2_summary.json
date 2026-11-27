@@ -1,5 +1,5 @@
 {
-  "calcolato_il": "2026-11-26T23:47:45+00:00",
+  "calcolato_il": "2026-11-27T00:14:30+00:00",
   "scarico": {
     "modalita": "offline"
   },
@@ -68,7 +68,7 @@
     ]
   },
   "segnalazione": {
-    "regola": "scarto oltre 2 deviazioni standard sulle 52 settimane precedenti, sia della quota EUR sia del volume contro EUR, con lo stesso segno",
+    "regola": "deviation above 2 standard deviations over the previous 52 weeks, of both the EUR share and the volume against EUR, with the same sign",
     "settimane_valutate": 50,
     "ultima_settimana": {
       "usdt": {

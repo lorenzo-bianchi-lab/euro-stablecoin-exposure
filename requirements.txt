@@ -1,6 +1,6 @@
-# Versioni bloccate il 2026-11-25. Python 3.14.
+# Versions pinned on 2026-11-25. Python 3.14.
 requests==2.34.2
 pandas==3.1.1
 numpy==2.5.5
 matplotlib==3.11.2
-openpyxl==3.1.5   # solo per ricostruire l'estratto EBA del modulo 6 (--download)
+openpyxl==3.1.5   # only to rebuild the EBA extract of module 6 (--download)

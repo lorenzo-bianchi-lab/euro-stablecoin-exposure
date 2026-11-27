@@ -1,12 +1,19 @@
-"""Modulo 3: struttura della raccolta bancaria per paese e classifica di esposizione.
+"""Module 3: structure of bank funding by country and exposure ranking.
 
-Applica il metodo pre-registrato in reports/04_module3_ranking.md (sezioni 1 e 2):
-tabella di composizione del passivo, tre componenti, indicatore principale e cinque
-pesature alternative.
+Applies the method pre-registered in reports/04_module3_ranking.md (sections 1 and 2):
+composition table of liabilities, three components, main indicator and five alternative
+weightings.
 
-Uso: python src/module3_ranking.py            # scarica le serie BCE e ricalcola
-     python src/module3_ranking.py --offline  # ricalcola dai file già scaricati
+Inputs: ECB Data Portal, BSI dataset (13 monthly series for the 21 euro area countries),
+stored in data/raw/m3_bsi.csv; data/raw/bis_lbs_fx_liabilities_sample.csv for variant A5.
+Outputs: data/processed/m3_composition.csv, m3_index.csv, m3_ranking_latest.csv,
+m3_variant_usd_funding.csv, m3_summary.json; figures reports/figures/04_ranking.png and
+04_c1_over_time.png.
+
+Usage: python src/module3_ranking.py            # download the ECB series and recompute
+       python src/module3_ranking.py --offline  # recompute from the files already downloaded
 """
+
 from __future__ import annotations
 
 import io
@@ -19,26 +26,54 @@ import numpy as np
 import pandas as pd
 import requests
 
+from module5_credit import NAMES_EN
+
 ROOT = Path(__file__).resolve().parents[1]
 RAW, PROC, FIG = ROOT / "data" / "raw", ROOT / "data" / "processed", ROOT / "reports" / "figures"
 STORE = RAW / "m3_bsi.csv"
 API = "https://data-api.ecb.europa.eu/service/data/BSI/"
 EURO_AREA = "AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK".split()
-NAMES = {"AT": "Austria", "BE": "Belgio", "BG": "Bulgaria", "CY": "Cipro", "DE": "Germania", "EE": "Estonia", "ES": "Spagna",
-         "FI": "Finlandia", "FR": "Francia", "GR": "Grecia", "HR": "Croazia", "IE": "Irlanda", "IT": "Italia", "LT": "Lituania",
-         "LU": "Lussemburgo", "LV": "Lettonia", "MT": "Malta", "NL": "Paesi Bassi", "PT": "Portogallo", "SI": "Slovenia", "SK": "Slovacchia"}
+NAMES = {
+    "AT": "Austria",
+    "BE": "Belgio",
+    "BG": "Bulgaria",
+    "CY": "Cipro",
+    "DE": "Germania",
+    "EE": "Estonia",
+    "ES": "Spagna",
+    "FI": "Finlandia",
+    "FR": "Francia",
+    "GR": "Grecia",
+    "HR": "Croazia",
+    "IE": "Irlanda",
+    "IT": "Italia",
+    "LT": "Lituania",
+    "LU": "Lussemburgo",
+    "LV": "Lettonia",
+    "MT": "Malta",
+    "NL": "Paesi Bassi",
+    "PT": "Portogallo",
+    "SI": "Slovenia",
+    "SK": "Slovacchia",
+}
 TOLERANCE = 0.005
 
-# nome -> chiave BSI con il paese lasciato libero.
-# Le quote di fondi monetari sono quelle detenute da residenti dell'area euro (U2): quelle
-# detenute da non residenti sono già dentro le passività verso l'estero.
+# name -> BSI key with the country left open.
+# The money market fund shares are those held by euro area residents (U2): those held by
+# non-residents are already included in the external liabilities.
 SERIES = {
-    "vista_fam": "M..N.A.L21.A.1.U2.2250.Z01.E", "vista_imp": "M..N.A.L21.A.1.U2.2240.Z01.E",
-    "dep_fam": "M..N.A.L20.A.1.U2.2250.Z01.E", "dep_imp": "M..N.A.L20.A.1.U2.2240.Z01.E",
-    "dep_non_ifm": "M..N.A.L20.A.1.U2.2300.Z01.E", "dep_ifm": "M..N.A.L20.A.1.U2.1000.Z01.E",
-    "dep_tutti": "M..N.A.L20.A.1.U2.0000.Z01.E", "fondi_monetari": "M..N.A.L30.A.1.U2.0000.Z01.E",
-    "titoli": "M..N.A.L40.A.1.U2.0000.Z01.E", "capitale": "M..N.A.L60.X.1.Z5.0000.Z01.E",
-    "estero": "M..N.A.LXG.A.1.U4.0000.Z01.E", "altre": "M..N.A.L70.X.1.Z5.0000.Z01.E",
+    "vista_fam": "M..N.A.L21.A.1.U2.2250.Z01.E",
+    "vista_imp": "M..N.A.L21.A.1.U2.2240.Z01.E",
+    "dep_fam": "M..N.A.L20.A.1.U2.2250.Z01.E",
+    "dep_imp": "M..N.A.L20.A.1.U2.2240.Z01.E",
+    "dep_non_ifm": "M..N.A.L20.A.1.U2.2300.Z01.E",
+    "dep_ifm": "M..N.A.L20.A.1.U2.1000.Z01.E",
+    "dep_tutti": "M..N.A.L20.A.1.U2.0000.Z01.E",
+    "fondi_monetari": "M..N.A.L30.A.1.U2.0000.Z01.E",
+    "titoli": "M..N.A.L40.A.1.U2.0000.Z01.E",
+    "capitale": "M..N.A.L60.X.1.Z5.0000.Z01.E",
+    "estero": "M..N.A.LXG.A.1.U4.0000.Z01.E",
+    "altre": "M..N.A.L70.X.1.Z5.0000.Z01.E",
     "totale": "M..N.A.T00.A.1.Z5.0000.Z01.E",
 }
 WEIGHTS = {"C1": 0.50, "C2": 0.25, "C3": 0.25}
@@ -53,13 +88,13 @@ def fetch_all() -> pd.DataFrame:
                 break
             time.sleep(5 * (attempt + 1))
         if r.status_code != 200:
-            print(f"{name}: nessuna serie (HTTP {r.status_code})", flush=True)
+            print(f"{name}: no series (HTTP {r.status_code})", flush=True)
             continue
         d = pd.read_csv(io.StringIO(r.text), dtype={"TIME_PERIOD": str})
         d = d[d.REF_AREA.isin(EURO_AREA) & d.OBS_VALUE.notna()][["REF_AREA", "TIME_PERIOD", "OBS_VALUE"]]
         d.insert(0, "serie", name)
         frames.append(d)
-        print(f"{name}: {d.REF_AREA.nunique()} paesi, {d.TIME_PERIOD.min()} - {d.TIME_PERIOD.max()}", flush=True)
+        print(f"{name}: {d.REF_AREA.nunique()} countries, {d.TIME_PERIOD.min()} - {d.TIME_PERIOD.max()}", flush=True)
         time.sleep(1)
     out = pd.concat(frames, ignore_index=True).rename(columns={"REF_AREA": "paese", "TIME_PERIOD": "mese", "OBS_VALUE": "milioni_eur"})
     out.to_csv(STORE, index=False)
@@ -80,17 +115,20 @@ def stability(main_rank: pd.Series, alt_rank: pd.Series) -> dict:
     m = main_rank.loc[common].rank()
     a = alt_rank.loc[common].rank()
     top = min(5, len(common))
-    return {"paesi": int(len(common)), "spearman": spearman(m, a),
-            "paesi_spostati_piu_di_3_posizioni": int(((m - a).abs() > 3).sum()),
-            "spostamento_massimo": int((m - a).abs().max()),
-            "primi_cinque_in_comune": int(len(set(m.nsmallest(top).index) & set(a.nsmallest(top).index)))}
+    return {
+        "paesi": int(len(common)),
+        "spearman": spearman(m, a),
+        "paesi_spostati_piu_di_3_posizioni": int(((m - a).abs() > 3).sum()),
+        "spostamento_massimo": int((m - a).abs().max()),
+        "primi_cinque_in_comune": int(len(set(m.nsmallest(top).index) & set(a.nsmallest(top).index))),
+    }
 
 
 def main() -> None:
     long = pd.read_csv(STORE, dtype={"mese": str}) if "--offline" in sys.argv else fetch_all()
     w = long.pivot_table(index=["paese", "mese"], columns="serie", values="milioni_eur")
 
-    # 1. Tabella di composizione (quote sul totale del passivo)
+    # 1. Composition table (shares of total liabilities)
     comp = pd.DataFrame(index=w.index)
     comp["vista_famiglie"] = w.vista_fam
     comp["altri_dep_famiglie"] = w.dep_fam - w.vista_fam
@@ -116,7 +154,7 @@ def main() -> None:
     gap_by_country = shares.scarto.groupby("paese").agg(["min", "max", lambda s: (s.abs() > TOLERANCE).mean()])
     gap_by_country.columns = ["scarto_min", "scarto_max", "quota_mesi_fuori_tolleranza"]
 
-    # 2. Componenti e indicatore
+    # 2. Components and indicator
     c = pd.DataFrame(index=w.index)
     c["C1"] = (w.vista_fam + w.vista_imp) / w.totale
     c["C2"] = (w.vista_fam + w.vista_imp) / (w.dep_fam + w.dep_imp)
@@ -133,7 +171,7 @@ def main() -> None:
     c["A1_pesi_uguali"] = (c.z_C1 + c.z_C2 + c.z_C3) / 3
     c["A2_solo_quantita"] = c.z_C1
     c["A3_solo_famiglie"] = 0.50 * c.z_C1_famiglie + 0.25 * c.z_C2_famiglie + 0.25 * c.z_C3
-    c["A4_ranghi"] = -(0.50 * c.r_C1 + 0.25 * c.r_C2 + 0.25 * c.r_C3)  # segno invertito: più alto = più esposto
+    c["A4_ranghi"] = -(0.50 * c.r_C1 + 0.25 * c.r_C2 + 0.25 * c.r_C3)  # sign reversed: higher = more exposed
     variants = ["indicatore", "A1_pesi_uguali", "A2_solo_quantita", "A3_solo_famiglie", "A4_ranghi"]
     for v in variants:
         c["pos_" + v] = c.groupby("mese")[v].rank(ascending=False, method="min").astype(int)
@@ -148,7 +186,7 @@ def main() -> None:
         y, m = latest.split("-")
         return f"{int(y) - years}-{m}"
 
-    # 3. Evoluzione: componenti e posizione a 1, 5 e 10 anni
+    # 3. Evolution: components and position 1, 5 and 10 years ago
     evo = {}
     for label, years in (("1_anno", 1), ("5_anni", 5), ("10_anni", 10)):
         mm = month_back(years)
@@ -158,7 +196,7 @@ def main() -> None:
             now[f"pos_{label}_fa"] = past.pos_indicatore.reindex(now.index)
             evo[label] = {"mese": mm, "paesi": int(len(past))}
 
-    # 4. Variante A5 con la raccolta in dollari (BRI, 13 paesi, ultimo trimestre)
+    # 4. Variant A5 with dollar funding (BIS, 13 countries, last quarter)
     a5 = {}
     bis_path = RAW / "bis_lbs_fx_liabilities_sample.csv"
     if bis_path.exists():
@@ -178,10 +216,9 @@ def main() -> None:
             sub["pos_A5"] = sub.A5_con_canale_valutario.rank(ascending=False).astype(int)
             sub.insert(0, "nome", [NAMES[k] for k in sub.index])
             sub.sort_values("pos_A5").round(6).to_csv(PROC / "m3_variant_usd_funding.csv")
-            a5 = {"trimestre": q, "mese_bsi": month, **stability(sub.pos_base, sub.pos_A5),
-                  "classifica": sub.sort_values("pos_A5").index.tolist()}
+            a5 = {"trimestre": q, "mese_bsi": month, **stability(sub.pos_base, sub.pos_A5), "classifica": sub.sort_values("pos_A5").index.tolist()}
 
-    # Posta in gioco in valore assoluto: depositi a vista di famiglie e imprese in miliardi di euro
+    # Stake in absolute value: sight deposits of households and firms in EUR billion
     stake = (w.vista_fam + w.vista_imp).xs(latest, level="mese").reindex(now.index) / 1000
     now["vista_mld_eur"] = stake
     now["quota_dei_depositi_a_vista_dell_area"] = stake / stake.sum()
@@ -190,7 +227,7 @@ def main() -> None:
     now["pos_min"], now["pos_max"] = rank_range["min"], rank_range["max"]
     now.round(6).to_csv(PROC / "m3_ranking_latest.csv")
 
-    # Stabilità nel tempo: correlazione di rango tra la classifica di oggi e quelle passate
+    # Stability over time: rank correlation between today's ranking and past ones
     time_stab = {}
     for label in evo:
         col = f"pos_{label}_fa"
@@ -198,16 +235,33 @@ def main() -> None:
         time_stab[label] = {"paesi": int(ok.sum()), "spearman": spearman(now.loc[ok, "pos_indicatore"], now.loc[ok, col])}
 
     summary = {
-        "ultimo_mese": latest, "paesi": int(len(now)), "primo_mese": c.index.get_level_values("mese").min(),
-        "classifica": [{"posizione": int(r.pos_indicatore), "paese": k, "nome": r.nome, "indicatore": float(r.indicatore),
-                        "C1": float(r.C1), "C2": float(r.C2), "C3": float(r.C3),
-                        "posizione_min_tra_varianti": int(r.pos_min), "posizione_max_tra_varianti": int(r.pos_max)}
-                       for k, r in now.iterrows()],
-        "stabilita_varianti": stab, "variante_A5": a5, "evoluzione": evo, "stabilita_nel_tempo": time_stab,
+        "ultimo_mese": latest,
+        "paesi": int(len(now)),
+        "primo_mese": c.index.get_level_values("mese").min(),
+        "classifica": [
+            {
+                "posizione": int(r.pos_indicatore),
+                "paese": k,
+                "nome": r.nome,
+                "indicatore": float(r.indicatore),
+                "C1": float(r.C1),
+                "C2": float(r.C2),
+                "C3": float(r.C3),
+                "posizione_min_tra_varianti": int(r.pos_min),
+                "posizione_max_tra_varianti": int(r.pos_max),
+            }
+            for k, r in now.iterrows()
+        ],
+        "stabilita_varianti": stab,
+        "variante_A5": a5,
+        "evoluzione": evo,
+        "stabilita_nel_tempo": time_stab,
         "correlazioni_tra_componenti": now[["C1", "C2", "C3"]].corr().round(3).to_dict(),
         "composizione": {
-            "righe": int(len(shares)), "tolleranza": TOLERANCE,
-            "righe_fuori_tolleranza": int(len(out_of_tol)), "quota_fuori_tolleranza": float(len(out_of_tol) / len(shares)),
+            "righe": int(len(shares)),
+            "tolleranza": TOLERANCE,
+            "righe_fuori_tolleranza": int(len(out_of_tol)),
+            "quota_fuori_tolleranza": float(len(out_of_tol) / len(shares)),
             "scarto_massimo_assoluto": float(gap.max()),
             "scarto_ultimo_mese_max": float(shares.xs(latest, level="mese").scarto.abs().max()),
             "paesi_con_mesi_fuori_tolleranza": gap_by_country[gap_by_country.quota_mesi_fuori_tolleranza > 0].round(5).to_dict("index"),
@@ -230,6 +284,7 @@ def _style(ax, surface, grid, muted):
 
 def plot_ranking(now: pd.DataFrame, latest: str) -> None:
     import matplotlib
+
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
@@ -237,12 +292,12 @@ def plot_ranking(now: pd.DataFrame, latest: str) -> None:
     d = now.sort_values("indicatore")
     fig, ax = plt.subplots(figsize=(7.5, 6.6), facecolor=surface)
     _style(ax, surface, grid, muted)
-    ax.barh(d.nome, d.indicatore, color=blue, height=0.62)
+    ax.barh([NAMES_EN[k] for k in d.index], d.indicatore, color=blue, height=0.62)
     ax.axvline(0, color=muted, lw=0.8)
     ax.grid(axis="x", color=grid, lw=0.8)
     ax.set_axisbelow(True)
-    ax.set_xlabel("Indicatore (scarti dalla media dell'area euro, in deviazioni standard)", color=muted, fontsize=9)
-    ax.set_title(f"Esposizione strutturale della raccolta bancaria, {latest}", loc="left", fontsize=12, color=ink)
+    ax.set_xlabel("Indicator (deviations from the euro area mean, in standard deviations)", color=muted, fontsize=9)
+    ax.set_title(f"Structural exposure of bank funding, {latest}", loc="left", fontsize=12, color=ink)
     fig.tight_layout()
     FIG.mkdir(parents=True, exist_ok=True)
     fig.savefig(FIG / "04_ranking.png", dpi=160, facecolor=surface)
@@ -253,6 +308,7 @@ def plot_evolution(now: pd.DataFrame, latest: str, evo: dict) -> None:
     if "10_anni" not in evo:
         return
     import matplotlib
+
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
@@ -265,11 +321,11 @@ def plot_evolution(now: pd.DataFrame, latest: str, evo: dict) -> None:
     ax.scatter(d.C1_10_anni_fa * 100, y, color=light, s=46, zorder=2, label=evo["10_anni"]["mese"], edgecolor=surface, linewidth=1.5)
     ax.scatter(d.C1 * 100, y, color=dark, s=46, zorder=3, label=latest, edgecolor=surface, linewidth=1.5)
     ax.set_yticks(y)
-    ax.set_yticklabels(d.nome)
+    ax.set_yticklabels([NAMES_EN[k] for k in d.index])
     ax.grid(axis="x", color=grid, lw=0.8)
     ax.set_axisbelow(True)
-    ax.set_xlabel("Depositi a vista di famiglie e imprese sul totale del passivo (%)", color=muted, fontsize=9)
-    ax.set_title("Quantità in gioco (C1): dieci anni fa e oggi", loc="left", fontsize=12, color=ink)
+    ax.set_xlabel("Sight deposits of households and firms over total liabilities (%)", color=muted, fontsize=9)
+    ax.set_title("Quantity at stake (C1): ten years ago and today", loc="left", fontsize=12, color=ink)
     ax.legend(frameon=False, fontsize=9, labelcolor=muted, loc="lower right")
     fig.tight_layout()
     fig.savefig(FIG / "04_c1_over_time.png", dpi=160, facecolor=surface)

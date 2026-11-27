@@ -1,6 +1,6 @@
 {
   "mese_bilanci": "2026-10",
-  "avvertenza": "Coefficienti stimati su singole banche (ECB WP 3199) applicati ad aggregati nazionali: ordini di grandezza, non previsioni.",
+  "avvertenza": "Coefficients estimated on individual banks (ECB WP 3199) applied to national aggregates: orders of magnitude, not forecasts.",
   "coefficienti": {
     "regola_uniforme": 0.5,
     "deviazione_standard_pp": 0.8,
@@ -13,11 +13,11 @@
       "alto": 4.173
     }
   },
-  "valore_in_evidenza": "regola uniforme (0,5 euro di prestiti per euro di depositi), con intervallo tra coefficiente basso e alto",
+  "valore_in_evidenza": "uniform rule (0.5 euro of loans per euro of deposits), with the range between the low and the high coefficient",
   "variante_continua": {
     "ancoraggio_basso": 0.8274688584949341,
     "ancoraggio_alto": 0.9500965754076561,
-    "definizione": "coefficiente interpolato linearmente sulla quota retail tra le mediane dei due gruppi, limitato tra basso e alto"
+    "definizione": "coefficient interpolated linearly on the retail share between the medians of the two groups, bounded between low and high"
   },
   "soglia_quota_retail": {
     "percentile": 75,

@@ -1,13 +1,13 @@
 {
-  "avvertenza": "Stima da indagine con ipotesi dichiarate, non una misura delle detenzioni dei residenti.",
+  "avvertenza": "Survey-based estimate with stated assumptions, not a measurement of residents' holdings.",
   "livello_di_riferimento": {
-    "definizione": "Stima propria dal basso (B1, variante famiglie), dall'indagine BCE sui consumatori",
+    "definizione": "Own bottom-up estimate (B1, households variant), from the ECB consumer survey",
     "minimo_mld_eur": 8.938106163934425,
     "centrale_mld_eur": 15.363067023494356,
     "massimo_mld_eur": 23.140227533444126,
     "estremo_superiore_dichiarato_mld_eur": 41.959848828218206,
-    "nota_estremo_superiore": "Variante individui, massimo: conta ogni adulto di una famiglia detentrice come detentore",
-    "decisione": "Livello di riferimento per decisione del 2026-11-25 (prompt 5), successiva ai risultati e in deroga al criterio del report 08, che non era soddisfatto."
+    "nota_estremo_superiore": "Individuals variant, maximum: counts every adult of a holding household as a holder",
+    "decisione": "Reference level by decision of 2026-11-25 (prompt 5), taken after the results and overriding the criterion of report 08, which was not met."
   },
   "B1": {
     "somma_percentuali_lette": 99.43,
@@ -106,7 +106,7 @@
   },
   "B3": {
     "esito": "calcolata",
-    "ipotesi": "OAM non distingue le stablecoin: si applica la quota del 10% sul mercato cripto (WP 3199) e la quota in dollari di B1",
+    "ipotesi": "OAM does not single out stablecoins: the 10% share of the crypto market (WP 3199) and the dollar share of B1 are applied",
     "quota_italia_sui_possessori_dell_area": 0.16710603113830252,
     "quota_paesi_bassi_sui_possessori_dell_area": 0.031085681865583588,
     "italia_stablecoin_stimate_mld_eur": 0.21564142460000002,
@@ -116,7 +116,7 @@
     "controllo_paesi_bassi": {
       "stablecoin_massime_mld_eur": 0.032,
       "area_euro_massimo_implicito_mld_eur": 0.7184443767360178,
-      "nota": "DNB misura le stablecoin (meno dell'1%); il dato dà un tetto, non un valore centrale"
+      "nota": "DNB measures stablecoins (less than 1%); the figure gives a ceiling, not a central value"
     },
     "italia_con_quota_olandese_mld_eur": 0.09006242517214998,
     "fonti": {
@@ -170,63 +170,63 @@
     },
     "fasce": [
       {
-        "fascia": "fino a 99 €",
+        "fascia": "up to EUR 99",
         "minimo": 0,
         "centrale": 50,
         "massimo": 99,
         "percentuale": 19.92
       },
       {
-        "fascia": "100-299 €",
+        "fascia": "EUR 100-299",
         "minimo": 100,
         "centrale": 199.5,
         "massimo": 299,
         "percentuale": 17.2
       },
       {
-        "fascia": "300-599 €",
+        "fascia": "EUR 300-599",
         "minimo": 300,
         "centrale": 449.5,
         "massimo": 599,
         "percentuale": 14.47
       },
       {
-        "fascia": "600-999 €",
+        "fascia": "EUR 600-999",
         "minimo": 600,
         "centrale": 799.5,
         "massimo": 999,
         "percentuale": 10.06
       },
       {
-        "fascia": "1.000-1.499 €",
+        "fascia": "EUR 1,000-1,499",
         "minimo": 1000,
         "centrale": 1249.5,
         "massimo": 1499,
         "percentuale": 6.86
       },
       {
-        "fascia": "1.500-2.499 €",
+        "fascia": "EUR 1,500-2,499",
         "minimo": 1500,
         "centrale": 1999.5,
         "massimo": 2499,
         "percentuale": 5.08
       },
       {
-        "fascia": "2.500-4.999 €",
+        "fascia": "EUR 2,500-4,999",
         "minimo": 2500,
         "centrale": 3749.5,
         "massimo": 4999,
         "percentuale": 8.93
       },
       {
-        "fascia": "5.000-9.999 €",
+        "fascia": "EUR 5,000-9,999",
         "minimo": 5000,
         "centrale": 7499.5,
         "massimo": 9999,
         "percentuale": 7.61
       },
       {
-        "fascia": "10.000 € o più",
+        "fascia": "EUR 10,000 or more",
         "minimo": 10000,
         "centrale": 15000,
         "massimo": 20000,

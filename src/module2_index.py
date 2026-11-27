@@ -1,13 +1,22 @@
-"""Modulo 2: indice settimanale della quota EUR dei volumi stablecoin/fiat.
+"""Module 2: weekly index of the EUR share of stablecoin/fiat volumes.
 
-Aggiorna l'archivio cumulativo dei volumi giornalieri e calcola le serie definite in
-reports/03_module2_weekly_index.md (sezione 2): USDT e USDC, con e senza Coinbase, su due
-finestre (principale dal 2024-12-09, lunga dal 2023-01-02 senza Kraken e Gemini).
+Updates the cumulative archive of daily volumes and computes the series defined in
+reports/03_module2_weekly_index.md (section 2): USDT and USDC, with and without Coinbase, on two
+windows (main from 2024-12-09, long from 2023-01-02 without Kraken and Gemini).
 
-Uso: python src/module2_index.py            # aggiorna l'archivio (ultime settimane) e ricalcola
-     python src/module2_index.py --full     # riscarica tutta la finestra e confronta con l'archivio
-     python src/module2_index.py --offline  # ricalcola dall'archivio senza scaricare nulla
+Inputs: public APIs of the 24 exchanges of the panel, through src/exchange_fetch.py; the
+cumulative archive data/raw/m2_daily_volumes.csv.
+Outputs: data/raw/m2_daily_volumes.csv (updated), data/processed/m2_weekly_index.csv,
+m2_weekly_index_long.csv, m2_weekly_index_constant_panel.csv, m2_flags.csv,
+m2_exchange_participation.csv, m2_panel_changes.csv, m2_pair_coverage.csv, m2_summary.json and,
+when downloading, m2_last_fetch_log.csv and m2_revisions.csv; figures
+reports/figures/03_main_index.png and 03_long_index.png.
+
+Usage: python src/module2_index.py            # update the archive (last weeks) and recompute
+       python src/module2_index.py --full     # download the whole window again and compare with the archive
+       python src/module2_index.py --offline  # recompute from the archive without downloading anything
 """
+
 from __future__ import annotations
 
 import json
@@ -23,37 +32,40 @@ import exchange_fetch
 ROOT = Path(__file__).resolve().parents[1]
 RAW, PROC, FIG = ROOT / "data" / "raw", ROOT / "data" / "processed", ROOT / "reports" / "figures"
 STORE = RAW / "m2_daily_volumes.csv"
-LONG_START = datetime(2023, 1, 2, tzinfo=timezone.utc)   # lunedì
-MAIN_START = "2024-12-09"                                 # prima settimana intera coperta da Kraken
+LONG_START = datetime(2023, 1, 2, tzinfo=timezone.utc)  # Monday
+MAIN_START = "2024-12-09"  # first full week covered by Kraken
 LONG_EXCLUDED = ["Kraken", "Gemini"]
-PANEL_EXCLUDED = ["Bybit"]                                # fuori dall'indice per tutto lo storico (SPEC, prompt 6)
+PANEL_EXCLUDED = ["Bybit"]  # out of the index for the whole history (SPEC, prompt 6)
 KEYS = ["exchange", "symbol", "date"]
-SERIES = {  # nome -> (stablecoin oppure None per entrambe, exchange esclusi)
-    "usdt": ("USDT", []), "usdt_senza_coinbase": ("USDT", ["Coinbase"]),
-    "usdc": ("USDC", []), "usdc_senza_coinbase": ("USDC", ["Coinbase"]),
+SERIES = {  # name -> (stablecoin, or None for both, excluded exchanges)
+    "usdt": ("USDT", []),
+    "usdt_senza_coinbase": ("USDT", ["Coinbase"]),
+    "usdc": ("USDC", []),
+    "usdc_senza_coinbase": ("USDC", ["Coinbase"]),
     "totale": (None, []),
 }
 
 
 def last_closed_week_end(now: datetime | None = None) -> datetime:
-    """Lunedì 00:00 UTC della settimana in corso: fine (esclusa) dell'ultima settimana completa."""
+    """Monday 00:00 UTC of the current week: end (excluded) of the last complete week."""
     now = now or datetime.now(timezone.utc)
     monday = now - timedelta(days=now.weekday())
     return monday.replace(hour=0, minute=0, second=0, microsecond=0)
 
 
 def update_store(end: datetime, full: bool) -> dict:
-    """Scarica i volumi e li unisce all'archivio senza sovrascrivere i giorni già presenti."""
+    """Downloads the volumes and merges them into the archive without overwriting the days already present."""
     old = pd.read_csv(STORE) if STORE.exists() else pd.DataFrame(columns=["exchange", "symbol", "stable", "fiat", "date", "volume_stable"])
     if full or old.empty:
         start = LONG_START
-    else:  # si riscaricano le ultime quattro settimane archiviate per confronto, più quelle nuove
+    else:  # the last four archived weeks are downloaded again for comparison, plus the new ones
         last = datetime.strptime(old.date.max(), "%Y-%m-%d").replace(tzinfo=timezone.utc)
         start = max(LONG_START, last - timedelta(days=27 + last.weekday()))
     rows, log = exchange_fetch.collect(start, end, verbose=False)
     new = pd.DataFrame(rows, columns=["exchange", "symbol", "stable", "fiat", "date", "volume_stable"])
     pd.DataFrame(log, columns=["exchange", "symbol", "stable", "fiat", "status", "days", "first_day", "last_day", "detail"]).to_csv(
-        PROC / "m2_last_fetch_log.csv", index=False)
+        PROC / "m2_last_fetch_log.csv", index=False
+    )
 
     both = old.merge(new, on=KEYS, suffixes=("_archivio", "_nuovo"))
     diff = (both.volume_stable_nuovo - both.volume_stable_archivio).abs()
@@ -67,23 +79,30 @@ def update_store(end: datetime, full: bool) -> dict:
     store = pd.concat([old, added], ignore_index=True).sort_values(KEYS)
     store.to_csv(STORE, index=False)
     new.to_csv(PROC / "m2_last_fetch.csv.tmp", index=False)
-    return {"fetched_from": start.strftime("%Y-%m-%d"), "fetched_to_excl": end.strftime("%Y-%m-%d"),
-            "rows_fetched": len(new), "rows_compared": len(both), "rows_revised": len(revised),
-            "max_relative_revision": float(rel.max()) if len(rel) else 0.0, "rows_added": len(added),
-            "pairs_ok": sum(1 for r in log if r[4] == "ok"), "pairs_error": [f"{r[0]} {r[1]}" for r in log if r[4] == "errore"]}
+    return {
+        "fetched_from": start.strftime("%Y-%m-%d"),
+        "fetched_to_excl": end.strftime("%Y-%m-%d"),
+        "rows_fetched": len(new),
+        "rows_compared": len(both),
+        "rows_revised": len(revised),
+        "max_relative_revision": float(rel.max()) if len(rel) else 0.0,
+        "rows_added": len(added),
+        "pairs_ok": sum(1 for r in log if r[4] == "ok"),
+        "pairs_error": [f"{r[0]} {r[1]}" for r in log if r[4] == "errore"],
+    }
 
 
 def incomplete_weeks(d: pd.DataFrame, tolerance: float = 0.02) -> dict[str, dict]:
-    """Settimane in cui mancano exchange che nelle quattro precedenti pesavano più della tolleranza.
+    """Weeks missing exchanges that weighed more than the tolerance in the previous four weeks.
 
-    Serve all'aggiornamento automatico: se una fonte non risponde, la settimana non viene
-    pubblicata, si tiene l'ultima valida e la mancanza viene segnalata.
+    Used by the automatic update: if a source does not respond, the week is not published,
+    the last valid one is kept and the gap is flagged.
     """
     vol = d.pivot_table(index="week", columns="exchange", values="volume_stable", aggfunc="sum").fillna(0).sort_index()
     share = vol.div(vol.sum(axis=1), axis=0)
     out = {}
     for i in range(4, len(vol)):
-        prev, cur = share.iloc[i - 4:i], vol.iloc[i]
+        prev, cur = share.iloc[i - 4 : i], vol.iloc[i]
         expected = prev.columns[(prev > 0).all()]
         missing = [e for e in expected if cur[e] == 0]
         lost = float(prev[missing].mean().sum()) if missing else 0.0
@@ -93,11 +112,11 @@ def incomplete_weeks(d: pd.DataFrame, tolerance: float = 0.02) -> dict[str, dict
 
 
 def exclusion_effect(with_excluded: pd.DataFrame, without: pd.DataFrame) -> dict:
-    """Di quanto cambia l'indice principale togliendo gli exchange esclusi dal pannello.
+    """How much the main index changes when the exchanges excluded from the panel are removed.
 
-    Misura definita in SPEC prima del calcolo: sulle settimane in cui gli esclusi hanno
-    dati, differenza tra indice senza e con (punti percentuali) e settimane in cui cambia
-    lo stato della segnalazione.
+    Measure defined in SPEC before the calculation: on the weeks in which the excluded exchanges
+    have data, difference between the index without and with them (percentage points) and weeks
+    in which the status of the flag changes.
     """
     weeks = sorted(with_excluded[with_excluded.exchange.isin(PANEL_EXCLUDED)].week.unique())
     if not weeks:
@@ -112,10 +131,20 @@ def exclusion_effect(with_excluded: pd.DataFrame, without: pd.DataFrame) -> dict
     changed = both[both.con != both.senza]
     share = a[a.exchange.isin(PANEL_EXCLUDED)].groupby("week").volume_stable.sum() / a.groupby("week").volume_stable.sum()
     return {
-        "esclusi": PANEL_EXCLUDED, "settimane_confrontate": len(weeks), "prima_settimana": weeks[0], "ultima_settimana": weeks[-1],
+        "esclusi": PANEL_EXCLUDED,
+        "settimane_confrontate": len(weeks),
+        "prima_settimana": weeks[0],
+        "ultima_settimana": weeks[-1],
         "quota_di_volume_degli_esclusi": {"media": float(share.mean()), "massima": float(share.max()), "ultima_settimana": float(share.iloc[-1])},
-        "differenza_pp": {n: {"media": float(diff[n].mean()), "massima_assoluta": float(diff[n].abs().max()),
-                              "settimana_della_massima": diff[n].abs().idxmax(), "ultima_settimana": float(diff[n].iloc[-1])} for n in names},
+        "differenza_pp": {
+            n: {
+                "media": float(diff[n].mean()),
+                "massima_assoluta": float(diff[n].abs().max()),
+                "settimana_della_massima": diff[n].abs().idxmax(),
+                "ultima_settimana": float(diff[n].iloc[-1]),
+            }
+            for n in names
+        },
         "segnalazioni_cambiate": int(len(changed)),
         "dettaglio_segnalazioni_cambiate": [{"serie": i[0], "settimana": i[1], "con": r.con, "senza": r.senza} for i, r in changed.iterrows()],
     }
@@ -138,7 +167,7 @@ def weekly_index(d: pd.DataFrame, excluded: list[str] | None = None) -> pd.DataF
     base = d[~d.exchange.isin(excluded)]
     out["exchange_attivi"] = base.groupby("week").exchange.nunique()
     out["volume_fiat_mld"] = base.groupby("week").volume_stable.sum() / 1e9
-    # volumi contro EUR in valore assoluto: servono a capire se l'indice si muove per l'euro o per le altre valute
+    # volumes against EUR in absolute value: they show whether the index moves because of the euro or of the other currencies
     for tok in ("USDT", "USDC"):
         sel = base[base.stable == tok]
         out[f"volume_eur_{tok.lower()}_mld"] = sel[sel.fiat == "EUR"].groupby("week").volume_stable.sum() / 1e9
@@ -147,10 +176,10 @@ def weekly_index(d: pd.DataFrame, excluded: list[str] | None = None) -> pd.DataF
 
 
 def signals(d: pd.DataFrame) -> pd.DataFrame:
-    """Regola di segnalazione (reports/09_module2_signal_test.md, sezione 2.5).
+    """Flagging rule (reports/09_module2_signal_test.md, section 2.5).
 
-    Per ogni serie e settimana: scarto della quota EUR e scarto del volume contro EUR
-    rispetto alle 52 settimane precedenti, esclusa quella osservata.
+    For each series and week: deviation of the EUR share and deviation of the volume against EUR
+    from the previous 52 weeks, excluding the observed one.
     """
     frames = []
     for name, (stable, drop) in SERIES.items():
@@ -166,8 +195,9 @@ def signals(d: pd.DataFrame) -> pd.DataFrame:
         both = (f.scarto_quota.abs() > 2) & (f.scarto_volume.abs() > 2)
         same = np.sign(f.scarto_quota) == np.sign(f.scarto_volume)
         one = (f.scarto_quota.abs() > 2) | (f.scarto_volume.abs() > 2)
-        f["stato"] = np.where(f.scarto_quota.isna(), "storico insufficiente",
-                              np.where(both & same, "segnale", np.where(one, "da verificare", "nessuno")))
+        f["stato"] = np.where(
+            f.scarto_quota.isna(), "storico insufficiente", np.where(both & same, "segnale", np.where(one, "da verificare", "nessuno"))
+        )
         frames.append(f.reset_index())
     return pd.concat(frames, ignore_index=True)
 
@@ -177,15 +207,22 @@ def stats(series: pd.Series) -> dict:
     last52 = s.iloc[-52:]
     sd = float(last52.std(ddof=1))
     return {
-        "ultima_settimana": s.index[-1], "valore": float(s.iloc[-1]),
+        "ultima_settimana": s.index[-1],
+        "valore": float(s.iloc[-1]),
         "variazione_pp": float((s.iloc[-1] - s.iloc[-2]) * 100),
         "media_4_settimane": float(s.iloc[-4:].mean()),
-        "media_52_settimane": float(last52.mean()), "dev_std_52_settimane": sd,
+        "media_52_settimane": float(last52.mean()),
+        "dev_std_52_settimane": sd,
         "scarto_standardizzato": float((s.iloc[-1] - last52.mean()) / sd) if sd else float("nan"),
-        "minimo": float(s.min()), "settimana_minimo": s.idxmin(), "massimo": float(s.max()), "settimana_massimo": s.idxmax(),
-        "prima_settimana": s.index[0], "numero_settimane": int(len(s)),
+        "minimo": float(s.min()),
+        "settimana_minimo": s.idxmin(),
+        "massimo": float(s.max()),
+        "settimana_massimo": s.idxmax(),
+        "prima_settimana": s.index[0],
+        "numero_settimane": int(len(s)),
         "variazione_dall_inizio_pp": float((s.iloc[-1] - s.iloc[0]) * 100),
-        "media_prime_13_settimane": float(s.iloc[:13].mean()), "media_ultime_13_settimane": float(s.iloc[-13:].mean()),
+        "media_prime_13_settimane": float(s.iloc[:13].mean()),
+        "media_ultime_13_settimane": float(s.iloc[-13:].mean()),
     }
 
 
@@ -200,11 +237,11 @@ def main() -> None:
     d = d[d.date < end.strftime("%Y-%m-%d")].copy()
     d["week"] = pd.to_datetime(d.date).dt.to_period("W-SUN").dt.start_time.dt.strftime("%Y-%m-%d")
 
-    with_excluded = d[d.week >= MAIN_START].copy()   # solo per misurare l'effetto dell'esclusione
+    with_excluded = d[d.week >= MAIN_START].copy()  # only to measure the effect of the exclusion
     d = d[~d.exchange.isin(PANEL_EXCLUDED)].copy()
 
     held_back = incomplete_weeks(d)
-    if held_back:  # le settimane incomplete non entrano nell'indice pubblicato
+    if held_back:  # incomplete weeks do not enter the published index
         d = d[~d.week.isin(held_back)].copy()
     main_d = d[d.week >= MAIN_START]
     idx_main = weekly_index(main_d)
@@ -214,22 +251,44 @@ def main() -> None:
     constant = sorted(present[present == len(weeks_main)].index)
     idx_const = weekly_index(main_d[main_d.exchange.isin(constant)])
 
-    # Registro di partecipazione: giorni con dati e volumi per exchange e settimana
-    part = d.groupby(["week", "exchange"]).agg(giorni=("date", "nunique"), coppie=("symbol", "nunique"), volume=("volume_stable", "sum")).reset_index()
-    part["volume_eur"] = d[d.fiat == "EUR"].groupby(["week", "exchange"]).volume_stable.sum().reindex(pd.MultiIndex.from_frame(part[["week", "exchange"]])).fillna(0).to_numpy()
+    # Participation log: days with data and volumes by exchange and week
+    part = (
+        d.groupby(["week", "exchange"]).agg(giorni=("date", "nunique"), coppie=("symbol", "nunique"), volume=("volume_stable", "sum")).reset_index()
+    )
+    part["volume_eur"] = (
+        d[d.fiat == "EUR"]
+        .groupby(["week", "exchange"])
+        .volume_stable.sum()
+        .reindex(pd.MultiIndex.from_frame(part[["week", "exchange"]]))
+        .fillna(0)
+        .to_numpy()
+    )
     part["quota_del_volume_settimanale"] = part.volume / part.groupby("week").volume.transform("sum")
     part.round(6).to_csv(PROC / "m2_exchange_participation.csv", index=False)
     all_weeks = sorted(d.week.unique())
-    changes = part.groupby("exchange").agg(prima_settimana=("week", "min"), ultima_settimana=("week", "max"), settimane=("week", "nunique"),
-                                           settimane_incomplete=("giorni", lambda g: int((g < 7).sum()))).reset_index()
+    changes = (
+        part.groupby("exchange")
+        .agg(
+            prima_settimana=("week", "min"),
+            ultima_settimana=("week", "max"),
+            settimane=("week", "nunique"),
+            settimane_incomplete=("giorni", lambda g: int((g < 7).sum())),
+        )
+        .reset_index()
+    )
     changes["settimane_mancanti_in_mezzo"] = [
-        len([w for w in all_weeks if r.prima_settimana <= w <= r.ultima_settimana]) - r.settimane for r in changes.itertuples()]
+        len([w for w in all_weeks if r.prima_settimana <= w <= r.ultima_settimana]) - r.settimane for r in changes.itertuples()
+    ]
     changes["nel_pannello_costante"] = changes.exchange.isin(constant)
     changes.to_csv(PROC / "m2_panel_changes.csv", index=False)
-    pair_changes = d.groupby(["exchange", "symbol", "stable", "fiat"]).agg(primo_giorno=("date", "min"), ultimo_giorno=("date", "max"), giorni=("date", "nunique")).reset_index()
+    pair_changes = (
+        d.groupby(["exchange", "symbol", "stable", "fiat"])
+        .agg(primo_giorno=("date", "min"), ultimo_giorno=("date", "max"), giorni=("date", "nunique"))
+        .reset_index()
+    )
     pair_changes.to_csv(PROC / "m2_pair_coverage.csv", index=False)
 
-    # Riproducibilità: confronto con l'indice salvato dall'esecuzione precedente
+    # Reproducibility: comparison with the index saved by the previous run
     names = [n for n in SERIES]
     repro = {}
     prev_path = PROC / "m2_weekly_index.csv"
@@ -239,26 +298,38 @@ def main() -> None:
         repro["settimane_confrontate_con_esecuzione_precedente"] = int(len(common))
         repro["differenza_massima_pp"] = float((idx_main.loc[common, names].round(6) - prev.loc[common, names]).abs().max().max() * 100)
     tmp = PROC / "m2_last_fetch.csv.tmp"
-    if tmp.exists() and "--full" in args:  # indice ricalcolato con i soli dati appena riscaricati
+    if tmp.exists() and "--full" in args:  # index recomputed with the freshly downloaded data only
         fresh = pd.read_csv(tmp)
         fresh = fresh[fresh.date < end.strftime("%Y-%m-%d")]
         fresh["week"] = pd.to_datetime(fresh.date).dt.to_period("W-SUN").dt.start_time.dt.strftime("%Y-%m-%d")
         idx_fresh = weekly_index(fresh[fresh.week >= MAIN_START])
         common = idx_fresh.index.intersection(idx_main.index)
         gap = (idx_fresh.loc[common, names] - idx_main.loc[common, names]).abs() * 100
-        repro["solo_dati_riscaricati"] = {"settimane": int(len(common)), "differenza_massima_pp": float(gap.max().max()),
-                                          "settimane_con_differenza_oltre_0_01_pp": int((gap.max(axis=1) > 0.01).sum())}
+        repro["solo_dati_riscaricati"] = {
+            "settimane": int(len(common)),
+            "differenza_massima_pp": float(gap.max().max()),
+            "settimane_con_differenza_oltre_0_01_pp": int((gap.max(axis=1) > 0.01).sum()),
+        }
 
     flags = signals(main_d)
     flags.round(6).to_csv(PROC / "m2_flags.csv", index=False)
     judged = flags[flags.stato != "storico insufficiente"]
     last_week = flags.week.max()
     segnalazione = {
-        "regola": "scarto oltre 2 deviazioni standard sulle 52 settimane precedenti, sia della quota EUR sia del volume contro EUR, con lo stesso segno",
+        "regola": (
+            "deviation above 2 standard deviations over the previous 52 weeks, of both the EUR share and the volume against EUR, with the same sign"
+        ),
         "settimane_valutate": int(judged.week.nunique()),
-        "ultima_settimana": {r.serie: {"stato": r.stato, "scarto_quota": float(r.scarto_quota), "scarto_volume": float(r.scarto_volume),
-                                       "quota_eur": float(r.quota_eur), "volume_eur_mld": float(r.volume_eur_mld)}
-                             for r in flags[flags.week == last_week].itertuples()},
+        "ultima_settimana": {
+            r.serie: {
+                "stato": r.stato,
+                "scarto_quota": float(r.scarto_quota),
+                "scarto_volume": float(r.scarto_volume),
+                "quota_eur": float(r.quota_eur),
+                "volume_eur_mld": float(r.volume_eur_mld),
+            }
+            for r in flags[flags.week == last_week].itertuples()
+        },
         "storico": {name: {k: int(v) for k, v in g.stato.value_counts().items()} for name, g in judged.groupby("serie")},
         "settimane_con_segnale": {name: g.week[g.stato == "segnale"].tolist() for name, g in judged.groupby("serie")},
     }
@@ -274,37 +345,57 @@ def main() -> None:
         "scarico": fetch_info,
         "riproducibilita": repro,
         "settimane_trattenute": held_back,
-        "pannello": {"exchange": int(main_d.exchange.nunique()), "exchange_indice_lungo": int(d[~d.exchange.isin(LONG_EXCLUDED)].exchange.nunique()),
-                     "esclusi": PANEL_EXCLUDED, "esclusi_indice_lungo": LONG_EXCLUDED},
+        "pannello": {
+            "exchange": int(main_d.exchange.nunique()),
+            "exchange_indice_lungo": int(d[~d.exchange.isin(LONG_EXCLUDED)].exchange.nunique()),
+            "esclusi": PANEL_EXCLUDED,
+            "esclusi_indice_lungo": LONG_EXCLUDED,
+        },
         "effetto_esclusione": exclusion_effect(with_excluded[~with_excluded.week.isin(held_back)], main_d),
         "segnalazione": segnalazione,
-        "indice_principale": {"prima_settimana": weeks_main[0], "ultima_settimana": weeks_main[-1], "settimane": len(weeks_main),
-                              "serie": {n: stats(idx_main[n]) for n in names}},
-        "indice_lungo": {"esclusi": LONG_EXCLUDED, "prima_settimana": idx_long.index[0], "settimane": int(len(idx_long)),
-                         "serie": {n: stats(idx_long[n]) for n in names},
-                         "differenza_media_con_principale_pp": {n: float(overlap[n].mean() * 100) for n in names},
-                         "correlazione_con_principale": {n: float(idx_long.loc[idx_long.index >= MAIN_START, n].corr(idx_main[n])) for n in names}},
-        "pannello_costante": {"exchange": constant, "numero": len(constant),
-                              "differenza_massima_assoluta_pp": {n: float((idx_const[n] - idx_main[n]).abs().max() * 100) for n in names},
-                              "differenza_media_pp": {n: float((idx_const[n] - idx_main[n]).mean() * 100) for n in names}},
+        "indice_principale": {
+            "prima_settimana": weeks_main[0],
+            "ultima_settimana": weeks_main[-1],
+            "settimane": len(weeks_main),
+            "serie": {n: stats(idx_main[n]) for n in names},
+        },
+        "indice_lungo": {
+            "esclusi": LONG_EXCLUDED,
+            "prima_settimana": idx_long.index[0],
+            "settimane": int(len(idx_long)),
+            "serie": {n: stats(idx_long[n]) for n in names},
+            "differenza_media_con_principale_pp": {n: float(overlap[n].mean() * 100) for n in names},
+            "correlazione_con_principale": {n: float(idx_long.loc[idx_long.index >= MAIN_START, n].corr(idx_main[n])) for n in names},
+        },
+        "pannello_costante": {
+            "exchange": constant,
+            "numero": len(constant),
+            "differenza_massima_assoluta_pp": {n: float((idx_const[n] - idx_main[n]).abs().max() * 100) for n in names},
+            "differenza_media_pp": {n: float((idx_const[n] - idx_main[n]).mean() * 100) for n in names},
+        },
         "exchange_attivi_min_max": [int(idx_main.exchange_attivi.min()), int(idx_main.exchange_attivi.max())],
         "settimane_con_exchange_rilevante_incompleto": big[["week", "exchange", "giorni"]].to_dict("records"),
         "coinbase_quota_volume": {
-            tok: float(main_d[(main_d.exchange == "Coinbase") & (main_d.stable == tok)].volume_stable.sum() / main_d[main_d.stable == tok].volume_stable.sum())
-            for tok in ("USDT", "USDC")},
+            tok: float(
+                main_d[(main_d.exchange == "Coinbase") & (main_d.stable == tok)].volume_stable.sum()
+                / main_d[main_d.stable == tok].volume_stable.sum()
+            )
+            for tok in ("USDT", "USDC")
+        },
     }
     (PROC / "m2_summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
     if tmp.exists():
         tmp.unlink()
-    plot(idx_main, "03_main_index.png", f"Quota EUR dei volumi stablecoin/fiat, indice principale ({main_d.exchange.nunique()} exchange)")
-    plot(idx_long, "03_long_index.png", "Quota EUR dei volumi stablecoin/fiat, indice lungo (senza Kraken e Gemini)")
+    plot(idx_main, "03_main_index.png", f"EUR share of stablecoin/fiat volumes, main index ({main_d.exchange.nunique()} exchanges)")
+    plot(idx_long, "03_long_index.png", "EUR share of stablecoin/fiat volumes, long index (without Kraken and Gemini)")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     if fetch_info.get("modalita") != "offline" and fetch_info.get("pairs_ok", 1) == 0:
-        sys.exit("nessun exchange ha risposto: indice ricalcolato dall'archivio, nessun dato nuovo")
+        sys.exit("no exchange responded: index recomputed from the archive, no new data")
 
 
 def plot(idx: pd.DataFrame, filename: str, title: str) -> None:
     import matplotlib
+
     matplotlib.use("Agg")
     import matplotlib.dates as mdates
     import matplotlib.pyplot as plt
@@ -312,26 +403,25 @@ def plot(idx: pd.DataFrame, filename: str, title: str) -> None:
     ink, muted, grid, surface, blue, orange = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb", "#2a78d6", "#eb6834"
     x = pd.to_datetime(idx.index)
     fig, axes = plt.subplots(1, 2, figsize=(11.5, 4.0), facecolor=surface)
-    for ax, tok in zip(axes, ("usdt", "usdc")):
+    for ax, tok in zip(axes, ("usdt", "usdc"), strict=True):
         ax.set_facecolor(surface)
         ends = []
-        for col, color, label in ((tok, blue, "tutti gli exchange"), (f"{tok}_senza_coinbase", orange, "senza Coinbase")):
+        for col, color, label in ((tok, blue, "all exchanges"), (f"{tok}_senza_coinbase", orange, "without Coinbase")):
             y = idx[col] * 100
             ax.plot(x, y, color=color, lw=2, label=label)
             ends.append(float(y.iloc[-1]))
         ax.set_title(tok.upper(), loc="left", fontsize=11, color=ink)
         ax.set_ylim(bottom=0)
         span = ax.get_ylim()[1]
-        # etichette dei valori finali: si distanziano se le due linee arrivano vicine
+        # labels of the final values: they are spread apart if the two lines end close together
         pos = list(ends)
         if abs(pos[0] - pos[1]) < span * 0.06:
             hi, lo = (0, 1) if pos[0] >= pos[1] else (1, 0)
             mid = (pos[0] + pos[1]) / 2
             pos[hi], pos[lo] = mid + span * 0.03, mid - span * 0.03
-        for value, at in zip(ends, pos):
-            ax.annotate(f"{value:.1f}%".replace(".", ","), (x[-1], at), xytext=(6, 0), textcoords="offset points",
-                        va="center", fontsize=8, color=muted)
-        ax.set_ylabel("Quota EUR (%)", color=muted, fontsize=9)
+        for value, at in zip(ends, pos, strict=True):
+            ax.annotate(f"{value:.1f}%", (x[-1], at), xytext=(6, 0), textcoords="offset points", va="center", fontsize=8, color=muted)
+        ax.set_ylabel("EUR share (%)", color=muted, fontsize=9)
         ax.tick_params(colors=muted, labelsize=9, length=0)
         ax.grid(axis="y", color=grid, lw=0.8)
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%y"))
