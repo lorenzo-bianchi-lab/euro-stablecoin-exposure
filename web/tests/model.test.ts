@@ -16,19 +16,19 @@ import {
 } from "../src/lib/model";
 
 const read = (p: string) => JSON.parse(readFileSync(new URL(p, import.meta.url), "utf-8"));
-const sim = read("../public/data/simulator.json") as { paesi: Country[]; coefficienti: Coefficients };
+const sim = read("../public/data/simulator.json") as { countries: Country[]; coefficients: Coefficients };
 const livello = read("../public/data/level.json") as {
-  fasce: LevelBand[];
-  quotaDetentori: number;
-  quotaDollari: Record<string, number>;
-  unita: Record<string, number>;
+  bands: LevelBand[];
+  holderShare: number;
+  dollarShare: Record<string, number>;
+  units: Record<string, number>;
 };
 const fx = read("./fixtures.json") as {
   casi: { scenario: Omit<Scenario, "credito">; paesi: Record<string, Record<string, number>>; totale: Record<string, number> }[];
   livello: Record<string, Record<string, number>>;
   banche: { scenario: Omit<Scenario, "credito">; banche: Record<string, Record<string, number>> }[];
 };
-const banche = read("../public/data/banks.json") as { banche: Bank[] };
+const banche = read("../public/data/banks.json") as { banks: Bank[] };
 const VARIANTI: CreditVariant[] = ["uniforme", "basso", "alto", "soglia", "continua"];
 // the exported data are rounded to six decimals: the tolerance is on the last digit, in relative terms
 const close = (a: number, b: number) => expect(Math.abs(a - b)).toBeLessThanOrEqual(1e-5 * Math.max(1, Math.abs(b)));
@@ -41,7 +41,7 @@ describe("scenarios: application and Python scripts agree", () => {
     const s = caso.scenario;
     it(`${s.regola}, ${s.depositi}, EUR ${s.importo.toFixed(1)} bn, substitution ${s.sostituzione}`, () => {
       for (const v of VARIANTI) {
-        const rows = compute(sim.paesi, sim.coefficienti, { ...s, credito: v });
+        const rows = compute(sim.countries, sim.coefficients, { ...s, credito: v });
         expect(rows.length).toBe(21);
         for (const r of rows) {
           const e = caso.paesi[r.code];
@@ -52,7 +52,7 @@ describe("scenarios: application and Python scripts agree", () => {
           close(r.aumentoIngrosso, e.aumentoIngrosso);
           close(r.credito, e[`credito_${v}`]);
         }
-        const t = totals(sim.paesi, rows);
+        const t = totals(sim.countries, rows);
         close(t.deflusso, caso.totale.deflusso);
         close(t.credito, caso.totale[`credito_${v}`]);
       }
@@ -64,7 +64,7 @@ describe("level estimate: application and Python scripts agree", () => {
   for (const unita of ["famiglie", "individui"] as const) {
     for (const caso of ["minimo", "centrale", "massimo"] as const) {
       it(`${unita}, ${caso}`, () => {
-        close(levelEstimate(livello.fasce, livello.unita[unita], livello.quotaDetentori, livello.quotaDollari[caso], caso), fx.livello[unita][caso]);
+        close(levelEstimate(livello.bands, livello.units[unita], livello.holderShare, livello.dollarShare[caso], caso), fx.livello[unita][caso]);
       });
     }
   }
@@ -78,9 +78,9 @@ describe("individual banks: application and module 6 agree", () => {
   for (const caso of fx.banche) {
     const s = caso.scenario;
     it(`${s.regola}, ${s.depositi}, EUR ${s.importo.toFixed(1)} bn, substitution ${s.sostituzione}`, () => {
-      const rows = compute(sim.paesi, sim.coefficienti, { ...s, credito: "uniforme" });
+      const rows = compute(sim.countries, sim.coefficients, { ...s, credito: "uniforme" });
       const lost = Object.fromEntries(rows.map((r) => [r.code, r.persiCategoria]));
-      const out = bankEffects(banche.banche, lost, sim.coefficienti, s.depositi);
+      const out = bankEffects(banche.banks, lost, sim.coefficients, s.depositi);
       expect(out.length).toBe(Object.keys(caso.banche).length);
       for (const r of out) {
         const e = caso.banche[r.lei];

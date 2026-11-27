@@ -33,11 +33,108 @@ import module5_credit as m5
 ROOT = Path(__file__).resolve().parents[1]
 RAW, PROC = ROOT / "data" / "raw", ROOT / "data" / "processed"
 OUT = ROOT / "web" / "public" / "data"
-SCHEMA = "2.0.0"  # 2.0.0: the texts are in the application (translation files); here only codes and numbers
+SCHEMA = "3.0.0"  # 3.0.0: keys in English (2.0.0: the texts are in the application; here only codes and numbers)
 GISCO = "https://gisco-services.ec.europa.eu/distribution/v2/countries/geojson/CNTR_RG_20M_2024_4326.geojson"
 NAMES = m5.NAMES
 NOW = datetime.now(timezone.utc).isoformat(timespec="seconds")
 DOCS: dict[str, dict] = {}
+
+# English names of the keys of the structures copied as they are from data/processed (the files in
+# data/processed keep their own names). Keys that are not here pass unchanged: series ids
+# (usdt_senza_coinbase), step names (modulo1), week dates.
+KEYS = {
+    "ancoraggio_alto": "high_anchor",
+    "ancoraggio_basso": "low_anchor",
+    "con": "with_excluded",
+    "correlazione_di_rango": "rank_correlation",
+    "definizione": "definition",
+    "deflusso_paesi_coperti": "outflow_covered_countries",
+    "detentori": "holders",
+    "dettaglio_segnalazioni_cambiate": "flags_changed_detail",
+    "dev_std_52_settimane": "sd_52_weeks",
+    "differenza_pp": "difference_pp",
+    "esclusi": "excluded",
+    "esclusi_indice_lungo": "excluded_long_index",
+    "esito": "outcome",
+    "exchange_indice_lungo": "exchange_long_index",
+    "exchange_mancanti": "missing_exchanges",
+    "importo_mld_eur": "amount_bn_eur",
+    "massima": "max",
+    "massima_assoluta": "max_abs",
+    "massimo": "max",
+    "media": "mean",
+    "media_4_settimane": "mean_4_weeks",
+    "media_52_settimane": "mean_52_weeks",
+    "media_prime_13_settimane": "mean_first_13_weeks",
+    "media_ultime_13_settimane": "mean_last_13_weeks",
+    "mese_bilanci_paese": "country_balance_sheet_month",
+    "messaggio": "message",
+    "minimo": "min",
+    "nome": "name",
+    "numero_settimane": "week_count",
+    "paese": "country",
+    "paesi_con_bsi_completo": "countries_with_full_bsi",
+    "paesi_con_entrambe": "countries_with_both",
+    "prima_settimana": "first_week",
+    "quota_di_volume_degli_esclusi": "volume_share_of_excluded",
+    "quota_di_volume_mancante": "missing_volume_share",
+    "quota_eur": "eur_share",
+    "rapporto_mediano_bsi_su_bri": "median_ratio_bsi_to_bis",
+    "regola_depositi": "deposit_rule",
+    "regola_paesi": "country_rule",
+    "scarto_quota": "share_deviation",
+    "scarto_standardizzato": "standardised_deviation",
+    "scarto_volume": "volume_deviation",
+    "secondi": "seconds",
+    "segnalazioni_cambiate": "flags_changed",
+    "senza": "without_excluded",
+    "serie": "series",
+    "settimana": "week",
+    "settimana_della_massima": "week_of_max",
+    "settimana_massimo": "max_week",
+    "settimana_minimo": "min_week",
+    "settimane_confrontate": "weeks_compared",
+    "sostituzione": "substitution",
+    "stato": "status",
+    "totale": "total",
+    "ultima_settimana": "last_week",
+    "valore": "value",
+    "variazione_dall_inizio_pp": "change_since_start_pp",
+    "variazione_pp": "change_pp",
+    "volume_eur_mld": "volume_eur_bn",
+    "minimo_mld_eur": "min_bn_eur",
+    "centrale_mld_eur": "central_bn_eur",
+    "massimo_mld_eur": "max_bn_eur",
+    "minimo_tutte_le_stablecoin_mld_eur": "min_all_stablecoins_bn_eur",
+    "centrale_tutte_le_stablecoin_mld_eur": "central_all_stablecoins_bn_eur",
+    "massimo_tutte_le_stablecoin_mld_eur": "max_all_stablecoins_bn_eur",
+    "estremo_superiore_dichiarato_mld_eur": "declared_upper_bound_bn_eur",
+    "nota_estremo_superiore": "upper_bound_note",
+}
+# Italian names of the composition items in data/processed/m3_composition.csv -> keys of the country files
+ITEMS = {
+    "vista_famiglie": "household_sight_deposits",
+    "altri_dep_famiglie": "household_other_deposits",
+    "vista_imprese": "firm_sight_deposits",
+    "altri_dep_imprese": "firm_other_deposits",
+    "altri_dep_non_ifm": "other_non_mfi_deposits",
+    "dep_governo_centrale": "central_government_deposits",
+    "dep_da_ifm": "deposits_from_mfis",
+    "titoli_di_debito": "debt_securities",
+    "fondi_monetari": "money_market_funds",
+    "passivita_estere": "external_liabilities",
+    "capitale_e_riserve": "capital_and_reserves",
+    "altre_passivita": "other_liabilities",
+}
+
+
+def en(x):
+    """A structure read from data/processed, with its keys in English (KEYS); the values do not change."""
+    if isinstance(x, dict):
+        return {KEYS.get(k, k): en(v) for k, v in x.items()}
+    if isinstance(x, list):
+        return [en(v) for v in x]
+    return x
 
 
 def load(name: str) -> dict:
@@ -55,11 +152,11 @@ def rnd(x, d=6):
 
 
 def write(name: str, description: str, data_date: dict, fields: dict, payload: dict) -> None:
-    doc = {"schema": SCHEMA, "file": name, "generato_il": NOW, "dati_al": data_date, "descrizione": description, "campi": fields, **rnd(payload)}
+    doc = {"schema": SCHEMA, "file": name, "generated_on": NOW, "data_as_of": data_date, "description": description, "fields": fields, **rnd(payload)}
     path = OUT / name
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    DOCS[name] = {"descrizione": description, "campi": fields}
+    DOCS[name] = {"description": description, "fields": fields}
 
 
 def spec_section(title: str) -> str:
@@ -108,8 +205,8 @@ def bilingual_table(title: str) -> dict:
         return it.get(v, v)
 
     return {
-        "en": {"colonne": head, "righe": [[r[h] for h in head] for r in rows]},
-        "it": {"colonne": [tr(h) for h in head], "righe": [[tr(r[h]) for h in head] for r in rows]},
+        "en": {"columns": head, "rows": [[r[h] for h in head] for r in rows]},
+        "it": {"columns": [tr(h) for h in head], "rows": [[tr(r[h]) for h in head] for r in rows]},
     }
 
 
@@ -136,7 +233,7 @@ def gisco(offline: bool) -> None:
             feats.append(
                 {
                     "type": "Feature",
-                    "properties": {"code": code, "name": NAMES.get(code, f["properties"]["NAME_ENGL"]), "area_euro": code in NAMES},
+                    "properties": {"code": code, "name": NAMES.get(code, f["properties"]["NAME_ENGL"]), "euro_area": code in NAMES},
                     "geometry": {"type": "MultiPolygon", "coordinates": keep},
                 }
             )
@@ -145,7 +242,7 @@ def gisco(offline: bool) -> None:
         json.dumps(
             {
                 "type": "FeatureCollection",
-                "fonte": "Eurostat GISCO, Countries 2024, 1:20M. © EuroGeographics for the administrative boundaries",
+                "source": "Eurostat GISCO, Countries 2024, 1:20M. © EuroGeographics for the administrative boundaries",
                 "features": feats,
             },
             separators=(",", ":"),
@@ -174,7 +271,7 @@ def missing_pairs(log: pd.DataFrame, store: pd.DataFrame) -> dict | None:
     known = store.merge(failed[["exchange", "symbol"]].drop_duplicates(), on=["exchange", "symbol"])
     never = sorted({f"{r.exchange} {r.symbol}" for r in failed.itertuples()} - {f"{r.exchange} {r.symbol}" for r in known.itertuples()})
     if known.empty:
-        return {"exchange": [], "coppie": [], "maiDisponibili": never, "quotaVolume": 0.0, "datiFinoAl": None}
+        return {"exchange": [], "pairs": [], "neverAvailable": never, "volumeShare": 0.0, "dataUntil": None}
     last = known.date.max()
     start = (pd.Timestamp(last) - pd.Timedelta(days=27)).strftime("%Y-%m-%d")
     window = store[(store.date >= start) & (store.date <= last)]
@@ -182,10 +279,10 @@ def missing_pairs(log: pd.DataFrame, store: pd.DataFrame) -> dict | None:
     lost = float(known[(known.date >= start) & (known.date <= last)].volume_stable.sum())
     return {
         "exchange": sorted(known.exchange.unique()),
-        "coppie": sorted({f"{r.exchange} {r.symbol}" for r in known.itertuples()}),
-        "maiDisponibili": never,
-        "quotaVolume": lost / total if total else 0.0,
-        "datiFinoAl": known.groupby(["exchange", "symbol"]).date.max().min(),
+        "pairs": sorted({f"{r.exchange} {r.symbol}" for r in known.itertuples()}),
+        "neverAvailable": never,
+        "volumeShare": lost / total if total else 0.0,
+        "dataUntil": known.groupby(["exchange", "symbol"]).date.max().min(),
     }
 
 
@@ -223,21 +320,21 @@ def sources_status(status: dict, m1: dict, m2: dict, m3: dict, m4s: dict, m5s: d
         ("bce_bsi_valuta", "modulo5", "trimestre", m5s["mappa"]["trimestre_bsi"]),
     ):
         st, msg = state(module)
-        detail: dict = {"messaggio": msg} if msg else {}
+        detail: dict = {"message": msg} if msg else {}
         if sid == "exchange":
             held = m2.get("settimane_trattenute", {})
             detail["exchange"] = m2["pannello"]["exchange"]
-            if missing and missing["coppie"]:
-                detail.update({"senzaRisposta": missing["coppie"], "quotaVolume": missing["quotaVolume"], "finoAl": missing["datiFinoAl"]})
-            if missing and missing["maiDisponibili"]:
-                detail["maiDisponibili"] = missing["maiDisponibili"]
+            if missing and missing["pairs"]:
+                detail.update({"noResponse": missing["pairs"], "volumeShare": missing["volumeShare"], "dataUntil": missing["dataUntil"]})
+            if missing and missing["neverAvailable"]:
+                detail["neverAvailable"] = missing["neverAvailable"]
             if held:
-                detail["trattenute"] = sorted(held)
+                detail["heldWeeks"] = sorted(held)
             if held and st == "aggiornata":
                 st = "ultimo_valido"
-            elif missing and missing["coppie"] and st == "aggiornata":
+            elif missing and missing["pairs"] and st == "aggiornata":
                 st = "parziale"
-        rows.append({"id": sid, "modulo": module, "tipoData": kind, "datiAl": date, "stato": st, "dettaglio": detail})
+        rows.append({"id": sid, "module": module, "dateType": kind, "dataAsOf": date, "status": st, "detail": detail})
     for sid, kind, date in (
         ("eba", "giorno", "2025-06-30"),
         ("bce_cbd", "trimestre", "2025-Q2"),
@@ -247,7 +344,7 @@ def sources_status(status: dict, m1: dict, m2: dict, m3: dict, m4s: dict, m5s: d
         ("esm_wp79", "trimestre", "2025-Q3"),
         ("gisco", "anno", "2024"),
     ):
-        rows.append({"id": sid, "modulo": "statica", "tipoData": kind, "datiAl": date, "stato": "statica", "dettaglio": {}})
+        rows.append({"id": sid, "module": "statica", "dateType": kind, "dataAsOf": date, "status": "statica", "detail": {}})
     return rows
 
 
@@ -263,20 +360,20 @@ def banks_payload(m5s: dict) -> tuple[dict, dict, dict]:
     banks = [
         {
             "lei": lei,
-            "nome": r.nome,
-            "paese": r.paese,
-            "attivo": r.totale_attivo,
-            "depFam": r.dep_famiglie,
-            "vistaFam": r.vista_famiglie,
-            "depImp": r.dep_imprese,
-            "vistaImp": r.vista_imprese,
-            "depAltreFin": r.dep_altre_fin,
-            "depBanche": r.dep_banche,
-            "titoli": r.titoli_emessi,
-            "prestiti": r.prestiti,
-            "quotaRetail": r.quota_retail,
-            "retailAlta": bool(r.quota_retail_alta),
-            "rango": int(r.rango_quota_retail),
+            "name": r.nome,
+            "country": r.paese,
+            "assets": r.totale_attivo,
+            "householdDeposits": r.dep_famiglie,
+            "householdSight": r.vista_famiglie,
+            "firmDeposits": r.dep_imprese,
+            "firmSight": r.vista_imprese,
+            "otherFinancialDeposits": r.dep_altre_fin,
+            "bankDeposits": r.dep_banche,
+            "debtSecurities": r.titoli_emessi,
+            "loans": r.prestiti,
+            "retailShare": r.quota_retail,
+            "highRetail": bool(r.quota_retail_alta),
+            "rank": int(r.rango_quota_retail),
             "usa": nan(r.usa_su_esposizioni),
         }
         for lei, r in bk.iterrows()
@@ -284,60 +381,61 @@ def banks_payload(m5s: dict) -> tuple[dict, dict, dict]:
     countries = [
         {
             "code": k,
-            "banche": int(r.banche),
-            "alte": int(r.banche_alta_quota_retail) if r.banche else 0,
-            "attivoCampione": nan(r.totale_attivo_campione),
-            "coperturaBsi": nan(r.copertura_su_bsi),
-            "coperturaConsolidato": nan(r.copertura_su_consolidato),
+            "banks": int(r.banche),
+            "highRetailBanks": int(r.banche_alta_quota_retail) if r.banche else 0,
+            "sampleAssets": nan(r.totale_attivo_campione),
+            "coverageBsi": nan(r.copertura_su_bsi),
+            "coverageConsolidated": nan(r.copertura_su_consolidato),
             "m6PerEuro": nan(r.m6_credito_per_euro),
+            # keyed by the credit variant ids, the same as in the addresses (cred=...)
             "m5": {v: nan(r[f"m5_{v}_per_euro"]) for v in ("basso", "alto", "soglia", "continua", "uniforme")},
-            "m5RetailAlta": bool(r.m5_quota_retail_alta),
+            "m5HighRetail": bool(r.m5_quota_retail_alta),
         }
         for k, r in by.iterrows()
     ]
     crit = m6["criterio_di_sufficienza"]
     payload = {
-        "banche": banks,
-        "paesi": countries,
-        "soglia": m6["soglia_quota_retail"]["valore"],
-        "mediana": m6["soglia_quota_retail"]["mediana"],
-        "sogliaPaesi": m5s["soglia_quota_retail"]["valore"],
-        "banchesSopra": m6["soglia_quota_retail"]["banche_sopra"],
-        "criterio": {
-            "nelCampione": crit["banche_area_euro_nel_campione"],
+        "banks": banks,
+        "countries": countries,
+        "threshold": m6["soglia_quota_retail"]["valore"],
+        "median": m6["soglia_quota_retail"]["mediana"],
+        "countryThreshold": m5s["soglia_quota_retail"]["valore"],
+        "banksAbove": m6["soglia_quota_retail"]["banche_sopra"],
+        "criterion": {
+            "inSample": crit["banche_area_euro_nel_campione"],
             "complete": crit["banche_con_dati_completi"],
-            "paesi": crit["paesi_coperti"],
-            "soddisfatto": crit["soddisfatto"],
-            "paesiSenzaBanche": crit["paesi_senza_banche"],
-            "escluse": crit["banche_escluse"],
+            "countries": crit["paesi_coperti"],
+            "met": crit["soddisfatto"],
+            "countriesWithoutBanks": crit["paesi_senza_banche"],
+            "excluded": en(crit["banche_escluse"]),
         },
-        "copertura": {
+        "coverage": {
             "bsi": m6["campione"]["copertura_area_su_bsi"],
-            "consolidato": m6["campione"]["copertura_area_su_consolidato"],
-            "attivo": m6["campione"]["totale_attivo_mld"],
-            "conUsa": m6["campione"]["banche_con_esposizione_usa"],
+            "consolidated": m6["campione"]["copertura_area_su_consolidato"],
+            "assets": m6["campione"]["totale_attivo_mld"],
+            "withUsa": m6["campione"]["banche_con_esposizione_usa"],
         },
-        "confronto": m6["confronto_modulo5_paesi_coperti"],
-        "scenarioDiControllo": m6["scenario_di_controllo"],
+        "comparison": en(m6["confronto_modulo5_paesi_coperti"]),  # m5_<variant>: credit variant ids
+        "controlScenario": en(m6["scenario_di_controllo"]),
     }
-    dates = {"banche": m6["data_dei_dati"], "bilanciPaese": m6["scenario_di_controllo"]["mese_bilanci_paese"]}
+    dates = {"banks": m6["data_dei_dati"], "countryBalanceSheets": m6["scenario_di_controllo"]["mese_bilanci_paese"]}
     fields = {
-        "banche[]": "one row per euro area bank with all items; amounts in EUR billion, consolidated data as at 30 June 2025",
-        "banche[].quotaRetail": "household deposits / (household deposits + deposits of financial corporations other than banks)",
-        "banche[].retailAlta": "above the 75th percentile of the retail share among the banks in the sample",
-        "banche[].vistaFam, vistaImp": "current accounts and overnight deposits",
-        "banche[].usa": (
+        "banks[]": "one row per euro area bank with all items; amounts in EUR billion, consolidated data as at 30 June 2025",
+        "banks[].retailShare": "household deposits / (household deposits + deposits of financial corporations other than banks)",
+        "banks[].highRetail": "above the 75th percentile of the retail share among the banks in the sample",
+        "banks[].householdSight, firmSight": "current accounts and overnight deposits",
+        "banks[].usa": (
             "original credit exposures to US counterparties over the total; null if the United States is not among the bank's top ten countries"
         ),
-        "paesi[].coperturaBsi": (
+        "countries[].coverageBsi": (
             "total assets of the sample banks over the total assets of the country's MFIs (BSI, June 2025); different perimeters, can exceed 1"
         ),
-        "paesi[].coperturaConsolidato": (
+        "countries[].coverageConsolidated": (
             "the same ratio over the consolidated total assets of all banks in the country (ECB, CBD2, second quarter of 2025)"
         ),
-        "paesi[].m6PerEuro": "credit reduction per euro of outflow, coefficients applied bank by bank, in the control scenario",
-        "paesi[].m5": "the same ratio with the module 5 variants on national aggregates",
-        "confronto": "sum over the covered countries, EUR billion",
+        "countries[].m6PerEuro": "credit reduction per euro of outflow, coefficients applied bank by bank, in the control scenario",
+        "countries[].m5": "the same ratio with the module 5 variants on national aggregates",
+        "comparison": "sum over the covered countries, EUR billion",
     }
     return payload, dates, fields
 
@@ -370,28 +468,28 @@ def main() -> None:
         countries.append(
             {
                 "code": code,
-                "nome": NAMES[code],
-                "vista": b.vista[code],
-                "vistaFam": b.vista_fam[code],
-                "clientela": b.clientela[code],
-                "ingrosso": b.ingrosso[code],
-                "totale": b.totale[code],
-                "prestiti": retail.prestiti[code],
+                "name": NAMES[code],
+                "sight": b.vista[code],
+                "householdSight": b.vista_fam[code],
+                "customerDeposits": b.clientela[code],
+                "wholesale": b.ingrosso[code],
+                "total": b.totale[code],
+                "loans": retail.prestiti[code],
                 "pop": inp["popolazione"][code],
                 "r3": r3.peso[code],
-                "quotaPossessori": r3.quota_possessori[code],
-                "possessoriImputati": bool(r3.imputato[code]),
-                "quotaRetail": retail.quota_retail[code],
-                "retailAlta": bool(retail.quota_retail_alta[code]),
-                "pesoContinuo": retail.peso_continuo[code],
-                "posizione": int(rank.pos_indicatore[code]),
-                "indicatore": rank.indicatore[code],
+                "ownerShare": r3.quota_possessori[code],
+                "ownersImputed": bool(r3.imputato[code]),
+                "retailShare": retail.quota_retail[code],
+                "highRetail": bool(retail.quota_retail_alta[code]),
+                "continuousWeight": retail.peso_continuo[code],
+                "rank": int(rank.pos_indicatore[code]),
+                "indicator": rank.indicatore[code],
                 "c1": rank.C1[code],
                 "c2": rank.C2[code],
                 "c3": rank.C3[code],
                 "usd": mp.dollari[code],
-                "fonteUsd": "BRI" if mp.fonte_dollari[code] == "BRI" else "BSI",
-                "quadrante": mp.quadrante[code],
+                "usdSource": "BRI" if mp.fonte_dollari[code] == "BRI" else "BSI",
+                "quadrant": mp.quadrante[code],
             }
         )
     presets = [
@@ -410,50 +508,50 @@ def main() -> None:
             "Bank balance sheets by country, weights of the allocation rules and coefficients: everything needed to redo the calculations of "
             "modules 4 and 5 in the browser."
         ),
-        {"bilanci": month, "cambio": inp["data_cambio"]},
+        {"balanceSheets": month, "exchangeRate": inp["data_cambio"]},
         {
-            "paesi[].vista": "sight deposits of households and firms, EUR billion",
-            "paesi[].vistaFam": "sight deposits of households",
-            "paesi[].clientela": "total deposits of households and firms",
-            "paesi[].ingrosso": "debt securities issued plus deposits from MFIs",
-            "paesi[].totale": "total liabilities",
-            "paesi[].prestiti": "loans to households and firms",
-            "paesi[].pop": "population (weight of rule R2)",
-            "paesi[].r3": "estimated crypto-asset owners (weight of rule R3)",
-            "paesi[].pesoContinuo": "weight between 0 and 1 for the continuous credit variant",
-            "coefficienti": (
+            "countries[].sight": "sight deposits of households and firms, EUR billion",
+            "countries[].householdSight": "sight deposits of households",
+            "countries[].customerDeposits": "total deposits of households and firms",
+            "countries[].wholesale": "debt securities issued plus deposits from MFIs",
+            "countries[].total": "total liabilities",
+            "countries[].loans": "loans to households and firms",
+            "countries[].pop": "population (weight of rule R2)",
+            "countries[].r3": "estimated crypto-asset owners (weight of rule R3)",
+            "countries[].continuousWeight": "weight between 0 and 1 for the continuous credit variant",
+            "coefficients": (
                 "ECB Working Paper 3199: uniform rule, standard deviation in points, low and high coefficients (table 1, columns 3 and 4)"
             ),
-            "livello": "reference level in EUR billion",
-            "predefiniti[].eur": "amount held in EUR billion; the scenarios defined in dollars are converted at the programme's single exchange rate",
-            "cambioUsdPerEur": "single exchange rate of the programme: the most recent ECB reference rate at the date of the circulation (module 1)",
-            "paesi[].fonteUsd": "BRI (BIS) or BSI (quarterly, by currency)",
+            "level": "reference level in EUR billion",
+            "presets[].eur": "amount held in EUR billion; the scenarios defined in dollars are converted at the programme's single exchange rate",
+            "usdPerEur": "single exchange rate of the programme: the most recent ECB reference rate at the date of the circulation (module 1)",
+            "countries[].usdSource": "BRI (BIS) or BSI (quarterly, by currency)",
         },
         {
-            "cambioUsdPerEur": fx,
-            "dataCambio": inp["data_cambio"],
-            "meseBilanci": month,
-            "paesi": countries,
-            "predefiniti": presets,
-            "coefficienti": {
-                "uniforme": coef["regola_uniforme"],
+            "usdPerEur": fx,
+            "exchangeRateDate": inp["data_cambio"],
+            "balanceSheetMonth": month,
+            "countries": countries,
+            "presets": presets,
+            "coefficients": {
+                "uniform": coef["regola_uniforme"],
                 "sd": coef["deviazione_standard_pp"],
-                "basso": coef["col3"]["basso"],
-                "alto": coef["col3"]["alto"],
-                "bassoCol4": coef["col4"]["basso"],
-                "altoCol4": coef["col4"]["alto"],
+                "low": coef["col3"]["basso"],
+                "high": coef["col3"]["alto"],
+                "lowCol4": coef["col4"]["basso"],
+                "highCol4": coef["col4"]["alto"],
             },
-            "sogliaRetail": m5s["soglia_quota_retail"]["valore"],
-            "ancoraggi": m5s["variante_continua"],
-            "livello": {
-                "minimo": ref["minimo_mld_eur"],
-                "centrale": ref["centrale_mld_eur"],
-                "massimo": ref["massimo_mld_eur"],
-                "estremoSuperiore": ref["estremo_superiore_dichiarato_mld_eur"],
+            "retailThreshold": m5s["soglia_quota_retail"]["valore"],
+            "anchors": en(m5s["variante_continua"]),
+            "level": {
+                "min": ref["minimo_mld_eur"],
+                "central": ref["centrale_mld_eur"],
+                "max": ref["massimo_mld_eur"],
+                "upperBound": ref["estremo_superiore_dichiarato_mld_eur"],
             },
-            "incertezza": {"sostituzioneMinima": 0.5, "sostituzioneMassima": 1.0},
-            "r3Fonte": m4s["regola_R3"]["fonte"],
-            "mediane": {"c1": m5s["mappa"]["mediana_depositi_a_vista"], "usd": m5s["mappa"]["mediana_dollari"]},
+            "uncertainty": {"minSubstitution": 0.5, "maxSubstitution": 1.0},
+            "r3Source": m4s["regola_R3"]["fonte"],
+            "medians": {"c1": m5s["mappa"]["mediana_depositi_a_vista"], "usd": m5s["mappa"]["mediana_dollari"]},
         },
     )
 
@@ -466,26 +564,26 @@ def main() -> None:
         write(
             f"countries/{code}.json",
             f"Monthly time series of {m5.NAMES_EN[code]}: composition of liabilities and exposure indicator.",
-            {"bilanci": c.mese.max()},
+            {"balanceSheets": c.mese.max()},
             {
-                "composizione.voci": "shares of total liabilities, one series per item",
-                "composizione.totale": "total liabilities, EUR billion",
-                "indicatore.posizione": "position in the ranking among the countries with data in that month",
-                "indicatore.c1,c2,c3": "components of the indicator (shares)",
+                "composition.items": "shares of total liabilities, one series per item",
+                "composition.total": "total liabilities, EUR billion",
+                "indicator.rank": "position in the ranking among the countries with data in that month",
+                "indicator.c1,c2,c3": "components of the indicator (shares)",
             },
             {
                 "code": code,
-                "nome": NAMES[code],
-                "composizione": {
-                    "mesi": c.mese.tolist(),
-                    "totale": (c.totale_passivo_mln / 1000).round(2).tolist(),
-                    "voci": {p: c[p].round(4).tolist() for p in parts},
+                "name": NAMES[code],
+                "composition": {
+                    "months": c.mese.tolist(),
+                    "total": (c.totale_passivo_mln / 1000).round(2).tolist(),
+                    "items": {ITEMS[p]: c[p].round(4).tolist() for p in parts},
                 },
-                "indicatore": {
-                    "mesi": i.mese.tolist(),
-                    "valore": i.indicatore.round(3).tolist(),
-                    "posizione": i.pos_indicatore.tolist(),
-                    "paesi": i.paesi_nel_mese.tolist(),
+                "indicator": {
+                    "months": i.mese.tolist(),
+                    "value": i.indicatore.round(3).tolist(),
+                    "rank": i.pos_indicatore.tolist(),
+                    "countries": i.paesi_nel_mese.tolist(),
                     "c1": i.C1.round(4).tolist(),
                     "c2": i.C2.round(4).tolist(),
                     "c3": i.C3.round(4).tolist(),
@@ -497,19 +595,19 @@ def main() -> None:
     write(
         "channels.json",
         "Two-channel map: sight deposits over liabilities and dollar liabilities, with what each quadrant implies for transmission.",
-        {"bilanci": month, "dollari": m5s["mappa"]["trimestre_bri"]},
+        {"balanceSheets": month, "dollars": m5s["mappa"]["trimestre_bri"]},
         {
-            "quadranti": (
+            "quadrants": (
                 "A high deposits and low dollars, B both high, C low deposits and high dollars, D both low; the texts are in the application"
             ),
-            "confrontoFonti": "comparability between the BIS measure and the quarterly BSI measure",
+            "sourceComparison": "comparability between the BIS measure and the quarterly BSI measure",
         },
         {
-            "mediane": {"c1": m5s["mappa"]["mediana_depositi_a_vista"], "usd": m5s["mappa"]["mediana_dollari"]},
-            "correlazioneDiRango": m5s["mappa"]["correlazione_di_rango_assi"],
-            "confrontoFonti": m5s["mappa"]["confronto_fonti"],
-            "cambianoConRiscalatura": m5s["mappa"]["paesi_che_cambiano_con_riscalatura"],
-            "quadranti": ["A", "B", "C", "D"],
+            "medians": {"c1": m5s["mappa"]["mediana_depositi_a_vista"], "usd": m5s["mappa"]["mediana_dollari"]},
+            "rankCorrelation": m5s["mappa"]["correlazione_di_rango_assi"],
+            "sourceComparison": en(m5s["mappa"]["confronto_fonti"]),
+            "changeWithRescaling": m5s["mappa"]["paesi_che_cambiano_con_riscalatura"],
+            "quadrants": ["A", "B", "C", "D"],
         },
     )
 
@@ -520,59 +618,57 @@ def main() -> None:
     series = ["usdt", "usdt_senza_coinbase", "usdc", "usdc_senza_coinbase"]
     flags = {
         s: {
-            "settimane": g.week.tolist(),
-            "quota": g.quota_eur.round(5).tolist(),
+            "weeks": g.week.tolist(),
+            "share": g.quota_eur.round(5).tolist(),
             "volumeEur": g.volume_eur_mld.round(4).tolist(),
-            "scartoQuota": [None if v != v else round(v, 2) for v in g.scarto_quota],
-            "scartoVolume": [None if v != v else round(v, 2) for v in g.scarto_volume],
-            "stato": g.stato.tolist(),
+            "shareDeviation": [None if v != v else round(v, 2) for v in g.scarto_quota],
+            "volumeDeviation": [None if v != v else round(v, 2) for v in g.scarto_volume],
+            "status": g.stato.tolist(),
         }
         for s, g in fl.groupby("serie")
     }
     write(
         "monitor.json",
         "Weekly index of the EUR share of stablecoin/fiat volumes, absolute volumes, status of the flags and long history.",
-        {"ultimaSettimana": m2["indice_principale"]["ultima_settimana"]},
+        {"lastWeek": m2["indice_principale"]["ultima_settimana"]},
         {
-            "principale": "main index, from December 2024",
-            "pannello": "number of exchanges in the main index and in the long one, and excluded exchanges",
-            "effettoEsclusione": "difference between the index without and with the excluded exchanges, in percentage points",
-            "lungo": "without Kraken and Gemini, from January 2023: comparable in direction, not in level",
-            "segnalazioni[serie].stato": (
-                "segnale (flag), da verificare (to be checked), nessuno (none), storico insufficiente (insufficient history)"
-            ),
-            "fontiMancanti": "pairs with history that did not respond to the last download, with their share of volumes; null if they all responded",
-            "volumi": "billions of stablecoin units (roughly dollars) per week",
+            "main": "main index, from December 2024",
+            "panel": "number of exchanges in the main index and in the long one, and excluded exchanges",
+            "exclusionEffect": "difference between the index without and with the excluded exchanges, in percentage points",
+            "long": "without Kraken and Gemini, from January 2023: comparable in direction, not in level",
+            "flags[series].status": ("segnale (flag), da verificare (to be checked), nessuno (none), storico insufficiente (insufficient history)"),
+            "missingSources": "pairs with history that did not respond to the last download, with their share of volumes; null if they all responded",
+            "volumes": "billions of stablecoin units (roughly dollars) per week",
         },
         {
-            "serie": series,
-            "principale": {
-                "settimane": wk.index.tolist(),
+            "series": series,
+            "main": {
+                "weeks": wk.index.tolist(),
                 **{s: wk[s].round(5).tolist() for s in series},
-                "totale": wk.totale.round(5).tolist(),
+                "total": wk.totale.round(5).tolist(),
                 "volEurUsdt": wk.volume_eur_usdt_mld.round(4).tolist(),
                 "volEurUsdc": wk.volume_eur_usdc_mld.round(4).tolist(),
                 "volFiatUsdt": wk.volume_fiat_usdt_mld.round(4).tolist(),
                 "volFiatUsdc": wk.volume_fiat_usdc_mld.round(4).tolist(),
                 "exchange": wk.exchange_attivi.tolist(),
             },
-            "lungo": {
-                "settimane": lg.index.tolist(),
+            "long": {
+                "weeks": lg.index.tolist(),
                 **{s: lg[s].round(5).tolist() for s in series},
                 "volEurUsdt": lg.volume_eur_usdt_mld.round(4).tolist(),
                 "volEurUsdc": lg.volume_eur_usdc_mld.round(4).tolist(),
             },
-            "segnalazioni": flags,
-            "statistiche": m2["indice_principale"]["serie"],
-            "pannello": m2["pannello"],
-            "effettoEsclusione": m2["effetto_esclusione"],
-            "settimaneTrattenute": m2.get("settimane_trattenute", {}),
-            "fontiMancanti": load_missing_pairs(),
-            "testPredittivo": {
-                "risposta": link["risposta"],
+            "flags": flags,
+            "statistics": en(m2["indice_principale"]["serie"]),  # keyed by series id, plus total
+            "panel": en(m2["pannello"]),
+            "exclusionEffect": en(m2["effetto_esclusione"]),
+            "heldWeeks": en(m2.get("settimane_trattenute", {})),  # keyed by week
+            "missingSources": load_missing_pairs(),
+            "predictiveTest": {
+                "answer": link["risposta"],
                 "pValue": link["principale"]["p_value"],
-                "osservazioni": link["principale"]["osservazioni"],
-                "rapportoRmse": link["principale"]["rapporto_rmse"],
+                "observations": link["principale"]["osservazioni"],
+                "rmseRatio": link["principale"]["rapporto_rmse"],
             },
         },
     )
@@ -586,36 +682,38 @@ def main() -> None:
             "Bottom-up estimate of the value of dollar stablecoins held in the euro area, with the editable assumptions, and comparison with the "
             "ESM assumption."
         ),
-        {"indagine": "August and November 2025", "circolazione": m1["data_circolazione"]},
+        {"survey": "August and November 2025", "circulation": m1["data_circolazione"]},
         {
-            "fasce[].percentuale": "share of holders in the band, measured on Chart B, panel b, of the ECB box",
-            "fasce[].minimo, massimo": "bounds of the band in euro (for the last, open-ended one, the maximum is an assumption)",
-            "unita": "households and adults of the 21 countries (Eurostat)",
-            "quotaDollari": "minimum, central and maximum dollar share",
-            "esm.serie": "ESM base level at month end, EUR billion",
+            "bands[].percentage": "share of holders in the band, measured on Chart B, panel b, of the ECB box",
+            "bands[].minimo, massimo": "bounds of the band in euro (for the last, open-ended one, the maximum is an assumption)",
+            "units": "households and adults of the 21 countries (Eurostat)",
+            "dollarShare": "minimum, central and maximum dollar share",
+            "esm.series": "ESM base level at month end, EUR billion",
         },
         {
-            "fasce": [{k: v for k, v in f.items() if k != "fascia"} for f in own["parametri"]["fasce"]],
-            "quotaDetentori": own["parametri"]["quota_detentori"],
-            "quotaDollari": own["parametri"]["quota_in_dollari"],
-            "unita": {"famiglie": b1["unita"]["famiglie"], "individui": b1["unita"]["individui"]},
-            "riferimento": {k: v for k, v in ref.items() if k != "decisione"},
-            "b1": {"famiglie": b1["famiglie"], "individui": b1["individui"]},
+            # bands and dollarShare are keyed by the level case (minimo, centrale, massimo), units and b1 by the
+            # counting unit (famiglie, individui): the same ids as in the addresses (caso=..., uni=...)
+            "bands": [{("percentage" if k == "percentuale" else k): v for k, v in f.items() if k != "fascia"} for f in own["parametri"]["fasce"]],
+            "holderShare": own["parametri"]["quota_detentori"],
+            "dollarShare": own["parametri"]["quota_in_dollari"],
+            "units": {"famiglie": b1["unita"]["famiglie"], "individui": b1["unita"]["individui"]},
+            "reference": en({k: v for k, v in ref.items() if k != "decisione"}),
+            "b1": {"famiglie": en(b1["famiglie"]), "individui": en(b1["individui"])},
             "esm": {
-                "data": m1["data_circolazione"],
+                "date": m1["data_circolazione"],
                 "baseEur": m1["livello"]["base_mld_eur"],
-                "altoEur": m1["livello"]["alto_mld_eur"],
-                "serie": {
-                    "mesi": ms.index.tolist(),
+                "highEur": m1["livello"]["alto_mld_eur"],
+                "series": {
+                    "months": ms.index.tolist(),
                     "base": ms.livello_base_mld_eur.round(3).tolist(),
-                    "alto": ms.livello_alto_mld_eur.round(3).tolist(),
+                    "high": ms.livello_alto_mld_eur.round(3).tolist(),
                 },
             },
-            "altreStrade": {
-                "b2": {"saldiClientiMldUsd": own["B2"].get("totale_saldi_clienti_mld_usd")},
-                "b3": {"centrale": own["B3"].get("centrale_mld_eur")},
+            "otherRoutes": {
+                "b2": {"customerBalancesBnUsd": own["B2"].get("totale_saldi_clienti_mld_usd")},
+                "b3": {"central": own["B3"].get("centrale_mld_eur")},
             },
-            "criterioSoddisfatto": own["verdetto"]["esito"] != "solo minimo di B1",
+            "criterionMet": own["verdetto"]["esito"] != "solo minimo di B1",
         },
     )
 
@@ -626,17 +724,17 @@ def main() -> None:
     write(
         "method.json",
         "Sources, stated limits and discarded methods, in Italian and in English.",
-        {"aggiornamento": status.get("eseguito_il", NOW)},
+        {"update": status.get("eseguito_il", NOW)},
         {
-            "fonti": "table of sources in SPEC.md (section 3)",
-            "limiti": "section 4 of SPEC.md",
-            "metodiScartati": "section 5 of SPEC.md",
+            "sources": "table of sources in SPEC.md (section 3)",
+            "limits": "section 4 of SPEC.md",
+            "discardedMethods": "section 5 of SPEC.md",
             "en, it": "each item is exported in both languages; the Italian comes from src/i18n/spec_it.json",
         },
         {
-            "fonti": bilingual_table(SPEC_SOURCES),
-            "limiti": {"en": limits, "it": [it.get(x, x) for x in limits]},
-            "metodiScartati": bilingual_table(SPEC_DISCARDED),
+            "sources": bilingual_table(SPEC_SOURCES),
+            "limits": {"en": limits, "it": [it.get(x, x) for x in limits]},
+            "discardedMethods": bilingual_table(SPEC_DISCARDED),
             "repo": "https://github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure",
         },
     )
@@ -667,76 +765,76 @@ def main() -> None:
     write(
         "overview.json",
         "Key indicators, active flags and data dates.",
-        {"bilanci": month, "settimana": m2["indice_principale"]["ultima_settimana"], "circolazione": m1["data_circolazione"]},
+        {"balanceSheets": month, "week": m2["indice_principale"]["ultima_settimana"], "circulation": m1["data_circolazione"]},
         {
-            "livello": "own estimate in EUR billion",
-            "scenarioCentrale": "effect of the central level with rule R1 and full substitution",
-            "indice[serie]": "EUR share of the last week and status of the flag",
+            "level": "own estimate in EUR billion",
+            "centralScenario": "effect of the central level with rule R1 and full substitution",
+            "index[series]": "EUR share of the last week and status of the flag",
         },
         {
-            "livello": {
-                "minimo": ref["minimo_mld_eur"],
-                "centrale": ref["centrale_mld_eur"],
-                "massimo": ref["massimo_mld_eur"],
-                "estremoSuperiore": ref["estremo_superiore_dichiarato_mld_eur"],
+            "level": {
+                "min": ref["minimo_mld_eur"],
+                "central": ref["centrale_mld_eur"],
+                "max": ref["massimo_mld_eur"],
+                "upperBound": ref["estremo_superiore_dichiarato_mld_eur"],
                 "esmBase": m1["livello"]["base_mld_eur"],
-                "esmAlto": m1["livello"]["alto_mld_eur"],
+                "esmHigh": m1["livello"]["alto_mld_eur"],
             },
-            "scenarioCentrale": {
-                "deflusso": e_c.deflusso_mld_eur,
-                "depositiAVistaPersi": e_c.perdita_depositi_a_vista,
-                "aumentoIngrosso": e_c.aumento_raccolta_ingrosso,
-                "creditoUniforme": c_c.uniforme_mld,
-                "creditoBasso": c_c.basso_mld,
-                "creditoAlto": c_c.alto_mld,
-                "creditoPct": c_c.uniforme_pct_prestiti,
+            "centralScenario": {
+                "outflow": e_c.deflusso_mld_eur,
+                "sightDepositsLost": e_c.perdita_depositi_a_vista,
+                "wholesaleIncrease": e_c.aumento_raccolta_ingrosso,
+                "creditUniform": c_c.uniforme_mld,
+                "creditLow": c_c.basso_mld,
+                "creditHigh": c_c.alto_mld,
+                "creditPct": c_c.uniforme_pct_prestiti,
             },
-            "indice": {
+            "index": {
                 s: {
-                    "valore": m2["indice_principale"]["serie"][s]["valore"],
-                    "variazione": m2["indice_principale"]["serie"][s]["variazione_pp"],
-                    **last_flags.get(s, {}),
+                    "value": m2["indice_principale"]["serie"][s]["valore"],
+                    "change": m2["indice_principale"]["serie"][s]["variazione_pp"],
+                    **en(last_flags.get(s, {})),
                 }
                 for s in series
             },
-            "classifica": [{"code": r["paese"], "posizione": r["posizione"], "c1": r["C1"]} for r in m3["classifica"]],
-            "depositiAVistaArea": m4s["area_euro"]["depositi_a_vista_mld"],
-            "prestitiArea": m5s["prestiti_area_mld"],
-            "testPredittivo": link["risposta"],
+            "ranking": [{"code": r["paese"], "rank": r["posizione"], "c1": r["C1"]} for r in m3["classifica"]],
+            "areaSightDeposits": m4s["area_euro"]["depositi_a_vista_mld"],
+            "areaLoans": m5s["prestiti_area_mld"],
+            "predictiveTest": link["risposta"],
         },
     )
 
     # ---- meta
-    fresh = [x for x in sources if x["stato"] == "ultimo_valido"]
-    partial = [x for x in sources if x["stato"] == "parziale"]
+    fresh = [x for x in sources if x["status"] == "ultimo_valido"]
+    partial = [x for x in sources if x["status"] == "parziale"]
     files = sorted(DOCS) + ["meta.json"] + (["geo/europe.geo.json"] if geo_ok else [])
     write(
         "meta.json",
         "Status of the update and of each source, and list of the data files.",
-        {"aggiornamento": status.get("eseguito_il", NOW)},
+        {"update": status.get("eseguito_il", NOW)},
         {
-            "fonti[].stato": (
+            "sources[].status": (
                 "aggiornata (updated), parziale (a minor part is missing), ultimo_valido (the source did not respond), non_aggiornata (recomputed "
                 "without downloading), statica (static)"
             ),
-            "fonti[].tipoData": (
-                "how to read datiAl: giorno (day), settimana (week, starting on Monday), mese (month), trimestre (quarter), anno (year), testo "
+            "sources[].dateType": (
+                "how to read dataAsOf: giorno (day), settimana (week, starting on Monday), mese (month), trimestre (quarter), anno (year), testo "
                 "(translation key)"
             ),
-            "fonti[].dettaglio": "for the exchanges: pairs without a response with their share of volumes, pairs never available, weeks held back",
-            "aggiornamento.modalita": "online (with download from the sources) or offline",
+            "sources[].detail": "for the exchanges: pairs without a response with their share of volumes, pairs never available, weeks held back",
+            "update.mode": "online (with download from the sources) or offline",
         },
         {
-            "aggiornamento": {
-                "eseguitoIl": status.get("eseguito_il"),
-                "modalita": "offline" if status.get("modalita") == "senza rete" else "online",
-                "moduli": status.get("moduli", {}),
+            "update": {
+                "ranOn": status.get("eseguito_il"),
+                "mode": "offline" if status.get("modalita") == "senza rete" else "online",
+                "modules": en(status.get("moduli", {})),  # keyed by step name (modulo1, ...)
             },
-            "fonti": sources,
-            "fontiNonAggiornate": [x["id"] for x in fresh],
-            "fontiParziali": [x["id"] for x in partial],
+            "sources": sources,
+            "staleSources": [x["id"] for x in fresh],
+            "partialSources": [x["id"] for x in partial],
             "file": files,
-            "mappaDisponibile": geo_ok,
+            "mapAvailable": geo_ok,
         },
     )
 
@@ -745,7 +843,10 @@ def main() -> None:
         "",
         f"Generated by `src/export_app_data.py`. Schema {SCHEMA}. Do not edit by hand.",
         "",
-        "Each file contains `schema`, `file`, `generato_il`, `dati_al`, `descrizione` and `campi` (the documentation of the fields), plus the data.",
+        (
+            "Each file contains `schema`, `file`, `generated_on`, `data_as_of`, `description` and `fields` (the documentation of the fields), "
+            "plus the data."
+        ),
         (
             "The files contain numbers and codes. The interface texts, in English and in Italian, are in `web/src/i18n/`; country names are "
             "derived from the code."
@@ -753,12 +854,12 @@ def main() -> None:
         "",
     ]
     for name in sorted(DOCS):
-        readme += [f"## {name}", "", DOCS[name]["descrizione"], ""] + [f"- `{k}`: {v}" for k, v in DOCS[name]["campi"].items()] + [""]
+        readme += [f"## {name}", "", DOCS[name]["description"], ""] + [f"- `{k}`: {v}" for k, v in DOCS[name]["fields"].items()] + [""]
     readme += [
         "## geo/europe.geo.json",
         "",
         (
-            "Boundaries of the European countries from Eurostat GISCO (Countries 2024, scale 1:20 million), with `code`, `name` and `area_euro`. © "
+            "Boundaries of the European countries from Eurostat GISCO (Countries 2024, scale 1:20 million), with `code`, `name` and `euro_area`. © "
             "EuroGeographics for the administrative boundaries."
         ),
         "",

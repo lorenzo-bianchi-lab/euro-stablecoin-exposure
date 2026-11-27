@@ -10,14 +10,14 @@ import { describeChoices } from "./shared";
 
 // Groups of liabilities, from bottom to top: sight deposits of households and firms are at the base, in the main colour.
 const GROUPS: [string, string[]][] = [
-  ["sightHhNfc", ["vista_famiglie", "vista_imprese"]],
-  ["otherHhNfc", ["altri_dep_famiglie", "altri_dep_imprese"]],
-  ["otherDeposits", ["altri_dep_non_ifm", "dep_governo_centrale"]],
-  ["fromBanks", ["dep_da_ifm"]],
-  ["debt", ["titoli_di_debito"]],
-  ["external", ["passivita_estere"]],
-  ["capital", ["capitale_e_riserve"]],
-  ["other", ["altre_passivita", "fondi_monetari"]],
+  ["sightHhNfc", ["household_sight_deposits", "firm_sight_deposits"]],
+  ["otherHhNfc", ["household_other_deposits", "firm_other_deposits"]],
+  ["otherDeposits", ["other_non_mfi_deposits", "central_government_deposits"]],
+  ["fromBanks", ["deposits_from_mfis"]],
+  ["debt", ["debt_securities"]],
+  ["external", ["external_liabilities"]],
+  ["capital", ["capital_and_reserves"]],
+  ["other", ["other_liabilities", "money_market_funds"]],
 ];
 /** Colour and opacity of each group: solid blue for sight deposits, light blue for the other deposits, progressively lighter greys for the rest. */
 const groupStyle = (p: Palette, i: number): { color: string; opacity: number } =>
@@ -40,34 +40,34 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
   const { sim } = data;
   const route = useRoute();
   const palette = usePalette();
-  const c = sim.paesi.find((x) => x.code === code) ?? sim.paesi.find((x) => x.code === "IT")!;
+  const c = sim.countries.find((x) => x.code === code) ?? sim.countries.find((x) => x.code === "IT")!;
   const name = country(c.code);
-  const tot = sim.paesi.length;
+  const tot = sim.countries.length;
   const { data: file, error } = useJson<CountryFile>(`countries/${c.code}.json`);
   // the presets replace the amount: the effects depend only on the other four choices
   const { sostituzione, regola, depositi, credito } = scenario;
   const effects = useMemo(
     () =>
-      sim.predefiniti.map((p) => {
-        const r = compute(sim.paesi, sim.coefficienti, { importo: p.eur, sostituzione, regola, depositi, credito }).find((x) => x.code === c.code)!;
+      sim.presets.map((p) => {
+        const r = compute(sim.countries, sim.coefficients, { importo: p.eur, sostituzione, regola, depositi, credito }).find((x) => x.code === c.code)!;
         return { ...r, id: p.id, importo: p.eur };
       }),
     [sim, sostituzione, regola, depositi, credito, c.code],
   );
-  const options = [...sim.paesi].map((x) => [x.code, country(x.code)] as [string, string]).sort((a, b) => a[1].localeCompare(b[1], locale()));
+  const options = [...sim.countries].map((x) => [x.code, country(x.code)] as [string, string]).sort((a, b) => a[1].localeCompare(b[1], locale()));
   const src = t("src.bsiPlain");
-  const q = c.quadrante,
+  const q = c.quadrant,
     qTitle = t(`quad.${q}.title`);
-  const gap = 100 * (c.c1 - sim.mediane.c1);
+  const gap = 100 * (c.c1 - sim.medians.c1);
   const quadrant = quadrantCard();
 
   // chart series, in percent
   const series = useMemo(() => {
     if (!file) return null;
     const comp = GROUPS.map(([, keys]) =>
-      file.composizione.mesi.map((_, j) => +(100 * keys.reduce((a, k) => a + (file.composizione.voci[k]?.[j] ?? 0), 0)).toFixed(2)),
+      file.composition.months.map((_, j) => +(100 * keys.reduce((a, k) => a + (file.composition.items[k]?.[j] ?? 0), 0)).toFixed(2)),
     );
-    const ind = (["c1", "c2", "c3"] as const).map((k) => file.indicatore[k].map((v) => +(100 * v).toFixed(2)));
+    const ind = (["c1", "c2", "c3"] as const).map((k) => file.indicator[k].map((v) => +(100 * v).toFixed(2)));
     return { comp, ind };
   }, [file]);
 
@@ -89,21 +89,21 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
 
       <Hero
         label={t("cs.hero.label", { c: name })}
-        value={t("cs.kpi.rank.value", { n: c.posizione, tot })}
-        range={t("cs.hero.range", { x: nf(c.indicatore, 2), q, title: qTitle })}
+        value={t("cs.kpi.rank.value", { n: c.rank, tot })}
+        range={t("cs.hero.range", { x: nf(c.indicator, 2), q, title: qTitle })}
         text={
           <>
-            {t(gap >= 0 ? "cs.hero.above" : "cs.hero.below", { v: pct(c.c1), d: nf(Math.abs(gap), 1), m: pct(sim.mediane.c1) })}{" "}
-            {t("cs.hero.quad", { c: name, q, title: qTitle, u: pct(c.usd), m: pct(sim.mediane.usd) })}
+            {t(gap >= 0 ? "cs.hero.above" : "cs.hero.below", { v: pct(c.c1), d: nf(Math.abs(gap), 1), m: pct(sim.medians.c1) })}{" "}
+            {t("cs.hero.quad", { c: name, q, title: qTitle, u: pct(c.usd), m: pct(sim.medians.usd) })}
           </>
         }
       >
         <div className="kpis" style={{ marginBottom: "var(--space-2)" }}>
-          <Kpi label={t("cs.kpi.c1")} value={pct(c.c1)} sub={t("cs.kpi.c1.sub", { a: bn(c.vista, 0), b: nf(c.totale, 0) })} />
+          <Kpi label={t("cs.kpi.c1")} value={pct(c.c1)} sub={t("cs.kpi.c1.sub", { a: bn(c.sight, 0), b: nf(c.total, 0) })} />
           <Kpi label={t("cs.kpi.c2")} value={pct(c.c2)} />
           <Kpi label={t("cs.kpi.c3")} value={pct(c.c3)} />
-          <Kpi label={t("cs.kpi.usd")} value={pct(c.usd)} sub={t("cs.kpi.usd.sub", { s: t(`usdSource.${c.fonteUsd}`) })} />
-          <Kpi label={t("cs.kpi.owners")} value={pct(c.quotaPossessori)} sub={t(c.possessoriImputati ? "cs.kpi.owners.imputed" : "cs.kpi.owners.survey")} />
+          <Kpi label={t("cs.kpi.usd")} value={pct(c.usd)} sub={t("cs.kpi.usd.sub", { s: t(`usdSource.${c.usdSource}`) })} />
+          <Kpi label={t("cs.kpi.owners")} value={pct(c.ownerShare)} sub={t(c.ownersImputed ? "cs.kpi.owners.imputed" : "cs.kpi.owners.survey")} />
         </div>
       </Hero>
 
@@ -113,11 +113,11 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
         </Card>
       ) : (
         (() => {
-          const mesi = file.composizione.mesi,
+          const mesi = file.composition.months,
             last = mesi.length - 1,
             sight = series.comp[0];
-          const pos = file.indicatore.posizione,
-            im = file.indicatore.mesi;
+          const pos = file.indicator.rank,
+            im = file.indicator.months;
           const best = argmin(pos),
             worst = argmax(pos);
           const c1 = series.ind[0];
@@ -212,7 +212,7 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
                     alt={t("cs.alt.rank", {
                       c: name,
                       n: pos[pos.length - 1],
-                      tot: file.indicatore.paesi[pos.length - 1],
+                      tot: file.indicator.countries[pos.length - 1],
                       best: pos[best],
                       bm: month(im[best]),
                       worst: pos[worst],
@@ -224,7 +224,7 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
                         ...tooltipStyle(p),
                         trigger: "axis",
                         formatter: (x: { axisValue: string; value: number; dataIndex: number }[]) =>
-                          `${month(x[0].axisValue)}<br>${t("cs.chart.rank.tip", { n: x[0].value, tot: file.indicatore.paesi[x[0].dataIndex] })}`,
+                          `${month(x[0].axisValue)}<br>${t("cs.chart.rank.tip", { n: x[0].value, tot: file.indicator.countries[x[0].dataIndex] })}`,
                       },
                       xAxis: xAxis(p, im),
                       yAxis: { type: "value", inverse: true, min: 1, max: tot, interval: 5, ...axisStyle(p) },
@@ -271,7 +271,7 @@ export default function CountrySheet({ data, scenario, code }: { data: AppData; 
           <span className="badge primary">{t(`quad.${q}.channel`)}</span>
         </p>
         <p>{t(`quad.${q}.text`)}</p>
-        <p className="muted tiny">{t(c.retailAlta ? "cs.retail.high" : "cs.retail", { x: pct(c.quotaRetail), w: nf(c.pesoContinuo, 2) })}</p>
+        <p className="muted tiny">{t(c.highRetail ? "cs.retail.high" : "cs.retail", { x: pct(c.retailShare), w: nf(c.continuousWeight, 2) })}</p>
         <div className="row" style={{ gap: "var(--space-2)" }}>
           <a className="btn small" href={route.href("channels")}>
             {t("cs.openChannels")}

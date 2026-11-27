@@ -12,8 +12,8 @@ export default function Simulator({ data, scenario }: { data: AppData; scenario:
   const { rows, tot, band } = useResults(sim, scenario);
   const byEffect = [...rows].sort((a, b) => b.effettoPp - a.effettoPp);
   const byCredit = [...rows].sort((a, b) => b.creditoPct - a.creditoPct);
-  const loans = Object.fromEntries(sim.paesi.map((c) => [c.code, c.prestiti]));
-  const src = t("src.calc", { m: month(sim.meseBilanci) });
+  const loans = Object.fromEntries(sim.countries.map((c) => [c.code, c.loans]));
+  const src = t("src.calc", { m: month(sim.balanceSheetMonth) });
   const open = (name?: string) => {
     const r = rows.find((x) => country(x.code) === name);
     if (r) window.location.hash = route.href(`country/${r.code}`);
@@ -26,13 +26,7 @@ export default function Simulator({ data, scenario }: { data: AppData; scenario:
   return (
     <>
       <div className="split">
-        <ScenarioPanel
-          scenario={scenario}
-          set={route.setParams}
-          presets={sim.predefiniti}
-          fx={sim.cambioUsdPerEur}
-          summary={describe(scenario, sim.cambioUsdPerEur)}
-        />
+        <ScenarioPanel scenario={scenario} set={route.setParams} presets={sim.presets} fx={sim.usdPerEur} summary={describe(scenario, sim.usdPerEur)} />
         <div>
           <Hero
             label={t("sim.kpi.outflow")}
@@ -57,7 +51,7 @@ export default function Simulator({ data, scenario }: { data: AppData; scenario:
             </div>
           </Hero>
           <div style={{ marginTop: "calc(-1 * var(--space-3))", marginBottom: "var(--space-5)" }}>
-            <Note id="note.band" vars={{ a: nf(sim.livello.minimo, 1), b: nf(sim.livello.massimo, 1), c: nf(sim.livello.centrale, 1) }} />
+            <Note id="note.band" vars={{ a: nf(sim.level.min, 1), b: nf(sim.level.max, 1), c: nf(sim.level.central, 1) }} />
             <p className="muted tiny" style={{ margin: "var(--space-2) 0 0" }}>
               {t("sim.share")}
             </p>
@@ -153,7 +147,7 @@ export default function Simulator({ data, scenario }: { data: AppData; scenario:
           <span className="tag" style={{ marginLeft: 0 }}>
             R
           </span>{" "}
-          {t("sim.tagR", { x: pct(sim.sogliaRetail, 1) })}
+          {t("sim.tagR", { x: pct(sim.retailThreshold, 1) })}
         </p>
         <DataTable
           columns={resultColumns(sim)}

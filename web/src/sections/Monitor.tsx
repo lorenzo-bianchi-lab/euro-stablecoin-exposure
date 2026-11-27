@@ -27,39 +27,39 @@ export default function Monitor() {
   const old = (v: string | null) => ({ tutto: "all", lungo: "long", tutte: "all" })[v ?? ""] ?? v ?? ""; // names used in addresses before the English version
   const tok = TOKENS.includes(old(route.params.get("tok"))) ? old(route.params.get("tok")) : "usdt";
   const per = PERIODS.includes(old(route.params.get("per"))) ? old(route.params.get("per")) : "52";
-  const base = per === "long" ? m.lungo : m.principale;
-  const n = base.settimane.length,
+  const base = per === "long" ? m.long : m.main;
+  const n = base.weeks.length,
     from = per === "long" || per === "all" ? 0 : Math.max(0, n - Number(per));
-  const weeks = base.settimane.slice(from);
-  const keys = tok === "all" ? m.serie : [tok, `${tok}_senza_coinbase`];
+  const weeks = base.weeks.slice(from);
+  const keys = tok === "all" ? m.series : [tok, `${tok}_senza_coinbase`];
   const vols = tok === "usdc" ? ["volEurUsdc"] : tok === "usdt" ? ["volEurUsdt"] : ["volEurUsdt", "volEurUsdc"];
   const src =
     per === "long"
-      ? t("mo.src.long", { n: m.pannello.exchange_indice_lungo, ex: m.pannello.esclusi_indice_lungo.join(t("fmt.and")) })
-      : t("mo.src.main", { n: m.pannello.exchange });
-  const last = m.serie.map((s) => {
-    const f = m.segnalazioni[s],
-      i = f.settimane.length - 1;
-    return { serie: s, quota: f.quota[i], sq: f.scartoQuota[i], sv: f.scartoVolume[i], stato: f.stato[i] };
+      ? t("mo.src.long", { n: m.panel.exchange_long_index, ex: m.panel.excluded_long_index.join(t("fmt.and")) })
+      : t("mo.src.main", { n: m.panel.exchange });
+  const last = m.series.map((s) => {
+    const f = m.flags[s],
+      i = f.weeks.length - 1;
+    return { serie: s, quota: f.share[i], sq: f.shareDeviation[i], sv: f.volumeDeviation[i], stato: f.status[i] };
   });
-  const events = m.serie
+  const events = m.series
     .flatMap((s) =>
-      m.segnalazioni[s].settimane.map((w, i) => ({
+      m.flags[s].weeks.map((w, i) => ({
         serie: s,
         settimana: w,
-        stato: m.segnalazioni[s].stato[i],
-        sq: m.segnalazioni[s].scartoQuota[i],
-        sv: m.segnalazioni[s].scartoVolume[i],
+        stato: m.flags[s].status[i],
+        sq: m.flags[s].shareDeviation[i],
+        sv: m.flags[s].volumeDeviation[i],
       })),
     )
     .filter((e) => ["signal", "check"].includes(flagKey(e.stato)));
-  const count = (s: string, key: string) => m.segnalazioni[s].stato.filter((x) => flagKey(x) === key).length;
-  const ex = m.effettoEsclusione,
-    d = ex.differenza_pp;
+  const count = (s: string, key: string) => m.flags[s].status.filter((x) => flagKey(x) === key).length;
+  const ex = m.exclusionEffect,
+    d = ex.difference_pp;
 
   // main result: the chosen series (with "all" USDT is shown)
   const heroKey = tok === "usdc" ? "usdc" : "usdt";
-  const st = m.statistiche[heroKey] as Record<string, number | string>;
+  const st = m.statistics[heroKey] as Record<string, number | string>;
   const heroLast = last.find((u) => u.serie === heroKey)!;
   const heroFlag = flagKey(heroLast.stato);
   const state = (u: { stato: string }) => <span className={`state ${flagKey(u.stato)}`}>{t(`flag.${flagKey(u.stato)}`)}</span>;
@@ -86,9 +86,9 @@ export default function Monitor() {
   return (
     <>
       <Hero
-        label={t("mo.hero.label", { s: t(`series.${heroKey}.short`), d: day(String(st.ultima_settimana)) })}
-        value={pct(Number(st.valore))}
-        range={t("mo.hero.range", { chg: signed(Number(st.variazione_pp), 1), avg: pct(Number(st.media_52_settimane)) })}
+        label={t("mo.hero.label", { s: t(`series.${heroKey}.short`), d: day(String(st.last_week)) })}
+        value={pct(Number(st.value))}
+        range={t("mo.hero.range", { chg: signed(Number(st.change_pp), 1), avg: pct(Number(st.mean_52_weeks)) })}
         text={t(`mo.hero.state.${heroFlag}`, { sq: signed(heroLast.sq, 1), sv: signed(heroLast.sv, 1) })}
       >
         <p className="muted tiny" style={{ marginBottom: "var(--space-2)" }}>
@@ -119,7 +119,7 @@ export default function Monitor() {
           />
         </div>
         <p className="muted tiny" style={{ marginBottom: "var(--space-4)" }}>
-          {t("mo.lastWeek", { d: day(m.dati_al.ultimaSettimana) })}
+          {t("mo.lastWeek", { d: day(m.data_as_of.lastWeek) })}
         </p>
         <Chart
           title={t("mo.chart.share")}
@@ -131,7 +131,7 @@ export default function Monitor() {
           option={(p) => ({
             ...lines(
               p,
-              keys.map((k, i) => ({ name: t(`series.${k}.short`), data: shareData[i], index: m.serie.indexOf(k) })),
+              keys.map((k, i) => ({ name: t(`series.${k}.short`), data: shareData[i], index: m.series.indexOf(k) })),
             ),
             tooltip: { ...tooltipStyle(p), trigger: "axis", valueFormatter: (v: number) => nf(v, 1) + "%" },
             xAxis: { type: "category", data: weeks, boundaryGap: false, ...axisStyle(p), splitLine: { show: false } },
@@ -143,24 +143,24 @@ export default function Monitor() {
           <Note
             id="note.excluded"
             vars={{
-              ex: ex.esclusi.join(", "),
-              usdt: signed(d.usdt.media, 2),
-              usdc: signed(d.usdc.media, 2),
-              max: nf(d.usdt.massima_assoluta, 1),
-              w: day(d.usdt.settimana_della_massima),
-              n: ex.segnalazioni_cambiate ?? 0,
+              ex: ex.excluded.join(", "),
+              usdt: signed(d.usdt.mean, 2),
+              usdc: signed(d.usdc.mean, 2),
+              max: nf(d.usdt.max_abs, 1),
+              w: day(d.usdt.week_of_max),
+              n: ex.flags_changed ?? 0,
             }}
           />
         )}
-        {m.fontiMancanti && m.fontiMancanti.coppie.length > 0 && (
+        {m.missingSources && m.missingSources.pairs.length > 0 && (
           <Note
             id="note.missing"
             active
             vars={{
-              ex: m.fontiMancanti.exchange.join(", "),
-              n: m.fontiMancanti.coppie.length,
-              x: pct(m.fontiMancanti.quotaVolume),
-              d: day(m.fontiMancanti.datiFinoAl),
+              ex: m.missingSources.exchange.join(", "),
+              n: m.missingSources.pairs.length,
+              x: pct(m.missingSources.volumeShare),
+              d: day(m.missingSources.dataUntil),
             }}
           />
         )}
@@ -203,18 +203,16 @@ export default function Monitor() {
             rows={last.map((u) => [t(`series.${u.serie}.short`), pct(u.quota), signed(u.sq, 1), signed(u.sv, 1), state(u)])}
           />
           <p className="muted tiny">{t("mo.rule")}</p>
-          <Note id="note.linktest" vars={{ p: nf(m.testPredittivo.pValue, 2), n: m.testPredittivo.osservazioni }} />
+          <Note id="note.linktest" vars={{ p: nf(m.predictiveTest.pValue, 2), n: m.predictiveTest.observations }} />
         </Card>
         <Card title={t("mo.flags.history")}>
           <SimpleTable
             compact
             numeric={[1, 2, 3]}
             head={[t("col.series"), t("flag.signal"), t("flag.check"), t("flag.none")]}
-            rows={m.serie.map((s) => [t(`series.${s}.short`), count(s, "signal"), count(s, "check"), count(s, "none")])}
+            rows={m.series.map((s) => [t(`series.${s}.short`), count(s, "signal"), count(s, "check"), count(s, "none")])}
           />
-          {Object.keys(m.settimaneTrattenute).length > 0 && (
-            <p className="state signal">{t("mo.held", { w: Object.keys(m.settimaneTrattenute).join(", ") })}</p>
-          )}
+          {Object.keys(m.heldWeeks).length > 0 && <p className="state signal">{t("mo.held", { w: Object.keys(m.heldWeeks).join(", ") })}</p>}
         </Card>
       </div>
       <Card title={t("mo.flagged")}>
@@ -242,7 +240,7 @@ export default function Monitor() {
           initialSort={{ key: "w", dir: -1 }}
           columns={[
             { key: "w", label: t("col.week"), value: (r) => r.w },
-            ...m.serie.map((s) => ({
+            ...m.series.map((s) => ({
               key: s,
               label: t(`series.${s}.short`),
               numeric: true,

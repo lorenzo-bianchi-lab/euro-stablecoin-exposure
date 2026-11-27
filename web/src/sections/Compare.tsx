@@ -12,7 +12,7 @@ type Results = ReturnType<typeof useResults>;
 export default function Compare({ data, scenario }: { data: AppData; scenario: Scenario }) {
   const { sim, meta } = data;
   const route = useRoute();
-  const b = readScenario(route.params, Number(sim.livello.massimo.toFixed(2)), "b_");
+  const b = readScenario(route.params, Number(sim.level.max.toFixed(2)), "b_");
   const A = useResults(sim, scenario),
     B = useResults(sim, b);
   const [mode, setMode] = useState<"a" | "ab">(route.params.get("rep") === "ab" ? "ab" : "a");
@@ -21,7 +21,7 @@ export default function Compare({ data, scenario }: { data: AppData; scenario: S
     window.addEventListener("afterprint", off);
     return () => window.removeEventListener("afterprint", off);
   }, []);
-  const fx = sim.cambioUsdPerEur;
+  const fx = sim.usdPerEur;
 
   // table A and B for the euro area
   const lines: [string, number, number, (v: number) => string][] = [
@@ -109,9 +109,9 @@ export default function Compare({ data, scenario }: { data: AppData; scenario: S
     <header className="report-head">
       <span className="title">{t("app.title")}</span>
       <span className="meta">
-        {t("rep.meta.data", { u: day(meta.aggiornamento.eseguitoIl ?? meta.generato_il) })}
+        {t("rep.meta.data", { u: day(meta.update.ranOn ?? meta.generated_on) })}
         <br />
-        {t("rep.meta.balance", { m: month(sim.meseBilanci) })}
+        {t("rep.meta.balance", { m: month(sim.balanceSheetMonth) })}
         <br />
         {t("rep.meta.generated", { d: day(new Date().toISOString()) })}
       </span>
@@ -131,13 +131,13 @@ export default function Compare({ data, scenario }: { data: AppData; scenario: S
           <div className="panel-head">
             <h2>{t("cmp.a")}</h2>
           </div>
-          <ScenarioControls scenario={scenario} set={route.setParams} presets={sim.predefiniti} fx={fx} compact />
+          <ScenarioControls scenario={scenario} set={route.setParams} presets={sim.presets} fx={fx} compact />
         </section>
         <section className="panel" aria-label={t("cmp.b")}>
           <div className="panel-head">
             <h2>{t("cmp.b")}</h2>
           </div>
-          <ScenarioControls scenario={b} set={route.setParams} presets={sim.predefiniti} fx={fx} prefix="b_" compact />
+          <ScenarioControls scenario={b} set={route.setParams} presets={sim.presets} fx={fx} prefix="b_" compact />
         </section>
       </div>
 
@@ -292,11 +292,11 @@ export default function Compare({ data, scenario }: { data: AppData; scenario: S
 
           <h3 style={tight}>{t("rep.howToRead")}</h3>
           <ul className="plain tiny">
-            <li style={item}>{t("note.band.d", { a: nf(sim.livello.minimo, 1), b: nf(sim.livello.massimo, 1), c: nf(sim.livello.centrale, 1) })}</li>
+            <li style={item}>{t("note.band.d", { a: nf(sim.level.min, 1), b: nf(sim.level.max, 1), c: nf(sim.level.central, 1) })}</li>
             <li style={item}>{t("note.flow.d")}</li>
             <li style={item}>{t("note.credit.d")}</li>
           </ul>
-          <p className="muted tiny">{t("rep.sources", { fx: nf(fx, 4), d: day(sim.dataCambio) })}</p>
+          <p className="muted tiny">{t("rep.sources", { fx: nf(fx, 4), d: day(sim.exchangeRateDate) })}</p>
           {foot(1)}
         </div>
 

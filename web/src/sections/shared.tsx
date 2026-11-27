@@ -10,11 +10,11 @@ export function useResults(sim: SimData, s: Scenario) {
   const { importo, sostituzione, regola, depositi, credito } = s;
   return useMemo(() => {
     const sc: Scenario = { importo, sostituzione, regola, depositi, credito };
-    const rows = compute(sim.paesi, sim.coefficienti, sc);
+    const rows = compute(sim.countries, sim.coefficients, sc);
     return {
       rows,
-      tot: totals(sim.paesi, rows),
-      band: band(sim.paesi, sim.coefficienti, sc, sim.livello, sim.incertezza.sostituzioneMinima, sim.incertezza.sostituzioneMassima),
+      tot: totals(sim.countries, rows),
+      band: band(sim.countries, sim.coefficients, sc, sim.level, sim.uncertainty.minSubstitution, sim.uncertainty.maxSubstitution),
     };
   }, [sim, importo, sostituzione, regola, depositi, credito]);
 }
@@ -31,7 +31,7 @@ export const describe = (s: Scenario, fx: number) => t("sc.describe", { eur: bn(
 export const describeChoices = (s: Scenario) => t("sc.describeChoices", choices(s));
 
 export const resultColumns = (sim: SimData): Column<Row>[] => {
-  const flag = Object.fromEntries(sim.paesi.map((c) => [c.code, c.retailAlta]));
+  const flag = Object.fromEntries(sim.countries.map((c) => [c.code, c.highRetail]));
   return [
     {
       key: "nome",

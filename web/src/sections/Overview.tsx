@@ -10,8 +10,8 @@ import { SERIES_IDS, flagKey } from "./shared";
 export default function Overview({ data }: { data: AppData }) {
   const { overview: o, meta, sim } = data;
   const route = useRoute();
-  const attive = SERIES_IDS.filter((k) => ["signal", "check"].includes(flagKey(o.indice[k]?.stato)));
-  const top = [...o.classifica].sort((a, b) => a.posizione - b.posizione);
+  const attive = SERIES_IDS.filter((k) => ["signal", "check"].includes(flagKey(o.index[k]?.status)));
+  const top = [...o.ranking].sort((a, b) => a.rank - b.rank);
   const sorted = [...top].sort((a, b) => b.c1 - a.c1);
   const hi = sorted[0],
     lo = sorted[sorted.length - 1];
@@ -28,22 +28,22 @@ export default function Overview({ data }: { data: AppData }) {
     <>
       <Hero
         label={t("ov.kpi.level")}
-        value={bn(o.livello.centrale)}
-        range={t("ov.kpi.level.range", { a: nf(o.livello.minimo, 1), b: nf(o.livello.massimo, 1) })}
-        text={t("ov.hero.text", { x: bn(o.livello.estremoSuperiore), n: top.length })}
+        value={bn(o.level.central)}
+        range={t("ov.kpi.level.range", { a: nf(o.level.min, 1), b: nf(o.level.max, 1) })}
+        text={t("ov.hero.text", { x: bn(o.level.upperBound), n: top.length })}
       >
         <div className="kpis" style={{ gridTemplateColumns: "minmax(0, 1fr)", marginBottom: 0 }}>
-          <Kpi label={t("ov.kpi.esm")} value={bn(o.livello.esmBase)} sub={t("ov.kpi.esm.sub", { x: bn(o.livello.esmAlto) })} />
+          <Kpi label={t("ov.kpi.esm")} value={bn(o.level.esmBase)} sub={t("ov.kpi.esm.sub", { x: bn(o.level.esmHigh) })} />
           <Kpi
             label={t("ov.kpi.outflow")}
-            value={bn(o.scenarioCentrale.deflusso)}
-            sub={t("ov.kpi.outflow.sub", { x: pct(o.scenarioCentrale.depositiAVistaPersi, 2) })}
+            value={bn(o.centralScenario.outflow)}
+            sub={t("ov.kpi.outflow.sub", { x: pct(o.centralScenario.sightDepositsLost, 2) })}
           />
           <Kpi
             label={t("ov.kpi.credit")}
-            value={bn(o.scenarioCentrale.creditoUniforme)}
-            range={t("ov.kpi.credit.range", { a: nf(o.scenarioCentrale.creditoBasso, 1), b: nf(o.scenarioCentrale.creditoAlto, 1) })}
-            sub={t("ov.kpi.credit.sub", { x: nf(o.scenarioCentrale.creditoPct, 2) })}
+            value={bn(o.centralScenario.creditUniform)}
+            range={t("ov.kpi.credit.range", { a: nf(o.centralScenario.creditLow, 1), b: nf(o.centralScenario.creditHigh, 1) })}
+            sub={t("ov.kpi.credit.sub", { x: nf(o.centralScenario.creditPct, 2) })}
           />
         </div>
       </Hero>
@@ -51,7 +51,7 @@ export default function Overview({ data }: { data: AppData }) {
         <Note id="note.level" />
         <Note id="note.credit" />
         <p className="muted tiny" style={{ margin: "var(--space-2) 0 var(--space-3)" }}>
-          {t("ov.fx", { fx: nf(sim.cambioUsdPerEur, 4), d: day(sim.dataCambio) })}
+          {t("ov.fx", { fx: nf(sim.usdPerEur, 4), d: day(sim.exchangeRateDate) })}
         </p>
         <div className="row" style={{ gap: "var(--space-2)" }}>
           {link("simulator", t("ov.openSimulator"))}
@@ -69,8 +69,8 @@ export default function Overview({ data }: { data: AppData }) {
               {attive.map((k) => (
                 <li key={k}>
                   <strong>{t(`series.${k}.short`)}</strong>{" "}
-                  <span className={`badge accent state ${flagKey(o.indice[k].stato)}`}>{t(`flag.${flagKey(o.indice[k].stato)}`)}</span>{" "}
-                  <span className="muted">{t("ov.flags.gaps", { q: signed(o.indice[k].scarto_quota, 1), v: signed(o.indice[k].scarto_volume, 1) })}</span>
+                  <span className={`badge accent state ${flagKey(o.index[k].status)}`}>{t(`flag.${flagKey(o.index[k].status)}`)}</span>{" "}
+                  <span className="muted">{t("ov.flags.gaps", { q: signed(o.index[k].share_deviation, 1), v: signed(o.index[k].volume_deviation, 1) })}</span>
                 </li>
               ))}
             </ul>
@@ -80,13 +80,8 @@ export default function Overview({ data }: { data: AppData }) {
             numeric={[1, 2]}
             head={[t("col.series"), t("col.eurShare"), t("col.change"), t("col.state")]}
             rows={SERIES_IDS.map((k) => {
-              const f = flagKey(o.indice[k].stato);
-              return [
-                t(`series.${k}.short`),
-                pct(o.indice[k].valore),
-                signed(o.indice[k].variazione, 1),
-                <span className={`state ${f}`}>{t(`flag.${f}`)}</span>,
-              ];
+              const f = flagKey(o.index[k].status);
+              return [t(`series.${k}.short`), pct(o.index[k].value), signed(o.index[k].change, 1), <span className={`state ${f}`}>{t(`flag.${f}`)}</span>];
             })}
           />
           <Note id="note.flag" />
@@ -94,15 +89,15 @@ export default function Overview({ data }: { data: AppData }) {
         <Card title={t("ov.dates")} actions={link("method", t("ov.sources"))}>
           <dl className="facts" style={{ gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
             <dt>{t("ov.dates.balance")}</dt>
-            <dd>{month(o.dati_al.bilanci)}</dd>
+            <dd>{month(o.data_as_of.balanceSheets)}</dd>
             <dt>{t("ov.dates.index")}</dt>
-            <dd>{t("fmt.weekOf", { d: day(o.dati_al.settimana) })}</dd>
+            <dd>{t("fmt.weekOf", { d: day(o.data_as_of.week) })}</dd>
             <dt>{t("ov.dates.supply")}</dt>
-            <dd>{day(o.dati_al.circolazione)}</dd>
+            <dd>{day(o.data_as_of.circulation)}</dd>
             <dt>{t("ov.dates.fx")}</dt>
-            <dd>{t("ov.dates.fx.value", { d: day(sim.dataCambio), fx: nf(sim.cambioUsdPerEur, 4) })}</dd>
+            <dd>{t("ov.dates.fx.value", { d: day(sim.exchangeRateDate), fx: nf(sim.usdPerEur, 4) })}</dd>
             <dt>{t("ov.dates.update")}</dt>
-            <dd>{day(meta.aggiornamento.eseguitoIl ?? meta.generato_il)}</dd>
+            <dd>{day(meta.update.ranOn ?? meta.generated_on)}</dd>
           </dl>
         </Card>
       </div>
@@ -111,7 +106,7 @@ export default function Overview({ data }: { data: AppData }) {
         <Chart
           title={t("ov.chart.title")}
           unit={t("ov.chart.unit")}
-          source={t("src.bsi", { m: month(o.dati_al.bilanci) })}
+          source={t("src.bsi", { m: month(o.data_as_of.balanceSheets) })}
           height={Math.max(320, top.length * 24 + 24)}
           alt={t("ov.chart.alt", { n: top.length, hi: country(hi.code), a: pct(hi.c1), lo: country(lo.code), b: pct(lo.c1) })}
           deps={[top]}
@@ -133,7 +128,7 @@ export default function Overview({ data }: { data: AppData }) {
                 color: p.ink2,
                 fontSize: 12,
                 interval: 0,
-                formatter: (v: string, i: number) => t("ov.chart.rank", { n: top[i]?.posizione ?? i + 1, c: v }),
+                formatter: (v: string, i: number) => t("ov.chart.rank", { n: top[i]?.rank ?? i + 1, c: v }),
               },
               triggerEvent: true,
             },

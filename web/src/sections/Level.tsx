@@ -17,36 +17,36 @@ export default function Level({ data }: { data: AppData }) {
   };
   const unit = g("uni") === "individui" ? "individui" : "famiglie";
   const kase: LevelCase = g("caso") === "minimo" || g("caso") === "massimo" ? (g("caso") as LevelCase) : "centrale";
-  const lastBand = clamp(g("ult"), lv.fasce[lv.fasce.length - 1][kase], 10000, 50000);
-  const usd = clamp(g("usd"), +(100 * lv.quotaDollari[kase]).toFixed(1), 40, 100) / 100;
-  const holders = clamp(g("det"), 100 * lv.quotaDetentori, 1, 10) / 100;
-  const estimate = levelEstimate(lv.fasce, lv.unita[unit], holders, usd, kase, lastBand);
+  const lastBand = clamp(g("ult"), lv.bands[lv.bands.length - 1][kase], 10000, 50000);
+  const usd = clamp(g("usd"), +(100 * lv.dollarShare[kase]).toFixed(1), 40, 100) / 100;
+  const holders = clamp(g("det"), 100 * lv.holderShare, 1, 10) / 100;
+  const estimate = levelEstimate(lv.bands, lv.units[unit], holders, usd, kase, lastBand);
   // average amount per holder implied by the estimate: used only to write the formula with the current values
-  const average = (estimate * 1e9) / (lv.unita[unit] * holders * usd);
-  const r = lv.riferimento;
+  const average = (estimate * 1e9) / (lv.units[unit] * holders * usd);
+  const r = lv.reference;
   const hh = unit === "famiglie";
 
   // comparison: first the chosen estimate, then the programme's references, finally the ESM assumptions
   type Kind = "chosen" | "ref" | "esm";
   const compare: { label: string; value: number; kind: Kind }[] = [
     { label: t("lv.cmp.chosen"), value: estimate, kind: "chosen" },
-    { label: t("lv.cmp.min"), value: r.minimo_mld_eur, kind: "ref" },
-    { label: t("lv.cmp.centre"), value: r.centrale_mld_eur, kind: "ref" },
-    { label: t("lv.cmp.max"), value: r.massimo_mld_eur, kind: "ref" },
-    { label: t("lv.cmp.upper"), value: r.estremo_superiore_dichiarato_mld_eur, kind: "ref" },
+    { label: t("lv.cmp.min"), value: r.min_bn_eur, kind: "ref" },
+    { label: t("lv.cmp.centre"), value: r.central_bn_eur, kind: "ref" },
+    { label: t("lv.cmp.max"), value: r.max_bn_eur, kind: "ref" },
+    { label: t("lv.cmp.upper"), value: r.declared_upper_bound_bn_eur, kind: "ref" },
     { label: t("lv.cmp.esm75"), value: lv.esm.baseEur, kind: "esm" },
-    { label: t("lv.cmp.esm15"), value: lv.esm.altoEur, kind: "esm" },
+    { label: t("lv.cmp.esm15"), value: lv.esm.highEur, kind: "esm" },
   ];
-  const tot = lv.fasce.reduce((a, b) => a + b.percentuale, 0);
-  const shares = lv.fasce.map((f) => +((100 * f.percentuale) / tot).toFixed(2));
+  const tot = lv.bands.reduce((a, b) => a + b.percentage, 0);
+  const shares = lv.bands.map((f) => +((100 * f.percentage) / tot).toFixed(2));
   const bandLabel = (i: number) =>
     i === 0
-      ? t("lv.band.first", { b: nf(lv.fasce[0].massimo, 0) })
-      : i === lv.fasce.length - 1
-        ? t("lv.band.last", { a: nf(lv.fasce[i].minimo, 0) })
-        : t("lv.band.mid", { a: nf(lv.fasce[i].minimo, 0), b: nf(lv.fasce[i].massimo, 0) });
+      ? t("lv.band.first", { b: nf(lv.bands[0].massimo, 0) })
+      : i === lv.bands.length - 1
+        ? t("lv.band.last", { a: nf(lv.bands[i].minimo, 0) })
+        : t("lv.band.mid", { a: nf(lv.bands[i].minimo, 0), b: nf(lv.bands[i].massimo, 0) });
   const topBand = shares.indexOf(Math.max(...shares));
-  const months = lv.esm.serie.mesi,
+  const months = lv.esm.series.months,
     last = months.length - 1;
   const reset = () => route.setParams({ uni: null, caso: null, ult: null, usd: null, det: null });
 
@@ -63,8 +63,8 @@ export default function Level({ data }: { data: AppData }) {
               label={t("lv.unit")}
               value={unit}
               options={[
-                ["famiglie", t("lv.unit.hh", { x: nf(lv.unita.famiglie / 1e6, 1) })],
-                ["individui", t("lv.unit.ind", { x: nf(lv.unita.individui / 1e6, 1) })],
+                ["famiglie", t("lv.unit.hh", { x: nf(lv.units.famiglie / 1e6, 1) })],
+                ["individui", t("lv.unit.ind", { x: nf(lv.units.individui / 1e6, 1) })],
               ]}
               onChange={(v) => route.setParams({ uni: v })}
             />
@@ -120,12 +120,12 @@ export default function Level({ data }: { data: AppData }) {
           <Hero
             label={t("lv.hero.label")}
             value={bn(estimate)}
-            range={t(hh ? "lv.kpi.chosen.hh" : "lv.kpi.chosen.ind", { x: nf((lv.unita[unit] * holders) / 1e6, 1) })}
+            range={t(hh ? "lv.kpi.chosen.hh" : "lv.kpi.chosen.ind", { x: nf((lv.units[unit] * holders) / 1e6, 1) })}
             text={
               <>
                 <span className="num">
                   {t(hh ? "lv.formula.hh" : "lv.formula.ind", {
-                    u: nf(lv.unita[unit] / 1e6, 1),
+                    u: nf(lv.units[unit] / 1e6, 1),
                     h: pct(holders, 1),
                     m: nf(average, 0),
                     d: pct(usd, 0),
@@ -144,17 +144,17 @@ export default function Level({ data }: { data: AppData }) {
             <div className="kpis" style={{ gridTemplateColumns: "minmax(0, 1fr)", margin: 0 }}>
               <Kpi
                 label={t("lv.kpi.ref")}
-                value={bn(r.centrale_mld_eur)}
-                range={t("fmt.band", { a: nf(r.minimo_mld_eur, 1), b: nf(r.massimo_mld_eur, 1) })}
-                sub={t("lv.kpi.ref.sub", { x: nf(r.estremo_superiore_dichiarato_mld_eur, 1) })}
+                value={bn(r.central_bn_eur)}
+                range={t("fmt.band", { a: nf(r.min_bn_eur, 1), b: nf(r.max_bn_eur, 1) })}
+                sub={t("lv.kpi.ref.sub", { x: nf(r.declared_upper_bound_bn_eur, 1) })}
               />
-              <Kpi label={t("lv.kpi.esm")} value={bn(lv.esm.baseEur)} sub={t("lv.kpi.esm.sub", { x: nf(lv.esm.altoEur, 1), d: day(lv.esm.data) })} />
+              <Kpi label={t("lv.kpi.esm")} value={bn(lv.esm.baseEur)} sub={t("lv.kpi.esm.sub", { x: nf(lv.esm.highEur, 1), d: day(lv.esm.date) })} />
             </div>
           </Hero>
           <div style={{ marginTop: "calc(-1 * var(--space-3))", marginBottom: "var(--space-5)" }}>
             <Note id="note.levelFormula" />
             <p className="muted tiny" style={{ margin: "var(--space-2) 0 0" }}>
-              {t("ov.fx", { fx: nf(data.sim.cambioUsdPerEur, 4), d: day(data.sim.dataCambio) })}
+              {t("ov.fx", { fx: nf(data.sim.usdPerEur, 4), d: day(data.sim.exchangeRateDate) })}
             </p>
           </div>
 
@@ -167,11 +167,11 @@ export default function Level({ data }: { data: AppData }) {
               deps={[estimate, lv]}
               alt={t("lv.alt.cmp", {
                 x: bn(estimate),
-                c: bn(r.centrale_mld_eur),
-                a: nf(r.minimo_mld_eur, 1),
-                b: nf(r.massimo_mld_eur, 1),
+                c: bn(r.central_bn_eur),
+                a: nf(r.min_bn_eur, 1),
+                b: nf(r.max_bn_eur, 1),
                 e: bn(lv.esm.baseEur),
-                h: bn(lv.esm.altoEur),
+                h: bn(lv.esm.highEur),
               })}
               option={(p) => ({
                 grid: grid({ left: 14, right: 56 }),
@@ -225,7 +225,7 @@ export default function Level({ data }: { data: AppData }) {
                 grid: grid({ left: 14, right: 48 }),
                 tooltip: { ...tooltipStyle(p), trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v: number) => nf(v, 1) + "%" },
                 xAxis: { type: "value", ...axisStyle(p), axisLabel: { show: false } },
-                yAxis: { type: "category", inverse: true, data: lv.fasce.map((_, i) => bandLabel(i)), ...axisStyle(p), splitLine: { show: false } },
+                yAxis: { type: "category", inverse: true, data: lv.bands.map((_, i) => bandLabel(i)), ...axisStyle(p), splitLine: { show: false } },
                 series: [
                   {
                     type: "bar",
@@ -252,16 +252,16 @@ export default function Level({ data }: { data: AppData }) {
           alt={t("lv.alt.esm", {
             a: months[0],
             b: months[last],
-            x: bn(lv.esm.serie.base[0]),
-            y: bn(lv.esm.serie.base[last]),
-            lo: nf(r.minimo_mld_eur, 1),
-            hi: nf(r.massimo_mld_eur, 1),
+            x: bn(lv.esm.series.base[0]),
+            y: bn(lv.esm.series.base[last]),
+            lo: nf(r.min_bn_eur, 1),
+            hi: nf(r.max_bn_eur, 1),
           })}
           option={(p) => {
             const l = lines(p, [
               {
                 name: t("lv.legend.esm75"),
-                data: lv.esm.serie.base,
+                data: lv.esm.series.base,
                 index: 0,
                 extra: {
                   markArea: {
@@ -270,14 +270,14 @@ export default function Level({ data }: { data: AppData }) {
                     label: { color: p.ink2, fontSize: 10, position: "insideTopLeft" },
                     data: [
                       [
-                        { yAxis: +r.minimo_mld_eur.toFixed(2), name: t("lv.legend.own", { a: nf(r.minimo_mld_eur, 1), b: nf(r.massimo_mld_eur, 1) }) },
-                        { yAxis: +r.massimo_mld_eur.toFixed(2) },
+                        { yAxis: +r.min_bn_eur.toFixed(2), name: t("lv.legend.own", { a: nf(r.min_bn_eur, 1), b: nf(r.max_bn_eur, 1) }) },
+                        { yAxis: +r.max_bn_eur.toFixed(2) },
                       ],
                     ],
                   },
                 },
               },
-              { name: t("lv.legend.esm15"), data: lv.esm.serie.alto, index: 2 },
+              { name: t("lv.legend.esm15"), data: lv.esm.series.high, index: 2 },
             ]);
             return {
               ...l,
@@ -293,15 +293,15 @@ export default function Level({ data }: { data: AppData }) {
       <Card title={t("lv.other")}>
         <ul className="plain">
           <li>
-            <strong>{t("lv.b2.title")}</strong> {t("lv.b2.text", { x: nf(lv.altreStrade.b2.saldiClientiMldUsd, 1) })}
+            <strong>{t("lv.b2.title")}</strong> {t("lv.b2.text", { x: nf(lv.otherRoutes.b2.customerBalancesBnUsd, 1) })}
           </li>
           <li>
-            <strong>{t("lv.b3.title", { x: nf(lv.altreStrade.b3.centrale, 1) })}</strong> {t("lv.b3.text")}
+            <strong>{t("lv.b3.title", { x: nf(lv.otherRoutes.b3.central, 1) })}</strong> {t("lv.b3.text")}
           </li>
         </ul>
-        <Note id={lv.criterioSoddisfatto ? "note.criterionMet" : "note.criterion"} />
+        <Note id={lv.criterionMet ? "note.criterionMet" : "note.criterion"} />
         <p className="muted tiny" style={{ margin: "var(--space-2) 0 0" }}>
-          {t("lv.central", { x: pct(data.overview.scenarioCentrale.depositiAVistaPersi, 2) })}
+          {t("lv.central", { x: pct(data.overview.centralScenario.sightDepositsLost, 2) })}
         </p>
       </Card>
     </>

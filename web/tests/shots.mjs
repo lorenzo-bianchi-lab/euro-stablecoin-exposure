@@ -28,7 +28,7 @@ const TYPES = {
   ".png": "image/png",
 };
 const banks = JSON.parse(await readFile(join(DIR, "data/banks.json"), "utf-8"));
-const lei = [...banks.banche].sort((a, b) => b.attivo - a.attivo)[0].lei;
+const lei = [...banks.banks].sort((a, b) => b.assets - a.assets)[0].lei;
 const ALL = ["home", "overview", "simulator", "map", "country/IT", "banks", `banks/${lei}`, "channels", "monitor", "level", "compare", "method", "about"];
 const routes = arg("routes") ? arg("routes").split(",") : arg("only") ? ALL.filter((r) => r.split("/")[0] === arg("only")) : ALL;
 const widths = arg("widths", "1280,390").split(",").map(Number),

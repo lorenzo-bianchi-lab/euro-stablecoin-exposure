@@ -158,9 +158,9 @@ export const Mark = () => (
 
 /** Status of the sources in one line; the detail is in "Method and data". */
 function SourceIndicator({ meta, href }: { meta: Meta; href: string }) {
-  const stale = meta.fontiNonAggiornate.length,
-    partial = meta.fontiParziali.length;
-  const key = stale ? "side.src.stale" : partial ? "side.src.partial" : meta.aggiornamento.modalita === "offline" ? "side.src.offline" : "side.src.ok";
+  const stale = meta.staleSources.length,
+    partial = meta.partialSources.length;
+  const key = stale ? "side.src.stale" : partial ? "side.src.partial" : meta.update.mode === "offline" ? "side.src.offline" : "side.src.ok";
   return (
     <a className={`src-ind ${stale || partial ? "warn" : "ok"}`} id="source-indicator" href={href} title={t("side.src.title")}>
       <span className="dot" aria-hidden="true" />
@@ -209,7 +209,7 @@ export default function App() {
 
   if (loaded === null || getLang() !== loaded) return null; // until the texts have arrived there is nothing to show
   const section = SECTIONS.find((s) => s.id === route.section) ?? SECTIONS[0];
-  const scenario = data ? readScenario(route.params, Number(data.sim.livello.centrale.toFixed(2))) : null;
+  const scenario = data ? readScenario(route.params, Number(data.sim.level.central.toFixed(2))) : null;
   const View = section.view;
   const other: Lang = loaded === "en" ? "it" : "en";
   // navigation links close the guided tour; links inside the pages keep it
@@ -259,7 +259,7 @@ export default function App() {
       </div>
       {data && (
         <p className="muted tiny" style={{ margin: 0 }}>
-          {t("side.updated", { d: day(data.meta.aggiornamento.eseguitoIl ?? data.meta.generato_il) })}
+          {t("side.updated", { d: day(data.meta.update.ranOn ?? data.meta.generated_on) })}
         </p>
       )}
     </div>

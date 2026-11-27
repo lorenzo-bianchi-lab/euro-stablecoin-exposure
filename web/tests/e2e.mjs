@@ -27,7 +27,7 @@ const TYPES = {
   ".png": "image/png",
 };
 const banks = JSON.parse(await readFile(join(DOCS, "data/banks.json"), "utf-8"));
-const firstBank = [...banks.banche].sort((a, b) => b.attivo - a.attivo)[0];
+const firstBank = [...banks.banks].sort((a, b) => b.assets - a.assets)[0];
 const SECTIONS = [
   "home",
   "overview",
@@ -49,7 +49,7 @@ const SENTINELS = {
   en: [" della ", " delle ", " dei ", " sono ", " paesi", " depositi", " banche ", " con ", " gli ", " nella "],
   it: [" the ", " and ", " with ", " which ", " banks "],
 };
-const NAMES = [...[...banks.banche, ...banks.criterio.escluse].map((b) => b.nome), "Stablecoins and monetary policy transmission"].sort(
+const NAMES = [...[...banks.banks, ...banks.criterion.excluded].map((b) => b.name), "Stablecoins and monetary policy transmission"].sort(
   (a, b) => b.length - a.length,
 );
 const DISCLAIMER = {
@@ -408,12 +408,12 @@ const extra = {};
     address: page.url().split("#")[1],
   };
   if (
-    total !== banks.banche.length ||
+    total !== banks.banks.length ||
     !pager ||
     firstPage >= total ||
     firstPage > 30 ||
     secondPage < 1 ||
-    italy !== banks.banche.filter((b) => b.paese === "IT").length ||
+    italy !== banks.banks.filter((b) => b.country === "IT").length ||
     found !== 1 ||
     !/unicredit/i.test(extra.banks.sheet) ||
     !/^\/banks\/[A-Z0-9]{20}/.test(extra.banks.address)

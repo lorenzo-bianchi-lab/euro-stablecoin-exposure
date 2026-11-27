@@ -24,7 +24,7 @@ export function project([lon, lat]: number[]): [number, number] {
 }
 type Ring = number[][];
 interface Feature {
-  properties: { code: string; area_euro?: boolean };
+  properties: { code: string; euro_area?: boolean };
   geometry: { type: string; coordinates: Ring[][] };
 }
 interface Geo {
@@ -67,7 +67,7 @@ export function loadMap() {
     echarts.registerMap("europa", projected as never);
     // ECharts gives each map name its own coordinate system: one copy per inset is needed
     for (const code of INSET_CODES) echarts.registerMap(`europa-${code}`, projected as never);
-    const euro = features.filter((f) => f.properties.area_euro);
+    const euro = features.filter((f) => f.properties.euro_area);
     return {
       frame: bounds(euro, 0.03),
       boxes: Object.fromEntries(

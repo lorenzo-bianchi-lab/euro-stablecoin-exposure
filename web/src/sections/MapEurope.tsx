@@ -15,9 +15,9 @@ const INDICATORS: Record<string, Ind> = {
   creditoPct: { scen: true, get: (_, r) => r.creditoPct, digits: 2, area: (x) => x.creditoPct },
   deflusso: { scen: true, get: (_, r) => r.deflusso, digits: 2, area: (x) => x.deflusso },
   c1: { scen: false, get: (c) => 100 * c.c1, digits: 1 },
-  quotaRetail: { scen: false, get: (c) => 100 * c.quotaRetail, digits: 1 },
+  quotaRetail: { scen: false, get: (c) => 100 * c.retailShare, digits: 1 },
   usd: { scen: false, get: (c) => 100 * c.usd, digits: 1 },
-  quotaPossessori: { scen: false, get: (c) => 100 * c.quotaPossessori, digits: 1 },
+  quotaPossessori: { scen: false, get: (c) => 100 * c.ownerShare, digits: 1 },
 };
 /** Indicators shown in the panel of the selected country, besides the one coloured on the map. */
 const SIDE = ["effettoPp", "creditoPct", "c1", "usd"];
@@ -34,8 +34,8 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
   const key = route.params.get("ind") && INDICATORS[route.params.get("ind")!] ? route.params.get("ind")! : "effettoPp";
   const ind = INDICATORS[key];
   const { rows, tot } = useResults(sim, scenario);
-  const valueOf = (k: string, i: number) => INDICATORS[k].get(sim.paesi[i], rows[i]);
-  const values: MapValue[] = sim.paesi.map((c, i) => ({ code: c.code, value: valueOf(key, i) }));
+  const valueOf = (k: string, i: number) => INDICATORS[k].get(sim.countries[i], rows[i]);
+  const values: MapValue[] = sim.countries.map((c, i) => ({ code: c.code, value: valueOf(key, i) }));
   const ranked = [...values].sort((a, b) => b.value - a.value);
   const top = ranked[0],
     low = ranked[ranked.length - 1],
@@ -50,12 +50,12 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
   const label = t(`map.ind.${key}`),
     unit = t(`map.unit.${key}`);
   const f = (x: number, d = ind.digits) => nf(x, d);
-  const summary = describe(scenario, sim.cambioUsdPerEur);
+  const summary = describe(scenario, sim.usdPerEur);
   const heroText = ind.scen
     ? t("map.hero.scen", { c: country(top.code), v: f(top.value), area: f(area ?? 0), med: f(med), low: country(low.code), lv: f(low.value) })
     : t("map.hero.struct", { c: country(top.code), v: f(top.value), med: f(med), low: country(low.code), lv: f(low.value), n });
   const alt = t("map.alt", { ind: label, c: country(top.code), v: f(top.value), low: country(low.code), lv: f(low.value), u: unit });
-  const selIdx = sel ? sim.paesi.findIndex((c) => c.code === sel) : -1;
+  const selIdx = sel ? sim.countries.findIndex((c) => c.code === sel) : -1;
   const others = SIDE.filter((k) => k !== key).slice(0, 3);
 
   return (
@@ -91,8 +91,8 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
             summary={summary}
             scenario={scenario}
             set={route.setParams}
-            presets={sim.predefiniti}
-            fx={sim.cambioUsdPerEur}
+            presets={sim.presets}
+            fx={sim.usdPerEur}
           />
         </div>
         <div>
@@ -100,7 +100,7 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
             <EuroMap
               title={label}
               unit={unit}
-              source={t("src.map", { m: month(sim.meseBilanci) })}
+              source={t("src.map", { m: month(sim.balanceSheetMonth) })}
               values={values}
               digits={ind.digits}
               height={460}

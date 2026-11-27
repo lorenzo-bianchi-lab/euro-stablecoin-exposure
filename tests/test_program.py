@@ -105,19 +105,19 @@ class Application(unittest.TestCase):
         self.assertEqual(len(files), len(self.SECTIONS) + 21)
         for f in files:
             doc = json.loads(f.read_text(encoding="utf-8"))
-            for key in ("schema", "file", "generato_il", "dati_al", "descrizione", "campi"):
+            for key in ("schema", "file", "generated_on", "data_as_of", "description", "fields"):
                 self.assertIn(key, doc, f"{f.name}: {key} missing")
             self.assertRegex(doc["schema"], r"^\d+\.\d+\.\d+$")
         self.assertTrue((self.DATA / "README.md").exists())
 
     def test_every_source_has_a_date_and_a_status(self):
         meta = json.loads((self.DATA / "meta.json").read_text(encoding="utf-8"))
-        self.assertGreaterEqual(len(meta["fonti"]), 8)
+        self.assertGreaterEqual(len(meta["sources"]), 8)
         allowed = ("aggiornata", "parziale", "ultimo_valido", "non_aggiornata", "statica")
-        for s in meta["fonti"]:
-            self.assertTrue(s["datiAl"], f"{s['id']}: data date missing")
-            self.assertIn(s["tipoData"], ("giorno", "settimana", "mese", "trimestre", "anno", "testo"), s["id"])
-            self.assertIn(s["stato"], allowed, f"{s['id']}: unexpected status ({s['stato']})")
+        for s in meta["sources"]:
+            self.assertTrue(s["dataAsOf"], f"{s['id']}: data date missing")
+            self.assertIn(s["dateType"], ("giorno", "settimana", "mese", "trimestre", "anno", "testo"), s["id"])
+            self.assertIn(s["status"], allowed, f"{s['id']}: unexpected status ({s['status']})")
 
     def test_single_exchange_rate_across_the_programme(self):
         """Module 1, module 4 and the application use the same exchange rate: the ESM assumption has a single value."""
@@ -127,9 +127,9 @@ class Application(unittest.TestCase):
         ov = json.loads((self.DATA / "overview.json").read_text(encoding="utf-8"))
         lv = json.loads((self.DATA / "level.json").read_text(encoding="utf-8"))
         self.assertEqual(m1["cambio"]["usd_per_eur"], m4s["cambio_usd_per_eur"])
-        self.assertAlmostEqual(sim["cambioUsdPerEur"], m1["cambio"]["usd_per_eur"], places=6)
-        esm = {p["id"]: p["eur"] for p in sim["predefiniti"]}["ESM_oggi"]
-        for other in (ov["livello"]["esmBase"], lv["esm"]["baseEur"], lv["esm"]["serie"]["base"][-1]):
+        self.assertAlmostEqual(sim["usdPerEur"], m1["cambio"]["usd_per_eur"], places=6)
+        esm = {p["id"]: p["eur"] for p in sim["presets"]}["ESM_oggi"]
+        for other in (ov["level"]["esmBase"], lv["esm"]["baseEur"], lv["esm"]["series"]["base"][-1]):
             self.assertAlmostEqual(esm, other, delta=1e-3)
 
     def test_spec_texts_all_have_a_translation(self):
@@ -139,17 +139,17 @@ class Application(unittest.TestCase):
         it = exp.spec_it()
         missing = [x for x in exp.spec_strings() if x not in it or not it[x].strip()]
         self.assertEqual(missing, [], "SPEC.md texts without an Italian version in src/i18n/spec_it.json")
-        metodo = json.loads((self.DATA / "method.json").read_text(encoding="utf-8"))
-        self.assertEqual(len(metodo["limiti"]["it"]), len(metodo["limiti"]["en"]))
-        self.assertEqual(len(metodo["fonti"]["it"]["righe"]), len(metodo["fonti"]["en"]["righe"]))
+        method = json.loads((self.DATA / "method.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(method["limits"]["it"]), len(method["limits"]["en"]))
+        self.assertEqual(len(method["sources"]["it"]["rows"]), len(method["sources"]["en"]["rows"]))
 
     def test_simulator_data_match_the_balance_sheets(self):
         sim = json.loads((self.DATA / "simulator.json").read_text(encoding="utf-8"))
         b, pop, fx = balance_sheets()
-        self.assertEqual(len(sim["paesi"]), 21)
+        self.assertEqual(len(sim["countries"]), 21)
         ref = json.loads((PROC / "level_own.json").read_text())["livello_di_riferimento"]
-        self.assertAlmostEqual(sim["livello"]["centrale"], ref["centrale_mld_eur"], places=4)
-        self.assertAlmostEqual(sim["cambioUsdPerEur"], fx, places=6)
+        self.assertAlmostEqual(sim["level"]["central"], ref["centrale_mld_eur"], places=4)
+        self.assertAlmostEqual(sim["usdPerEur"], fx, places=6)
 
     def test_pairs_without_response_are_recognised(self):
         import export_app_data as exp
@@ -164,10 +164,10 @@ class Application(unittest.TestCase):
         )
         log = pd.DataFrame({"exchange": ["A", "B", "C"], "symbol": ["USDTEUR", "USDTUSD", "XYZUSDT"], "status": ["errore", "ok", "errore"]})
         m = exp.missing_pairs(log, store)
-        self.assertEqual(m["coppie"], ["A USDTEUR"])  # it had data: really missing
-        self.assertEqual(m["maiDisponibili"], ["C XYZUSDT"])  # never had data: carries no weight
-        self.assertAlmostEqual(m["quotaVolume"], 0.1, places=9)
-        self.assertEqual(m["datiFinoAl"], "2026-01-03")
+        self.assertEqual(m["pairs"], ["A USDTEUR"])  # it had data: really missing
+        self.assertEqual(m["neverAvailable"], ["C XYZUSDT"])  # never had data: carries no weight
+        self.assertAlmostEqual(m["volumeShare"], 0.1, places=9)
+        self.assertEqual(m["dataUntil"], "2026-01-03")
         self.assertIsNone(exp.missing_pairs(log[log.status == "ok"], store))
 
     @unittest.skipUnless(shutil.which("npm") and (ROOT / "web" / "node_modules").exists(), "application dependencies not installed (npm ci in web/)")
@@ -298,8 +298,8 @@ class Reproducibility(unittest.TestCase):
             # the application data too: same countries and same simulator numbers
             old = json.loads((ROOT / "web" / "public" / "data" / "simulator.json").read_text(encoding="utf-8"))
             new = json.loads((work / "web" / "public" / "data" / "simulator.json").read_text(encoding="utf-8"))
-            self.assertEqual([c["code"] for c in old["paesi"]], [c["code"] for c in new["paesi"]])
-            for c_old, c_new in zip(old["paesi"], new["paesi"], strict=True):
+            self.assertEqual([c["code"] for c in old["countries"]], [c["code"] for c in new["countries"]])
+            for c_old, c_new in zip(old["countries"], new["countries"], strict=True):
                 for k, v in c_old.items():
                     if isinstance(v, float):
                         self.assertAlmostEqual(v, c_new[k], delta=1.5e-6, msg=f"simulator.json {c_old['code']}.{k}")

@@ -21,20 +21,20 @@ export default function Home({ data }: { data: AppData }) {
   const { sim, overview: o, meta } = data;
   const route = useRoute();
   // high scenario: the "ESM high 2030" level, rule R1, sight deposits, full substitution, uniform rule for credit
-  const high = sim.predefiniti.find((p) => p.id === "S2") ?? sim.predefiniti[sim.predefiniti.length - 1];
+  const high = sim.presets.find((p) => p.id === "S2") ?? sim.presets[sim.presets.length - 1];
   const scenario: Scenario = { importo: high.eur, sostituzione: 1, regola: "R1", depositi: "T1", credito: "uniforme" };
   const { rows, tot, band } = useResults(sim, scenario);
   const top = <T,>(xs: T[], f: (x: T) => number) => [...xs].sort((a, b) => f(b) - f(a)).slice(0, 3);
-  const dep = top(sim.paesi, (c) => c.c1),
-    usd = top(sim.paesi, (c) => c.usd),
+  const dep = top(sim.countries, (c) => c.c1),
+    usd = top(sim.countries, (c) => c.usd),
     eff = top(rows, (r) => r.effettoPp);
   const item = (code: string, v: string) => t("home.item", { c: country(code), v });
-  const values = sim.paesi.map((c) => ({ code: c.code, value: 100 * c.c1 }));
+  const values = sim.countries.map((c) => ({ code: c.code, value: 100 * c.c1 }));
   const findings = [
     {
       n: t("home.f1.n"),
-      text: t("home.f1", { x: bn(o.livello.centrale) }),
-      sub: t("home.f1.sub", { a: nf(o.livello.minimo, 1), b: nf(o.livello.massimo, 1), esm: bn(o.livello.esmBase) }),
+      text: t("home.f1", { x: bn(o.level.central) }),
+      sub: t("home.f1.sub", { a: nf(o.level.min, 1), b: nf(o.level.max, 1), esm: bn(o.level.esmBase) }),
       href: route.href("level"),
     },
     {
@@ -99,7 +99,7 @@ export default function Home({ data }: { data: AppData }) {
           <EuroMap
             title={t("map.ind.c1")}
             unit={t("home.map.unit")}
-            source={t("src.map", { m: month(o.dati_al.bilanci) })}
+            source={t("src.map", { m: month(o.data_as_of.balanceSheets) })}
             values={values}
             digits={1}
             height={380}
@@ -120,7 +120,7 @@ export default function Home({ data }: { data: AppData }) {
             ))}
           </div>
           <p className="muted tiny" style={{ marginTop: "var(--space-4)" }}>
-            {t("home.updated", { d: day(meta.aggiornamento.eseguitoIl ?? meta.generato_il), m: month(sim.meseBilanci) })}
+            {t("home.updated", { d: day(meta.update.ranOn ?? meta.generated_on), m: month(sim.balanceSheetMonth) })}
           </p>
         </section>
       </div>

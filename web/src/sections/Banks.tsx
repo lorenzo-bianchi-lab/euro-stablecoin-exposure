@@ -9,7 +9,7 @@ import { useJson, useRoute } from "../lib/util";
 import { describe, describeChoices, useResults } from "./shared";
 
 type Line = Bank & BankRow & { ingrosso: number; vista: number };
-const wholesale = (b: Bank) => (b.depBanche + b.titoli) / b.attivo;
+const wholesale = (b: Bank) => (b.bankDeposits + b.debtSecurities) / b.assets;
 /** Position of one value relative to another, compared at the decimals shown. */
 const rel = (a: number | null, b: number | null) => {
   const x = Number(nf(a, 2).replace(/[^\d-]/g, "")),
@@ -26,34 +26,34 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
   const lost = useMemo(() => Object.fromEntries(rows.map((r) => [r.code, r.persiCategoria])), [rows]);
   const lines: Line[] = useMemo(() => {
     if (!f) return [];
-    const e = bankEffects(f.banche, lost, sim.coefficienti, scenario.depositi);
-    return f.banche.map((b, i) => ({ ...b, ...e[i], ingrosso: wholesale(b), vista: (b.vistaFam + b.vistaImp) / b.attivo }));
+    const e = bankEffects(f.banks, lost, sim.coefficients, scenario.depositi);
+    return f.banks.map((b, i) => ({ ...b, ...e[i], ingrosso: wholesale(b), vista: (b.householdSight + b.firmSight) / b.assets }));
   }, [f, lost, sim, scenario.depositi]);
   if (!f) return <Loading error={error} />;
-  const fx = sim.cambioUsdPerEur;
+  const fx = sim.usdPerEur;
   const one = lei ? lines.find((b) => b.lei === lei) : undefined;
   if (one) return <BankSheet b={one} f={f} data={data} scenario={scenario} />;
 
   const bc = route.params.get("bc"),
     cls = route.params.get("cls");
   const shown = lines.filter(
-    (b) => (!bc || b.paese === bc) && (!cls || (cls === "high") === b.retailAlta) && (!query || b.nome.toLowerCase().includes(query.toLowerCase())),
+    (b) => (!bc || b.country === bc) && (!cls || (cls === "high") === b.highRetail) && (!query || b.name.toLowerCase().includes(query.toLowerCase())),
   );
   const open = (id: string) => {
     window.location.hash = route.href(`banks/${id}`);
   };
-  const withBanks = f.paesi.filter((c) => c.banche > 0);
+  const withBanks = f.countries.filter((c) => c.banks > 0);
   const options: [string, string][] = [
     ["", t("bk.allCountries")],
-    ...withBanks.map((c) => [c.code, `${country(c.code)} (${c.banche})`] as [string, string]).sort((a, b) => a[1].localeCompare(b[1], locale())),
+    ...withBanks.map((c) => [c.code, `${country(c.code)} (${c.banks})`] as [string, string]).sort((a, b) => a[1].localeCompare(b[1], locale())),
   ];
   // by country: credit per euro of outflow, bank by bank, against the module 5 variants on national aggregates
-  const byCountry = f.paesi.map((c) => {
-    const bs = lines.filter((b) => b.paese === c.code),
+  const byCountry = f.countries.map((c) => {
+    const bs = lines.filter((b) => b.country === c.code),
       out = bs.reduce((a, b) => a + b.deflusso, 0);
-    const cc = sim.paesi.find((x) => x.code === c.code)!,
+    const cc = sim.countries.find((x) => x.code === c.code)!,
       r = rows.find((x) => x.code === c.code)!;
-    const m5 = (v: "basso" | "alto" | "soglia" | "continua") => (r.deflusso ? creditLoss(cc, sim.coefficienti, r.deflusso, v) / r.deflusso : null);
+    const m5 = (v: "basso" | "alto" | "soglia" | "continua") => (r.deflusso ? creditLoss(cc, sim.coefficients, r.deflusso, v) / r.deflusso : null);
     return {
       ...c,
       m6: out ? bs.reduce((a, b) => a + b.credito, 0) / out : null,
@@ -69,21 +69,21 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
   const m6 = area("m6"),
     soglia = area("soglia"),
     continua = area("continua"),
-    uniforme = sim.coefficienti.uniforme;
+    uniforme = sim.coefficients.uniform;
   const covered = byCountry.filter((c) => c.m6 !== null).length;
-  const src = t("bk.src", { d: day(f.dati_al.banche) });
+  const src = t("bk.src", { d: day(f.data_as_of.banks) });
 
   // alternative text of the chart: range of the retail share and the bank with the most wholesale funding
-  const byRetail = [...shown].sort((a, b) => a.quotaRetail - b.quotaRetail),
+  const byRetail = [...shown].sort((a, b) => a.retailShare - b.retailShare),
     topW = [...shown].sort((a, b) => b.ingrosso - a.ingrosso)[0];
   const alt = shown.length
     ? t("bk.chart.alt", {
         n: shown.length,
-        a: pct(byRetail[0].quotaRetail),
-        b: pct(byRetail[byRetail.length - 1].quotaRetail),
-        h: shown.filter((b) => b.retailAlta).length,
-        x: pct(f.soglia),
-        w: topW.nome,
+        a: pct(byRetail[0].retailShare),
+        b: pct(byRetail[byRetail.length - 1].retailShare),
+        h: shown.filter((b) => b.highRetail).length,
+        x: pct(f.threshold),
+        w: topW.name,
         y: pct(topW.ingrosso),
       })
     : t("ui.noRows");
@@ -104,16 +104,20 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
         })}
       >
         <div className="kpis" style={{ marginBottom: 0 }}>
-          <Kpi label={t("bk.kpi.banks")} value={String(f.criterio.complete)} sub={t("bk.kpi.banks.sub", { n: f.criterio.nelCampione, c: f.criterio.paesi })} />
+          <Kpi
+            label={t("bk.kpi.banks")}
+            value={String(f.criterion.complete)}
+            sub={t("bk.kpi.banks.sub", { n: f.criterion.inSample, c: f.criterion.countries })}
+          />
           <Kpi
             label={t("bk.kpi.threshold")}
-            value={pct(f.soglia)}
-            sub={t("bk.kpi.threshold.sub", { n: f.banchesSopra, m: pct(f.mediana), c: pct(f.sogliaPaesi) })}
+            value={pct(f.threshold)}
+            sub={t("bk.kpi.threshold.sub", { n: f.banksAbove, m: pct(f.median), c: pct(f.countryThreshold) })}
           />
           <Kpi
             label={t("bk.kpi.coverage")}
-            value={pct(f.copertura.bsi, 0)}
-            sub={t("bk.kpi.coverage.sub", { x: pct(f.copertura.consolidato, 0), a: bn(f.copertura.attivo, 0) })}
+            value={pct(f.coverage.bsi, 0)}
+            sub={t("bk.kpi.coverage.sub", { x: pct(f.coverage.consolidated, 0), a: bn(f.coverage.assets, 0) })}
           />
         </div>
       </Hero>
@@ -169,13 +173,13 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
               itemStyle: { color: high ? p.accent : p.series[0], opacity: 0.75, borderColor: p.panel, borderWidth: 1 },
               symbolSize: (v: number[]) => Math.max(7, Math.sqrt(v[2]) * 1.2),
               data: shown
-                .filter((b) => b.retailAlta === high)
+                .filter((b) => b.highRetail === high)
                 .map((b) => ({
-                  value: [+(100 * b.quotaRetail).toFixed(2), +(100 * b.ingrosso).toFixed(2), b.attivo],
+                  value: [+(100 * b.retailShare).toFixed(2), +(100 * b.ingrosso).toFixed(2), b.assets],
                   lei: b.lei,
-                  nome: b.nome,
-                  paese: b.paese,
-                  ta: b.attivo,
+                  nome: b.name,
+                  paese: b.country,
+                  ta: b.assets,
                   cr: b.creditoPct,
                 })),
               markLine:
@@ -184,15 +188,15 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
                       silent: true,
                       symbol: "none",
                       lineStyle: { color: p.ink2, type: "dashed" },
-                      label: { show: true, position: "insideEndTop", color: p.ink2, fontSize: 11, formatter: t("bk.chart.threshold", { x: pct(f.soglia) }) },
-                      data: [{ xAxis: +(100 * f.soglia).toFixed(2) }],
+                      label: { show: true, position: "insideEndTop", color: p.ink2, fontSize: 11, formatter: t("bk.chart.threshold", { x: pct(f.threshold) }) },
+                      data: [{ xAxis: +(100 * f.threshold).toFixed(2) }],
                     }
                   : undefined,
             })),
           })}
         />
         <p className="muted tiny" style={{ marginBottom: 0 }}>
-          {t("bk.chart.help", { x: pct(f.soglia) })}
+          {t("bk.chart.help", { x: pct(f.threshold) })}
         </p>
       </Card>
 
@@ -230,11 +234,11 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
               key: "nome",
               label: t("col.bank"),
               wrap: true,
-              value: (r) => r.nome,
+              value: (r) => r.name,
               format: (r) => (
                 <>
-                  {r.nome}
-                  {r.retailAlta && (
+                  {r.name}
+                  {r.highRetail && (
                     <span className="tag" title={t("bk.class.high")}>
                       {t("bk.tag")}
                     </span>
@@ -242,9 +246,9 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
                 </>
               ),
             },
-            { key: "paese", label: t("bk.col.country"), value: (r) => r.paese },
-            { key: "attivo", label: t("col.totalAssets"), numeric: true, value: (r) => r.attivo, format: (r) => nf(r.attivo, 0) },
-            { key: "quotaRetail", label: t("bk.col.retail"), numeric: true, value: (r) => r.quotaRetail, format: (r) => pct(r.quotaRetail) },
+            { key: "paese", label: t("bk.col.country"), value: (r) => r.country },
+            { key: "attivo", label: t("col.totalAssets"), numeric: true, value: (r) => r.assets, format: (r) => nf(r.assets, 0) },
+            { key: "quotaRetail", label: t("bk.col.retail"), numeric: true, value: (r) => r.retailShare, format: (r) => pct(r.retailShare) },
             { key: "ingrosso", label: t("bk.col.wholesale"), numeric: true, value: (r) => r.ingrosso, format: (r) => pct(r.ingrosso) },
             { key: "vista", label: t("bk.col.sight"), numeric: true, value: (r) => r.vista, format: (r) => pct(r.vista) },
             { key: "deflusso", label: t("bk.col.outflow"), numeric: true, value: (r) => r.deflusso, format: (r) => nf(r.deflusso, 3) },
@@ -256,11 +260,11 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
           <span className="tag" style={{ marginLeft: 0 }}>
             {t("bk.tag")}
           </span>{" "}
-          {t("bk.tagR", { x: pct(f.soglia) })}
+          {t("bk.tagR", { x: pct(f.threshold) })}
         </p>
-        <Note id="note.banks.public" vars={{ d: day(f.dati_al.banche), m: month(f.dati_al.bilanciPaese) }} />
+        <Note id="note.banks.public" vars={{ d: day(f.data_as_of.banks), m: month(f.data_as_of.countryBalanceSheets) }} />
         <Note id="note.banks.scenario" />
-        <Note id="note.banks.usd" vars={{ n: f.copertura.conUsa }} />
+        <Note id="note.banks.usd" vars={{ n: f.coverage.withUsa }} />
       </section>
 
       <Card title={t("bk.byCountry")}>
@@ -271,21 +275,21 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
           initialSort={{ key: "banche", dir: -1 }}
           columns={[
             { key: "nome", label: t("col.country"), value: (r) => country(r.code) },
-            { key: "banche", label: t("col.banks"), numeric: true, value: (r) => r.banche },
-            { key: "alte", label: t("col.banksHigh"), numeric: true, value: (r) => r.alte },
+            { key: "banche", label: t("col.banks"), numeric: true, value: (r) => r.banks },
+            { key: "alte", label: t("col.banksHigh"), numeric: true, value: (r) => r.highRetailBanks },
             {
               key: "cb",
               label: t("col.coverageBsi"),
               numeric: true,
-              value: (r) => r.coperturaBsi,
-              format: (r) => (r.coperturaBsi === null ? "–" : pct(r.coperturaBsi, 0)),
+              value: (r) => r.coverageBsi,
+              format: (r) => (r.coverageBsi === null ? "–" : pct(r.coverageBsi, 0)),
             },
             {
               key: "cc",
               label: t("col.coverageCons"),
               numeric: true,
-              value: (r) => r.coperturaConsolidato,
-              format: (r) => (r.coperturaConsolidato === null ? "–" : pct(r.coperturaConsolidato, 0)),
+              value: (r) => r.coverageConsolidated,
+              format: (r) => (r.coverageConsolidated === null ? "–" : pct(r.coverageConsolidated, 0)),
             },
             {
               key: "m6",
@@ -300,10 +304,10 @@ export default function Banks({ data, scenario, lei }: { data: AppData; scenario
             { key: "alto", label: t("col.perEuroHigh"), numeric: true, value: (r) => r.alto, format: (r) => nf(r.alto, 2) },
           ]}
         />
-        <Note id="note.banks.coverage" vars={{ list: f.criterio.paesiSenzaBanche.map(country).join(", ") }} />
+        <Note id="note.banks.coverage" vars={{ list: f.criterion.countriesWithoutBanks.map(country).join(", ") }} />
         <Note id="note.banks.compare" />
         <p className="muted tiny" style={{ marginTop: "var(--space-3)", marginBottom: 0 }}>
-          {t("bk.excluded", { n: f.criterio.escluse.length, list: f.criterio.escluse.map((b) => b.nome).join("; ") })}
+          {t("bk.excluded", { n: f.criterion.excluded.length, list: f.criterion.excluded.map((b) => b.name).join("; ") })}
         </p>
       </Card>
     </>
@@ -317,24 +321,24 @@ function BankSheet({ b, f, data, scenario }: { b: Line; f: BanksFile; data: AppD
   const { importo, sostituzione, regola, depositi, credito } = scenario;
   const effects = useMemo(
     () =>
-      [{ id: "current", eur: importo }, ...sim.predefiniti].map((p) => {
-        const r = compute(sim.paesi, sim.coefficienti, { importo: p.eur, sostituzione, regola, depositi, credito }).find((x) => x.code === b.paese)!;
-        return { id: p.id, importo: p.eur, quota: r.persiCategoria, ...bankEffects([b], { [b.paese]: r.persiCategoria }, sim.coefficienti, depositi)[0] };
+      [{ id: "current", eur: importo }, ...sim.presets].map((p) => {
+        const r = compute(sim.countries, sim.coefficients, { importo: p.eur, sostituzione, regola, depositi, credito }).find((x) => x.code === b.country)!;
+        return { id: p.id, importo: p.eur, quota: r.persiCategoria, ...bankEffects([b], { [b.country]: r.persiCategoria }, sim.coefficients, depositi)[0] };
       }),
     [sim, importo, sostituzione, regola, depositi, credito, b],
   );
-  const other = b.attivo - (b.depFam + b.depImp + b.depAltreFin + b.depBanche + b.titoli);
+  const other = b.assets - (b.householdDeposits + b.firmDeposits + b.otherFinancialDeposits + b.bankDeposits + b.debtSecurities);
   const parts: [string, number][] = [
-    ["sightHh", b.vistaFam],
-    ["otherHh", b.depFam - b.vistaFam],
-    ["sightNfc", b.vistaImp],
-    ["otherNfc", b.depImp - b.vistaImp],
-    ["ofc", b.depAltreFin],
-    ["banks", b.depBanche],
-    ["debt", b.titoli],
+    ["sightHh", b.householdSight],
+    ["otherHh", b.householdDeposits - b.householdSight],
+    ["sightNfc", b.firmSight],
+    ["otherNfc", b.firmDeposits - b.firmSight],
+    ["ofc", b.otherFinancialDeposits],
+    ["banks", b.bankDeposits],
+    ["debt", b.debtSecurities],
     ["rest", other],
   ];
-  const share = parts.map(([, v]) => +((100 * v) / b.attivo).toFixed(2));
+  const share = parts.map(([, v]) => +((100 * v) / b.assets).toFixed(2));
   const big = share.indexOf(Math.max(...share));
   const chartAlt = t("bk.sheet.chart.alt", {
     k: t(`bk.part.${parts[big][0]}`),
@@ -348,13 +352,13 @@ function BankSheet({ b, f, data, scenario }: { b: Line; f: BanksFile; data: AppD
       1,
     ),
   });
-  const cinfo = f.paesi.find((c) => c.code === b.paese);
-  const src = t("bk.src", { d: day(f.dati_al.banche) });
-  const k = b.retailAlta ? sim.coefficienti.alto : sim.coefficienti.basso;
+  const cinfo = f.countries.find((c) => c.code === b.country);
+  const src = t("bk.src", { d: day(f.data_as_of.banks) });
+  const k = b.highRetail ? sim.coefficients.high : sim.coefficients.low;
   return (
     <>
       <Card
-        title={b.nome}
+        title={b.name}
         actions={
           <a className="btn small" href={route.href("banks")}>
             <ArrowLeft className="icon" aria-hidden="true" />
@@ -363,28 +367,28 @@ function BankSheet({ b, f, data, scenario }: { b: Line; f: BanksFile; data: AppD
         }
       >
         <p className="muted tiny" style={{ margin: 0 }}>
-          {t("bk.sheet.meta", { c: country(b.paese), lei: b.lei, s: src })}
+          {t("bk.sheet.meta", { c: country(b.country), lei: b.lei, s: src })}
         </p>
       </Card>
 
       <Hero
         label={t("col.retailShare")}
-        value={pct(b.quotaRetail)}
+        value={pct(b.retailShare)}
         range={t("bk.sheet.hero.range", {
-          a: t(b.retailAlta ? "bk.sheet.above" : "bk.sheet.below", { x: pct(f.soglia) }),
-          r: t("bk.sheet.rank", { n: b.rango, tot: f.banche.length }),
+          a: t(b.highRetail ? "bk.sheet.above" : "bk.sheet.below", { x: pct(f.threshold) }),
+          r: t("bk.sheet.rank", { n: b.rank, tot: f.banks.length }),
         })}
-        text={t(b.retailAlta ? "bk.sheet.coef.high" : "bk.sheet.coef.low", { k: nf(k, 3) })}
+        text={t(b.highRetail ? "bk.sheet.coef.high" : "bk.sheet.coef.low", { k: nf(k, 3) })}
       >
         <div className="kpis" style={{ marginBottom: 0 }}>
           <Kpi
             label={t("bk.sheet.assets")}
-            value={bn(b.attivo, 1)}
-            sub={cinfo?.attivoCampione ? t("bk.sheet.share", { x: pct(b.attivo / cinfo.attivoCampione, 0), c: country(b.paese) }) : undefined}
+            value={bn(b.assets, 1)}
+            sub={cinfo?.sampleAssets ? t("bk.sheet.share", { x: pct(b.assets / cinfo.sampleAssets, 0), c: country(b.country) }) : undefined}
           />
-          <Kpi label={t("col.wholesaleTa")} value={pct(b.ingrosso)} sub={t("bk.sheet.wholesale", { a: bn(b.depBanche, 1), b: bn(b.titoli, 1) })} />
+          <Kpi label={t("col.wholesaleTa")} value={pct(b.ingrosso)} sub={t("bk.sheet.wholesale", { a: bn(b.bankDeposits, 1), b: bn(b.debtSecurities, 1) })} />
           <Kpi label={t("col.sightTa")} value={pct(b.vista)} sub={t("bk.sheet.sight", { x: bn(bankBase(b, "T1"), 1) })} />
-          <Kpi label={t("bk.sheet.loans")} value={bn(b.prestiti, 1)} sub={t("bk.sheet.loans.sub", { x: pct(b.prestiti / b.attivo, 0) })} />
+          <Kpi label={t("bk.sheet.loans")} value={bn(b.loans, 1)} sub={t("bk.sheet.loans.sub", { x: pct(b.loans / b.assets, 0) })} />
           <Kpi label={t("col.us")} value={b.usa === null ? "–" : pct(b.usa)} sub={t(b.usa === null ? "bk.sheet.us.none" : "bk.sheet.us.sub")} />
         </div>
       </Hero>
@@ -423,7 +427,7 @@ function BankSheet({ b, f, data, scenario }: { b: Line; f: BanksFile; data: AppD
           })}
         />
         <p className="muted tiny">{t("bk.sheet.chart.help")}</p>
-        <Note id="note.banks.public" vars={{ d: day(f.dati_al.banche), m: month(f.dati_al.bilanciPaese) }} />
+        <Note id="note.banks.public" vars={{ d: day(f.data_as_of.banks), m: month(f.data_as_of.countryBalanceSheets) }} />
       </Card>
 
       <Card title={t("bk.sheet.effects")}>
@@ -461,15 +465,15 @@ function BankSheet({ b, f, data, scenario }: { b: Line; f: BanksFile; data: AppD
           head={[t("col.quantity"), t("col.value")]}
           numeric={[1]}
           rows={[
-            [t("bk.part.sightHh"), bn(b.vistaFam, 2)],
-            [t("bk.sheet.depHh"), bn(b.depFam, 2)],
-            [t("bk.part.sightNfc"), bn(b.vistaImp, 2)],
-            [t("bk.sheet.depNfc"), bn(b.depImp, 2)],
-            [t("bk.part.ofc"), bn(b.depAltreFin, 2)],
-            [t("bk.part.banks"), bn(b.depBanche, 2)],
-            [t("bk.part.debt"), bn(b.titoli, 2)],
-            [t("bk.sheet.loans"), bn(b.prestiti, 2)],
-            [t("bk.sheet.assets"), bn(b.attivo, 2)],
+            [t("bk.part.sightHh"), bn(b.householdSight, 2)],
+            [t("bk.sheet.depHh"), bn(b.householdDeposits, 2)],
+            [t("bk.part.sightNfc"), bn(b.firmSight, 2)],
+            [t("bk.sheet.depNfc"), bn(b.firmDeposits, 2)],
+            [t("bk.part.ofc"), bn(b.otherFinancialDeposits, 2)],
+            [t("bk.part.banks"), bn(b.bankDeposits, 2)],
+            [t("bk.part.debt"), bn(b.debtSecurities, 2)],
+            [t("bk.sheet.loans"), bn(b.loans, 2)],
+            [t("bk.sheet.assets"), bn(b.assets, 2)],
           ]}
         />
       </Card>

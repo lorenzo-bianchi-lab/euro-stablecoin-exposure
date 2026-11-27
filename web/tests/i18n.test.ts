@@ -113,14 +113,14 @@ describe("keys required by the data", () => {
     mon = read("../public/data/monitor.json"),
     ch = read("../public/data/channels.json");
   const need: string[] = [
-    ...sim.paesi.map((c: { code: string }) => `country.${c.code}`),
-    ...sim.predefiniti.map((p: { id: string }) => `preset.${p.id}`),
-    ...sim.paesi.map((c: { fonteUsd: string }) => `usdSource.${c.fonteUsd}`),
-    ...meta.fonti.map((s: { id: string }) => `source.${s.id}`),
-    ...meta.fonti.filter((s: { tipoData: string }) => s.tipoData === "testo").map((s: { datiAl: string }) => `period.${s.datiAl}`),
-    ...Object.keys(meta.aggiornamento.moduli).map((k) => `module.${k}`),
-    ...mon.serie.flatMap((s: string) => [`series.${s}`, `series.${s}.short`]),
-    ...ch.quadranti.flatMap((q: string) => [`quad.${q}.title`, `quad.${q}.channel`, `quad.${q}.text`]),
+    ...sim.countries.map((c: { code: string }) => `country.${c.code}`),
+    ...sim.presets.map((p: { id: string }) => `preset.${p.id}`),
+    ...sim.countries.map((c: { usdSource: string }) => `usdSource.${c.usdSource}`),
+    ...meta.sources.map((s: { id: string }) => `source.${s.id}`),
+    ...meta.sources.filter((s: { dateType: string }) => s.dateType === "testo").map((s: { dataAsOf: string }) => `period.${s.dataAsOf}`),
+    ...Object.keys(meta.update.modules).map((k) => `module.${k}`),
+    ...mon.series.flatMap((s: string) => [`series.${s}`, `series.${s}.short`]),
+    ...ch.quadrants.flatMap((q: string) => [`quad.${q}.title`, `quad.${q}.channel`, `quad.${q}.text`]),
     ...["updated", "partial", "lastValid", "notUpdated", "static"].flatMap((k) => [`me.state.${k}`, `me.detail.${k}`]),
     ...["signal", "check", "none", "short", "na"].map((k) => `flag.${k}`),
   ];
@@ -128,19 +128,19 @@ describe("keys required by the data", () => {
     expect([...new Set(need)].filter((k) => !(k in en) || !(k in it_))).toEqual([]);
   });
   it("the states used in the data are among those expected", () => {
-    const states = new Set<string>(meta.fonti.map((s: { stato: string }) => s.stato));
+    const states = new Set<string>(meta.sources.map((s: { status: string }) => s.status));
     for (const s of states) expect(["aggiornata", "parziale", "ultimo_valido", "non_aggiornata", "statica"]).toContain(s);
-    const flags = new Set<string>(Object.values(mon.segnalazioni).flatMap((f) => (f as { stato: string[] }).stato));
+    const flags = new Set<string>(Object.values(mon.flags).flatMap((f) => (f as { status: string[] }).status));
     for (const s of flags) expect(["segnale", "da verificare", "nessuno", "storico insufficiente"]).toContain(s);
   });
   it("the texts taken from SPEC.md are exported in both languages, with the same number of entries", () => {
     const m = read("../public/data/method.json");
-    for (const k of ["fonti", "metodiScartati"]) {
-      expect(m[k].en.righe.length).toBe(m[k].it.righe.length);
-      expect(m[k].en.righe.flat().filter((c: string, i: number) => c === m[k].it.righe.flat()[i] && /[àèéìòù]| (di|del|della|per|con) /.test(c))).toEqual([]);
+    for (const k of ["sources", "discardedMethods"]) {
+      expect(m[k].en.rows.length).toBe(m[k].it.rows.length);
+      expect(m[k].en.rows.flat().filter((c: string, i: number) => c === m[k].it.rows.flat()[i] && /[àèéìòù]| (di|del|della|per|con) /.test(c))).toEqual([]);
     }
-    expect(m.limiti.en.length).toBe(m.limiti.it.length);
-    expect(m.limiti.en.filter((x: string, i: number) => x === m.limiti.it[i])).toEqual([]);
+    expect(m.limits.en.length).toBe(m.limits.it.length);
+    expect(m.limits.en.filter((x: string, i: number) => x === m.limits.it[i])).toEqual([]);
   });
 });
 

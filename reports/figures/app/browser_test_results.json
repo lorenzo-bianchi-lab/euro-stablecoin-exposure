@@ -1,5 +1,5 @@
 {
- "ranAt": "2026-11-27T00:14:18.657Z",
+ "ranAt": "2026-11-27T00:39:21.869Z",
  "sections": [
   {
    "section": "home",
@@ -373,8 +373,8 @@
    "controls": 0,
    "pages": 2,
    "headers": [
-    "Euro Stablecoin Exposure MonitorData updated on 26 November 2026Bank balance she",
-    "Euro Stablecoin Exposure MonitorData updated on 26 November 2026Bank balance she"
+    "Euro Stablecoin Exposure MonitorData updated on 27 November 2026Bank balance she",
+    "Euro Stablecoin Exposure MonitorData updated on 27 November 2026Bank balance she"
    ],
    "pdfPages": 2
   },
@@ -806,14 +806,14 @@
    "style": 25,
    "fonts": 97,
    "data": 139,
-   "total": 1122,
+   "total": 1121,
    "files": [
     "index",
     "react",
     "en",
-    "Home",
-    "model",
     "shared",
+    "model",
+    "Home",
     "EuroMap",
     "Chart"
    ]
@@ -877,18 +877,18 @@
     "index",
     "react",
     "en",
-    "shared",
     "model",
+    "shared",
     "CountrySheet",
     "Chart"
    ]
   },
   "banks": {
-   "code": 781,
+   "code": 782,
    "style": 25,
    "fonts": 97,
-   "data": 52,
-   "total": 958,
+   "data": 56,
+   "total": 961,
    "files": [
     "index",
     "react",
@@ -900,11 +900,11 @@
    ]
   },
   "banks/R0MUWSFPU8MPRO8K5P83": {
-   "code": 781,
+   "code": 782,
    "style": 25,
    "fonts": 97,
-   "data": 52,
-   "total": 958,
+   "data": 56,
+   "total": 961,
    "files": [
     "index",
     "react",
@@ -925,8 +925,8 @@
     "index",
     "react",
     "en",
-    "model",
     "shared",
+    "model",
     "Channels",
     "Chart"
    ]
@@ -935,20 +935,20 @@
    "code": 775,
    "style": 25,
    "fonts": 97,
-   "data": 64,
-   "total": 963,
+   "data": 63,
+   "total": 962,
    "files": [
     "index",
     "react",
     "en",
-    "model",
     "shared",
+    "model",
     "Monitor",
     "Chart"
    ]
   },
   "level": {
-   "code": 774,
+   "code": 773,
    "style": 25,
    "fonts": 97,
    "data": 20,
@@ -967,13 +967,13 @@
    "style": 25,
    "fonts": 97,
    "data": 17,
-   "total": 380,
+   "total": 379,
    "files": [
     "index",
     "react",
     "en",
-    "shared",
     "model",
+    "shared",
     "Compare"
    ]
   },

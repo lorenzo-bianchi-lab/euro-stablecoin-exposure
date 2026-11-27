@@ -1,173 +1,176 @@
 import type { Bank, Coefficients, Country, Level, LevelBand } from "./model";
 
+// Shape of the data files (web/public/data, written by src/export_app_data.py). Objects keyed by an id
+// that can appear in an address keep that id as key: series (usdt_senza_coinbase), level case
+// (minimo, centrale, massimo), counting unit (famiglie, individui), credit variant (uniforme, ...).
 export interface Preset {
   id: string;
   eur: number;
 }
 export interface SimData {
-  dati_al: Record<string, string>;
-  cambioUsdPerEur: number;
-  dataCambio: string;
-  meseBilanci: string;
-  paesi: Country[];
-  predefiniti: Preset[];
-  coefficienti: Coefficients;
-  sogliaRetail: number;
-  ancoraggi: { ancoraggio_basso: number; ancoraggio_alto: number };
-  livello: Level;
-  incertezza: { sostituzioneMinima: number; sostituzioneMassima: number };
-  mediane: { c1: number; usd: number };
+  data_as_of: Record<string, string>;
+  usdPerEur: number;
+  exchangeRateDate: string;
+  balanceSheetMonth: string;
+  countries: Country[];
+  presets: Preset[];
+  coefficients: Coefficients;
+  retailThreshold: number;
+  anchors: { low_anchor: number; high_anchor: number };
+  level: Level;
+  uncertainty: { minSubstitution: number; maxSubstitution: number };
+  medians: { c1: number; usd: number };
 }
 export interface SourceDetail {
-  messaggio?: string;
+  message?: string;
   exchange?: number;
-  senzaRisposta?: string[];
-  quotaVolume?: number;
-  finoAl?: string;
-  maiDisponibili?: string[];
-  trattenute?: string[];
+  noResponse?: string[];
+  volumeShare?: number;
+  dataUntil?: string;
+  neverAvailable?: string[];
+  heldWeeks?: string[];
 }
 export interface Source {
   id: string;
-  modulo: string;
-  tipoData: string;
-  datiAl: string;
-  stato: string;
-  dettaglio: SourceDetail;
+  module: string;
+  dateType: string;
+  dataAsOf: string;
+  status: string;
+  detail: SourceDetail;
 }
 export interface Meta {
-  generato_il: string;
-  aggiornamento: { eseguitoIl: string | null; modalita: string | null; moduli: Record<string, { esito: string; secondi?: number; messaggio?: string }> };
-  fonti: Source[];
-  fontiNonAggiornate: string[];
-  fontiParziali: string[];
+  generated_on: string;
+  update: { ranOn: string | null; mode: string | null; modules: Record<string, { outcome: string; seconds?: number; message?: string }> };
+  sources: Source[];
+  staleSources: string[];
+  partialSources: string[];
   file: string[];
-  mappaDisponibile: boolean;
+  mapAvailable: boolean;
 }
 export interface FlagState {
-  stato?: string;
-  scarto_quota?: number;
-  scarto_volume?: number;
-  quota_eur?: number;
-  volume_eur_mld?: number;
-  valore: number;
-  variazione: number;
+  status?: string;
+  share_deviation?: number;
+  volume_deviation?: number;
+  eur_share?: number;
+  volume_eur_bn?: number;
+  value: number;
+  change: number;
 }
 export interface Overview {
-  dati_al: { bilanci: string; settimana: string; circolazione: string };
-  livello: Level & { esmBase: number; esmAlto: number };
-  scenarioCentrale: {
-    deflusso: number;
-    depositiAVistaPersi: number;
-    aumentoIngrosso: number;
-    creditoUniforme: number;
-    creditoBasso: number;
-    creditoAlto: number;
-    creditoPct: number;
+  data_as_of: { balanceSheets: string; week: string; circulation: string };
+  level: Level & { esmBase: number; esmHigh: number };
+  centralScenario: {
+    outflow: number;
+    sightDepositsLost: number;
+    wholesaleIncrease: number;
+    creditUniform: number;
+    creditLow: number;
+    creditHigh: number;
+    creditPct: number;
   };
-  indice: Record<string, FlagState>;
-  classifica: { code: string; posizione: number; c1: number }[];
-  depositiAVistaArea: number;
-  prestitiArea: number;
-  testPredittivo: string;
+  index: Record<string, FlagState>;
+  ranking: { code: string; rank: number; c1: number }[];
+  areaSightDeposits: number;
+  areaLoans: number;
+  predictiveTest: string;
 }
 export interface CountryFile {
   code: string;
-  composizione: { mesi: string[]; totale: number[]; voci: Record<string, number[]> };
-  indicatore: { mesi: string[]; valore: number[]; posizione: number[]; paesi: number[]; c1: number[]; c2: number[]; c3: number[] };
+  composition: { months: string[]; total: number[]; items: Record<string, number[]> };
+  indicator: { months: string[]; value: number[]; rank: number[]; countries: number[]; c1: number[]; c2: number[]; c3: number[] };
 }
 export interface Channels {
-  mediane: { c1: number; usd: number };
-  correlazioneDiRango: number;
-  confrontoFonti: { paesi_con_entrambe: number; paesi_con_bsi_completo: number; rapporto_mediano_bsi_su_bri: number; correlazione_di_rango: number };
-  cambianoConRiscalatura: string[];
-  quadranti: string[];
-  dati_al: { bilanci: string; dollari: string };
+  medians: { c1: number; usd: number };
+  rankCorrelation: number;
+  sourceComparison: { countries_with_both: number; countries_with_full_bsi: number; median_ratio_bsi_to_bis: number; rank_correlation: number };
+  changeWithRescaling: string[];
+  quadrants: string[];
+  data_as_of: { balanceSheets: string; dollars: string };
 }
 export interface WeeklySeries {
-  settimane: string[];
+  weeks: string[];
   [k: string]: number[] | string[];
 }
 export interface FlagSeries {
-  settimane: string[];
-  quota: number[];
+  weeks: string[];
+  share: number[];
   volumeEur: number[];
-  scartoQuota: (number | null)[];
-  scartoVolume: (number | null)[];
-  stato: string[];
+  shareDeviation: (number | null)[];
+  volumeDeviation: (number | null)[];
+  status: string[];
 }
 export interface ExclusionEffect {
-  esclusi: string[];
-  settimane_confrontate: number;
-  prima_settimana?: string;
-  ultima_settimana?: string;
-  quota_di_volume_degli_esclusi?: { media: number; massima: number; ultima_settimana: number };
-  differenza_pp?: Record<string, { media: number; massima_assoluta: number; settimana_della_massima: string; ultima_settimana: number }>;
-  segnalazioni_cambiate?: number;
+  excluded: string[];
+  weeks_compared: number;
+  first_week?: string;
+  last_week?: string;
+  volume_share_of_excluded?: { mean: number; max: number; last_week: number };
+  difference_pp?: Record<string, { mean: number; max_abs: number; week_of_max: string; last_week: number }>;
+  flags_changed?: number;
 }
 export interface Monitor {
-  dati_al: { ultimaSettimana: string };
-  serie: string[];
-  principale: WeeklySeries;
-  lungo: WeeklySeries;
-  segnalazioni: Record<string, FlagSeries>;
-  statistiche: Record<string, Record<string, number | string>>;
-  pannello: { exchange: number; exchange_indice_lungo: number; esclusi: string[]; esclusi_indice_lungo: string[] };
-  effettoEsclusione: ExclusionEffect;
-  settimaneTrattenute: Record<string, { exchange_mancanti: string[]; quota_di_volume_mancante: number }>;
-  fontiMancanti?: { exchange: string[]; coppie: string[]; maiDisponibili: string[]; quotaVolume: number; datiFinoAl: string | null } | null;
-  testPredittivo: { risposta: string; pValue: number; osservazioni: number; rapportoRmse: number };
+  data_as_of: { lastWeek: string };
+  series: string[];
+  main: WeeklySeries;
+  long: WeeklySeries;
+  flags: Record<string, FlagSeries>;
+  statistics: Record<string, Record<string, number | string>>;
+  panel: { exchange: number; exchange_long_index: number; excluded: string[]; excluded_long_index: string[] };
+  exclusionEffect: ExclusionEffect;
+  heldWeeks: Record<string, { missing_exchanges: string[]; missing_volume_share: number }>;
+  missingSources?: { exchange: string[]; pairs: string[]; neverAvailable: string[]; volumeShare: number; dataUntil: string | null } | null;
+  predictiveTest: { answer: string; pValue: number; observations: number; rmseRatio: number };
 }
 export interface LevelFile {
-  dati_al: { indagine: string; circolazione: string };
-  fasce: LevelBand[];
-  quotaDetentori: number;
-  quotaDollari: { minimo: number; centrale: number; massimo: number };
-  unita: { famiglie: number; individui: number };
-  riferimento: { minimo_mld_eur: number; centrale_mld_eur: number; massimo_mld_eur: number; estremo_superiore_dichiarato_mld_eur: number };
-  esm: { data: string; baseEur: number; altoEur: number; serie: { mesi: string[]; base: number[]; alto: number[] } };
-  altreStrade: { b2: { saldiClientiMldUsd: number | null }; b3: { centrale: number | null } };
-  criterioSoddisfatto: boolean;
+  data_as_of: { survey: string; circulation: string };
+  bands: LevelBand[];
+  holderShare: number;
+  dollarShare: { minimo: number; centrale: number; massimo: number };
+  units: { famiglie: number; individui: number };
+  reference: { min_bn_eur: number; central_bn_eur: number; max_bn_eur: number; declared_upper_bound_bn_eur: number };
+  esm: { date: string; baseEur: number; highEur: number; series: { months: string[]; base: number[]; high: number[] } };
+  otherRoutes: { b2: { customerBalancesBnUsd: number | null }; b3: { central: number | null } };
+  criterionMet: boolean;
 }
 export interface BiTable {
-  colonne: string[];
-  righe: string[][];
+  columns: string[];
+  rows: string[][];
 }
 export interface Method {
-  fonti: Record<string, BiTable>;
-  limiti: Record<string, string[]>;
-  metodiScartati: Record<string, BiTable>;
+  sources: Record<string, BiTable>;
+  limits: Record<string, string[]>;
+  discardedMethods: Record<string, BiTable>;
   repo: string;
 }
 export interface BankCountry {
   code: string;
-  banche: number;
-  alte: number;
-  attivoCampione: number | null;
-  coperturaBsi: number | null;
-  coperturaConsolidato: number | null;
+  banks: number;
+  highRetailBanks: number;
+  sampleAssets: number | null;
+  coverageBsi: number | null;
+  coverageConsolidated: number | null;
   m6PerEuro: number | null;
   m5: Record<string, number | null>;
-  m5RetailAlta: boolean;
+  m5HighRetail: boolean;
 }
 export interface Banks {
-  dati_al: { banche: string; bilanciPaese: string };
-  banche: Bank[];
-  paesi: BankCountry[];
-  soglia: number;
-  mediana: number;
-  sogliaPaesi: number;
-  banchesSopra: number;
-  criterio: {
-    nelCampione: number;
+  data_as_of: { banks: string; countryBalanceSheets: string };
+  banks: Bank[];
+  countries: BankCountry[];
+  threshold: number;
+  median: number;
+  countryThreshold: number;
+  banksAbove: number;
+  criterion: {
+    inSample: number;
     complete: number;
-    paesi: number;
-    soddisfatto: boolean;
-    paesiSenzaBanche: string[];
-    escluse: { lei: string; nome: string; paese: string }[];
+    countries: number;
+    met: boolean;
+    countriesWithoutBanks: string[];
+    excluded: { lei: string; name: string; country: string }[];
   };
-  copertura: { bsi: number; consolidato: number | null; attivo: number; conUsa: number };
-  confronto: Record<string, number>;
+  coverage: { bsi: number; consolidated: number | null; assets: number; withUsa: number };
+  comparison: Record<string, number>;
 }
 export interface AppData {
   sim: SimData;

@@ -23,7 +23,7 @@ const TYPES = {
   ".png": "image/png",
 };
 const banks = JSON.parse(await readFile(join(DIR, "data/banks.json"), "utf-8"));
-const lei = [...banks.banche].sort((a, b) => b.attivo - a.attivo)[0].lei;
+const lei = [...banks.banks].sort((a, b) => b.assets - a.assets)[0].lei;
 const routes = arg("routes", `home,overview,simulator,map,country/IT,banks,banks/${lei},channels,monitor,level,compare,method,about`)
   .split(",")
   .map((r) => r.replace("LEI", lei));

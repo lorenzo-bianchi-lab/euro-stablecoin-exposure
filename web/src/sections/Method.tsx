@@ -12,13 +12,13 @@ const badgeClass = (s: string) => (isFlagged(s) ? "badge accent" : s === "aggior
 
 /** Detail of the status of a source, composed from the structured data. */
 function detail(s: Source): string {
-  const d = s.dettaglio,
+  const d = s.detail,
     parts: string[] = [];
-  if (d.messaggio) parts.push(d.messaggio);
-  if (d.senzaRisposta?.length) parts.push(t("me.detail.noReply", { list: d.senzaRisposta.join(", "), x: pct(d.quotaVolume), d: day(d.finoAl) }));
-  if (d.maiDisponibili?.length) parts.push(t("me.detail.never", { list: d.maiDisponibili.join(", ") }));
-  if (d.trattenute?.length) parts.push(t("me.detail.held", { list: d.trattenute.join(", ") }));
-  if (!parts.length) parts.push(t(`me.detail.${stateKey(s.stato)}`));
+  if (d.message) parts.push(d.message);
+  if (d.noResponse?.length) parts.push(t("me.detail.noReply", { list: d.noResponse.join(", "), x: pct(d.volumeShare), d: day(d.dataUntil) }));
+  if (d.neverAvailable?.length) parts.push(t("me.detail.never", { list: d.neverAvailable.join(", ") }));
+  if (d.heldWeeks?.length) parts.push(t("me.detail.held", { list: d.heldWeeks.join(", ") }));
+  if (!parts.length) parts.push(t(`me.detail.${stateKey(s.status)}`));
   return parts.join("; ");
 }
 
@@ -42,19 +42,19 @@ export default function Method({ data }: { data: AppData }) {
     <DataTable
       csvName={name}
       pageSize={pageSize}
-      rows={tb.righe}
-      columns={tb.colonne.map((label, i) => ({ key: String(i), label, wrap: true, value: (r: string[]) => r[i].replace(/`/g, "") }))}
+      rows={tb.rows}
+      columns={tb.columns.map((label, i) => ({ key: String(i), label, wrap: true, value: (r: string[]) => r[i].replace(/`/g, "") }))}
     />
   );
-  const run = meta.aggiornamento,
-    offline = run.modalita === "offline";
-  const flagged = meta.fonti.filter((s) => isFlagged(s.stato));
-  const updatable = meta.fonti.filter((s) => s.stato !== "statica").length;
-  const updated = meta.fonti.filter((s) => s.stato === "aggiornata").length;
-  const statics = meta.fonti.length - updatable;
-  const modules = Object.entries(run.moduli),
-    okModules = modules.filter(([, v]) => v.esito === "ok").length;
-  const withMessage = modules.some(([, v]) => v.messaggio);
+  const run = meta.update,
+    offline = run.mode === "offline";
+  const flagged = meta.sources.filter((s) => isFlagged(s.status));
+  const updatable = meta.sources.filter((s) => s.status !== "statica").length;
+  const updated = meta.sources.filter((s) => s.status === "aggiornata").length;
+  const statics = meta.sources.length - updatable;
+  const modules = Object.entries(run.modules),
+    okModules = modules.filter(([, v]) => v.outcome === "ok").length;
+  const withMessage = modules.some(([, v]) => v.message);
   const heroKey = offline ? "me.hero.offline" : flagged.length ? "me.hero.flagged" : "me.hero.ok";
   const vars = { u: nf(updated, 0), n: nf(updatable, 0), s: nf(statics, 0), f: nf(flagged.length, 0) };
   const coef = [1, 2, 3, 4, 5, 6, 7];
@@ -62,8 +62,8 @@ export default function Method({ data }: { data: AppData }) {
     <>
       <Hero
         label={t("me.hero.label")}
-        value={day(run.eseguitoIl ?? meta.generato_il)}
-        range={t("me.hero.range", { mode: t(`me.mode.${run.modalita ?? "online"}`) })}
+        value={day(run.ranOn ?? meta.generated_on)}
+        range={t("me.hero.range", { mode: t(`me.mode.${run.mode ?? "online"}`) })}
         text={t(heroKey, vars)}
       >
         <div className="kpis" style={{ marginBottom: 0 }}>
@@ -91,7 +91,7 @@ export default function Method({ data }: { data: AppData }) {
             {flagged.map((s) => (
               <li key={s.id}>
                 <span className="state signal">
-                  {t(`source.${s.id}`)}: {t(`me.state.${stateKey(s.stato)}`)}
+                  {t(`source.${s.id}`)}: {t(`me.state.${stateKey(s.status)}`)}
                 </span>
                 . {detail(s)}
               </li>
@@ -104,17 +104,17 @@ export default function Method({ data }: { data: AppData }) {
         )}
         <DataTable
           csvName="source_status.csv"
-          rows={meta.fonti}
+          rows={meta.sources}
           compact
           columns={[
             { key: "nome", label: t("col.source"), wrap: true, value: (r) => t(`source.${r.id}`) },
             {
               key: "stato",
               label: t("col.state"),
-              value: (r) => t(`me.state.${stateKey(r.stato)}`),
-              format: (r) => <span className={badgeClass(r.stato)}>{t(`me.state.${stateKey(r.stato)}`)}</span>,
+              value: (r) => t(`me.state.${stateKey(r.status)}`),
+              format: (r) => <span className={badgeClass(r.status)}>{t(`me.state.${stateKey(r.status)}`)}</span>,
             },
-            { key: "dati_al", label: t("col.dataAsOf"), value: (r) => sourceDate(r.tipoData, r.datiAl) },
+            { key: "dati_al", label: t("col.dataAsOf"), value: (r) => sourceDate(r.dateType, r.dataAsOf) },
             { key: "dettaglio", label: t("col.detail"), wrap: true, value: (r) => detail(r) },
           ]}
         />
@@ -129,16 +129,16 @@ export default function Method({ data }: { data: AppData }) {
           head={[t("col.module"), t("col.outcome"), t("col.seconds"), ...(withMessage ? [t("col.message")] : [])]}
           rows={modules.map(([k, v]) => [
             t(`module.${k}`),
-            <span className={v.esito === "ok" ? "badge primary" : "badge accent"}>{t(v.esito === "ok" ? "me.ok" : "me.failed")}</span>,
-            v.secondi == null ? t("fmt.na") : nf(v.secondi, 1),
-            ...(withMessage ? [v.messaggio ?? ""] : []),
+            <span className={v.outcome === "ok" ? "badge primary" : "badge accent"}>{t(v.outcome === "ok" ? "me.ok" : "me.failed")}</span>,
+            v.seconds == null ? t("fmt.na") : nf(v.seconds, 1),
+            ...(withMessage ? [v.message ?? ""] : []),
           ])}
         />
       </Card>
 
       <Card id="me-limits" title={t("me.limits")}>
         <ol className="stack" style={{ maxWidth: "80ch", margin: 0, paddingLeft: "var(--space-5)" }}>
-          {m.limiti[lang].map((l, i) => (
+          {m.limits[lang].map((l, i) => (
             <li key={i}>{l}</li>
           ))}
         </ol>
@@ -153,10 +153,10 @@ export default function Method({ data }: { data: AppData }) {
       </Card>
 
       <Card id="me-sources" title={t("me.sources")}>
-        {table(m.fonti[lang], "sources.csv", 10)}
+        {table(m.sources[lang], "sources.csv", 10)}
       </Card>
       <Card id="me-discarded" title={t("me.discarded")}>
-        {table(m.metodiScartati[lang], "discarded_methods.csv", 6)}
+        {table(m.discardedMethods[lang], "discarded_methods.csv", 6)}
       </Card>
 
       <Card id="me-docs" title={t("me.docs")}>

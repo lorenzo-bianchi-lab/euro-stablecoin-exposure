@@ -18,15 +18,15 @@ export default function Channels({ data, scenario }: { data: AppData; scenario: 
   const { rows } = useResults(sim, scenario);
   const sel = route.params.get("q");
   if (!ch) return <Loading error={error} />;
-  const pts = sim.paesi.map((c, i) => ({ ...c, r: rows[i] }));
+  const pts = sim.countries.map((c, i) => ({ ...c, r: rows[i] }));
   const open = (code: string) => {
     window.location.hash = route.href(`country/${code}`);
   };
-  const inQuad = (q: string) => pts.filter((c) => c.quadrante === q).sort((a, b) => b.c1 - a.c1);
+  const inQuad = (q: string) => pts.filter((c) => c.quadrant === q).sort((a, b) => b.c1 - a.c1);
   const count = (q: string) => inQuad(q).length;
-  const r = ch.correlazioneDiRango;
-  const mx = 100 * ch.mediane.c1,
-    my = 100 * ch.mediane.usd;
+  const r = ch.rankCorrelation;
+  const mx = 100 * ch.medians.c1,
+    my = 100 * ch.medians.usd;
   // axes: a margin on the right leaves room for the quadrant names without covering the points
   const xMax = Math.ceil((100 * Math.max(...pts.map((c) => c.c1)) + 8) / 10) * 10;
   const yMax = Math.ceil((100 * Math.max(...pts.map((c) => c.usd)) + 1) / 5) * 5;
@@ -84,7 +84,7 @@ export default function Channels({ data, scenario }: { data: AppData; scenario: 
         <Chart
           title={t("ch.chart.title")}
           unit={t("ch.chart.unit")}
-          source={t("ch.chart.src", { m: month(ch.dati_al.bilanci), q: quarter(ch.dati_al.dollari) })}
+          source={t("ch.chart.src", { m: month(ch.data_as_of.balanceSheets), q: quarter(ch.data_as_of.dollars) })}
           height={480}
           deps={[sel, rows, ch]}
           alt={alt}
@@ -121,14 +121,14 @@ export default function Channels({ data, scenario }: { data: AppData; scenario: 
               label: { show: true, formatter: (x: { data: { code: string } }) => x.data.code, position: "right", distance: 4, color: p.ink2, fontSize: 10 },
               labelLayout: { hideOverlap: false, moveOverlap: "shiftY" },
               data: pts
-                .filter((c) => c.fonteUsd === fonte)
+                .filter((c) => c.usdSource === fonte)
                 .map((c) => {
-                  const dim = sel && sel !== c.quadrante;
+                  const dim = sel && sel !== c.quadrant;
                   return {
                     value: [+(100 * c.c1).toFixed(2), +(100 * c.usd).toFixed(2)],
                     code: c.code,
-                    q: c.quadrante,
-                    fonte: c.fonteUsd,
+                    q: c.quadrant,
+                    fonte: c.usdSource,
                     cr: c.r.creditoPct,
                     itemStyle: dim ? { opacity: 0.2 } : undefined,
                     label: dim ? { opacity: 0.35 } : undefined,
@@ -173,7 +173,7 @@ export default function Channels({ data, scenario }: { data: AppData; scenario: 
         />
         <Note
           id="note.channels"
-          vars={{ r: pct(ch.confrontoFonti.rapporto_mediano_bsi_su_bri, 0), list: ch.cambianoConRiscalatura.map(country).join(t("fmt.and")) }}
+          vars={{ r: pct(ch.sourceComparison.median_ratio_bsi_to_bis, 0), list: ch.changeWithRescaling.map(country).join(t("fmt.and")) }}
         />
       </Card>
 
@@ -220,11 +220,11 @@ export default function Channels({ data, scenario }: { data: AppData; scenario: 
           onRow={(r) => open(r.code)}
           columns={[
             { key: "nome", label: t("col.country"), value: (r) => country(r.code) },
-            { key: "q", label: t("col.quadrant"), value: (r) => r.quadrante },
+            { key: "q", label: t("col.quadrant"), value: (r) => r.quadrant },
             { key: "c1", label: t("col.sightOnLiab"), numeric: true, value: (r) => r.c1, format: (r) => pct(r.c1) },
             { key: "usd", label: t("col.usdLiab"), numeric: true, value: (r) => r.usd, format: (r) => pct(r.usd) },
-            { key: "fonte", label: t("col.usdSource"), value: (r) => t(`usdSource.${r.fonteUsd}`) },
-            { key: "retail", label: t("col.retailShare"), numeric: true, value: (r) => r.quotaRetail, format: (r) => pct(r.quotaRetail) },
+            { key: "fonte", label: t("col.usdSource"), value: (r) => t(`usdSource.${r.usdSource}`) },
+            { key: "retail", label: t("col.retailShare"), numeric: true, value: (r) => r.retailShare, format: (r) => pct(r.retailShare) },
             { key: "cr", label: t("col.creditScenario"), numeric: true, value: (r) => r.r.creditoPct, format: (r) => nf(r.r.creditoPct, 2) + "%" },
           ]}
         />
