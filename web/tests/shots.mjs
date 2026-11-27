@@ -2,6 +2,8 @@
 // Usage: node tests/shots.mjs                                                 (every page of docs/, into reports/figures/app/screenshots)
 //        node tests/shots.mjs --dir /tmp/dist --out /tmp/shots --only banks   (one page of another build)
 //        node tests/shots.mjs --routes overview,simulator --lang it --widths 390 --themes dark
+//        node tests/shots.mjs --routes simulator --widths 1280 --themes light --crop 800 --prefix readme
+//                                                       (only the first 800 pixels, saved as readme_simulator.jpg)
 import { createServer } from "node:http";
 import { readFile, mkdir } from "node:fs/promises";
 import { extname, join, resolve } from "node:path";
@@ -31,7 +33,9 @@ const ALL = ["home", "overview", "simulator", "map", "country/IT", "banks", `ban
 const routes = arg("routes") ? arg("routes").split(",") : arg("only") ? ALL.filter((r) => r.split("/")[0] === arg("only")) : ALL;
 const widths = arg("widths", "1280,390").split(",").map(Number),
   themes = arg("themes", "light,dark").split(","),
-  lang = arg("lang", "en");
+  lang = arg("lang", "en"),
+  crop = Number(arg("crop", "0")),
+  prefix = arg("prefix");
 
 const server = createServer(async (req, res) => {
   const path = decodeURIComponent(new URL(req.url, "http://x").pathname);
@@ -51,11 +55,12 @@ await mkdir(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: process.env.CHROME_CHANNEL ?? "chrome", headless: true });
 let n = 0;
 for (const route of routes) {
-  const name = `${String(ALL.indexOf(route) + 1).padStart(2, "0")}_${route.startsWith("banks/") ? "bank_sheet" : route.split("/")[0]}`;
+  const section = route.startsWith("banks/") ? "bank_sheet" : route.split("/")[0];
+  const name = prefix ? `${prefix}_${section}` : `${String(ALL.indexOf(route) + 1).padStart(2, "0")}_${section}`;
   for (const theme of themes)
     for (const w of widths) {
       const ctx = await browser.newContext({
-        viewport: { width: w, height: w > 600 ? 900 : 844 },
+        viewport: { width: w, height: crop || (w > 600 ? 900 : 844) },
         deviceScaleFactor: 1,
         colorScheme: theme,
         reducedMotion: "reduce",
@@ -68,11 +73,11 @@ for (const route of routes) {
         await page.waitForSelector("main h1", { timeout: 15000 });
         await page.waitForFunction(() => !document.querySelector("[data-loading]"), null, { timeout: 15000 });
         // in a full-page capture the fixed navigation bar would end up halfway down the page: it is moved to the bottom
-        await page.addStyleTag({ content: ".tabbar{position:static !important}.main{padding-bottom:24px !important}" });
+        if (!crop) await page.addStyleTag({ content: ".tabbar{position:static !important}.main{padding-bottom:24px !important}" });
         await page.waitForTimeout(900);
         await page.screenshot({
-          path: join(OUT, `${name}_${w}_${theme}${lang === "en" ? "" : "_" + lang}.jpg`),
-          fullPage: true,
+          path: join(OUT, prefix ? `${name}.jpg` : `${name}_${w}_${theme}${lang === "en" ? "" : "_" + lang}.jpg`),
+          fullPage: !crop,
           type: "jpeg",
           quality: Number(arg("quality", "62")),
         });
