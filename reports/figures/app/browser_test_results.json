@@ -1,5 +1,5 @@
 {
- "ranAt": "2026-11-27T00:39:21.869Z",
+ "ranAt": "2026-11-27T15:04:56.380Z",
  "sections": [
   {
    "section": "home",
@@ -812,8 +812,8 @@
     "react",
     "en",
     "shared",
-    "model",
     "Home",
+    "model",
     "EuroMap",
     "Chart"
    ]
@@ -860,8 +860,8 @@
     "index",
     "react",
     "en",
-    "model",
     "shared",
+    "model",
     "MapEurope",
     "EuroMap",
     "Chart"
@@ -877,8 +877,8 @@
     "index",
     "react",
     "en",
-    "model",
     "shared",
+    "model",
     "CountrySheet",
     "Chart"
    ]
@@ -893,8 +893,8 @@
     "index",
     "react",
     "en",
-    "shared",
     "model",
+    "shared",
     "Banks",
     "Chart"
    ]
@@ -957,8 +957,8 @@
     "index",
     "react",
     "en",
-    "model",
     "Level",
+    "model",
     "Chart"
    ]
   },
@@ -972,8 +972,8 @@
     "index",
     "react",
     "en",
-    "model",
     "shared",
+    "model",
     "Compare"
    ]
   },
