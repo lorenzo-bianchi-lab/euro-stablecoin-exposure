@@ -39,8 +39,8 @@ NAMES = m5.NAMES
 NOW = datetime.now(timezone.utc).isoformat(timespec="seconds")
 DOCS: dict[str, dict] = {}
 
-# English names of the keys of the structures copied as they are from data/processed (the files in
-# data/processed keep their own names). Keys that are not here pass unchanged: series ids
+# English names of the keys of the structures copied as they are from the JSON files in data/processed
+# (those files keep their Italian keys). Keys that are not here pass unchanged: series ids
 # (usdt_senza_coinbase), step names (modulo1), week dates.
 KEYS = {
     "ancoraggio_alto": "high_anchor",
@@ -111,21 +111,22 @@ KEYS = {
     "estremo_superiore_dichiarato_mld_eur": "declared_upper_bound_bn_eur",
     "nota_estremo_superiore": "upper_bound_note",
 }
-# Italian names of the composition items in data/processed/m3_composition.csv -> keys of the country files
-ITEMS = {
-    "vista_famiglie": "household_sight_deposits",
-    "altri_dep_famiglie": "household_other_deposits",
-    "vista_imprese": "firm_sight_deposits",
-    "altri_dep_imprese": "firm_other_deposits",
-    "altri_dep_non_ifm": "other_non_mfi_deposits",
-    "dep_governo_centrale": "central_government_deposits",
-    "dep_da_ifm": "deposits_from_mfis",
-    "titoli_di_debito": "debt_securities",
-    "fondi_monetari": "money_market_funds",
-    "passivita_estere": "external_liabilities",
-    "capitale_e_riserve": "capital_and_reserves",
-    "altre_passivita": "other_liabilities",
-}
+# Composition items: columns of data/processed/m3_composition.csv, with the same names as the keys of the
+# country files. An item that is not here stops the export.
+ITEMS = (
+    "household_sight_deposits",
+    "household_other_deposits",
+    "firm_sight_deposits",
+    "firm_other_deposits",
+    "other_non_mfi_deposits",
+    "central_government_deposits",
+    "deposits_from_mfis",
+    "debt_securities",
+    "money_market_funds",
+    "external_liabilities",
+    "capital_and_reserves",
+    "other_liabilities",
+)
 
 
 def en(x):
@@ -360,36 +361,36 @@ def banks_payload(m5s: dict) -> tuple[dict, dict, dict]:
     banks = [
         {
             "lei": lei,
-            "name": r.nome,
-            "country": r.paese,
-            "assets": r.totale_attivo,
-            "householdDeposits": r.dep_famiglie,
-            "householdSight": r.vista_famiglie,
-            "firmDeposits": r.dep_imprese,
-            "firmSight": r.vista_imprese,
-            "otherFinancialDeposits": r.dep_altre_fin,
-            "bankDeposits": r.dep_banche,
-            "debtSecurities": r.titoli_emessi,
-            "loans": r.prestiti,
-            "retailShare": r.quota_retail,
-            "highRetail": bool(r.quota_retail_alta),
-            "rank": int(r.rango_quota_retail),
-            "usa": nan(r.usa_su_esposizioni),
+            "name": r["name"],
+            "country": r.country,
+            "assets": r.total_assets,
+            "householdDeposits": r.household_deposits,
+            "householdSight": r.household_sight_deposits,
+            "firmDeposits": r.firm_deposits,
+            "firmSight": r.firm_sight_deposits,
+            "otherFinancialDeposits": r.other_financial_deposits,
+            "bankDeposits": r.bank_deposits,
+            "debtSecurities": r.debt_securities,
+            "loans": r.loans,
+            "retailShare": r.retail_share,
+            "highRetail": bool(r.high_retail_share),
+            "rank": int(r.retail_share_rank),
+            "usa": nan(r.us_share_of_exposures),
         }
         for lei, r in bk.iterrows()
     ]
     countries = [
         {
             "code": k,
-            "banks": int(r.banche),
-            "highRetailBanks": int(r.banche_alta_quota_retail) if r.banche else 0,
-            "sampleAssets": nan(r.totale_attivo_campione),
-            "coverageBsi": nan(r.copertura_su_bsi),
-            "coverageConsolidated": nan(r.copertura_su_consolidato),
-            "m6PerEuro": nan(r.m6_credito_per_euro),
+            "banks": int(r.banks),
+            "highRetailBanks": int(r.high_retail_share_banks) if r.banks else 0,
+            "sampleAssets": nan(r.sample_total_assets),
+            "coverageBsi": nan(r.coverage_bsi),
+            "coverageConsolidated": nan(r.coverage_consolidated),
+            "m6PerEuro": nan(r.m6_credit_per_euro),
             # keyed by the credit variant ids, the same as in the addresses (cred=...)
             "m5": {v: nan(r[f"m5_{v}_per_euro"]) for v in ("basso", "alto", "soglia", "continua", "uniforme")},
-            "m5HighRetail": bool(r.m5_quota_retail_alta),
+            "m5HighRetail": bool(r.m5_high_retail_share),
         }
         for k, r in by.iterrows()
     ]
@@ -474,22 +475,22 @@ def main() -> None:
                 "customerDeposits": b.clientela[code],
                 "wholesale": b.ingrosso[code],
                 "total": b.totale[code],
-                "loans": retail.prestiti[code],
+                "loans": retail.loans[code],
                 "pop": inp["popolazione"][code],
-                "r3": r3.peso[code],
-                "ownerShare": r3.quota_possessori[code],
-                "ownersImputed": bool(r3.imputato[code]),
-                "retailShare": retail.quota_retail[code],
-                "highRetail": bool(retail.quota_retail_alta[code]),
-                "continuousWeight": retail.peso_continuo[code],
-                "rank": int(rank.pos_indicatore[code]),
-                "indicator": rank.indicatore[code],
+                "r3": r3.weight[code],
+                "ownerShare": r3.owner_share[code],
+                "ownersImputed": bool(r3.imputed[code]),
+                "retailShare": retail.retail_share[code],
+                "highRetail": bool(retail.high_retail_share[code]),
+                "continuousWeight": retail.continuous_weight[code],
+                "rank": int(rank.rank_indicator[code]),
+                "indicator": rank.indicator[code],
                 "c1": rank.C1[code],
                 "c2": rank.C2[code],
                 "c3": rank.C3[code],
-                "usd": mp.dollari[code],
-                "usdSource": "BRI" if mp.fonte_dollari[code] == "BRI" else "BSI",
-                "quadrant": mp.quadrante[code],
+                "usd": mp.dollars[code],
+                "usdSource": "BRI" if mp.dollar_source[code] == "BRI" else "BSI",
+                "quadrant": mp.quadrant[code],
             }
         )
     presets = [
@@ -556,15 +557,18 @@ def main() -> None:
     )
 
     # ---- country sheets: time series, one file per country
-    comp = pd.read_csv(PROC / "m3_composition.csv", dtype={"mese": str})
-    idx3 = pd.read_csv(PROC / "m3_index.csv", dtype={"mese": str})
-    parts = [c for c in comp.columns if c not in ("paese", "mese", "totale_passivo_mln", "scarto")]
+    comp = pd.read_csv(PROC / "m3_composition.csv", dtype={"month": str})
+    idx3 = pd.read_csv(PROC / "m3_index.csv", dtype={"month": str})
+    parts = [c for c in comp.columns if c not in ("country", "month", "total_liabilities_mn", "residual")]
+    unknown = [p for p in parts if p not in ITEMS]
+    if unknown:
+        raise KeyError(f"composition items not in ITEMS: {unknown}")
     for code in NAMES:
-        c, i = comp[comp.paese == code].sort_values("mese"), idx3[idx3.paese == code].sort_values("mese")
+        c, i = comp[comp.country == code].sort_values("month"), idx3[idx3.country == code].sort_values("month")
         write(
             f"countries/{code}.json",
             f"Monthly time series of {m5.NAMES_EN[code]}: composition of liabilities and exposure indicator.",
-            {"balanceSheets": c.mese.max()},
+            {"balanceSheets": c.month.max()},
             {
                 "composition.items": "shares of total liabilities, one series per item",
                 "composition.total": "total liabilities, EUR billion",
@@ -575,15 +579,15 @@ def main() -> None:
                 "code": code,
                 "name": NAMES[code],
                 "composition": {
-                    "months": c.mese.tolist(),
-                    "total": (c.totale_passivo_mln / 1000).round(2).tolist(),
-                    "items": {ITEMS[p]: c[p].round(4).tolist() for p in parts},
+                    "months": c.month.tolist(),
+                    "total": (c.total_liabilities_mn / 1000).round(2).tolist(),
+                    "items": {p: c[p].round(4).tolist() for p in parts},
                 },
                 "indicator": {
-                    "months": i.mese.tolist(),
-                    "value": i.indicatore.round(3).tolist(),
-                    "rank": i.pos_indicatore.tolist(),
-                    "countries": i.paesi_nel_mese.tolist(),
+                    "months": i.month.tolist(),
+                    "value": i.indicator.round(3).tolist(),
+                    "rank": i.rank_indicator.tolist(),
+                    "countries": i.countries_in_month.tolist(),
                     "c1": i.C1.round(4).tolist(),
                     "c2": i.C2.round(4).tolist(),
                     "c3": i.C3.round(4).tolist(),
@@ -619,13 +623,13 @@ def main() -> None:
     flags = {
         s: {
             "weeks": g.week.tolist(),
-            "share": g.quota_eur.round(5).tolist(),
-            "volumeEur": g.volume_eur_mld.round(4).tolist(),
-            "shareDeviation": [None if v != v else round(v, 2) for v in g.scarto_quota],
-            "volumeDeviation": [None if v != v else round(v, 2) for v in g.scarto_volume],
-            "status": g.stato.tolist(),
+            "share": g.eur_share.round(5).tolist(),
+            "volumeEur": g.volume_eur_bn.round(4).tolist(),
+            "shareDeviation": [None if v != v else round(v, 2) for v in g.share_deviation],
+            "volumeDeviation": [None if v != v else round(v, 2) for v in g.volume_deviation],
+            "status": g.status.tolist(),
         }
-        for s, g in fl.groupby("serie")
+        for s, g in fl.groupby("series")
     }
     write(
         "monitor.json",
@@ -645,18 +649,18 @@ def main() -> None:
             "main": {
                 "weeks": wk.index.tolist(),
                 **{s: wk[s].round(5).tolist() for s in series},
-                "total": wk.totale.round(5).tolist(),
-                "volEurUsdt": wk.volume_eur_usdt_mld.round(4).tolist(),
-                "volEurUsdc": wk.volume_eur_usdc_mld.round(4).tolist(),
-                "volFiatUsdt": wk.volume_fiat_usdt_mld.round(4).tolist(),
-                "volFiatUsdc": wk.volume_fiat_usdc_mld.round(4).tolist(),
-                "exchange": wk.exchange_attivi.tolist(),
+                "total": wk.total.round(5).tolist(),
+                "volEurUsdt": wk.volume_eur_usdt_bn.round(4).tolist(),
+                "volEurUsdc": wk.volume_eur_usdc_bn.round(4).tolist(),
+                "volFiatUsdt": wk.volume_fiat_usdt_bn.round(4).tolist(),
+                "volFiatUsdc": wk.volume_fiat_usdc_bn.round(4).tolist(),
+                "exchange": wk.active_exchanges.tolist(),
             },
             "long": {
                 "weeks": lg.index.tolist(),
                 **{s: lg[s].round(5).tolist() for s in series},
-                "volEurUsdt": lg.volume_eur_usdt_mld.round(4).tolist(),
-                "volEurUsdc": lg.volume_eur_usdc_mld.round(4).tolist(),
+                "volEurUsdt": lg.volume_eur_usdt_bn.round(4).tolist(),
+                "volEurUsdc": lg.volume_eur_usdc_bn.round(4).tolist(),
             },
             "flags": flags,
             "statistics": en(m2["indice_principale"]["serie"]),  # keyed by series id, plus total
@@ -705,8 +709,8 @@ def main() -> None:
                 "highEur": m1["livello"]["alto_mld_eur"],
                 "series": {
                     "months": ms.index.tolist(),
-                    "base": ms.livello_base_mld_eur.round(3).tolist(),
-                    "high": ms.livello_alto_mld_eur.round(3).tolist(),
+                    "base": ms.level_base_bn_eur.round(3).tolist(),
+                    "high": ms.level_high_bn_eur.round(3).tolist(),
                 },
             },
             "otherRoutes": {
@@ -758,9 +762,9 @@ def main() -> None:
     cr = pd.read_csv(PROC / "m5_credit_euro_area.csv")
 
     def pick(df, s):
-        return df[(df.scenario == s) & (df.regola_paesi == "R1") & (df.get("regola_depositi", "T1") == "T1")].iloc[0]
+        return df[(df.scenario == s) & (df.country_rule == "R1") & (df.get("deposit_rule", "T1") == "T1")].iloc[0]
 
-    e_c, c_c = pick(ea, "P_centrale"), cr[(cr.scenario == "P_centrale") & (cr.regola_paesi == "R1")].iloc[0]
+    e_c, c_c = pick(ea, "P_centrale"), cr[(cr.scenario == "P_centrale") & (cr.country_rule == "R1")].iloc[0]
     last_flags = m2["segnalazione"]["ultima_settimana"]
     write(
         "overview.json",
@@ -781,13 +785,13 @@ def main() -> None:
                 "esmHigh": m1["livello"]["alto_mld_eur"],
             },
             "centralScenario": {
-                "outflow": e_c.deflusso_mld_eur,
-                "sightDepositsLost": e_c.perdita_depositi_a_vista,
-                "wholesaleIncrease": e_c.aumento_raccolta_ingrosso,
-                "creditUniform": c_c.uniforme_mld,
-                "creditLow": c_c.basso_mld,
-                "creditHigh": c_c.alto_mld,
-                "creditPct": c_c.uniforme_pct_prestiti,
+                "outflow": e_c.outflow_bn_eur,
+                "sightDepositsLost": e_c.sight_deposits_lost,
+                "wholesaleIncrease": e_c.wholesale_funding_increase,
+                "creditUniform": c_c.uniforme_bn,
+                "creditLow": c_c.basso_bn,
+                "creditHigh": c_c.alto_bn,
+                "creditPct": c_c.uniforme_pct_loans,
             },
             "index": {
                 s: {

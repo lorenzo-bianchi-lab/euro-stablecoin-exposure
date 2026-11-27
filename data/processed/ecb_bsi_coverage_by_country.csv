@@ -1,4 +1,4 @@
-serie,paese,inizio,fine,osservazioni
+series,country,start,end,observations
 dep_vista_famiglie,AT,2003-01,2026-09,285
 dep_vista_famiglie,BE,2003-01,2026-09,285
 dep_vista_famiglie,BG,2022-01,2026-09,57

@@ -45,7 +45,30 @@ MIN_BANKS, MIN_COUNTRIES = 50, 15  # sufficiency criterion (SPEC)
 CBD_KEY = "Q..W0.67._Z._Z.A.A.A0000._X.ALL.CA._Z.LE._T.EUR"  # consolidated total assets of all banks in the country
 
 # EBA counterparty sector -> Exposure code (dimension filter on the items)
-SECTORS = {"banche_centrali": "101", "governo": "102", "banche": "201", "altre_fin": "202", "imprese": "301", "famiglie": "401"}
+SECTORS = {"central_bank": "101", "government": "102", "bank": "201", "other_financial": "202", "firm": "301", "household": "401"}
+# data/processed/m6_summary.json keeps its Italian keys: columns of m6_by_country.csv -> keys of that file
+BY_COUNTRY_JSON = {
+    "country": "paese",
+    "name": "nome",
+    "banks": "banche",
+    "high_retail_share_banks": "banche_alta_quota_retail",
+    "sample_total_assets": "totale_attivo_campione",
+    "sample_outflow": "deflusso_campione",
+    "sample_credit": "credito_campione",
+    "sample_loans": "prestiti_campione",
+    "bsi_total_assets": "totale_attivo_bsi",
+    "coverage_bsi": "copertura_su_bsi",
+    "consolidated_total_assets": "totale_attivo_consolidato",
+    "coverage_consolidated": "copertura_su_consolidato",
+    "m6_credit_per_euro": "m6_credito_per_euro",
+    "m6_credit_pct_loans": "m6_credito_pct_prestiti",
+    "m5_high_retail_share": "m5_quota_retail_alta",
+    "country_outflow": "deflusso_paese",
+    "m6_credit_scaled_to_country": "m6_credito_riportato_al_paese",
+    "m5_soglia_bn": "m5_soglia_mld",
+    "m5_continua_bn": "m5_continua_mld",
+    "m5_uniforme_bn": "m5_uniforme_mld",
+}
 
 
 def download(name: str, force: bool = False) -> Path:
@@ -81,7 +104,7 @@ def build_extract(force: bool = False) -> None:
 
     wb = openpyxl.load_workbook(download("TR_Metadata.xlsx", force), read_only=True)
     rows = [r[:4] for r in wb["List of Institutions"].iter_rows(values_only=True)][2:]
-    pd.DataFrame([r for r in rows if r[2]], columns=["paese", "nome_paese", "lei", "nome"]).to_csv(BANKS, index=False)
+    pd.DataFrame([r for r in rows if r[2]], columns=["country", "country_name", "lei", "name"]).to_csv(BANKS, index=False)
 
 
 def fetch_cbd() -> None:
@@ -93,7 +116,7 @@ def fetch_cbd() -> None:
     r.raise_for_status()
     d = pd.read_csv(io.StringIO(r.text))
     d = d[d.REF_AREA.isin(EURO_AREA)][["REF_AREA", "TIME_PERIOD", "OBS_VALUE"]].rename(
-        columns={"REF_AREA": "paese", "TIME_PERIOD": "trimestre", "OBS_VALUE": "migliaia_eur"}
+        columns={"REF_AREA": "country", "TIME_PERIOD": "quarter", "OBS_VALUE": "eur_thousand"}
     )
     d.to_csv(CBD, index=False)
 
@@ -111,68 +134,68 @@ def load_banks() -> pd.DataFrame:
         return sel.groupby("LEI_Code").Amount.sum(min_count=1)
 
     cols = {
-        "totale_attivo": pick("2521010"),
-        "totale_passivo": pick("2521214"),
-        "patrimonio": pick("2521216"),
-        "titoli_emessi": pick("2521215", Financial_instruments="40"),
-        "derivati_passivi": pick("2521215", Financial_instruments="12"),
-        "prestiti_fam": pick("2520605", Exposure="401"),
-        "prestiti_imp": pick("2520605", Exposure="301"),
-        "prestiti_totali": pick("2520603"),
-        "esposizione_usa": pick("2520502", Country=US_COUNTRY),
-        "esposizione_totale": pick("2520502", Country="0"),
+        "total_assets": pick("2521010"),
+        "total_liabilities": pick("2521214"),
+        "equity": pick("2521216"),
+        "debt_securities": pick("2521215", Financial_instruments="40"),
+        "derivative_liabilities": pick("2521215", Financial_instruments="12"),
+        "household_loans": pick("2520605", Exposure="401"),
+        "firm_loans": pick("2520605", Exposure="301"),
+        "total_loans": pick("2520603"),
+        "us_exposure": pick("2520502", Country=US_COUNTRY),
+        "total_exposure": pick("2520502", Country="0"),
     }
     for name, code in SECTORS.items():
-        cols[f"dep_{name}"] = pick("2521215", Exposure=code, Financial_instruments="30")
-        cols[f"vista_{name}"] = pick("2521215", Exposure=code, Financial_instruments="31")
+        cols[f"{name}_deposits"] = pick("2521215", Exposure=code, Financial_instruments="30")
+        cols[f"{name}_sight_deposits"] = pick("2521215", Exposure=code, Financial_instruments="31")
     b = pd.DataFrame(cols)
-    b.insert(0, "paese", x.groupby("LEI_Code").NSA.first())
-    b.insert(1, "nome", names.nome.reindex(b.index))
-    b = b[b.paese.isin(EURO_AREA) & b.nome.notna()].copy()
+    b.insert(0, "country", x.groupby("LEI_Code").NSA.first())
+    b.insert(1, "name", names["name"].reindex(b.index))
+    b = b[b.country.isin(EURO_AREA) & b["name"].notna()].copy()
     b.index.name = "lei"
     return b
 
 
 def indicators(b: pd.DataFrame) -> tuple[pd.DataFrame, float]:
     need = [
-        "totale_attivo",
-        "dep_famiglie",
-        "dep_imprese",
-        "dep_altre_fin",
-        "dep_banche",
-        "vista_famiglie",
-        "vista_imprese",
-        "titoli_emessi",
-        "prestiti_fam",
-        "prestiti_imp",
+        "total_assets",
+        "household_deposits",
+        "firm_deposits",
+        "other_financial_deposits",
+        "bank_deposits",
+        "household_sight_deposits",
+        "firm_sight_deposits",
+        "debt_securities",
+        "household_loans",
+        "firm_loans",
     ]
-    b["dati_completi"] = b[need].notna().all(axis=1) & (b.totale_attivo > 0) & ((b.dep_famiglie + b.dep_altre_fin) > 0)
-    b["quota_retail"] = b.dep_famiglie / (b.dep_famiglie + b.dep_altre_fin)
-    threshold = float(np.percentile(b.quota_retail[b.dati_completi], RETAIL_PERCENTILE))
-    b["quota_retail_alta"] = b.quota_retail > threshold
-    b["vista"] = b.vista_famiglie + b.vista_imprese  # T1
-    b["clientela"] = b.dep_famiglie + b.dep_imprese  # T3
-    b["prestiti"] = b.prestiti_fam + b.prestiti_imp
-    b["ingrosso"] = b.dep_banche + b.titoli_emessi
-    b["ingrosso_su_attivo"] = b.ingrosso / b.totale_attivo
-    b["vista_su_attivo"] = b.vista / b.totale_attivo
-    b["depositi_clientela_su_attivo"] = b.clientela / b.totale_attivo
-    b["prestiti_su_attivo"] = b.prestiti / b.totale_attivo
-    b["usa_su_esposizioni"] = b.esposizione_usa / b.esposizione_totale  # empty if the United States is not among the top ten countries
-    b["rango_quota_retail"] = b.quota_retail.rank(ascending=False, method="min")
+    b["complete_data"] = b[need].notna().all(axis=1) & (b.total_assets > 0) & ((b.household_deposits + b.other_financial_deposits) > 0)
+    b["retail_share"] = b.household_deposits / (b.household_deposits + b.other_financial_deposits)
+    threshold = float(np.percentile(b.retail_share[b.complete_data], RETAIL_PERCENTILE))
+    b["high_retail_share"] = b.retail_share > threshold
+    b["sight_deposits"] = b.household_sight_deposits + b.firm_sight_deposits  # T1
+    b["customer_deposits"] = b.household_deposits + b.firm_deposits  # T3
+    b["loans"] = b.household_loans + b.firm_loans
+    b["wholesale_funding"] = b.bank_deposits + b.debt_securities
+    b["wholesale_funding_to_assets"] = b.wholesale_funding / b.total_assets
+    b["sight_deposits_to_assets"] = b.sight_deposits / b.total_assets
+    b["customer_deposits_to_assets"] = b.customer_deposits / b.total_assets
+    b["loans_to_assets"] = b.loans / b.total_assets
+    b["us_share_of_exposures"] = b.us_exposure / b.total_exposure  # empty if the United States is not among the top ten countries
+    b["retail_share_rank"] = b.retail_share.rank(ascending=False, method="min")
     return b, threshold
 
 
-def bank_effects(b: pd.DataFrame, lost_share: pd.Series, base: str = "vista") -> pd.DataFrame:
+def bank_effects(b: pd.DataFrame, lost_share: pd.Series, base: str = "sight_deposits") -> pd.DataFrame:
     """Effect of a scenario bank by bank: the same share of deposits lost as in the bank's own country."""
     out = pd.DataFrame(index=b.index)
-    out["deflusso"] = b.paese.map(lost_share) * b[base]
-    sd = 100 * out.deflusso / b.totale_attivo / SD_DEPOSITS_PP
-    out["credito_basso"] = COEF["col3"]["basso"] * sd / 100 * b.prestiti
-    out["credito_alto"] = COEF["col3"]["alto"] * sd / 100 * b.prestiti
-    out["credito"] = np.where(b.quota_retail_alta, out.credito_alto, out.credito_basso)
-    out["credito_pct_prestiti"] = 100 * out.credito / b.prestiti
-    out["deflusso_su_attivo_pp"] = 100 * out.deflusso / b.totale_attivo
+    out["outflow"] = b.country.map(lost_share) * b[base]
+    sd = 100 * out.outflow / b.total_assets / SD_DEPOSITS_PP
+    out["credit_low"] = COEF["col3"]["basso"] * sd / 100 * b.loans
+    out["credit_high"] = COEF["col3"]["alto"] * sd / 100 * b.loans
+    out["credit"] = np.where(b.high_retail_share, out.credit_high, out.credit_low)
+    out["credit_pct_loans"] = 100 * out.credit / b.loans
+    out["outflow_to_assets_pp"] = 100 * out.outflow / b.total_assets
     return out
 
 
@@ -188,97 +211,97 @@ def main() -> None:
             print(f"ECB consolidated banking data not downloaded: {exc}")
 
     b, threshold = indicators(load_banks())
-    ok = b[b.dati_completi].copy()
-    sufficient = len(ok) >= MIN_BANKS and ok.paese.nunique() >= MIN_COUNTRIES
+    ok = b[b.complete_data].copy()
+    sufficient = len(ok) >= MIN_BANKS and ok.country.nunique() >= MIN_COUNTRIES
 
     # Control scenario: central level, R1, sight deposits of households and firms, full substitution
     bal, month = m4.load_balance_sheets()
     inp = json.loads((RAW / "m4_inputs.json").read_text())
     ref = json.loads((PROC / "level_own.json").read_text())["livello_di_riferimento"]
     alloc = m4.allocate(bal, ref["centrale_mld_eur"], "R1", "T1", pd.Series(inp["popolazione"], dtype=float))
-    lost = alloc.deflusso_mld / bal.vista
+    lost = alloc.outflow_bn / bal.vista
     eff = bank_effects(ok, lost)
     ok = ok.join(eff)
     cols = [
-        "paese",
-        "nome",
-        "totale_attivo",
-        "dep_famiglie",
-        "vista_famiglie",
-        "dep_imprese",
-        "vista_imprese",
-        "dep_altre_fin",
-        "dep_banche",
-        "dep_banche_centrali",
-        "dep_governo",
-        "titoli_emessi",
-        "prestiti_fam",
-        "prestiti_imp",
-        "esposizione_usa",
-        "esposizione_totale",
-        "quota_retail",
-        "quota_retail_alta",
-        "rango_quota_retail",
-        "vista",
-        "clientela",
-        "prestiti",
-        "ingrosso",
-        "ingrosso_su_attivo",
-        "vista_su_attivo",
-        "depositi_clientela_su_attivo",
-        "prestiti_su_attivo",
-        "usa_su_esposizioni",
-        "deflusso",
-        "deflusso_su_attivo_pp",
-        "credito",
-        "credito_basso",
-        "credito_alto",
-        "credito_pct_prestiti",
+        "country",
+        "name",
+        "total_assets",
+        "household_deposits",
+        "household_sight_deposits",
+        "firm_deposits",
+        "firm_sight_deposits",
+        "other_financial_deposits",
+        "bank_deposits",
+        "central_bank_deposits",
+        "government_deposits",
+        "debt_securities",
+        "household_loans",
+        "firm_loans",
+        "us_exposure",
+        "total_exposure",
+        "retail_share",
+        "high_retail_share",
+        "retail_share_rank",
+        "sight_deposits",
+        "customer_deposits",
+        "loans",
+        "wholesale_funding",
+        "wholesale_funding_to_assets",
+        "sight_deposits_to_assets",
+        "customer_deposits_to_assets",
+        "loans_to_assets",
+        "us_share_of_exposures",
+        "outflow",
+        "outflow_to_assets_pp",
+        "credit",
+        "credit_low",
+        "credit_high",
+        "credit_pct_loans",
     ]
-    ok[cols].round(6).sort_values("quota_retail", ascending=False).to_csv(PROC / "m6_banks.csv")
+    ok[cols].round(6).sort_values("retail_share", ascending=False).to_csv(PROC / "m6_banks.csv")
 
     # By country: coverage and comparison with module 5
-    m3 = pd.read_csv(RAW / "m3_bsi.csv", dtype={"mese": str})
-    bsi = m3[(m3.mese == PERIOD_MONTH) & (m3.serie == "totale")].set_index("paese").milioni_eur / 1000
-    cbd = (pd.read_csv(CBD).set_index("paese").migliaia_eur / 1e6) if CBD.exists() else pd.Series(dtype=float)
+    m3 = pd.read_csv(RAW / "m3_bsi.csv", dtype={"month": str})
+    bsi = m3[(m3.month == PERIOD_MONTH) & (m3.series == "totale")].set_index("country").eur_mn / 1000
+    cbd = (pd.read_csv(CBD).set_index("country").eur_thousand / 1e6) if CBD.exists() else pd.Series(dtype=float)
     m5 = pd.read_csv(PROC / "m5_credit_by_country.csv")
-    m5 = m5[(m5.scenario == "P_centrale") & (m5.regola_paesi == "R1")].set_index("paese")
-    g = ok.groupby("paese")
+    m5 = m5[(m5.scenario == "P_centrale") & (m5.country_rule == "R1")].set_index("country")
+    g = ok.groupby("country")
     c = pd.DataFrame(
         {
-            "banche": g.size(),
-            "banche_alta_quota_retail": g.quota_retail_alta.sum(),
-            "totale_attivo_campione": g.totale_attivo.sum(),
-            "deflusso_campione": g.deflusso.sum(),
-            "credito_campione": g.credito.sum(),
-            "prestiti_campione": g.prestiti.sum(),
+            "banks": g.size(),
+            "high_retail_share_banks": g.high_retail_share.sum(),
+            "sample_total_assets": g.total_assets.sum(),
+            "sample_outflow": g.outflow.sum(),
+            "sample_credit": g.credit.sum(),
+            "sample_loans": g.loans.sum(),
         }
     ).reindex(EURO_AREA)
-    c.insert(0, "nome", [NAMES[k] for k in c.index])
-    c["banche"] = c.banche.fillna(0).astype(int)
-    c["totale_attivo_bsi"] = bsi.reindex(c.index)
-    c["copertura_su_bsi"] = c.totale_attivo_campione / c.totale_attivo_bsi
-    c["totale_attivo_consolidato"] = cbd.reindex(c.index)
-    c["copertura_su_consolidato"] = c.totale_attivo_campione / c.totale_attivo_consolidato
-    c["m6_credito_per_euro"] = c.credito_campione / c.deflusso_campione
-    c["m6_credito_pct_prestiti"] = 100 * c.credito_campione / c.prestiti_campione
+    c.insert(0, "name", [NAMES[k] for k in c.index])
+    c["banks"] = c.banks.fillna(0).astype(int)
+    c["bsi_total_assets"] = bsi.reindex(c.index)
+    c["coverage_bsi"] = c.sample_total_assets / c.bsi_total_assets
+    c["consolidated_total_assets"] = cbd.reindex(c.index)
+    c["coverage_consolidated"] = c.sample_total_assets / c.consolidated_total_assets
+    c["m6_credit_per_euro"] = c.sample_credit / c.sample_outflow
+    c["m6_credit_pct_loans"] = 100 * c.sample_credit / c.sample_loans
     for k in ("basso", "alto", "soglia", "continua", "uniforme"):
-        c[f"m5_{k}_per_euro"] = m5[f"{k}_mld"] / m5.deflusso_mld
-    c["m5_quota_retail_alta"] = m5.quota_retail_alta.reindex(c.index)
-    c["deflusso_paese"] = m5.deflusso_mld
-    c["m6_credito_riportato_al_paese"] = c.m6_credito_per_euro * c.deflusso_paese  # credit per euro of the banks × outflow of the country
-    c["m5_soglia_mld"], c["m5_continua_mld"], c["m5_uniforme_mld"] = m5.soglia_mld, m5.continua_mld, m5.uniforme_mld
+        c[f"m5_{k}_per_euro"] = m5[f"{k}_bn"] / m5.outflow_bn
+    c["m5_high_retail_share"] = m5.high_retail_share.reindex(c.index)
+    c["country_outflow"] = m5.outflow_bn
+    c["m6_credit_scaled_to_country"] = c.m6_credit_per_euro * c.country_outflow  # credit per euro of the banks × outflow of the country
+    c["m5_soglia_bn"], c["m5_continua_bn"], c["m5_uniforme_bn"] = m5.soglia_bn, m5.continua_bn, m5.uniforme_bn
     c.round(6).to_csv(PROC / "m6_by_country.csv")
 
-    cov = c[c.banche > 0]
+    cov = c[c.banks > 0]
     area = {
-        "deflusso_paesi_coperti": float(cov.deflusso_paese.sum()),
-        "m6": float(cov.m6_credito_riportato_al_paese.sum()),
-        "m5_soglia": float(cov.m5_soglia_mld.sum()),
-        "m5_continua": float(cov.m5_continua_mld.sum()),
-        "m5_uniforme": float(cov.m5_uniforme_mld.sum()),
-        "m5_basso": float((cov.m5_basso_per_euro * cov.deflusso_paese).sum()),
-        "m5_alto": float((cov.m5_alto_per_euro * cov.deflusso_paese).sum()),
+        "deflusso_paesi_coperti": float(cov.country_outflow.sum()),
+        "m6": float(cov.m6_credit_scaled_to_country.sum()),
+        "m5_soglia": float(cov.m5_soglia_bn.sum()),
+        "m5_continua": float(cov.m5_continua_bn.sum()),
+        "m5_uniforme": float(cov.m5_uniforme_bn.sum()),
+        "m5_basso": float((cov.m5_basso_per_euro * cov.country_outflow).sum()),
+        "m5_alto": float((cov.m5_alto_per_euro * cov.country_outflow).sum()),
     }
     area["m6_per_euro"] = area["m6"] / area["deflusso_paesi_coperti"]
     summary = {
@@ -293,10 +316,10 @@ def main() -> None:
             "paesi_minimi": MIN_COUNTRIES,
             "banche_area_euro_nel_campione": int(len(b)),
             "banche_con_dati_completi": int(len(ok)),
-            "paesi_coperti": int(ok.paese.nunique()),
+            "paesi_coperti": int(ok.country.nunique()),
             "soddisfatto": bool(sufficient),
-            "paesi_senza_banche": sorted(set(EURO_AREA) - set(ok.paese)),
-            "banche_escluse": [{"lei": k, "nome": r.nome, "paese": r.paese} for k, r in b[~b.dati_completi].iterrows()],
+            "paesi_senza_banche": sorted(set(EURO_AREA) - set(ok.country)),
+            "banche_escluse": [{"lei": k, "nome": r["name"], "paese": r.country} for k, r in b[~b.complete_data].iterrows()],
         },
         "voci_trovate": {
             "depositi_famiglie_e_imprese": True,
@@ -314,17 +337,17 @@ def main() -> None:
         "soglia_quota_retail": {
             "percentile": RETAIL_PERCENTILE,
             "valore": threshold,
-            "banche_sopra": int(ok.quota_retail_alta.sum()),
-            "mediana": float(ok.quota_retail.median()),
+            "banche_sopra": int(ok.high_retail_share.sum()),
+            "mediana": float(ok.retail_share.median()),
             "soglia_tra_paesi_modulo5": json.loads((PROC / "m5_summary.json").read_text())["soglia_quota_retail"]["valore"],
         },
         "campione": {
-            "totale_attivo_mld": float(ok.totale_attivo.sum()),
-            "copertura_area_su_bsi": float(c.totale_attivo_campione.sum() / c.totale_attivo_bsi.sum()),
-            "copertura_area_su_consolidato": float(c.totale_attivo_campione.sum() / c.totale_attivo_consolidato.sum())
-            if c.totale_attivo_consolidato.notna().any()
+            "totale_attivo_mld": float(ok.total_assets.sum()),
+            "copertura_area_su_bsi": float(c.sample_total_assets.sum() / c.bsi_total_assets.sum()),
+            "copertura_area_su_consolidato": float(c.sample_total_assets.sum() / c.consolidated_total_assets.sum())
+            if c.consolidated_total_assets.notna().any()
             else None,
-            "banche_con_esposizione_usa": int(ok.esposizione_usa.notna().sum()),
+            "banche_con_esposizione_usa": int(ok.us_exposure.notna().sum()),
             "mese_bsi": PERIOD_MONTH,
             "trimestre_consolidato": PERIOD_QUARTER if CBD.exists() else None,
         },
@@ -336,10 +359,16 @@ def main() -> None:
             "mese_bilanci_paese": month,
         },
         "confronto_modulo5_paesi_coperti": area,
-        "per_paese": c.reset_index().rename(columns={"index": "paese"}).replace({np.nan: None}).to_dict("records"),
+        "per_paese": c.reset_index().rename(columns={"index": "paese", **BY_COUNTRY_JSON}).replace({np.nan: None}).to_dict("records"),
         "prime_dieci_per_credito_pct": [
-            {"lei": k, "nome": r.nome, "paese": r.paese, "quota_retail": float(r.quota_retail), "credito_pct_prestiti": float(r.credito_pct_prestiti)}
-            for k, r in ok.sort_values("credito_pct_prestiti", ascending=False).head(10).iterrows()
+            {
+                "lei": k,
+                "nome": r["name"],
+                "paese": r.country,
+                "quota_retail": float(r.retail_share),
+                "credito_pct_prestiti": float(r.credit_pct_loans),
+            }
+            for k, r in ok.sort_values("credit_pct_loans", ascending=False).head(10).iterrows()
         ],
     }
     (PROC / "m6_summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))

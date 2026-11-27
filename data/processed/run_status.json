@@ -1,18 +1,18 @@
 {
-  "eseguito_il": "2026-11-27T00:14:25+00:00",
+  "eseguito_il": "2026-11-27T01:01:25+00:00",
   "modalita": "senza rete",
   "moduli": {
     "modulo3": {
       "esito": "ok",
-      "secondi": 2.5
+      "secondi": 1.5
     },
     "modulo1": {
       "esito": "ok",
-      "secondi": 1.0
+      "secondi": 0.7
     },
     "modulo2": {
       "esito": "ok",
-      "secondi": 2.9
+      "secondi": 2.3
     },
     "livello_proprio": {
       "esito": "ok",
@@ -24,7 +24,7 @@
     },
     "modulo5": {
       "esito": "ok",
-      "secondi": 1.1
+      "secondi": 0.8
     },
     "modulo6": {
       "esito": "ok",

@@ -1,4 +1,4 @@
-serie,paese,mese,milioni_eur
+series,country,month,eur_mn
 dep_vista_famiglie,AT,2015-01,99525.0
 dep_vista_famiglie,AT,2015-02,100434.0
 dep_vista_famiglie,AT,2015-03,99748.0

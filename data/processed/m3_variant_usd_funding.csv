@@ -1,4 +1,4 @@
-paese,nome,C1,C2,C3,C4,quota_valuta_estera,z_C1,z_C2,z_C3,z_C4,base_13_paesi,A5_con_canale_valutario,pos_base,pos_A5
+country,name,C1,C2,C3,C4,foreign_currency_share,z_C1,z_C2,z_C3,z_C4,base_13_countries,A5_with_currency_channel,rank_base,rank_A5
 GR,Grecia,0.475048,0.772429,0.819911,0.054282,0.060511,1.885605,0.89183,1.230363,-0.740454,1.473351,1.03059,1,1
 CY,Cipro,0.410622,0.664724,0.919064,0.104113,0.127234,1.38336,0.259401,1.800299,0.035848,1.206605,0.972454,2,2
 ES,Spagna,0.370462,0.837324,0.678452,0.094148,0.120677,1.070285,1.27289,0.417245,-0.119391,0.957676,0.742263,3,3

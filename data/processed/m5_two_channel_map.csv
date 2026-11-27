@@ -1,4 +1,4 @@
-,nome,depositi_a_vista,usd_bri,usd_bsi,usd_bsi_solo_area,componenti_bsi_disponibili,fonte_dollari,dollari,quadrante,dollari_riscalati,quadrante_riscalato,quota_retail_alta
+,name,sight_deposits,usd_bis,usd_bsi,usd_bsi_area_only,bsi_components_available,dollar_source,dollars,quadrant,dollars_rescaled,quadrant_rescaled,high_retail_share
 SI,Slovenia,0.584604,,0.008669,0.007662,5,BSI trimestrale,0.008669,A,0.010626,A,True
 BG,Bulgaria,0.519074,,0.028639,0.026991,5,BSI trimestrale,0.028639,A,0.035102,A,True
 LV,Lettonia,0.50651,,0.035185,0.031017,5,BSI trimestrale,0.035185,A,0.043125,A,False

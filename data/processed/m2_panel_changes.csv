@@ -1,4 +1,4 @@
-exchange,prima_settimana,ultima_settimana,settimane,settimane_incomplete,settimane_mancanti_in_mezzo,nel_pannello_costante
+exchange,first_week,last_week,weeks,incomplete_weeks,missing_weeks_between,in_constant_panel
 BTC Markets,2023-01-02,2026-11-16,203,0,0,True
 Binance,2023-01-02,2026-11-16,203,0,0,True
 Binance.US,2023-01-02,2026-11-16,203,0,0,True

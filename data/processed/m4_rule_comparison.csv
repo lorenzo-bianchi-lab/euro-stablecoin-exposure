@@ -1,4 +1,4 @@
-,nome,R1_pp,R2_pp,rapporto_R2_su_R1,R1_perdita_vista,R2_perdita_vista,depositi_a_vista_per_abitante_eur,R1_aumento_ingrosso,R2_aumento_ingrosso,R3_pp,R3_perdita_vista,R3_aumento_ingrosso,quota_possessori
+,name,R1_pp,R2_pp,ratio_R2_to_R1,R1_sight_deposits_lost,R2_sight_deposits_lost,sight_deposits_per_capita_eur,R1_wholesale_funding_increase,R2_wholesale_funding_increase,R3_pp,R3_sight_deposits_lost,R3_wholesale_funding_increase,owner_share
 LV,Lettonia,1.696664,4.176365,2.461517,0.033497,0.082454,9241.81633,0.385016,0.947722,3.596621,0.071008,0.816164,0.077419
 BG,Bulgaria,1.738751,3.882639,2.233005,0.033497,0.074799,10187.564467,0.252063,0.562857,4.746362,0.091439,0.688069,0.108134
 HR,Croazia,1.629102,2.958733,1.816175,0.033497,0.060837,12525.713991,0.232093,0.421522,4.235579,0.087091,0.603431,0.126163

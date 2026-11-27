@@ -1,4 +1,4 @@
-exchange,symbol,date,volume_stable_archivio,volume_stable_nuovo,differenza_relativa
+exchange,symbol,date,volume_stable_archive,volume_stable_new,relative_difference
 Coinbase,USDC-BRL,2026-11-03,1593500.65,1600934.04,0.004664817676729615
 Coinbase,USDC-BRL,2026-11-05,2095883.44,2102866.89,0.003331983958039282
 Coinbase,USDC-BRL,2026-11-10,1115971.07,1122524.54,0.005872437177067656

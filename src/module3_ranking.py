@@ -77,6 +77,15 @@ SERIES = {
     "totale": "M..N.A.T00.A.1.Z5.0000.Z01.E",
 }
 WEIGHTS = {"C1": 0.50, "C2": 0.25, "C3": 0.25}
+# data/processed/m3_summary.json keeps its Italian keys: names of the alternative weightings in that
+# file, and the column suffix of each past date (C1_1_year_ago, rank_1_year_ago, ...) by its key there
+VARIANT_KEYS = {
+    "A1_equal_weights": "A1_pesi_uguali",
+    "A2_quantity_only": "A2_solo_quantita",
+    "A3_households_only": "A3_solo_famiglie",
+    "A4_ranks": "A4_ranghi",
+}
+AGO = {"1_anno": "1_year_ago", "5_anni": "5_years_ago", "10_anni": "10_years_ago"}
 
 
 def fetch_all() -> pd.DataFrame:
@@ -92,11 +101,11 @@ def fetch_all() -> pd.DataFrame:
             continue
         d = pd.read_csv(io.StringIO(r.text), dtype={"TIME_PERIOD": str})
         d = d[d.REF_AREA.isin(EURO_AREA) & d.OBS_VALUE.notna()][["REF_AREA", "TIME_PERIOD", "OBS_VALUE"]]
-        d.insert(0, "serie", name)
+        d.insert(0, "series", name)
         frames.append(d)
         print(f"{name}: {d.REF_AREA.nunique()} countries, {d.TIME_PERIOD.min()} - {d.TIME_PERIOD.max()}", flush=True)
         time.sleep(1)
-    out = pd.concat(frames, ignore_index=True).rename(columns={"REF_AREA": "paese", "TIME_PERIOD": "mese", "OBS_VALUE": "milioni_eur"})
+    out = pd.concat(frames, ignore_index=True).rename(columns={"REF_AREA": "country", "TIME_PERIOD": "month", "OBS_VALUE": "eur_mn"})
     out.to_csv(STORE, index=False)
     return out
 
@@ -125,33 +134,33 @@ def stability(main_rank: pd.Series, alt_rank: pd.Series) -> dict:
 
 
 def main() -> None:
-    long = pd.read_csv(STORE, dtype={"mese": str}) if "--offline" in sys.argv else fetch_all()
-    w = long.pivot_table(index=["paese", "mese"], columns="serie", values="milioni_eur")
+    long = pd.read_csv(STORE, dtype={"month": str}) if "--offline" in sys.argv else fetch_all()
+    w = long.pivot_table(index=["country", "month"], columns="series", values="eur_mn")
 
     # 1. Composition table (shares of total liabilities)
     comp = pd.DataFrame(index=w.index)
-    comp["vista_famiglie"] = w.vista_fam
-    comp["altri_dep_famiglie"] = w.dep_fam - w.vista_fam
-    comp["vista_imprese"] = w.vista_imp
-    comp["altri_dep_imprese"] = w.dep_imp - w.vista_imp
-    comp["altri_dep_non_ifm"] = w.dep_non_ifm - w.dep_fam - w.dep_imp
-    comp["dep_governo_centrale"] = w.dep_tutti - w.dep_non_ifm - w.dep_ifm
-    comp["dep_da_ifm"] = w.dep_ifm
-    comp["fondi_monetari"] = w.fondi_monetari.fillna(0) if "fondi_monetari" in w else 0.0
-    comp["titoli_di_debito"] = w.titoli
-    comp["capitale_e_riserve"] = w.capitale
-    comp["passivita_estere"] = w.estero
-    comp["altre_passivita"] = w.altre
-    comp = comp.dropna(subset=["vista_famiglie", "dep_da_ifm", "titoli_di_debito", "altre_passivita"])
+    comp["household_sight_deposits"] = w.vista_fam
+    comp["household_other_deposits"] = w.dep_fam - w.vista_fam
+    comp["firm_sight_deposits"] = w.vista_imp
+    comp["firm_other_deposits"] = w.dep_imp - w.vista_imp
+    comp["other_non_mfi_deposits"] = w.dep_non_ifm - w.dep_fam - w.dep_imp
+    comp["central_government_deposits"] = w.dep_tutti - w.dep_non_ifm - w.dep_ifm
+    comp["deposits_from_mfis"] = w.dep_ifm
+    comp["money_market_funds"] = w.fondi_monetari.fillna(0) if "fondi_monetari" in w else 0.0
+    comp["debt_securities"] = w.titoli
+    comp["capital_and_reserves"] = w.capitale
+    comp["external_liabilities"] = w.estero
+    comp["other_liabilities"] = w.altre
+    comp = comp.dropna(subset=["household_sight_deposits", "deposits_from_mfis", "debt_securities", "other_liabilities"])
     total = w.totale.reindex(comp.index)
-    comp["scarto"] = total - comp.sum(axis=1)
+    comp["residual"] = total - comp.sum(axis=1)
     shares = comp.div(total, axis=0)
-    shares.insert(0, "totale_passivo_mln", total)
+    shares.insert(0, "total_liabilities_mn", total)
     shares.round(6).to_csv(PROC / "m3_composition.csv")
 
-    gap = shares.scarto.abs()
+    gap = shares.residual.abs()
     out_of_tol = shares[gap > TOLERANCE]
-    gap_by_country = shares.scarto.groupby("paese").agg(["min", "max", lambda s: (s.abs() > TOLERANCE).mean()])
+    gap_by_country = shares.residual.groupby("country").agg(["min", "max", lambda s: (s.abs() > TOLERANCE).mean()])
     gap_by_country.columns = ["scarto_min", "scarto_max", "quota_mesi_fuori_tolleranza"]
 
     # 2. Components and indicator
@@ -159,28 +168,28 @@ def main() -> None:
     c["C1"] = (w.vista_fam + w.vista_imp) / w.totale
     c["C2"] = (w.vista_fam + w.vista_imp) / (w.dep_fam + w.dep_imp)
     c["C3"] = (w.dep_fam + w.dep_imp) / (w.dep_fam + w.dep_imp + w.titoli + w.dep_ifm)
-    c["C1_famiglie"] = w.vista_fam / w.totale
-    c["C1_imprese"] = w.vista_imp / w.totale
-    c["C2_famiglie"] = w.vista_fam / w.dep_fam
+    c["C1_households"] = w.vista_fam / w.totale
+    c["C1_firms"] = w.vista_imp / w.totale
+    c["C2_households"] = w.vista_fam / w.dep_fam
     c = c.dropna(subset=["C1", "C2", "C3"])
-    by_month = c.groupby("mese")
-    for k in ("C1", "C2", "C3", "C1_famiglie", "C2_famiglie"):
+    by_month = c.groupby("month")
+    for k in ("C1", "C2", "C3", "C1_households", "C2_households"):
         c["z_" + k] = by_month[k].transform(z)
         c["r_" + k] = by_month[k].rank(ascending=False)
-    c["indicatore"] = sum(wt * c["z_" + k] for k, wt in WEIGHTS.items())
-    c["A1_pesi_uguali"] = (c.z_C1 + c.z_C2 + c.z_C3) / 3
-    c["A2_solo_quantita"] = c.z_C1
-    c["A3_solo_famiglie"] = 0.50 * c.z_C1_famiglie + 0.25 * c.z_C2_famiglie + 0.25 * c.z_C3
-    c["A4_ranghi"] = -(0.50 * c.r_C1 + 0.25 * c.r_C2 + 0.25 * c.r_C3)  # sign reversed: higher = more exposed
-    variants = ["indicatore", "A1_pesi_uguali", "A2_solo_quantita", "A3_solo_famiglie", "A4_ranghi"]
+    c["indicator"] = sum(wt * c["z_" + k] for k, wt in WEIGHTS.items())
+    c["A1_equal_weights"] = (c.z_C1 + c.z_C2 + c.z_C3) / 3
+    c["A2_quantity_only"] = c.z_C1
+    c["A3_households_only"] = 0.50 * c.z_C1_households + 0.25 * c.z_C2_households + 0.25 * c.z_C3
+    c["A4_ranks"] = -(0.50 * c.r_C1 + 0.25 * c.r_C2 + 0.25 * c.r_C3)  # sign reversed: higher = more exposed
+    variants = ["indicator", "A1_equal_weights", "A2_quantity_only", "A3_households_only", "A4_ranks"]
     for v in variants:
-        c["pos_" + v] = c.groupby("mese")[v].rank(ascending=False, method="min").astype(int)
-    c["paesi_nel_mese"] = c.groupby("mese").C1.transform("size")
+        c["rank_" + v] = c.groupby("month")[v].rank(ascending=False, method="min").astype(int)
+    c["countries_in_month"] = c.groupby("month").C1.transform("size")
     c.round(6).to_csv(PROC / "m3_index.csv")
 
-    latest = c.index.get_level_values("mese").max()
-    now = c.xs(latest, level="mese").sort_values("pos_indicatore")
-    now.insert(0, "nome", [NAMES[k] for k in now.index])
+    latest = c.index.get_level_values("month").max()
+    now = c.xs(latest, level="month").sort_values("rank_indicator")
+    now.insert(0, "name", [NAMES[k] for k in now.index])
 
     def month_back(years: int) -> str:
         y, m = latest.split("-")
@@ -190,10 +199,10 @@ def main() -> None:
     evo = {}
     for label, years in (("1_anno", 1), ("5_anni", 5), ("10_anni", 10)):
         mm = month_back(years)
-        if mm in c.index.get_level_values("mese"):
-            past = c.xs(mm, level="mese")
-            now[f"C1_{label}_fa"] = past.C1.reindex(now.index)
-            now[f"pos_{label}_fa"] = past.pos_indicatore.reindex(now.index)
+        if mm in c.index.get_level_values("month"):
+            past = c.xs(mm, level="month")
+            now[f"C1_{AGO[label]}"] = past.C1.reindex(now.index)
+            now[f"rank_{AGO[label]}"] = past.rank_indicator.reindex(now.index)
             evo[label] = {"mese": mm, "paesi": int(len(past))}
 
     # 4. Variant A5 with dollar funding (BIS, 13 countries, last quarter)
@@ -201,54 +210,54 @@ def main() -> None:
     bis_path = RAW / "bis_lbs_fx_liabilities_sample.csv"
     if bis_path.exists():
         b = pd.read_csv(bis_path)
-        q = b.trimestre.max()
-        bq = b[b.trimestre == q].pivot(index="paese", columns="serie", values="milioni_usd")
+        q = b.quarter.max()
+        bq = b[b.quarter == q].pivot(index="country", columns="series", values="usd_mn")
         month = f"{q[:4]}-{int(q[-1]) * 3:02d}"
-        if month in c.index.get_level_values("mese"):
-            sub = c.xs(month, level="mese").loc[lambda x: x.index.isin(bq.index), ["C1", "C2", "C3"]].copy()
+        if month in c.index.get_level_values("month"):
+            sub = c.xs(month, level="month").loc[lambda x: x.index.isin(bq.index), ["C1", "C2", "C3"]].copy()
             sub["C4"] = (bq.passivo_usd / bq.passivo_totale).reindex(sub.index)
-            sub["quota_valuta_estera"] = (bq.passivo_valuta_estera / bq.passivo_totale).reindex(sub.index)
+            sub["foreign_currency_share"] = (bq.passivo_valuta_estera / bq.passivo_totale).reindex(sub.index)
             for k in ("C1", "C2", "C3", "C4"):
                 sub["z_" + k] = z(sub[k])
-            sub["base_13_paesi"] = 0.50 * sub.z_C1 + 0.25 * sub.z_C2 + 0.25 * sub.z_C3
-            sub["A5_con_canale_valutario"] = 0.40 * sub.z_C1 + 0.20 * sub.z_C2 + 0.20 * sub.z_C3 + 0.20 * sub.z_C4
-            sub["pos_base"] = sub.base_13_paesi.rank(ascending=False).astype(int)
-            sub["pos_A5"] = sub.A5_con_canale_valutario.rank(ascending=False).astype(int)
-            sub.insert(0, "nome", [NAMES[k] for k in sub.index])
-            sub.sort_values("pos_A5").round(6).to_csv(PROC / "m3_variant_usd_funding.csv")
-            a5 = {"trimestre": q, "mese_bsi": month, **stability(sub.pos_base, sub.pos_A5), "classifica": sub.sort_values("pos_A5").index.tolist()}
+            sub["base_13_countries"] = 0.50 * sub.z_C1 + 0.25 * sub.z_C2 + 0.25 * sub.z_C3
+            sub["A5_with_currency_channel"] = 0.40 * sub.z_C1 + 0.20 * sub.z_C2 + 0.20 * sub.z_C3 + 0.20 * sub.z_C4
+            sub["rank_base"] = sub.base_13_countries.rank(ascending=False).astype(int)
+            sub["rank_A5"] = sub.A5_with_currency_channel.rank(ascending=False).astype(int)
+            sub.insert(0, "name", [NAMES[k] for k in sub.index])
+            sub.sort_values("rank_A5").round(6).to_csv(PROC / "m3_variant_usd_funding.csv")
+            a5 = {"trimestre": q, "mese_bsi": month, **stability(sub.rank_base, sub.rank_A5), "classifica": sub.sort_values("rank_A5").index.tolist()}
 
     # Stake in absolute value: sight deposits of households and firms in EUR billion
-    stake = (w.vista_fam + w.vista_imp).xs(latest, level="mese").reindex(now.index) / 1000
-    now["vista_mld_eur"] = stake
-    now["quota_dei_depositi_a_vista_dell_area"] = stake / stake.sum()
-    stab = {v: stability(now.pos_indicatore, now["pos_" + v]) for v in variants[1:]}
-    rank_range = now[["pos_" + v for v in variants]].agg(["min", "max"], axis=1)
-    now["pos_min"], now["pos_max"] = rank_range["min"], rank_range["max"]
+    stake = (w.vista_fam + w.vista_imp).xs(latest, level="month").reindex(now.index) / 1000
+    now["sight_deposits_bn_eur"] = stake
+    now["area_sight_deposits_share"] = stake / stake.sum()
+    stab = {VARIANT_KEYS[v]: stability(now.rank_indicator, now["rank_" + v]) for v in variants[1:]}
+    rank_range = now[["rank_" + v for v in variants]].agg(["min", "max"], axis=1)
+    now["rank_min"], now["rank_max"] = rank_range["min"], rank_range["max"]
     now.round(6).to_csv(PROC / "m3_ranking_latest.csv")
 
     # Stability over time: rank correlation between today's ranking and past ones
     time_stab = {}
     for label in evo:
-        col = f"pos_{label}_fa"
+        col = f"rank_{AGO[label]}"
         ok = now[col].notna()
-        time_stab[label] = {"paesi": int(ok.sum()), "spearman": spearman(now.loc[ok, "pos_indicatore"], now.loc[ok, col])}
+        time_stab[label] = {"paesi": int(ok.sum()), "spearman": spearman(now.loc[ok, "rank_indicator"], now.loc[ok, col])}
 
     summary = {
         "ultimo_mese": latest,
         "paesi": int(len(now)),
-        "primo_mese": c.index.get_level_values("mese").min(),
+        "primo_mese": c.index.get_level_values("month").min(),
         "classifica": [
             {
-                "posizione": int(r.pos_indicatore),
+                "posizione": int(r.rank_indicator),
                 "paese": k,
-                "nome": r.nome,
-                "indicatore": float(r.indicatore),
+                "nome": r["name"],
+                "indicatore": float(r.indicator),
                 "C1": float(r.C1),
                 "C2": float(r.C2),
                 "C3": float(r.C3),
-                "posizione_min_tra_varianti": int(r.pos_min),
-                "posizione_max_tra_varianti": int(r.pos_max),
+                "posizione_min_tra_varianti": int(r.rank_min),
+                "posizione_max_tra_varianti": int(r.rank_max),
             }
             for k, r in now.iterrows()
         ],
@@ -263,7 +272,7 @@ def main() -> None:
             "righe_fuori_tolleranza": int(len(out_of_tol)),
             "quota_fuori_tolleranza": float(len(out_of_tol) / len(shares)),
             "scarto_massimo_assoluto": float(gap.max()),
-            "scarto_ultimo_mese_max": float(shares.xs(latest, level="mese").scarto.abs().max()),
+            "scarto_ultimo_mese_max": float(shares.xs(latest, level="month").residual.abs().max()),
             "paesi_con_mesi_fuori_tolleranza": gap_by_country[gap_by_country.quota_mesi_fuori_tolleranza > 0].round(5).to_dict("index"),
         },
         "media_area_ultimo_mese": {k: float(now[k].mean()) for k in ("C1", "C2", "C3")},
@@ -289,10 +298,10 @@ def plot_ranking(now: pd.DataFrame, latest: str) -> None:
     import matplotlib.pyplot as plt
 
     ink, muted, grid, surface, blue = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb", "#2a78d6"
-    d = now.sort_values("indicatore")
+    d = now.sort_values("indicator")
     fig, ax = plt.subplots(figsize=(7.5, 6.6), facecolor=surface)
     _style(ax, surface, grid, muted)
-    ax.barh([NAMES_EN[k] for k in d.index], d.indicatore, color=blue, height=0.62)
+    ax.barh([NAMES_EN[k] for k in d.index], d.indicator, color=blue, height=0.62)
     ax.axvline(0, color=muted, lw=0.8)
     ax.grid(axis="x", color=grid, lw=0.8)
     ax.set_axisbelow(True)
@@ -313,12 +322,12 @@ def plot_evolution(now: pd.DataFrame, latest: str, evo: dict) -> None:
     import matplotlib.pyplot as plt
 
     ink, muted, grid, surface, dark, light = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb", "#1c5cab", "#86b6ef"
-    d = now.dropna(subset=["C1_10_anni_fa"]).sort_values("C1")
+    d = now.dropna(subset=["C1_10_years_ago"]).sort_values("C1")
     fig, ax = plt.subplots(figsize=(7.5, 6.6), facecolor=surface)
     _style(ax, surface, grid, muted)
     y = np.arange(len(d))
-    ax.hlines(y, d.C1_10_anni_fa * 100, d.C1 * 100, color=grid, lw=2, zorder=1)
-    ax.scatter(d.C1_10_anni_fa * 100, y, color=light, s=46, zorder=2, label=evo["10_anni"]["mese"], edgecolor=surface, linewidth=1.5)
+    ax.hlines(y, d.C1_10_years_ago * 100, d.C1 * 100, color=grid, lw=2, zorder=1)
+    ax.scatter(d.C1_10_years_ago * 100, y, color=light, s=46, zorder=2, label=evo["10_anni"]["mese"], edgecolor=surface, linewidth=1.5)
     ax.scatter(d.C1 * 100, y, color=dark, s=46, zorder=3, label=latest, edgecolor=surface, linewidth=1.5)
     ax.set_yticks(y)
     ax.set_yticklabels([NAMES_EN[k] for k in d.index])

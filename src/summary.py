@@ -210,44 +210,41 @@ def main() -> None:
     add("")
 
     # 3. Vulnerability
-    rank = pd.read_csv(PROC / "m3_ranking_latest.csv", index_col=0).sort_values("pos_indicatore")
+    rank = pd.read_csv(PROC / "m3_ranking_latest.csv", index_col=0).sort_values("rank_indicator")
     add(f"## 3. Vulnerability: ranking of bank funding, {month(m3['ultimo_mese'])}")
     add("")
     add("Countries ordered by structural exposure to deposit substitution.")
     add("")
     add("| Position | Country | Sight deposits over liabilities | Sight deposits (EUR bn) | Share of the area |")
     add("|---|---|---|---|---|")
-    big = rank.sort_values("vista_mld_eur", ascending=False).head(4).index
+    big = rank.sort_values("sight_deposits_bn_eur", ascending=False).head(4).index
     shown = list(rank.index[:5]) + [k for k in rank.index[5:-3] if k in big] + list(rank.index[-3:])
     prev = 0
     for k in shown:
         r = rank.loc[k]
-        if int(r.pos_indicatore) - prev > 1:
+        if int(r.rank_indicator) - prev > 1:
             add("| ... | | | | |")
         add(
-            (
-                f"| {int(r.pos_indicatore)} | {COUNTRY_NAMES[k]} | {pct(r.C1)} | {n(r.vista_mld_eur, 0)} | "
-                f"{pct(r.quota_dei_depositi_a_vista_dell_area)} |"
-            )
+            (f"| {int(r.rank_indicator)} | {COUNTRY_NAMES[k]} | {pct(r.C1)} | {n(r.sight_deposits_bn_eur, 0)} | {pct(r.area_sight_deposits_share)} |")
         )
-        prev = int(r.pos_indicatore)
+        prev = int(r.rank_indicator)
     add("")
     top4 = rank.loc[big]
     top4_names = [COUNTRY_NAMES[k] for k in top4.index]
-    add(f"The top five hold {pct(rank.quota_dei_depositi_a_vista_dell_area.iloc[:5].sum())} of the area's sight deposits;")
-    add(f"{', '.join(top4_names[:-1])} and {top4_names[-1]} hold {pct(top4.quota_dei_depositi_a_vista_dell_area.sum(), 0)}.")
+    add(f"The top five hold {pct(rank.area_sight_deposits_share.iloc[:5].sum())} of the area's sight deposits;")
+    add(f"{', '.join(top4_names[:-1])} and {top4_names[-1]} hold {pct(top4.area_sight_deposits_share.sum(), 0)}.")
     add("The ranking orders the funding structure, not the probability that deposits leave.")
     add("")
 
     # 4. Scenarios
     ea = pd.read_csv(PROC / "m4_euro_area.csv")
-    ea = ea[(ea.regola_paesi == "R1") & (ea.regola_depositi == "T1")].set_index("scenario")
+    ea = ea[(ea.country_rule == "R1") & (ea.deposit_rule == "T1")].set_index("scenario")
     add(f"## 4. Scenarios: how much each level weighs on funding, balance sheets of {month(m4['mese_bilanci'])}")
     add("")
     cr = None
     if (PROC / "m5_credit_euro_area.csv").exists():
         cr = pd.read_csv(PROC / "m5_credit_euro_area.csv")
-        cr = cr[cr.regola_paesi == "R1"].set_index("scenario")
+        cr = cr[cr.country_rule == "R1"].set_index("scenario")
     add(
         (
             "| Scenario | Stablecoins held (USD bn) | Deposits to replace (EUR bn) | Sight deposits lost | Additional wholesale funding | Credit "
@@ -261,13 +258,13 @@ def main() -> None:
             credito = (
                 "n.a."
                 if cr is None or key not in cr.index
-                else f"{n(cr.loc[key, 'uniforme_mld'])} (from {n(cr.loc[key, 'basso_mld'])} to {n(cr.loc[key, 'alto_mld'])})"
+                else f"{n(cr.loc[key, 'uniforme_bn'])} (from {n(cr.loc[key, 'basso_bn'])} to {n(cr.loc[key, 'alto_bn'])})"
             )
             add(
                 (
-                    f"| {label} | {n(r.importo_mld_usd, 0 if r.importo_mld_usd >= 100 else 1)} | {n(r.deflusso_mld_eur)} | "
-                    f"{pct(r.perdita_depositi_a_vista, 2 if r.perdita_depositi_a_vista < 0.01 else 1)} | "
-                    f"{pct(r.aumento_raccolta_ingrosso, 2 if r.aumento_raccolta_ingrosso < 0.01 else 1)} | {credito} |"
+                    f"| {label} | {n(r.amount_bn_usd, 0 if r.amount_bn_usd >= 100 else 1)} | {n(r.outflow_bn_eur)} | "
+                    f"{pct(r.sight_deposits_lost, 2 if r.sight_deposits_lost < 0.01 else 1)} | "
+                    f"{pct(r.wholesale_funding_increase, 2 if r.wholesale_funding_increase < 0.01 else 1)} | {credito} |"
                 )
             )
     add("")
@@ -276,14 +273,14 @@ def main() -> None:
     add(f"For the area to lose 5% of its sight deposits, USD {n(t5['importo_mld_usd'], 0)} billion of stablecoins held by residents would")
     add(f"be needed, {n(t5['importo_mld_usd'] / (ref['centrale_mld_eur'] * m4['cambio_usd_per_eur']), 0)} times the centre of the own estimate.")
     byc = pd.read_csv(PROC / "m4_scenarios_by_country.csv")
-    s2 = byc[(byc.scenario == "S2_alto_2030") & (byc.regola_paesi == "R1") & (byc.regola_depositi == "T1")].sort_values(
-        "aumento_raccolta_ingrosso", ascending=False
+    s2 = byc[(byc.scenario == "S2_alto_2030") & (byc.country_rule == "R1") & (byc.deposit_rule == "T1")].sort_values(
+        "wholesale_funding_increase", ascending=False
     )
     lead, last = s2.head(3), s2.iloc[-1]
     add("In the ESM high scenario the required increase in wholesale funding is highest in")
     add(
-        ", ".join(f"{COUNTRY_NAMES[r.paese]} (+{pct(r.aumento_raccolta_ingrosso, 0)})" for r in lead.itertuples())
-        + f" and lowest in {COUNTRY_NAMES[last.paese]} (+{pct(last.aumento_raccolta_ingrosso, 1)})."
+        ", ".join(f"{COUNTRY_NAMES[r.country]} (+{pct(r.wholesale_funding_increase, 0)})" for r in lead.itertuples())
+        + f" and lowest in {COUNTRY_NAMES[last.country]} (+{pct(last.wholesale_funding_increase, 1)})."
     )
     add("It is an accounting calculation with full deposit substitution, not a forecast. The credit reduction")
     add("applies coefficients from ECB Working Paper 3199, estimated on individual banks, to national aggregates:")
@@ -300,7 +297,7 @@ def main() -> None:
             add(
                 (
                     f"| {q} - {label} | "
-                    f"{', '.join(COUNTRY_NAMES[k] for k in mp[mp.quadrante == q].sort_values('depositi_a_vista', ascending=False).index)} |"
+                    f"{', '.join(COUNTRY_NAMES[k] for k in mp[mp.quadrant == q].sort_values('sight_deposits', ascending=False).index)} |"
                 )
             )
         add("")

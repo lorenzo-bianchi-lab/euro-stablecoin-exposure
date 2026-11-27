@@ -99,21 +99,21 @@ def evaluate(y: pd.Series, x: pd.Series, lags: int = 1) -> dict:
 
 
 def main() -> None:
-    bsi = pd.read_csv(RAW / "m3_bsi.csv", dtype={"mese": str})
-    dep = bsi[bsi.serie == "vista_fam"]
-    n = dep.groupby("mese").paese.nunique()
-    deposits = dep.groupby("mese").milioni_eur.sum()[n == n.max()] / 1000
+    bsi = pd.read_csv(RAW / "m3_bsi.csv", dtype={"month": str})
+    dep = bsi[bsi.series == "vista_fam"]
+    n = dep.groupby("month").country.nunique()
+    deposits = dep.groupby("month").eur_mn.sum()[n == n.max()] / 1000
 
     v = pd.read_csv(RAW / "m2_daily_volumes.csv")
     v = v[~v.exchange.isin(LONG_EXCLUDED)].copy()
-    v["mese"] = v.date.str[:7]
-    days = v.groupby("mese").date.nunique()
+    v["month"] = v.date.str[:7]
+    days = v.groupby("month").date.nunique()
     full = days.index[days >= 28]
     eur = v[v.fiat == "EUR"]
-    vol = eur.groupby("mese").volume_stable.sum().reindex(full) / 1e9
-    vol_usdt = eur[eur.stable == "USDT"].groupby("mese").volume_stable.sum().reindex(full) / 1e9
-    vol_usdc = eur[eur.stable == "USDC"].groupby("mese").volume_stable.sum().reindex(full) / 1e9
-    share = (eur.groupby("mese").volume_stable.sum() / v.groupby("mese").volume_stable.sum()).reindex(full)
+    vol = eur.groupby("month").volume_stable.sum().reindex(full) / 1e9
+    vol_usdt = eur[eur.stable == "USDT"].groupby("month").volume_stable.sum().reindex(full) / 1e9
+    vol_usdc = eur[eur.stable == "USDC"].groupby("month").volume_stable.sum().reindex(full) / 1e9
+    share = (eur.groupby("month").volume_stable.sum() / v.groupby("month").volume_stable.sum()).reindex(full)
 
     months = [m for m in full if m in deposits.index]
 
@@ -158,10 +158,10 @@ def main() -> None:
     (PROC / "m2_link_test.json").write_text(json.dumps(out, indent=2, ensure_ascii=False))
     pd.DataFrame(
         {
-            "depositi_a_vista_famiglie_mld_eur": deposits.reindex(months),
-            "volumi_contro_eur_mld": vol.reindex(months),
-            "var_depositi_pp": y,
-            "var_volumi_pp": x,
+            "household_sight_deposits_bn_eur": deposits.reindex(months),
+            "volumes_against_eur_bn": vol.reindex(months),
+            "deposits_change_pp": y,
+            "volumes_change_pp": x,
         }
     ).round(4).to_csv(PROC / "m2_link_test_data.csv")
     print(json.dumps(out, indent=2, ensure_ascii=False))

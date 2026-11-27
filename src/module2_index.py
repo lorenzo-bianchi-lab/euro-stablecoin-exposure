@@ -42,8 +42,15 @@ SERIES = {  # name -> (stablecoin, or None for both, excluded exchanges)
     "usdt_senza_coinbase": ("USDT", ["Coinbase"]),
     "usdc": ("USDC", []),
     "usdc_senza_coinbase": ("USDC", ["Coinbase"]),
-    "totale": (None, []),
+    "total": (None, []),
 }
+# data/processed/m2_summary.json keeps its Italian keys: the series "total" is "totale" there
+JSON_SERIES = {"total": "totale"}
+
+
+def js(name: str) -> str:
+    """Name of a series in data/processed/m2_summary.json."""
+    return JSON_SERIES.get(name, name)
 
 
 def last_closed_week_end(now: datetime | None = None) -> datetime:
@@ -67,12 +74,12 @@ def update_store(end: datetime, full: bool) -> dict:
         PROC / "m2_last_fetch_log.csv", index=False
     )
 
-    both = old.merge(new, on=KEYS, suffixes=("_archivio", "_nuovo"))
-    diff = (both.volume_stable_nuovo - both.volume_stable_archivio).abs()
-    rel = diff / both.volume_stable_archivio.abs().clip(lower=1)
-    both["differenza_relativa"] = rel
+    both = old.merge(new, on=KEYS, suffixes=("_archive", "_new"))
+    diff = (both.volume_stable_new - both.volume_stable_archive).abs()
+    rel = diff / both.volume_stable_archive.abs().clip(lower=1)
+    both["relative_difference"] = rel
     revised = both[(rel > 0.001) & (diff > 100)]
-    revised[KEYS + ["volume_stable_archivio", "volume_stable_nuovo", "differenza_relativa"]].to_csv(PROC / "m2_revisions.csv", index=False)
+    revised[KEYS + ["volume_stable_archive", "volume_stable_new", "relative_difference"]].to_csv(PROC / "m2_revisions.csv", index=False)
 
     added = new.merge(old[KEYS], on=KEYS, how="left", indicator=True)
     added = added[added._merge == "left_only"].drop(columns="_merge")
@@ -124,8 +131,8 @@ def exclusion_effect(with_excluded: pd.DataFrame, without: pd.DataFrame) -> dict
     a, b = with_excluded[with_excluded.week.isin(weeks)], without[without.week.isin(weeks)]
     names = [n for n, (stable, _) in SERIES.items() if stable]
     diff = (weekly_index(b)[names] - weekly_index(a)[names]) * 100
-    fa = signals(with_excluded).set_index(["serie", "week"]).stato
-    fb = signals(without).set_index(["serie", "week"]).stato
+    fa = signals(with_excluded).set_index(["series", "week"]).status
+    fb = signals(without).set_index(["series", "week"]).status
     both = pd.concat([fa.rename("con"), fb.rename("senza")], axis=1).dropna()
     both = both[both.index.get_level_values("week").isin(weeks)]
     changed = both[both.con != both.senza]
@@ -165,13 +172,13 @@ def weekly_index(d: pd.DataFrame, excluded: list[str] | None = None) -> pd.DataF
         cols[name] = sub.groupby("week").apply(eur_share, include_groups=False)
     out = pd.DataFrame(cols)
     base = d[~d.exchange.isin(excluded)]
-    out["exchange_attivi"] = base.groupby("week").exchange.nunique()
-    out["volume_fiat_mld"] = base.groupby("week").volume_stable.sum() / 1e9
+    out["active_exchanges"] = base.groupby("week").exchange.nunique()
+    out["volume_fiat_bn"] = base.groupby("week").volume_stable.sum() / 1e9
     # volumes against EUR in absolute value: they show whether the index moves because of the euro or of the other currencies
     for tok in ("USDT", "USDC"):
         sel = base[base.stable == tok]
-        out[f"volume_eur_{tok.lower()}_mld"] = sel[sel.fiat == "EUR"].groupby("week").volume_stable.sum() / 1e9
-        out[f"volume_fiat_{tok.lower()}_mld"] = sel.groupby("week").volume_stable.sum() / 1e9
+        out[f"volume_eur_{tok.lower()}_bn"] = sel[sel.fiat == "EUR"].groupby("week").volume_stable.sum() / 1e9
+        out[f"volume_fiat_{tok.lower()}_bn"] = sel.groupby("week").volume_stable.sum() / 1e9
     return out
 
 
@@ -188,15 +195,15 @@ def signals(d: pd.DataFrame) -> pd.DataFrame:
         sub = d[(d.stable == stable) & ~d.exchange.isin(drop)]
         tot = sub.groupby("week").volume_stable.sum()
         eur = sub[sub.fiat == "EUR"].groupby("week").volume_stable.sum().reindex(tot.index, fill_value=0)
-        f = pd.DataFrame({"serie": name, "quota_eur": eur / tot, "volume_eur_mld": eur / 1e9})
-        for col, z in (("quota_eur", "scarto_quota"), ("volume_eur_mld", "scarto_volume")):
+        f = pd.DataFrame({"series": name, "eur_share": eur / tot, "volume_eur_bn": eur / 1e9})
+        for col, z in (("eur_share", "share_deviation"), ("volume_eur_bn", "volume_deviation")):
             past = f[col].shift(1).rolling(52, min_periods=52)
             f[z] = (f[col] - past.mean()) / past.std(ddof=1)
-        both = (f.scarto_quota.abs() > 2) & (f.scarto_volume.abs() > 2)
-        same = np.sign(f.scarto_quota) == np.sign(f.scarto_volume)
-        one = (f.scarto_quota.abs() > 2) | (f.scarto_volume.abs() > 2)
-        f["stato"] = np.where(
-            f.scarto_quota.isna(), "storico insufficiente", np.where(both & same, "segnale", np.where(one, "da verificare", "nessuno"))
+        both = (f.share_deviation.abs() > 2) & (f.volume_deviation.abs() > 2)
+        same = np.sign(f.share_deviation) == np.sign(f.volume_deviation)
+        one = (f.share_deviation.abs() > 2) | (f.volume_deviation.abs() > 2)
+        f["status"] = np.where(
+            f.share_deviation.isna(), "storico insufficiente", np.where(both & same, "segnale", np.where(one, "da verificare", "nessuno"))
         )
         frames.append(f.reset_index())
     return pd.concat(frames, ignore_index=True)
@@ -252,9 +259,7 @@ def main() -> None:
     idx_const = weekly_index(main_d[main_d.exchange.isin(constant)])
 
     # Participation log: days with data and volumes by exchange and week
-    part = (
-        d.groupby(["week", "exchange"]).agg(giorni=("date", "nunique"), coppie=("symbol", "nunique"), volume=("volume_stable", "sum")).reset_index()
-    )
+    part = d.groupby(["week", "exchange"]).agg(days=("date", "nunique"), pairs=("symbol", "nunique"), volume=("volume_stable", "sum")).reset_index()
     part["volume_eur"] = (
         d[d.fiat == "EUR"]
         .groupby(["week", "exchange"])
@@ -263,27 +268,25 @@ def main() -> None:
         .fillna(0)
         .to_numpy()
     )
-    part["quota_del_volume_settimanale"] = part.volume / part.groupby("week").volume.transform("sum")
+    part["weekly_volume_share"] = part.volume / part.groupby("week").volume.transform("sum")
     part.round(6).to_csv(PROC / "m2_exchange_participation.csv", index=False)
     all_weeks = sorted(d.week.unique())
     changes = (
         part.groupby("exchange")
         .agg(
-            prima_settimana=("week", "min"),
-            ultima_settimana=("week", "max"),
-            settimane=("week", "nunique"),
-            settimane_incomplete=("giorni", lambda g: int((g < 7).sum())),
+            first_week=("week", "min"),
+            last_week=("week", "max"),
+            weeks=("week", "nunique"),
+            incomplete_weeks=("days", lambda g: int((g < 7).sum())),
         )
         .reset_index()
     )
-    changes["settimane_mancanti_in_mezzo"] = [
-        len([w for w in all_weeks if r.prima_settimana <= w <= r.ultima_settimana]) - r.settimane for r in changes.itertuples()
-    ]
-    changes["nel_pannello_costante"] = changes.exchange.isin(constant)
+    changes["missing_weeks_between"] = [len([w for w in all_weeks if r.first_week <= w <= r.last_week]) - r.weeks for r in changes.itertuples()]
+    changes["in_constant_panel"] = changes.exchange.isin(constant)
     changes.to_csv(PROC / "m2_panel_changes.csv", index=False)
     pair_changes = (
         d.groupby(["exchange", "symbol", "stable", "fiat"])
-        .agg(primo_giorno=("date", "min"), ultimo_giorno=("date", "max"), giorni=("date", "nunique"))
+        .agg(first_day=("date", "min"), last_day=("date", "max"), days=("date", "nunique"))
         .reset_index()
     )
     pair_changes.to_csv(PROC / "m2_pair_coverage.csv", index=False)
@@ -313,7 +316,7 @@ def main() -> None:
 
     flags = signals(main_d)
     flags.round(6).to_csv(PROC / "m2_flags.csv", index=False)
-    judged = flags[flags.stato != "storico insufficiente"]
+    judged = flags[flags.status != "storico insufficiente"]
     last_week = flags.week.max()
     segnalazione = {
         "regola": (
@@ -321,17 +324,17 @@ def main() -> None:
         ),
         "settimane_valutate": int(judged.week.nunique()),
         "ultima_settimana": {
-            r.serie: {
-                "stato": r.stato,
-                "scarto_quota": float(r.scarto_quota),
-                "scarto_volume": float(r.scarto_volume),
-                "quota_eur": float(r.quota_eur),
-                "volume_eur_mld": float(r.volume_eur_mld),
+            r.series: {
+                "stato": r.status,
+                "scarto_quota": float(r.share_deviation),
+                "scarto_volume": float(r.volume_deviation),
+                "quota_eur": float(r.eur_share),
+                "volume_eur_mld": float(r.volume_eur_bn),
             }
             for r in flags[flags.week == last_week].itertuples()
         },
-        "storico": {name: {k: int(v) for k, v in g.stato.value_counts().items()} for name, g in judged.groupby("serie")},
-        "settimane_con_segnale": {name: g.week[g.stato == "segnale"].tolist() for name, g in judged.groupby("serie")},
+        "storico": {name: {k: int(v) for k, v in g.status.value_counts().items()} for name, g in judged.groupby("series")},
+        "settimane_con_segnale": {name: g.week[g.status == "segnale"].tolist() for name, g in judged.groupby("series")},
     }
 
     idx_main.round(6).to_csv(PROC / "m2_weekly_index.csv")
@@ -339,7 +342,7 @@ def main() -> None:
     idx_const.round(6).to_csv(PROC / "m2_weekly_index_constant_panel.csv")
 
     overlap = idx_long.loc[idx_long.index >= MAIN_START, names] - idx_main[names]
-    big = part[(part.week >= MAIN_START) & (part.giorni < 7) & (part.quota_del_volume_settimanale > 0.01)]
+    big = part[(part.week >= MAIN_START) & (part.days < 7) & (part.weekly_volume_share > 0.01)]
     summary = {
         "calcolato_il": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "scarico": fetch_info,
@@ -357,24 +360,24 @@ def main() -> None:
             "prima_settimana": weeks_main[0],
             "ultima_settimana": weeks_main[-1],
             "settimane": len(weeks_main),
-            "serie": {n: stats(idx_main[n]) for n in names},
+            "serie": {js(n): stats(idx_main[n]) for n in names},
         },
         "indice_lungo": {
             "esclusi": LONG_EXCLUDED,
             "prima_settimana": idx_long.index[0],
             "settimane": int(len(idx_long)),
-            "serie": {n: stats(idx_long[n]) for n in names},
-            "differenza_media_con_principale_pp": {n: float(overlap[n].mean() * 100) for n in names},
-            "correlazione_con_principale": {n: float(idx_long.loc[idx_long.index >= MAIN_START, n].corr(idx_main[n])) for n in names},
+            "serie": {js(n): stats(idx_long[n]) for n in names},
+            "differenza_media_con_principale_pp": {js(n): float(overlap[n].mean() * 100) for n in names},
+            "correlazione_con_principale": {js(n): float(idx_long.loc[idx_long.index >= MAIN_START, n].corr(idx_main[n])) for n in names},
         },
         "pannello_costante": {
             "exchange": constant,
             "numero": len(constant),
-            "differenza_massima_assoluta_pp": {n: float((idx_const[n] - idx_main[n]).abs().max() * 100) for n in names},
-            "differenza_media_pp": {n: float((idx_const[n] - idx_main[n]).mean() * 100) for n in names},
+            "differenza_massima_assoluta_pp": {js(n): float((idx_const[n] - idx_main[n]).abs().max() * 100) for n in names},
+            "differenza_media_pp": {js(n): float((idx_const[n] - idx_main[n]).mean() * 100) for n in names},
         },
-        "exchange_attivi_min_max": [int(idx_main.exchange_attivi.min()), int(idx_main.exchange_attivi.max())],
-        "settimane_con_exchange_rilevante_incompleto": big[["week", "exchange", "giorni"]].to_dict("records"),
+        "exchange_attivi_min_max": [int(idx_main.active_exchanges.min()), int(idx_main.active_exchanges.max())],
+        "settimane_con_exchange_rilevante_incompleto": big[["week", "exchange", "days"]].rename(columns={"days": "giorni"}).to_dict("records"),
         "coinbase_quota_volume": {
             tok: float(
                 main_d[(main_d.exchange == "Coinbase") & (main_d.stable == tok)].volume_stable.sum()

@@ -47,13 +47,13 @@ class BalanceSheets(unittest.TestCase):
     def test_liability_items_sum_to_total(self):
         comp = pd.read_csv(PROC / "m3_composition.csv")
         self.assertGreater(len(comp), 5000)
-        self.assertLessEqual(comp.scarto.abs().max(), 0.005, "gap beyond the declared tolerance of 0.5%")
-        parts = comp.drop(columns=["paese", "mese", "totale_passivo_mln"]).sum(axis=1)
+        self.assertLessEqual(comp.residual.abs().max(), 0.005, "gap beyond the declared tolerance of 0.5%")
+        parts = comp.drop(columns=["country", "month", "total_liabilities_mn"]).sum(axis=1)
         self.assertAlmostEqual(float((parts - 1).abs().max()), 0.0, places=5)
 
     def test_all_countries_in_the_last_month(self):
         comp = pd.read_csv(PROC / "m3_composition.csv")
-        self.assertEqual(comp[comp.mese == comp.mese.max()].paese.nunique(), 21)
+        self.assertEqual(comp[comp.month == comp.month.max()].country.nunique(), 21)
 
 
 class Scenarios(unittest.TestCase):
@@ -61,7 +61,7 @@ class Scenarios(unittest.TestCase):
         b, pop, fx = balance_sheets()
         for rule in rules():
             a1, a2 = m4.allocate(b, 50.0, rule, "T1", pop), m4.allocate(b, 100.0, rule, "T1", pop)
-            for col in ("deflusso_mld", "effetto_sulla_raccolta_pp", "aumento_raccolta_ingrosso"):
+            for col in ("outflow_bn", "funding_effect_pp", "wholesale_funding_increase"):
                 self.assertTrue(((a2[col] - 2 * a1[col]).abs() < 1e-9).all(), f"{rule} {col} is not linear")
 
     def test_allocation_sums_to_the_amount(self):
@@ -69,29 +69,29 @@ class Scenarios(unittest.TestCase):
         for rule in rules():
             for dep in ("T1", "T2", "T3"):
                 a = m4.allocate(b, 264.2, rule, dep, pop)
-                self.assertAlmostEqual(float(a.deflusso_mld.sum() + a.eccedenza_mld.sum()), 264.2, places=8)
-                self.assertTrue((a.deflusso_mld >= 0).all())
+                self.assertAlmostEqual(float(a.outflow_bn.sum() + a.excess_bn.sum()), 264.2, places=8)
+                self.assertTrue((a.outflow_bn >= 0).all())
 
     def test_scenario_files_sum_to_the_amount(self):
         ea = pd.read_csv(PROC / "m4_euro_area.csv")
         byc = pd.read_csv(PROC / "m4_scenarios_by_country.csv")
-        tot = byc.groupby(["scenario", "regola_paesi", "regola_depositi"]).deflusso_mld.sum()
+        tot = byc.groupby(["scenario", "country_rule", "deposit_rule"]).outflow_bn.sum()
         for r in ea.itertuples():
-            got = tot.loc[(r.scenario, r.regola_paesi, r.regola_depositi)]
-            self.assertAlmostEqual(got + r.eccedenza_mld, r.importo_mld_eur, places=4)
+            got = tot.loc[(r.scenario, r.country_rule, r.deposit_rule)]
+            self.assertAlmostEqual(got + r.excess_bn, r.amount_bn_eur, places=4)
 
     def test_r1_makes_every_country_lose_the_same_share(self):
         b, pop, fx = balance_sheets()
         a = m4.allocate(b, 100.0, "R1", "T1", pop)
-        self.assertLess(a.perdita_depositi_a_vista.max() - a.perdita_depositi_a_vista.min(), 1e-12)
+        self.assertLess(a.sight_deposits_lost.max() - a.sight_deposits_lost.min(), 1e-12)
 
     def test_credit_is_linear_and_ordered(self):
         credit = pd.read_csv(PROC / "m5_credit_by_country.csv")
-        self.assertTrue((credit.basso_mld <= credit.alto_mld + 1e-12).all())
-        self.assertTrue(((credit.uniforme_mld - 0.5 * credit.deflusso_mld).abs() < 1e-5).all())
-        s1 = credit[(credit.scenario == "S2_alto_2030") & (credit.regola_paesi == "R1")].set_index("paese")
-        s2 = credit[(credit.scenario == "S3_alto_2030_quota_doppia") & (credit.regola_paesi == "R1")].set_index("paese")
-        self.assertTrue(((s2.soglia_mld - 2 * s1.soglia_mld).abs() < 1e-4).all())
+        self.assertTrue((credit.basso_bn <= credit.alto_bn + 1e-12).all())
+        self.assertTrue(((credit.uniforme_bn - 0.5 * credit.outflow_bn).abs() < 1e-5).all())
+        s1 = credit[(credit.scenario == "S2_alto_2030") & (credit.country_rule == "R1")].set_index("country")
+        s2 = credit[(credit.scenario == "S3_alto_2030_quota_doppia") & (credit.country_rule == "R1")].set_index("country")
+        self.assertTrue(((s2.soglia_bn - 2 * s1.soglia_bn).abs() < 1e-4).all())
 
 
 class Application(unittest.TestCase):
@@ -210,38 +210,38 @@ class Banks(unittest.TestCase):
         k = self.s["criterio_di_sufficienza"]
         self.assertTrue(k["soddisfatto"])
         self.assertGreaterEqual(len(self.b), k["banche_minime"])
-        self.assertGreaterEqual(self.b.paese.nunique(), k["paesi_minimi"])
-        self.assertTrue(set(self.b.paese) <= set(m5.NAMES))
+        self.assertGreaterEqual(self.b.country.nunique(), k["paesi_minimi"])
+        self.assertTrue(set(self.b.country) <= set(m5.NAMES))
 
     def test_retail_share_and_threshold(self):
         b = self.b
-        self.assertTrue(np.allclose(b.quota_retail, b.dep_famiglie / (b.dep_famiglie + b.dep_altre_fin), atol=1e-5))
+        self.assertTrue(np.allclose(b.retail_share, b.household_deposits / (b.household_deposits + b.other_financial_deposits), atol=1e-5))
         thr = self.s["soglia_quota_retail"]["valore"]
-        self.assertAlmostEqual(thr, float(np.percentile(b.quota_retail, 75)), places=5)
-        self.assertTrue(((b.quota_retail > thr) == b.quota_retail_alta).all())
-        self.assertAlmostEqual(b.quota_retail_alta.mean(), 0.25, delta=0.02)
+        self.assertAlmostEqual(thr, float(np.percentile(b.retail_share, 75)), places=5)
+        self.assertTrue(((b.retail_share > thr) == b.high_retail_share).all())
+        self.assertAlmostEqual(b.high_retail_share.mean(), 0.25, delta=0.02)
 
     def test_balance_sheet_items_are_consistent(self):
         b = self.b
-        self.assertTrue((b.vista_famiglie <= b.dep_famiglie + 1e-6).all() and (b.vista_imprese <= b.dep_imprese + 1e-6).all())
-        raccolta = b.dep_famiglie + b.dep_imprese + b.dep_altre_fin + b.dep_banche + b.titoli_emessi
-        self.assertTrue((raccolta <= b.totale_attivo * 1.0001).all(), "deposits and securities exceed total assets")
-        self.assertTrue((b.prestiti <= b.totale_attivo).all())
+        self.assertTrue((b.household_sight_deposits <= b.household_deposits + 1e-6).all() and (b.firm_sight_deposits <= b.firm_deposits + 1e-6).all())
+        funding = b.household_deposits + b.firm_deposits + b.other_financial_deposits + b.bank_deposits + b.debt_securities
+        self.assertTrue((funding <= b.total_assets * 1.0001).all(), "deposits and securities exceed total assets")
+        self.assertTrue((b.loans <= b.total_assets).all())
 
     def test_bank_credit_follows_the_definition(self):
         b = self.b
-        coef = np.where(b.quota_retail_alta, 3.089, 0.441)
-        expected = coef * (100 * b.deflusso / b.totale_attivo / 0.8) / 100 * b.prestiti
-        self.assertTrue(np.allclose(b.credito, expected, rtol=1e-4, atol=1e-6))
+        coef = np.where(b.high_retail_share, 3.089, 0.441)
+        expected = coef * (100 * b.outflow / b.total_assets / 0.8) / 100 * b.loans
+        self.assertTrue(np.allclose(b.credit, expected, rtol=1e-4, atol=1e-6))
         # re-aggregated, the credit per euro lies between the low and the high coefficient of module 5 on the same countries
         a = self.s["confronto_modulo5_paesi_coperti"]
         self.assertTrue(a["m5_basso"] < a["m6"] < a["m5_alto"])
 
     def test_coverage_is_reported_for_every_country(self):
         self.assertEqual(len(self.c), 21)
-        covered = self.c[self.c.banche > 0]
-        self.assertTrue(covered.copertura_su_bsi.notna().all())
-        self.assertEqual(int(self.c.banche.sum()), len(self.b))
+        covered = self.c[self.c.banks > 0]
+        self.assertTrue(covered.coverage_bsi.notna().all())
+        self.assertEqual(int(self.c.banks.sum()), len(self.b))
 
 
 def decimals(text: pd.Series) -> int:
@@ -307,9 +307,9 @@ class Reproducibility(unittest.TestCase):
     def test_comparison_tolerates_only_the_last_digit(self):
         with tempfile.TemporaryDirectory() as tmp:
             a, b, c = (Path(tmp) / n for n in ("a.csv", "b.csv", "c.csv"))
-            a.write_text("paese,valore\nIT,1.2345\nFR,2.0000\n")
-            b.write_text("paese,valore\nIT,1.2346\nFR,2.0000\n")
-            c.write_text("paese,valore\nIT,1.2360\nFR,2.0000\n")
+            a.write_text("country,value\nIT,1.2345\nFR,2.0000\n")
+            b.write_text("country,value\nIT,1.2346\nFR,2.0000\n")
+            c.write_text("country,value\nIT,1.2360\nFR,2.0000\n")
             self.assert_same("sample", a, b)
             with self.assertRaises(AssertionError):
                 self.assert_same("sample", a, c)

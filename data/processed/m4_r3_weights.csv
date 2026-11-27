@@ -1,4 +1,4 @@
-paese,quota_possessori,imputato,adulti,peso
+country,owner_share,imputed,adults,weight
 AT,0.129636,False,7616708.0,987399.12768
 BE,0.118897,False,9550797.0,1135563.700811
 BG,0.108134,True,5334250.0,576814.349099

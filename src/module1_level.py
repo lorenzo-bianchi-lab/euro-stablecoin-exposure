@@ -54,9 +54,9 @@ def chart(stablecoin_id: str | None) -> pd.Series:
 def download() -> tuple[pd.DataFrame, dict]:
     assets = get_json(f"{LLAMA}/stablecoins", includePrices="true")["peggedAssets"]
     ids = {a["gecko_id"]: a["id"] for a in assets if a.get("gecko_id") in ("tether", "usd-coin")}
-    circ = pd.DataFrame({"usd_tutte": chart(None), "usdt": chart(ids["tether"]), "usdc": chart(ids["usd-coin"])})
-    circ = circ[circ.index >= START].dropna(subset=["usd_tutte"])
-    circ.index.name = "data"
+    circ = pd.DataFrame({"usd_all": chart(None), "usdt": chart(ids["tether"]), "usdc": chart(ids["usd-coin"])})
+    circ = circ[circ.index >= START].dropna(subset=["usd_all"])
+    circ.index.name = "date"
 
     cg = {x["id"]: x for x in get_json("https://api.coingecko.com/api/v3/coins/markets", vs_currency="usd", ids="tether,usd-coin")}
     r = requests.get(
@@ -97,7 +97,7 @@ def download() -> tuple[pd.DataFrame, dict]:
 
 def main() -> None:
     if "--offline" in sys.argv:
-        circ, aux = pd.read_csv(CIRC, index_col="data"), json.loads(AUX.read_text())
+        circ, aux = pd.read_csv(CIRC, index_col="date"), json.loads(AUX.read_text())
     else:
         circ, aux = download()
     fx = pd.Series(aux["cambio"]).sort_index()
@@ -122,31 +122,31 @@ def main() -> None:
 
     # Month-end series and ratio to the sight deposits of the euro area (module 3)
     c = circ.copy()
-    c["mese"] = c.index.str[:7]
-    monthly = c.groupby("mese").tail(1).set_index("mese")
-    monthly["data"] = c.groupby("mese").tail(1).index
-    monthly["usd_per_eur"] = [rate(d)[1] for d in monthly.data]
+    c["month"] = c.index.str[:7]
+    monthly = c.groupby("month").tail(1).set_index("month")
+    monthly["date"] = c.groupby("month").tail(1).index
+    monthly["usd_per_eur"] = [rate(d)[1] for d in monthly.date]
     # Base consistent with the ESM: USDT + USDC. The ESM assumes they are the whole universe of
     # dollar stablecoins (WP 79, section 4.4.1): 174 + 74 = 248 billion in the third quarter of 2025.
-    monthly["usdt_piu_usdc"] = monthly.usdt + monthly.usdc
-    monthly["livello_base_mld_usd"] = monthly.usdt_piu_usdc * SHARE_BASE
-    monthly["livello_alto_mld_usd"] = monthly.usdt_piu_usdc * SHARE_HIGH
-    monthly["variante_tutte_base_mld_usd"] = monthly.usd_tutte * SHARE_BASE
-    monthly["livello_base_mld_eur"] = monthly.livello_base_mld_usd / monthly.usd_per_eur
-    monthly["livello_alto_mld_eur"] = monthly.livello_alto_mld_usd / monthly.usd_per_eur
-    monthly["quota_usdt_usdc"] = monthly.usdt_piu_usdc / monthly.usd_tutte
-    bsi = pd.read_csv(RAW / "m3_bsi.csv", dtype={"mese": str})
-    dep = bsi[bsi.serie.isin(["vista_fam", "vista_imp"])].groupby("mese").milioni_eur.sum() / 1000
-    n_c = bsi[bsi.serie == "vista_fam"].groupby("mese").paese.nunique()
-    monthly["depositi_a_vista_area_mld_eur"] = dep.reindex(monthly.index)
-    monthly["paesi_nei_depositi"] = n_c.reindex(monthly.index)
-    monthly["livello_base_su_depositi_a_vista"] = monthly.livello_base_mld_eur / monthly.depositi_a_vista_area_mld_eur
-    monthly["livello_alto_su_depositi_a_vista"] = monthly.livello_alto_mld_eur / monthly.depositi_a_vista_area_mld_eur
+    monthly["usdt_plus_usdc"] = monthly.usdt + monthly.usdc
+    monthly["level_base_bn_usd"] = monthly.usdt_plus_usdc * SHARE_BASE
+    monthly["level_high_bn_usd"] = monthly.usdt_plus_usdc * SHARE_HIGH
+    monthly["all_stablecoins_base_bn_usd"] = monthly.usd_all * SHARE_BASE
+    monthly["level_base_bn_eur"] = monthly.level_base_bn_usd / monthly.usd_per_eur
+    monthly["level_high_bn_eur"] = monthly.level_high_bn_usd / monthly.usd_per_eur
+    monthly["usdt_usdc_share"] = monthly.usdt_plus_usdc / monthly.usd_all
+    bsi = pd.read_csv(RAW / "m3_bsi.csv", dtype={"month": str})
+    dep = bsi[bsi.series.isin(["vista_fam", "vista_imp"])].groupby("month").eur_mn.sum() / 1000
+    n_c = bsi[bsi.series == "vista_fam"].groupby("month").country.nunique()
+    monthly["area_sight_deposits_bn_eur"] = dep.reindex(monthly.index)
+    monthly["countries_in_deposits"] = n_c.reindex(monthly.index)
+    monthly["level_base_to_sight_deposits"] = monthly.level_base_bn_eur / monthly.area_sight_deposits_bn_eur
+    monthly["level_high_to_sight_deposits"] = monthly.level_high_bn_eur / monthly.area_sight_deposits_bn_eur
     monthly.round(6).to_csv(PROC / "m1_monthly_series.csv")
 
     # Validation on the base used by the ESM
     esm_day = circ.index[circ.index <= ESM_Q3_2025["data"]].max()
-    esm_all = float(circ.loc[esm_day, "usd_tutte"])
+    esm_all = float(circ.loc[esm_day, "usd_all"])
     esm_circ = float(circ.loc[esm_day, "usdt"] + circ.loc[esm_day, "usdc"])
 
     # Floor implied by the ECB survey
@@ -156,17 +156,17 @@ def main() -> None:
     )
     nov = monthly.loc[ECB_SURVEY["mese_importi"]] if ECB_SURVEY["mese_importi"] in monthly.index else None
 
-    last_dep_month = monthly.depositi_a_vista_area_mld_eur.last_valid_index()
+    last_dep_month = monthly.area_sight_deposits_bn_eur.last_valid_index()
     out = {
         "calcolato_il": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "avvertenza": "Application of an external assumption (ESM Working Paper 79), not an estimate.",
         "data_circolazione": last_day,
         "circolazione_mld_usd": {
-            "tutte_le_stablecoin_in_dollari": float(now.usd_tutte),
+            "tutte_le_stablecoin_in_dollari": float(now.usd_all),
             "usdt": float(now.usdt),
             "usdc": float(now.usdc),
             "usdt_piu_usdc": both,
-            "quota_usdt_usdc": both / float(now.usd_tutte),
+            "quota_usdt_usdc": both / float(now.usd_all),
         },
         "controllo_coingecko": {
             "usdt_mld": aux["coingecko"]["usdt"],
@@ -179,7 +179,7 @@ def main() -> None:
         "quote_esm": {"base": SHARE_BASE, "alto": SHARE_HIGH},
         "base_di_calcolo": "USDT + USDC, the same base as the ESM (WP 79, section 4.4.1)",
         "livello": level(both, fx_now),
-        "variante_tutte_le_stablecoin_in_dollari": level(float(now.usd_tutte), fx_now),
+        "variante_tutte_le_stablecoin_in_dollari": level(float(now.usd_all), fx_now),
         "convalida_esm": {
             "data": esm_day,
             "usdt_piu_usdc_defillama_mld_usd": esm_circ,
@@ -193,9 +193,9 @@ def main() -> None:
         },
         "rapporto_con_i_depositi": {
             "mese_depositi": last_dep_month,
-            "depositi_a_vista_area_mld_eur": float(monthly.loc[last_dep_month, "depositi_a_vista_area_mld_eur"]),
-            "livello_base_su_depositi": float(monthly.loc[last_dep_month, "livello_base_su_depositi_a_vista"]),
-            "livello_alto_su_depositi": float(monthly.loc[last_dep_month, "livello_alto_su_depositi_a_vista"]),
+            "depositi_a_vista_area_mld_eur": float(monthly.loc[last_dep_month, "area_sight_deposits_bn_eur"]),
+            "livello_base_su_depositi": float(monthly.loc[last_dep_month, "level_base_to_sight_deposits"]),
+            "livello_alto_su_depositi": float(monthly.loc[last_dep_month, "level_high_to_sight_deposits"]),
         },
         "diffusione_bce": ECB_SURVEY,
         "controllo_di_coerenza": {
@@ -203,20 +203,20 @@ def main() -> None:
             "anno_famiglie": hh["anno"],
             "famiglie_con_stablecoin_migliaia": hh["famiglie_migliaia"] * ECB_SURVEY["quota_consumatori"],
             "pavimento_mld_eur": floor_eur,
-            "livello_base_fine_novembre_2025_mld_eur": None if nov is None else float(nov.livello_base_mld_eur),
-            "livello_alto_fine_novembre_2025_mld_eur": None if nov is None else float(nov.livello_alto_mld_eur),
-            "pavimento_su_livello_base": None if nov is None else float(floor_eur / nov.livello_base_mld_eur),
+            "livello_base_fine_novembre_2025_mld_eur": None if nov is None else float(nov.level_base_bn_eur),
+            "livello_alto_fine_novembre_2025_mld_eur": None if nov is None else float(nov.level_high_bn_eur),
+            "pavimento_su_livello_base": None if nov is None else float(floor_eur / nov.level_base_bn_eur),
             "importo_medio_implicito_per_famiglia_detentrice_eur": None
             if nov is None
-            else float(nov.livello_base_mld_eur * 1e9 / (hh["famiglie_migliaia"] * 1000 * ECB_SURVEY["quota_consumatori"])),
+            else float(nov.level_base_bn_eur * 1e9 / (hh["famiglie_migliaia"] * 1000 * ECB_SURVEY["quota_consumatori"])),
         },
         "serie": {
             "primo_mese": monthly.index[0],
             "ultimo_mese": monthly.index[-1],
             "mesi": int(len(monthly)),
-            "livello_base_primo_mese_mld_usd": float(monthly.livello_base_mld_usd.iloc[0]),
-            "livello_base_massimo_mld_usd": float(monthly.livello_base_mld_usd.max()),
-            "mese_massimo": monthly.livello_base_mld_usd.idxmax(),
+            "livello_base_primo_mese_mld_usd": float(monthly.level_base_bn_usd.iloc[0]),
+            "livello_base_massimo_mld_usd": float(monthly.level_base_bn_usd.max()),
+            "mese_massimo": monthly.level_base_bn_usd.idxmax(),
         },
     }
     (PROC / "m1_level.json").write_text(json.dumps(out, indent=2, ensure_ascii=False))
@@ -232,14 +232,14 @@ def plot(monthly: pd.DataFrame) -> None:
     import matplotlib.pyplot as plt
 
     ink, muted, grid, surface, blue, light = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb", "#2a78d6", "#cde2fb"
-    x = pd.to_datetime(monthly.data)
+    x = pd.to_datetime(monthly.date)
     fig, ax = plt.subplots(figsize=(8.2, 4.2), facecolor=surface)
     ax.set_facecolor(surface)
-    ax.fill_between(x, monthly.livello_base_mld_eur, monthly.livello_alto_mld_eur, color=light, lw=0, label="between 7.5% share and 15% share")
-    ax.plot(x, monthly.livello_base_mld_eur, color=blue, lw=2, label="base level (7.5% share)")
+    ax.fill_between(x, monthly.level_base_bn_eur, monthly.level_high_bn_eur, color=light, lw=0, label="between 7.5% share and 15% share")
+    ax.plot(x, monthly.level_base_bn_eur, color=blue, lw=2, label="base level (7.5% share)")
     ax.annotate(
-        f"{monthly.livello_base_mld_eur.iloc[-1]:.1f}",
-        (x.iloc[-1], monthly.livello_base_mld_eur.iloc[-1]),
+        f"{monthly.level_base_bn_eur.iloc[-1]:.1f}",
+        (x.iloc[-1], monthly.level_base_bn_eur.iloc[-1]),
         xytext=(6, 0),
         textcoords="offset points",
         va="center",
@@ -247,8 +247,8 @@ def plot(monthly: pd.DataFrame) -> None:
         color=muted,
     )
     ax.annotate(
-        f"{monthly.livello_alto_mld_eur.iloc[-1]:.1f}",
-        (x.iloc[-1], monthly.livello_alto_mld_eur.iloc[-1]),
+        f"{monthly.level_high_bn_eur.iloc[-1]:.1f}",
+        (x.iloc[-1], monthly.level_high_bn_eur.iloc[-1]),
         xytext=(6, 0),
         textcoords="offset points",
         va="center",

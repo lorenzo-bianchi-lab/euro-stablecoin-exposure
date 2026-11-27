@@ -35,7 +35,7 @@ def main() -> None:
     inp = json.loads((RAW / "m4_inputs.json").read_text())
     pop, fx = pd.Series(inp["popolazione"], dtype=float), inp["usd_per_eur"]
     bal = pd.read_csv(PROC / "m5_retail_share.csv", index_col=0)
-    high = set(bal.index[bal.quota_retail_alta])
+    high = set(bal.index[bal.high_retail_share])
     ref = json.loads((PROC / "level_own.json").read_text())["livello_di_riferimento"]
     # three scenarios per rule: different amounts, substitution rates and deposit types
     setups = [(ref["centrale_mld_eur"], 1.0, "T1"), (143 / fx, 0.75, "T2"), (600 / fx, 0.5, "T3")]
@@ -46,47 +46,49 @@ def main() -> None:
             flows = pd.DataFrame(
                 {
                     "scenario": "x",
-                    "regola_paesi": rule,
-                    "paese": a.index,
-                    "nome": [m5.NAMES[k] for k in a.index],
-                    "importo_mld_usd": amount * fx,
-                    "deflusso_mld": a.deflusso_mld.to_numpy(),
+                    "country_rule": rule,
+                    "country": a.index,
+                    "name": [m5.NAMES[k] for k in a.index],
+                    "amount_bn_usd": amount * fx,
+                    "outflow_bn": a.outflow_bn.to_numpy(),
                 }
             )
-            cr = m5.credit_effects(flows, bal, high).set_index("paese")
+            cr = m5.credit_effects(flows, bal, high).set_index("country")
             cases.append(
                 {
                     "scenario": {"importo": amount, "sostituzione": sigma, "regola": rule, "depositi": dep},
                     "paesi": {
                         k: {
-                            "deflusso": float(a.deflusso_mld[k]),
-                            "persiVista": float(a.perdita_depositi_a_vista[k]),
-                            "persiClientela": float(a.perdita_depositi_clientela[k]),
-                            "effettoPp": float(a.effetto_sulla_raccolta_pp[k]),
-                            "aumentoIngrosso": float(a.raccolta_ingrosso_necessaria_mld[k] / b.ingrosso[k]),
-                            **{f"credito_{v}": float(cr.loc[k, f"{v}_mld"]) for v in VARIANTS},
+                            "deflusso": float(a.outflow_bn[k]),
+                            "persiVista": float(a.sight_deposits_lost[k]),
+                            "persiClientela": float(a.customer_deposits_lost[k]),
+                            "effettoPp": float(a.funding_effect_pp[k]),
+                            "aumentoIngrosso": float(a.wholesale_funding_needed_bn[k] / b.ingrosso[k]),
+                            **{f"credito_{v}": float(cr.loc[k, f"{v}_bn"]) for v in VARIANTS},
                         }
                         for k in a.index
                     },
-                    "totale": {"deflusso": float(a.deflusso_mld.sum()), **{f"credito_{v}": float(cr[f"{v}_mld"].sum()) for v in VARIANTS}},
+                    "totale": {"deflusso": float(a.outflow_bn.sum()), **{f"credito_{v}": float(cr[f"{v}_bn"].sum()) for v in VARIANTS}},
                 }
             )
     # module 6: effect by bank in three scenarios, one per rule and per deposit type
     banks, _ = m6.indicators(m6.load_banks())
-    banks = banks[banks.dati_completi]
+    banks = banks[banks.complete_data]
     bank_cases = []
     for rule, (amount, sigma, dep) in zip(("R1", "R2", "R3"), setups, strict=True):
         a = m4.allocate(b, amount * sigma, rule, dep, pop)
-        e = m6.bank_effects(banks, a.perdita_categoria_colpita, {"T1": "vista", "T2": "vista_famiglie", "T3": "clientela"}[dep])
+        e = m6.bank_effects(
+            banks, a.affected_category_lost, {"T1": "sight_deposits", "T2": "household_sight_deposits", "T3": "customer_deposits"}[dep]
+        )
         bank_cases.append(
             {
                 "scenario": {"importo": amount, "sostituzione": sigma, "regola": rule, "depositi": dep},
                 "banche": {
                     k: {
-                        "deflusso": float(r.deflusso),
-                        "credito": float(r.credito),
-                        "creditoBasso": float(r.credito_basso),
-                        "creditoAlto": float(r.credito_alto),
+                        "deflusso": float(r.outflow),
+                        "credito": float(r.credit),
+                        "creditoBasso": float(r.credit_low),
+                        "creditoAlto": float(r.credit_high),
                     }
                     for k, r in e.iterrows()
                 },

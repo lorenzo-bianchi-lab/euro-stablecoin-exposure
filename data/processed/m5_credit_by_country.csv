@@ -1,4 +1,4 @@
-scenario,regola_paesi,paese,nome,importo_mld_usd,deflusso_mld,prestiti_mld,quota_retail_alta,uniforme_mld,basso_mld,alto_mld,soglia_mld,continua_mld,basso_mld_col4,alto_mld_col4,soglia_mld_col4,continua_mld_col4,uniforme_pct_prestiti,basso_pct_prestiti,alto_pct_prestiti,soglia_pct_prestiti,continua_pct_prestiti
+scenario,country_rule,country,name,amount_bn_usd,outflow_bn,loans_bn,high_retail_share,uniforme_bn,basso_bn,alto_bn,soglia_bn,continua_bn,basso_bn_col4,alto_bn_col4,soglia_bn_col4,continua_bn_col4,uniforme_pct_loans,basso_pct_loans,alto_pct_loans,soglia_pct_loans,continua_pct_loans
 P_minimo,R1,AT,Austria,9.809572,0.307889,447.49,False,0.153944,0.06909,0.483941,0.06909,0.159308,0.05358,0.653767,0.05358,0.184103,0.034402,0.015439,0.108146,0.015439,0.0356
 P_minimo,R1,BE,Belgio,9.809572,0.224947,484.515,False,0.112474,0.040705,0.28512,0.040705,0.075292,0.031567,0.385175,0.031567,0.081606,0.023214,0.008401,0.058846,0.008401,0.01554
 P_minimo,R1,BG,Bulgaria,9.809572,0.071831,63.85141,True,0.035916,0.020012,0.140172,0.140172,0.140172,0.015519,0.189362,0.189362,0.189362,0.056249,0.031341,0.219529,0.219529,0.219529

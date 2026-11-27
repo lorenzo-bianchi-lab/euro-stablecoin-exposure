@@ -1,4 +1,4 @@
-week,usdt,usdt_senza_coinbase,usdc,usdc_senza_coinbase,totale,exchange_attivi,volume_fiat_mld,volume_eur_usdt_mld,volume_fiat_usdt_mld,volume_eur_usdc_mld,volume_fiat_usdc_mld
+week,usdt,usdt_senza_coinbase,usdc,usdc_senza_coinbase,total,active_exchanges,volume_fiat_bn,volume_eur_usdt_bn,volume_fiat_usdt_bn,volume_eur_usdc_bn,volume_fiat_usdc_bn
 2023-01-02,0.202147,0.270086,0.387553,0.353013,0.205369,17,1.458728,0.289752,1.433375,0.009826,0.025353
 2023-01-09,0.189983,0.277933,0.287301,0.227823,0.191428,17,2.301739,0.430798,2.267563,0.009819,0.034176
 2023-01-16,0.190232,0.273229,0.214902,0.172474,0.190615,17,2.150396,0.402713,2.116963,0.007185,0.033433

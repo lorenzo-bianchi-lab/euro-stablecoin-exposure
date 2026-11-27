@@ -1,4 +1,4 @@
-paese,nome,deflusso_mld,eccedenza_mld,perdita_categoria_colpita,perdita_depositi_a_vista,perdita_depositi_clientela,effetto_sulla_raccolta_pp,raccolta_ingrosso_necessaria_mld,aumento_raccolta_ingrosso,C1_prima,C1_dopo,scenario,regola_paesi,regola_depositi,importo_mld_usd
+country,name,outflow_bn,excess_bn,affected_category_lost,sight_deposits_lost,customer_deposits_lost,funding_effect_pp,wholesale_funding_needed_bn,wholesale_funding_increase,C1_before,C1_after,scenario,country_rule,deposit_rule,amount_bn_usd
 AT,Austria,0.307889,0.0,0.001095,0.001095,0.000695,0.028008,0.307889,0.000899,0.255708,0.255428,P_minimo,R1,T1,9.809572
 BE,Belgio,0.224947,0.0,0.001095,0.001095,0.000362,0.01524,0.224947,0.000854,0.139141,0.138989,P_minimo,R1,T1,9.809572
 BG,Bulgaria,0.071831,0.0,0.001095,0.001095,0.00083,0.056855,0.071831,0.008242,0.519074,0.518506,P_minimo,R1,T1,9.809572

@@ -1,4 +1,4 @@
-week,exchange,giorni,coppie,volume,volume_eur,quota_del_volume_settimanale
+week,exchange,days,pairs,volume,volume_eur,weekly_volume_share
 2023-01-02,BTC Markets,7,2,1927136.2,0.0,0.001321
 2023-01-02,Binance,7,8,493876776.71,123826145.68,0.338567
 2023-01-02,Binance.US,7,2,25552597.2,0.0,0.017517

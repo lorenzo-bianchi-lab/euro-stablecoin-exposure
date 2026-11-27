@@ -1,4 +1,4 @@
-week,serie,quota_eur,volume_eur_mld,scarto_quota,scarto_volume,stato
+week,series,eur_share,volume_eur_bn,share_deviation,volume_deviation,status
 2024-12-09,usdt,0.125407,2.155122,,,storico insufficiente
 2024-12-16,usdt,0.108895,2.064924,,,storico insufficiente
 2024-12-23,usdt,0.146867,1.682015,,,storico insufficiente

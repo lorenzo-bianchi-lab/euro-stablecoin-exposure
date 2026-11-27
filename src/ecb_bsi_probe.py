@@ -69,12 +69,12 @@ def main() -> None:
         if d.empty:
             coverage.append(
                 {
-                    "serie": name,
-                    "descrizione": label,
-                    "codice": "BSI." + key.replace("..", ".{paese}.", 1),
-                    "paesi_area_euro": 0,
-                    "paesi": "",
-                    "mancanti": " ".join(EURO_AREA),
+                    "series": name,
+                    "description": label,
+                    "code": "BSI." + key.replace("..", ".{paese}.", 1),
+                    "euro_area_countries": 0,
+                    "countries": "",
+                    "missing": " ".join(EURO_AREA),
                 }
             )
             continue
@@ -83,30 +83,30 @@ def main() -> None:
         latest = per["max"].max()
         coverage.append(
             {
-                "serie": name,
-                "descrizione": label,
-                "codice": "BSI." + key.replace("..", ".{paese}.", 1),
-                "paesi_area_euro": len(per),
-                "paesi": " ".join(per.index),
-                "mancanti": " ".join(c for c in EURO_AREA if c not in per.index),
-                "inizio_piu_antico": per["min"].min(),
-                "inizio_piu_recente": per["min"].max(),
-                "paese_inizio_piu_recente": per["min"].idxmax(),
-                "ultimo_dato": latest,
-                "paesi_aggiornati_all_ultimo_dato": int((per["max"] == latest).sum()),
-                "osservazioni": int(per["count"].sum()),
+                "series": name,
+                "description": label,
+                "code": "BSI." + key.replace("..", ".{paese}.", 1),
+                "euro_area_countries": len(per),
+                "countries": " ".join(per.index),
+                "missing": " ".join(c for c in EURO_AREA if c not in per.index),
+                "earliest_start": per["min"].min(),
+                "latest_start": per["min"].max(),
+                "latest_start_country": per["min"].idxmax(),
+                "last_observation": latest,
+                "countries_at_last_observation": int((per["max"] == latest).sum()),
+                "observations": int(per["count"].sum()),
             }
         )
         s = d[d.TIME_PERIOD >= SAMPLE_START][["REF_AREA", "TIME_PERIOD", "OBS_VALUE"]].copy()
-        s.insert(0, "serie", name)
+        s.insert(0, "series", name)
         sample.append(s)
         for area, row in per.iterrows():
-            coverage_detail.append({"serie": name, "paese": area, "inizio": row["min"], "fine": row["max"], "osservazioni": int(row["count"])})
+            coverage_detail.append({"series": name, "country": area, "start": row["min"], "end": row["max"], "observations": int(row["count"])})
         print(f"{name}: {len(per)} countries, {per['min'].min()} - {latest}", flush=True)
         time.sleep(1)
     pd.DataFrame(coverage).to_csv(PROC / "ecb_bsi_coverage.csv", index=False)
     pd.DataFrame(coverage_detail).to_csv(PROC / "ecb_bsi_coverage_by_country.csv", index=False)
-    out = pd.concat(sample, ignore_index=True).rename(columns={"REF_AREA": "paese", "TIME_PERIOD": "mese", "OBS_VALUE": "milioni_eur"})
+    out = pd.concat(sample, ignore_index=True).rename(columns={"REF_AREA": "country", "TIME_PERIOD": "month", "OBS_VALUE": "eur_mn"})
     out.to_csv(RAW / "ecb_bsi_sample.csv", index=False)
     print(f"sample: {len(out)} observations from {SAMPLE_START}")
 

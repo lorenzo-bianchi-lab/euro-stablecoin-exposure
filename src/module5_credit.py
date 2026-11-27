@@ -56,7 +56,7 @@ NAMES = {
     "SI": "Slovenia",
     "SK": "Slovacchia",
 }
-# NAMES are the country names stored in the data files (column "nome"): they stay as they are.
+# NAMES are the country names stored in the data files (column "name"): they stay as they are.
 # NAMES_EN are English names for figures and descriptions only.
 NAMES_EN = {
     "AT": "Austria",
@@ -87,6 +87,16 @@ RULE_UNIFORM = 0.5  # 100 bn of retail deposits -> about 50 bn of loans (section
 SD_DEPOSITS_PP = 0.8  # one standard deviation of sight deposits over total assets, in points
 COEF = {"col3": {"basso": 0.441, "alto": 3.089}, "col4": {"basso": 0.342, "alto": 4.173}}  # table 1, in absolute value
 RETAIL_PERCENTILE = 75
+VARIANTS = ("uniforme", "basso", "alto", "soglia", "continua")  # credit variant ids, the same as in the addresses of the application
+# data/processed/m5_summary.json keeps its Italian keys: columns of m5_credit_euro_area.csv -> keys of that file
+JSON_KEYS = {
+    "amount_bn_usd": "importo_mld_usd",
+    "outflow_bn": "deflusso_mld",
+    "loans_bn": "prestiti_mld",
+    **{f"{k}_bn{s}": f"{k}_mld{s}" for k in VARIANTS for s in ("", "_col4")},
+    **{f"{k}_pct_loans": f"{k}_pct_prestiti" for k in VARIANTS},
+    **{f"{k}_per_euro_of_outflow": f"{k}_per_euro_di_deflusso" for k in VARIANTS},
+}
 
 MONTHLY = {
     "prestiti_fam": "M..N.A.A20.A.1.U2.2250.Z01.E",
@@ -115,11 +125,11 @@ def fetch_all() -> pd.DataFrame:
         r.raise_for_status()
         d = pd.read_csv(io.StringIO(r.text), dtype={"TIME_PERIOD": str})
         d = d[d.REF_AREA.isin(EURO_AREA) & d.OBS_VALUE.notna()][["REF_AREA", "TIME_PERIOD", "OBS_VALUE"]]
-        d.insert(0, "serie", name)
+        d.insert(0, "series", name)
         frames.append(d)
         print(f"{name}: {d.REF_AREA.nunique()} countries, up to {d.TIME_PERIOD.max()}", flush=True)
         time.sleep(1)
-    out = pd.concat(frames, ignore_index=True).rename(columns={"REF_AREA": "paese", "TIME_PERIOD": "periodo", "OBS_VALUE": "milioni_eur"})
+    out = pd.concat(frames, ignore_index=True).rename(columns={"REF_AREA": "country", "TIME_PERIOD": "period", "OBS_VALUE": "eur_mn"})
     out.to_csv(STORE, index=False)
     import bis_lbs_probe  # also updates the BIS series used for the dollar axis
 
@@ -143,122 +153,122 @@ def continuous_weight(quota: pd.Series, threshold: float) -> tuple[pd.Series, fl
 
 def credit_effects(flows: pd.DataFrame, bal: pd.DataFrame, high: set[str]) -> pd.DataFrame:
     """Credit reduction by country, for each scenario and allocation rule."""
-    f = flows.join(bal[["totale", "prestiti", "peso_continuo"]], on="paese")
-    out = f[["scenario", "regola_paesi", "paese", "nome", "importo_mld_usd", "deflusso_mld"]].copy()
-    out["prestiti_mld"] = f.prestiti
-    out["quota_retail_alta"] = f.paese.isin(high)
-    shock_sd = 100 * f.deflusso_mld / f.totale / SD_DEPOSITS_PP  # outflow in standard deviations
-    out["uniforme_mld"] = RULE_UNIFORM * f.deflusso_mld
+    f = flows.join(bal[["total_liabilities", "loans", "continuous_weight"]], on="country")
+    out = f[["scenario", "country_rule", "country", "name", "amount_bn_usd", "outflow_bn"]].copy()
+    out["loans_bn"] = f.loans
+    out["high_retail_share"] = f.country.isin(high)
+    shock_sd = 100 * f.outflow_bn / f.total_liabilities / SD_DEPOSITS_PP  # outflow in standard deviations
+    out["uniforme_bn"] = RULE_UNIFORM * f.outflow_bn
     for col, c in COEF.items():
         suffix = "" if col == "col3" else "_col4"
         low_pct, high_pct = c["basso"] * shock_sd, c["alto"] * shock_sd
-        out[f"basso_mld{suffix}"] = low_pct / 100 * f.prestiti
-        out[f"alto_mld{suffix}"] = high_pct / 100 * f.prestiti
-        out[f"soglia_mld{suffix}"] = np.where(out.quota_retail_alta, out[f"alto_mld{suffix}"], out[f"basso_mld{suffix}"])
-        out[f"continua_mld{suffix}"] = out[f"basso_mld{suffix}"] + (out[f"alto_mld{suffix}"] - out[f"basso_mld{suffix}"]) * f.peso_continuo.to_numpy()
-    for k in ("uniforme", "basso", "alto", "soglia", "continua"):
-        out[f"{k}_pct_prestiti"] = 100 * out[f"{k}_mld"] / f.prestiti
+        out[f"basso_bn{suffix}"] = low_pct / 100 * f.loans
+        out[f"alto_bn{suffix}"] = high_pct / 100 * f.loans
+        out[f"soglia_bn{suffix}"] = np.where(out.high_retail_share, out[f"alto_bn{suffix}"], out[f"basso_bn{suffix}"])
+        out[f"continua_bn{suffix}"] = out[f"basso_bn{suffix}"] + (out[f"alto_bn{suffix}"] - out[f"basso_bn{suffix}"]) * f.continuous_weight.to_numpy()
+    for k in VARIANTS:
+        out[f"{k}_pct_loans"] = 100 * out[f"{k}_bn"] / f.loans
     return out
 
 
 def main() -> None:
     offline = "--offline" in sys.argv
-    long = pd.read_csv(STORE, dtype={"periodo": str}) if offline else fetch_all()
-    m3 = pd.read_csv(RAW / "m3_bsi.csv", dtype={"mese": str})
-    month = m3.mese.max()
-    b3 = m3[m3.mese == month].pivot(index="paese", columns="serie", values="milioni_eur") / 1000
-    mm = long[long.serie.isin(MONTHLY)]
-    b5 = mm[mm.periodo == month].pivot(index="paese", columns="serie", values="milioni_eur") / 1000
+    long = pd.read_csv(STORE, dtype={"period": str}) if offline else fetch_all()
+    m3 = pd.read_csv(RAW / "m3_bsi.csv", dtype={"month": str})
+    month = m3.month.max()
+    b3 = m3[m3.month == month].pivot(index="country", columns="series", values="eur_mn") / 1000
+    mm = long[long.series.isin(MONTHLY)]
+    b5 = mm[mm.period == month].pivot(index="country", columns="series", values="eur_mn") / 1000
     bal = pd.DataFrame(
         {
-            "totale": b3.totale,
-            "vista": b3.vista_fam + b3.vista_imp,
-            "dep_fam": b3.dep_fam,
-            "prestiti": b5.prestiti_fam + b5.prestiti_imp,
-            "prestiti_fam": b5.prestiti_fam,
-            "prestiti_imp": b5.prestiti_imp,
-            "dep_non_bancari": b5.dep_ofi + b5.dep_icpf,
+            "total_liabilities": b3.totale,
+            "sight_deposits": b3.vista_fam + b3.vista_imp,
+            "household_deposits": b3.dep_fam,
+            "loans": b5.prestiti_fam + b5.prestiti_imp,
+            "household_loans": b5.prestiti_fam,
+            "firm_loans": b5.prestiti_imp,
+            "non_bank_financial_deposits": b5.dep_ofi + b5.dep_icpf,
         }
     )
-    bal["quota_retail"] = bal.dep_fam / (bal.dep_fam + bal.dep_non_bancari)
-    bal["prestiti_su_passivo"] = bal.prestiti / bal.totale
-    threshold = float(np.percentile(bal.quota_retail, RETAIL_PERCENTILE))
-    high = set(bal.index[bal.quota_retail > threshold])
-    bal["quota_retail_alta"] = bal.index.isin(high)
-    bal["peso_continuo"], q_low, q_high = continuous_weight(bal.quota_retail, threshold)
-    bal["coefficiente_continuo"] = COEF["col3"]["basso"] + (COEF["col3"]["alto"] - COEF["col3"]["basso"]) * bal.peso_continuo
-    bal.insert(0, "nome", [NAMES[k] for k in bal.index])
-    bal.round(6).sort_values("quota_retail", ascending=False).to_csv(PROC / "m5_retail_share.csv")
+    bal["retail_share"] = bal.household_deposits / (bal.household_deposits + bal.non_bank_financial_deposits)
+    bal["loans_to_liabilities"] = bal.loans / bal.total_liabilities
+    threshold = float(np.percentile(bal.retail_share, RETAIL_PERCENTILE))
+    high = set(bal.index[bal.retail_share > threshold])
+    bal["high_retail_share"] = bal.index.isin(high)
+    bal["continuous_weight"], q_low, q_high = continuous_weight(bal.retail_share, threshold)
+    bal["continuous_coefficient"] = COEF["col3"]["basso"] + (COEF["col3"]["alto"] - COEF["col3"]["basso"]) * bal.continuous_weight
+    bal.insert(0, "name", [NAMES[k] for k in bal.index])
+    bal.round(6).sort_values("retail_share", ascending=False).to_csv(PROC / "m5_retail_share.csv")
 
     # 1. Credit reduction
     flows = pd.read_csv(PROC / "m4_scenarios_by_country.csv")
-    flows = flows[flows.regola_depositi == "T1"]
+    flows = flows[flows.deposit_rule == "T1"]
     credit = credit_effects(flows, bal, high)
     credit.round(6).to_csv(PROC / "m5_credit_by_country.csv", index=False)
     ea = (
-        credit.groupby(["scenario", "regola_paesi"])
+        credit.groupby(["scenario", "country_rule"])
         .agg(
-            importo_mld_usd=("importo_mld_usd", "first"),
-            deflusso_mld=("deflusso_mld", "sum"),
-            prestiti_mld=("prestiti_mld", "sum"),
-            **{f"{k}_mld": (f"{k}_mld", "sum") for k in ("uniforme", "basso", "alto", "soglia", "continua")},
-            soglia_mld_col4=("soglia_mld_col4", "sum"),
-            basso_mld_col4=("basso_mld_col4", "sum"),
-            alto_mld_col4=("alto_mld_col4", "sum"),
+            amount_bn_usd=("amount_bn_usd", "first"),
+            outflow_bn=("outflow_bn", "sum"),
+            loans_bn=("loans_bn", "sum"),
+            **{f"{k}_bn": (f"{k}_bn", "sum") for k in VARIANTS},
+            soglia_bn_col4=("soglia_bn_col4", "sum"),
+            basso_bn_col4=("basso_bn_col4", "sum"),
+            alto_bn_col4=("alto_bn_col4", "sum"),
         )
         .reset_index()
     )
-    for k in ("uniforme", "basso", "alto", "soglia", "continua"):
-        ea[f"{k}_pct_prestiti"] = 100 * ea[f"{k}_mld"] / ea.prestiti_mld
-        ea[f"{k}_per_euro_di_deflusso"] = ea[f"{k}_mld"] / ea.deflusso_mld
+    for k in VARIANTS:
+        ea[f"{k}_pct_loans"] = 100 * ea[f"{k}_bn"] / ea.loans_bn
+        ea[f"{k}_per_euro_of_outflow"] = ea[f"{k}_bn"] / ea.outflow_bn
     ea.round(6).to_csv(PROC / "m5_credit_euro_area.csv", index=False)
 
     # 2. Two-channel map
     rank = pd.read_csv(PROC / "m3_ranking_latest.csv", index_col=0)
     bis = pd.read_csv(RAW / "bis_lbs_fx_liabilities_sample.csv")
-    q = bis.trimestre.max()
-    bq = bis[bis.trimestre == q].pivot(index="paese", columns="serie", values="milioni_usd")
-    usd_bis = (bq.passivo_usd / bq.passivo_totale).rename("usd_bri")
-    qq = long[long.serie.isin(QUARTERLY_USD)]
-    q_bsi = qq.periodo.max()
-    cur = qq[qq.periodo == q_bsi].pivot(index="paese", columns="serie", values="milioni_eur").reindex(EURO_AREA)
-    tot_q = m3[(m3.mese == quarter_end_month(q_bsi)) & (m3.serie == "totale")].set_index("paese").milioni_eur
+    q = bis.quarter.max()
+    bq = bis[bis.quarter == q].pivot(index="country", columns="series", values="usd_mn")
+    usd_bis = (bq.passivo_usd / bq.passivo_totale).rename("usd_bis")
+    qq = long[long.series.isin(QUARTERLY_USD)]
+    q_bsi = qq.period.max()
+    cur = qq[qq.period == q_bsi].pivot(index="country", columns="series", values="eur_mn").reindex(EURO_AREA)
+    tot_q = m3[(m3.month == quarter_end_month(q_bsi)) & (m3.series == "totale")].set_index("country").eur_mn
     usd_bsi = (cur.sum(axis=1, min_count=1) / tot_q).rename("usd_bsi")
-    usd_bsi_area = (cur[["usd_dep_ifm_area", "usd_dep_non_ifm_area"]].sum(axis=1, min_count=1) / tot_q).rename("usd_bsi_solo_area")
-    mp = pd.DataFrame({"nome": pd.Series(NAMES), "depositi_a_vista": rank.C1}).join([usd_bis, usd_bsi, usd_bsi_area])
-    mp["componenti_bsi_disponibili"] = cur.notna().sum(axis=1)
-    mp["fonte_dollari"] = np.where(mp.usd_bri.notna(), "BRI", "BSI trimestrale")
-    mp["dollari"] = mp.usd_bri.fillna(mp.usd_bsi)
-    both = mp.dropna(subset=["usd_bri", "usd_bsi"])
-    complete = both[both.componenti_bsi_disponibili == len(QUARTERLY_USD)]
-    ratio = float((complete.usd_bsi / complete.usd_bri).median()) if len(complete) else float("nan")
-    med_x, med_y = float(mp.depositi_a_vista.median()), float(mp.dollari.median())
+    usd_bsi_area = (cur[["usd_dep_ifm_area", "usd_dep_non_ifm_area"]].sum(axis=1, min_count=1) / tot_q).rename("usd_bsi_area_only")
+    mp = pd.DataFrame({"name": pd.Series(NAMES), "sight_deposits": rank.C1}).join([usd_bis, usd_bsi, usd_bsi_area])
+    mp["bsi_components_available"] = cur.notna().sum(axis=1)
+    mp["dollar_source"] = np.where(mp.usd_bis.notna(), "BRI", "BSI trimestrale")
+    mp["dollars"] = mp.usd_bis.fillna(mp.usd_bsi)
+    both = mp.dropna(subset=["usd_bis", "usd_bsi"])
+    complete = both[both.bsi_components_available == len(QUARTERLY_USD)]
+    ratio = float((complete.usd_bsi / complete.usd_bis).median()) if len(complete) else float("nan")
+    med_x, med_y = float(mp.sight_deposits.median()), float(mp.dollars.median())
 
     def quadrant(x, y, mx, my):
         return ("A" if y <= my else "B") if x > mx else ("C" if y > my else "D")
 
-    mp["quadrante"] = [quadrant(x, y, med_x, med_y) for x, y in zip(mp.depositi_a_vista, mp.dollari, strict=True)]
+    mp["quadrant"] = [quadrant(x, y, med_x, med_y) for x, y in zip(mp.sight_deposits, mp.dollars, strict=True)]
     # Sensitivity: BSI values of the eight countries brought to the BIS scale with the observed median ratio
-    mp["dollari_riscalati"] = mp.usd_bri.fillna(mp.usd_bsi / ratio if ratio and not np.isnan(ratio) else mp.usd_bsi)
-    med_y2 = float(mp.dollari_riscalati.median())
-    mp["quadrante_riscalato"] = [quadrant(x, y, med_x, med_y2) for x, y in zip(mp.depositi_a_vista, mp.dollari_riscalati, strict=True)]
-    mp["quota_retail_alta"] = mp.index.isin(high)
-    mp.round(6).sort_values(["quadrante", "depositi_a_vista"], ascending=[True, False]).to_csv(PROC / "m5_two_channel_map.csv")
+    mp["dollars_rescaled"] = mp.usd_bis.fillna(mp.usd_bsi / ratio if ratio and not np.isnan(ratio) else mp.usd_bsi)
+    med_y2 = float(mp.dollars_rescaled.median())
+    mp["quadrant_rescaled"] = [quadrant(x, y, med_x, med_y2) for x, y in zip(mp.sight_deposits, mp.dollars_rescaled, strict=True)]
+    mp["high_retail_share"] = mp.index.isin(high)
+    mp.round(6).sort_values(["quadrant", "sight_deposits"], ascending=[True, False]).to_csv(PROC / "m5_two_channel_map.csv")
 
     def top(scenario: str, rule: str, col: str, n: int = 5) -> list[dict]:
-        sel = credit[(credit.scenario == scenario) & (credit.regola_paesi == rule)].sort_values(col, ascending=False).head(n)
+        sel = credit[(credit.scenario == scenario) & (credit.country_rule == rule)].sort_values(col, ascending=False).head(n)
         return [
             {
-                "paese": r.paese,
-                "nome": r.nome,
-                "soglia_mld": float(r.soglia_mld),
-                "soglia_pct_prestiti": float(r.soglia_pct_prestiti),
-                "uniforme_mld": float(r.uniforme_mld),
-                "uniforme_pct_prestiti": float(r.uniforme_pct_prestiti),
-                "continua_mld": float(r.continua_mld),
-                "continua_pct_prestiti": float(r.continua_pct_prestiti),
-                "basso_mld": float(r.basso_mld),
-                "alto_mld": float(r.alto_mld),
+                "paese": r.country,
+                "nome": r.name,
+                "soglia_mld": float(r.soglia_bn),
+                "soglia_pct_prestiti": float(r.soglia_pct_loans),
+                "uniforme_mld": float(r.uniforme_bn),
+                "uniforme_pct_prestiti": float(r.uniforme_pct_loans),
+                "continua_mld": float(r.continua_bn),
+                "continua_pct_prestiti": float(r.continua_pct_loans),
+                "basso_mld": float(r.basso_bn),
+                "alto_mld": float(r.alto_bn),
             }
             for r in sel.itertuples()
         ]
@@ -280,30 +290,33 @@ def main() -> None:
             "percentile": RETAIL_PERCENTILE,
             "valore": threshold,
             "paesi_sopra": sorted(high),
-            "quota_retail_area": float(bal.dep_fam.sum() / (bal.dep_fam.sum() + bal.dep_non_bancari.sum())),
+            "quota_retail_area": float(bal.household_deposits.sum() / (bal.household_deposits.sum() + bal.non_bank_financial_deposits.sum())),
         },
-        "prestiti_area_mld": float(bal.prestiti.sum()),
-        "prestiti_su_passivo_area": float(bal.prestiti.sum() / bal.totale.sum()),
-        "area_euro_R1": ea[ea.regola_paesi == "R1"].set_index("scenario").drop(columns="regola_paesi").to_dict("index"),
-        "primi_cinque_per_mld": {s: top(s, "R1", "uniforme_mld") for s in scen},
-        "primi_cinque_per_pct": {s: top(s, "R1", "uniforme_pct_prestiti") for s in scen},
-        "primi_cinque_per_pct_continua": {s: top(s, "R1", "continua_pct_prestiti") for s in scen},
+        "prestiti_area_mld": float(bal.loans.sum()),
+        "prestiti_su_passivo_area": float(bal.loans.sum() / bal.total_liabilities.sum()),
+        "area_euro_R1": {
+            s: {JSON_KEYS.get(k, k): v for k, v in row.items()}
+            for s, row in ea[ea.country_rule == "R1"].set_index("scenario").drop(columns="country_rule").to_dict("index").items()
+        },
+        "primi_cinque_per_mld": {s: top(s, "R1", "uniforme_bn") for s in scen},
+        "primi_cinque_per_pct": {s: top(s, "R1", "uniforme_pct_loans") for s in scen},
+        "primi_cinque_per_pct_continua": {s: top(s, "R1", "continua_pct_loans") for s in scen},
         "mappa": {
             "trimestre_bri": q,
             "trimestre_bsi": q_bsi,
             "mediana_depositi_a_vista": med_x,
             "mediana_dollari": med_y,
-            "quadranti": {k: sorted(mp.index[mp.quadrante == k]) for k in "ABCD"},
-            "quadranti_riscalati": {k: sorted(mp.index[mp.quadrante_riscalato == k]) for k in "ABCD"},
-            "paesi_che_cambiano_con_riscalatura": sorted(mp.index[mp.quadrante != mp.quadrante_riscalato]),
+            "quadranti": {k: sorted(mp.index[mp.quadrant == k]) for k in "ABCD"},
+            "quadranti_riscalati": {k: sorted(mp.index[mp.quadrant_rescaled == k]) for k in "ABCD"},
+            "paesi_che_cambiano_con_riscalatura": sorted(mp.index[mp.quadrant != mp.quadrant_rescaled]),
             "confronto_fonti": {
                 "paesi_con_entrambe": int(len(both)),
                 "paesi_con_bsi_completo": int(len(complete)),
                 "rapporto_mediano_bsi_su_bri": ratio,
-                "correlazione_di_rango": float(complete.usd_bsi.rank().corr(complete.usd_bri.rank())) if len(complete) > 2 else None,
+                "correlazione_di_rango": float(complete.usd_bsi.rank().corr(complete.usd_bis.rank())) if len(complete) > 2 else None,
             },
-            "paesi_fonte_bsi": sorted(mp.index[mp.fonte_dollari != "BRI"]),
-            "correlazione_di_rango_assi": float(mp.depositi_a_vista.rank().corr(mp.dollari.rank())),
+            "paesi_fonte_bsi": sorted(mp.index[mp.dollar_source != "BRI"]),
+            "correlazione_di_rango_assi": float(mp.sight_deposits.rank().corr(mp.dollars.rank())),
         },
     }
     (PROC / "m5_summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False))
@@ -323,12 +336,10 @@ def plot(mp: pd.DataFrame, med_x: float, med_y: float) -> None:
     ax.axvline(med_x * 100, color=muted, lw=0.8, ls=(0, (3, 3)))
     ax.axhline(med_y * 100, color=muted, lw=0.8, ls=(0, (3, 3)))
     for src, color, marker, label in (("BRI", blue, "o", "dollars: BIS source"), ("BSI trimestrale", orange, "s", "dollars: quarterly BSI source")):
-        d = mp[mp.fonte_dollari == src]
-        ax.scatter(
-            d.depositi_a_vista * 100, d.dollari * 100, color=color, marker=marker, s=52, edgecolor=surface, linewidth=1.5, label=label, zorder=3
-        )
+        d = mp[mp.dollar_source == src]
+        ax.scatter(d.sight_deposits * 100, d.dollars * 100, color=color, marker=marker, s=52, edgecolor=surface, linewidth=1.5, label=label, zorder=3)
     for k, r in mp.iterrows():
-        ax.annotate(k, (r.depositi_a_vista * 100, r.dollari * 100), xytext=(5, 4), textcoords="offset points", fontsize=8, color=muted)
+        ax.annotate(k, (r.sight_deposits * 100, r.dollars * 100), xytext=(5, 4), textcoords="offset points", fontsize=8, color=muted)
     xmax, ymax = ax.get_xlim()[1], ax.get_ylim()[1]
     for text, x, y, ha, va in (
         ("A  high deposits, low dollars", xmax, ax.get_ylim()[0], "right", "bottom"),

@@ -56,33 +56,33 @@ def main() -> None:
         if not d.empty:
             d = d[d.L_REP_CTY.isin(EURO_AREA) & d.OBS_VALUE.notna()]
         if d.empty:
-            coverage.append({"serie": name, "descrizione": label, "codice": key.replace("..A.5J.A", ".{paese}.A.5J.A"), "paesi_area_euro": 0})
+            coverage.append({"series": name, "description": label, "code": key.replace("..A.5J.A", ".{paese}.A.5J.A"), "euro_area_countries": 0})
             continue
         per = d.groupby("L_REP_CTY").TIME_PERIOD.agg(["min", "max", "count"])
         coverage.append(
             {
-                "serie": name,
-                "descrizione": label,
-                "codice": key.replace("..A.5J.A", ".{paese}.A.5J.A"),
-                "paesi_area_euro": len(per),
-                "paesi": " ".join(per.index),
-                "mancanti": " ".join(c for c in EURO_AREA if c not in per.index),
-                "inizio_piu_antico": per["min"].min(),
-                "inizio_piu_recente": per["min"].max(),
-                "ultimo_dato": per["max"].max(),
-                "paesi_aggiornati_all_ultimo_dato": int((per["max"] == per["max"].max()).sum()),
+                "series": name,
+                "description": label,
+                "code": key.replace("..A.5J.A", ".{paese}.A.5J.A"),
+                "euro_area_countries": len(per),
+                "countries": " ".join(per.index),
+                "missing": " ".join(c for c in EURO_AREA if c not in per.index),
+                "earliest_start": per["min"].min(),
+                "latest_start": per["min"].max(),
+                "last_observation": per["max"].max(),
+                "countries_at_last_observation": int((per["max"] == per["max"].max()).sum()),
             }
         )
         for area, row in per.iterrows():
-            detail.append({"serie": name, "paese": area, "inizio": row["min"], "fine": row["max"], "osservazioni": int(row["count"])})
+            detail.append({"series": name, "country": area, "start": row["min"], "end": row["max"], "observations": int(row["count"])})
         s = d[d.TIME_PERIOD >= SAMPLE_START][["L_REP_CTY", "TIME_PERIOD", "OBS_VALUE"]].copy()
-        s.insert(0, "serie", name)
+        s.insert(0, "series", name)
         sample.append(s)
         print(f"{name}: {len(per)} countries, {per['min'].min()} - {per['max'].max()}", flush=True)
         time.sleep(1)
     pd.DataFrame(coverage).to_csv(PROC / "bis_lbs_coverage.csv", index=False)
     pd.DataFrame(detail).to_csv(PROC / "bis_lbs_coverage_by_country.csv", index=False)
-    out = pd.concat(sample, ignore_index=True).rename(columns={"L_REP_CTY": "paese", "TIME_PERIOD": "trimestre", "OBS_VALUE": "milioni_usd"})
+    out = pd.concat(sample, ignore_index=True).rename(columns={"L_REP_CTY": "country", "TIME_PERIOD": "quarter", "OBS_VALUE": "usd_mn"})
     out.to_csv(RAW / "bis_lbs_fx_liabilities_sample.csv", index=False)
     print(f"sample: {len(out)} observations from {SAMPLE_START}")
 

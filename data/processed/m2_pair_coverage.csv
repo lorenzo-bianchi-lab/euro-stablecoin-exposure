@@ -1,4 +1,4 @@
-exchange,symbol,stable,fiat,primo_giorno,ultimo_giorno,giorni
+exchange,symbol,stable,fiat,first_day,last_day,days
 BTC Markets,USDC-AUD,USDC,AUD,2023-01-02,2026-11-22,1421
 BTC Markets,USDT-AUD,USDT,AUD,2023-01-02,2026-11-22,1421
 Binance,AUDUSDT,USDT,AUD,2023-01-02,2023-06-01,151

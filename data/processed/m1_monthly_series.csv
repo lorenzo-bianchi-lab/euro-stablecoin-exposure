@@ -1,4 +1,4 @@
-mese,usd_tutte,usdt,usdc,data,usd_per_eur,usdt_piu_usdc,livello_base_mld_usd,livello_alto_mld_usd,variante_tutte_base_mld_usd,livello_base_mld_eur,livello_alto_mld_eur,quota_usdt_usdc,depositi_a_vista_area_mld_eur,paesi_nei_depositi,livello_base_su_depositi_a_vista,livello_alto_su_depositi_a_vista
+month,usd_all,usdt,usdc,date,usd_per_eur,usdt_plus_usdc,level_base_bn_usd,level_high_bn_usd,all_stablecoins_base_bn_usd,level_base_bn_eur,level_high_bn_eur,usdt_usdc_share,area_sight_deposits_bn_eur,countries_in_deposits,level_base_to_sight_deposits,level_high_to_sight_deposits
 2023-01,136.823108,67.803985,42.155502,2023-01-31,1.0833,109.959487,8.246962,16.493923,10.261733,7.612814,15.225628,0.803662,8158.2123,21.0,0.000933,0.001866
 2023-02,134.810806,70.919778,42.130176,2023-02-28,1.0619,113.049954,8.478747,16.957493,10.11081,7.984506,15.969011,0.838582,8068.975957,21.0,0.00099,0.001979
 2023-03,131.736579,79.665015,32.596519,2023-03-31,1.0875,112.261534,8.419615,16.83923,9.880243,7.742175,15.48435,0.852167,7976.81767,21.0,0.000971,0.001941

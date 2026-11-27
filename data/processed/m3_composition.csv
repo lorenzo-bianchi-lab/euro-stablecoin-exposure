@@ -1,4 +1,4 @@
-paese,mese,totale_passivo_mln,vista_famiglie,altri_dep_famiglie,vista_imprese,altri_dep_imprese,altri_dep_non_ifm,dep_governo_centrale,dep_da_ifm,fondi_monetari,titoli_di_debito,capitale_e_riserve,passivita_estere,altre_passivita,scarto
+country,month,total_liabilities_mn,household_sight_deposits,household_other_deposits,firm_sight_deposits,firm_other_deposits,other_non_mfi_deposits,central_government_deposits,deposits_from_mfis,money_market_funds,debt_securities,capital_and_reserves,external_liabilities,other_liabilities,residual
 AT,2003-01,553021.0,0.054931,0.19962,0.031682,0.034892,0.030708,0.004228,0.212563,0.0,0.23598,0.053349,0.104454,0.037594,0.0
 AT,2003-02,558200.0,0.054832,0.198574,0.031019,0.033425,0.030847,0.004364,0.211148,0.0,0.234749,0.054373,0.109755,0.036913,0.0
 AT,2003-03,565565.0,0.053966,0.196335,0.031682,0.034588,0.029303,0.004369,0.213371,0.0,0.23134,0.053729,0.110279,0.041039,0.0

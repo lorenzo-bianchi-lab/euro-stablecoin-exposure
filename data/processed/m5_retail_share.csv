@@ -1,4 +1,4 @@
-paese,nome,totale,vista,dep_fam,prestiti,prestiti_fam,prestiti_imp,dep_non_bancari,quota_retail,prestiti_su_passivo,quota_retail_alta,peso_continuo,coefficiente_continuo
+country,name,total_liabilities,sight_deposits,household_deposits,loans,household_loans,firm_loans,non_bank_financial_deposits,retail_share,loans_to_liabilities,high_retail_share,continuous_weight,continuous_coefficient
 BG,Bulgaria,126.34226,65.58102,58.30744,63.85141,33.68655,30.16486,2.61878,0.957017,0.505384,True,1.0,3.089
 LT,Lituania,112.652,41.745,37.728,39.829,23.109,16.72,1.715,0.95652,0.353558,True,1.0,3.089
 SI,Slovenia,61.207659,35.782214,30.555941,28.22035,15.835772,12.384578,1.604938,0.950097,0.461059,True,1.0,3.089

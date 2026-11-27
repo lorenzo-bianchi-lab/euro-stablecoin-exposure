@@ -49,7 +49,7 @@ Four main series, as required by SPEC:
 | `usdc` | USDC | all |
 | `usdc_senza_coinbase` | USDC | all except Coinbase |
 
-In addition, for reference only, the `totale` series (USDT and USDC together), which
+In addition, for reference only, the `total` series (USDT and USDC together), which
 corresponds to proxy 1 of test 00.
 
 ### 2.3 Two windows
@@ -155,7 +155,7 @@ the Korean won rose from 0.8 to 2.2 billion a week. The index is a share: it als
 when the other currencies move.
 
 For this reason the index file also contains the volumes against the euro in absolute
-terms (`volume_eur_usdt_mld`, `volume_eur_usdc_mld`). Before interpreting a change in
+terms (`volume_eur_usdt_bn`, `volume_eur_usdc_bn`). Before interpreting a change in
 the index, it is advisable to look at those two columns.
 
 ### 3.4 Long index (from 2023, without Kraken and Gemini)

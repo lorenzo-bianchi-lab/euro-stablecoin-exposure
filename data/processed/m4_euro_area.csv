@@ -1,4 +1,4 @@
-scenario,importo_mld_usd,importo_mld_eur,regola_paesi,regola_depositi,deflusso_mld_eur,perdita_depositi_a_vista,perdita_depositi_clientela,effetto_sulla_raccolta_pp,aumento_raccolta_ingrosso,eccedenza_mld
+scenario,amount_bn_usd,amount_bn_eur,country_rule,deposit_rule,outflow_bn_eur,sight_deposits_lost,customer_deposits_lost,funding_effect_pp,wholesale_funding_increase,excess_bn
 P_minimo,9.809572,8.938106,R1,T1,8.938106,0.001095,0.000648,0.020009,0.000714,0.0
 P_minimo,9.809572,8.938106,R1,T2,8.938106,0.001095,0.000648,0.020009,0.000714,0.0
 P_minimo,9.809572,8.938106,R1,T3,8.938106,0.000648,0.000648,0.020009,0.000714,0.0

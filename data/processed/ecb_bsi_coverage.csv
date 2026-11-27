@@ -1,4 +1,4 @@
-serie,descrizione,codice,paesi_area_euro,paesi,mancanti,inizio_piu_antico,inizio_piu_recente,paese_inizio_piu_recente,ultimo_dato,paesi_aggiornati_all_ultimo_dato,osservazioni
+series,description,code,euro_area_countries,countries,missing,earliest_start,latest_start,latest_start_country,last_observation,countries_at_last_observation,observations
 dep_vista_famiglie,"Depositi a vista, famiglie",BSI.M.{paese}.N.A.L21.A.1.U2.2250.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2003-01,2022-01,BG,2026-09,21,5387
 dep_vista_imprese,"Depositi a vista, società non finanziarie",BSI.M.{paese}.N.A.L21.A.1.U2.2240.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2003-01,2022-01,BG,2026-09,21,5387
 dep_tot_famiglie,"Depositi totali, famiglie",BSI.M.{paese}.N.A.L20.A.1.U2.2250.Z01.E,21,AT BE BG CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK,,2003-01,2022-01,BG,2026-09,21,5387
