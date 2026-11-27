@@ -1,237 +1,239 @@
-# 12 - Rifiniture, inglese, singole banche
+# 12 - Refinements, English, individual banks
 
-Data: 2026-11-25 (prompt 6). Criteri e definizioni sono in `SPEC.md`, committati prima
-dei risultati (commit `a5b6b33`). Prima di scriverli è stata verificata solo la
-disponibilità dei dati EBA.
+Date: 2026-11-25 (prompt 6). Criteria and definitions are in `SPEC.md`, committed before
+the results (commit `a5b6b33`). Before they were written, only the availability of the
+EBA data was checked.
 
-Applicazione: https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/
+Application: https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/
 
-## 1. Rifiniture
+## 1. Refinements
 
-| # | Rifinitura | Stato | Come è fatta |
+| # | Refinement | Status | How it is done |
 |---|---|---|---|
-| 1 | Tabelle larghe | Fatta | Le intestazioni vanno a capo: a 1280 pixel nessuna delle 23 tabelle ha colonne tagliate, in inglese e in italiano. Sotto quella larghezza la tabella scorre dentro il proprio contenitore e la prima colonna resta ferma. Il test nel browser lo verifica in ogni sezione: misura la larghezza del contenuto, scorre la tabella e controlla che la prima cella non si sposti |
-| 2 | Avvisi | Fatta | L'avviso sulle fonti è una riga con un pallino nella barra laterale, che porta a "Metodo e dati" dove c'è il dettaglio. Ogni avvertenza di sezione è una riga con "dettagli" che apre il testo completo. Le avvertenze sono 33 nelle undici pagine: nessuna è stata tolta, e se ne sono aggiunte per il cambio unico, per Bybit e per le banche |
-| 3 | Bybit fuori dall'indice | Fatta | Sezione 2 |
-| 4 | Un solo valore ESM | Fatta | Tutto il programma converte con un solo cambio: quello di riferimento BCE più recente alla data della circolazione (1,0935 dollari per euro, 25 novembre 2026). Il modulo 4 lo legge dal modulo 1. L'ipotesi ESM vale 16,7 miliardi di euro ovunque; il cambio è dichiarato nella panoramica, nella stima del livello e in "Metodo e dati". Un test controlla che i quattro punti in cui compare coincidano |
-| 5 | Riquadri sulla mappa | Fatta | Tre riquadri ingranditi sotto la mappa per Lussemburgo, Malta e Cipro, con lo stesso colore e il valore scritto; un clic apre la scheda |
-| 6 | Rapporto stampabile A e B | Fatta | Nella sezione "Confronto ed esportazione" si sceglie tra rapporto dello scenario A e rapporto del confronto; la scelta resta nell'indirizzo (`rep=ab`). In stampa resta solo il rapporto |
-| 7 | Codice diviso per sezione | Fatta | Un file per sezione, più React, la libreria dei grafici e una lingua. Aprendo "Metodo e dati" si scaricano 193 kB di codice; aprendo la panoramica 802 kB, di cui 617 della libreria dei grafici. Prima era un file unico da 850 kB per qualsiasi pagina |
+| 1 | Wide tables | Done | Headers wrap: at 1280 pixels none of the 23 tables has clipped columns, in English and in Italian. Below that width the table scrolls inside its own container and the first column stays fixed. The browser test checks this in every section: it measures the width of the content, scrolls the table and checks that the first cell does not move |
+| 2 | Notices | Done | The notice on the sources is a line with a dot in the sidebar, which leads to "Method and data", where the detail is. Each section caveat is a line with "details" that opens the full text. There are 33 caveats across the eleven pages: none was removed, and caveats were added for the single exchange rate, for Bybit and for the banks |
+| 3 | Bybit out of the index | Done | Section 2 |
+| 4 | A single ESM value | Done | The whole programme converts with a single exchange rate: the most recent ECB reference rate at the date of the circulation (1.0935 dollars per euro, 25 November 2026). Module 4 reads it from module 1. The ESM assumption is EUR 16.7 billion everywhere; the exchange rate is stated in the Overview, in the Level estimate and in "Method and data". A test checks that the four places where it appears coincide |
+| 5 | Insets on the map | Done | Three enlarged insets below the map for Luxembourg, Malta and Cyprus, with the same colour and the value written; a click opens the country sheet |
+| 6 | Printable report A and B | Done | In the "Compare and export" section the user chooses between the report on scenario A and the report on the comparison; the choice stays in the address (`rep=ab`). In print only the report remains |
+| 7 | Code split by section | Done | One file per section, plus React, the chart library and one language. Opening "Method and data" downloads 193 kB of code; opening the Overview 802 kB, of which 617 is the chart library. Before, it was a single 850 kB file for any page |
 
-Conseguenza del cambio unico: gli scenari definiti in dollari valgono in euro circa il
-4% in più di prima (143 miliardi di dollari sono 130,8 miliardi di euro, non 125,9). I
-report 05 e 07 restano fotografie con il cambio di fine settembre.
+Consequence of the single exchange rate: scenarios defined in dollars are worth about 4%
+more in euro than before (USD 143 billion is EUR 130.8 billion, not 125.9). Reports 05
+and 07 remain snapshots with the end-September exchange rate.
 
-## 2. Variazione dell'indice senza Bybit
+## 2. Change in the index without Bybit
 
-Bybit è stato tolto dal pannello per tutte le serie e per tutto lo storico. I suoi dati
-già scaricati restano nell'archivio grezzo, non usati. Il pannello passa da 25 a 24
-exchange (22 nell'indice lungo). La misura era definita prima del calcolo: differenza
-tra indice senza e con Bybit sulle 102 settimane dell'indice principale, in punti
-percentuali.
+Bybit was removed from the panel for all series and for the whole history. Its data
+already downloaded remain in the raw archive, unused. The panel goes from 25 to 24
+exchanges (22 in the long index). The measure was defined before the calculation: the
+difference between the index without and with Bybit over the 102 weeks of the main index,
+in percentage points.
 
-| Serie | Differenza media | Differenza massima | Ultima settimana comune (16 novembre 2026) |
+| Series | Mean difference | Maximum difference | Last common week (16 November 2026) |
 |---|---|---|---|
-| USDT | -0,40 | 4,50 (settimana del 1° giugno 2026) | -1,76 |
-| USDT senza Coinbase | -0,43 | 4,68 | -1,89 |
-| USDC | -0,12 | 0,97 (settimana dell'8 giugno 2026) | -0,58 |
-| USDC senza Coinbase | -0,15 | 1,19 | -0,80 |
+| USDT | -0.40 | 4.50 (week of 1 June 2026) | -1.76 |
+| USDT without Coinbase | -0.43 | 4.68 | -1.89 |
+| USDC | -0.12 | 0.97 (week of 8 June 2026) | -0.58 |
+| USDC without Coinbase | -0.15 | 1.19 | -0.80 |
 
-- Bybit pesava in media lo 0,5% dei volumi, al massimo il 4,3%, l'1,8% nell'ultima
-  settimana. L'effetto sull'indice è più grande del suo peso perché i suoi volumi sono
-  quasi tutti contro euro.
-- L'ultimo valore di USDT passa da 11,9% a 10,2%; quello di USDC da 54,9% a 54,3%.
-- Cambia lo stato di una segnalazione su 200: USDT, settimana del 27 luglio 2026, da
-  "nessuno" a "da verificare".
-- L'indice senza Bybit è più basso, quindi il livello non è confrontabile con quello dei
-  report 03 e 09. La direzione è la stessa.
+- Bybit accounted for 0.5% of volumes on average, 4.3% at most and 1.8% in the last
+  week. The effect on the index is larger than its weight because its volumes are almost
+  all against the euro.
+- The last value of USDT goes from 11.9% to 10.2%; that of USDC from 54.9% to 54.3%.
+- The status of one flag out of 200 changes: USDT, week of 27 July 2026, from "none" to
+  "to be checked".
+- The index without Bybit is lower, so its level is not comparable with that of reports
+  03 and 09. The direction is the same.
 
-## 3. Modulo 6: singole banche
+## 3. Module 6: individual banks
 
-### 3.1 Dati trovati
+### 3.1 Data found
 
-L'ultimo esercizio di trasparenza dell'EBA è quello del 2025, pubblicato il 4 dicembre
-2025: quattro date, l'ultima il 30 giugno 2025, 119 banche di 25 paesi, al massimo
-livello di consolidamento. Il database completo si scarica gratis, in CSV, senza chiave.
-Quello del 2026 non è ancora uscito, e l'EBA scrive che sta valutando se continuare
-l'esercizio ora che esiste il Pillar 3 Data Hub.
+The latest EBA transparency exercise is the 2025 one, published on 4 December 2025: four
+dates, the last on 30 June 2025, 119 banks from 25 countries, at the highest level of
+consolidation. The full database can be downloaded free of charge, in CSV, without a key.
+The 2026 exercise has not been published yet, and the EBA writes that it is assessing
+whether to continue the exercise now that the Pillar 3 Data Hub exists.
 
-| Voce richiesta | Presente | Dove |
+| Item required | Present | Where |
 |---|---|---|
-| Depositi di famiglie e imprese | Sì | Passività per strumento e settore di controparte |
-| Di cui a vista | Sì | Stessa tabella: conti correnti e depositi overnight |
-| Depositi da banche | Sì | Stessa tabella, enti creditizi |
-| Titoli emessi | Sì | Stessa tabella |
-| Totale attivo | Sì | Tabella dell'attivo |
-| Prestiti a famiglie e imprese | Sì | Tabella delle esposizioni deteriorate, valore lordo per settore |
-| Esposizioni in dollari | **No** | Nessuna scomposizione per valuta in tutto l'esercizio |
+| Deposits of households and firms | Yes | Liabilities by instrument and counterparty sector |
+| Of which sight | Yes | Same table: current accounts and overnight deposits |
+| Deposits from banks | Yes | Same table, credit institutions |
+| Securities issued | Yes | Same table |
+| Total assets | Yes | Assets table |
+| Loans to households and firms | Yes | Non-performing exposures table, gross value by sector |
+| Dollar exposures | **No** | No currency breakdown anywhere in the exercise |
 
-Al posto delle esposizioni in dollari l'applicazione riporta le esposizioni creditizie
-verso controparti statunitensi, che sono un'altra grandezza: riguardano il paese del
-debitore, non la valuta, e l'EBA le pubblica solo quando gli Stati Uniti sono tra i primi
-dieci paesi della banca (42 banche su 85).
+In place of dollar exposures the application reports credit exposures to US
+counterparties, which are a different quantity: they concern the country of the debtor,
+not the currency, and the EBA publishes them only when the United States is among the
+bank's top ten countries (42 banks out of 85).
 
-Criterio di sufficienza fissato prima (almeno 50 banche dell'area euro con tutte le voci,
-in almeno 15 paesi): **soddisfatto**. Le banche con sede nell'area euro sono 99; 85 hanno
-tutte le voci e stanno in 18 paesi. Non è servito passare alle statistiche di vigilanza
-aggregate per modello di business. Le 14 escluse: 12 non hanno le voci di bilancio di
-giugno 2025 nel database (tra cui J.P. Morgan SE, Goldman Sachs Bank Europe, Barclays
-Bank Ireland, Banque et Caisse d'Epargne de l'Etat), 2 non hanno depositi di famiglie e
-la quota retail non è definita (SFIL, Bpifrance). Nessuna banca dell'esercizio ha sede in
-Bulgaria, Croazia o Slovacchia.
+Sufficiency criterion set in advance (at least 50 euro area banks with all items, in at
+least 15 countries): **met**. There are 99 banks headquartered in the euro area; 85 have
+all items and are located in 18 countries. There was no need to switch to the aggregate
+supervisory statistics by business model. Of the 14 excluded, 12 do not have the June
+2025 balance sheet items in the database (among them J.P. Morgan SE, Goldman Sachs Bank
+Europe, Barclays Bank Ireland, Banque et Caisse d'Epargne de l'Etat), and 2 have no
+household deposits, so their retail share is not defined (SFIL, Bpifrance). No bank in
+the exercise is headquartered in Bulgaria, Croatia or Slovakia.
 
-Il repository contiene solo le righe usate (`data/raw/eba_te2025_extract.csv`, 1 MB):
-il file completo del rischio di credito pesa 123 MB. `src/module6_banks.py --download`
-lo riscarica e ricostruisce l'estratto.
+The repository contains only the rows used (`data/raw/eba_te2025_extract.csv`, 1 MB):
+the full credit risk file is 123 MB. `src/module6_banks.py --download` downloads it
+again and rebuilds the extract.
 
-### 3.2 Quota retail e soglia
+### 3.2 Retail share and threshold
 
-Quota retail = depositi delle famiglie / (depositi delle famiglie + depositi di società
-finanziarie diverse dalle banche), come nel Working Paper BCE 3199. Tra le 85 banche la
-mediana è 85,0% e il 75° percentile è **94,4%**: 21 banche stanno sopra. Tra i paesi
-(modulo 5) la soglia era 92,4%.
+Retail share = household deposits / (household deposits + deposits of financial
+corporations other than banks), as in ECB Working Paper 3199. Across the 85 banks the
+median is 85.0% and the 75th percentile is **94.4%**: 21 banks are above it. Across
+countries (module 5) the threshold was 92.4%.
 
-### 3.3 Copertura
+### 3.3 Coverage
 
-Totale attivo del campione: 25.397 miliardi di euro. È il 61% dell'attivo delle
-istituzioni finanziarie monetarie residenti nell'area (BSI, giugno 2025) e il 69%
-dell'attivo consolidato di tutte le banche (dati bancari consolidati BCE, secondo
-trimestre 2025).
+Total assets of the sample: EUR 25,397 billion. This is 61% of the assets of the
+monetary financial institutions resident in the area (BSI, June 2025) and 69% of the
+consolidated assets of all banks (ECB consolidated banking data, second quarter of 2025).
 
-| Paese | Banche | Di cui alta quota retail | Copertura, IFM residenti | Copertura, consolidato |
+| Country | Banks | Of which high retail share | Coverage, resident MFIs | Coverage, consolidated |
 |---|---|---|---|---|
-| Germania | 17 | 1 | 40% | 47% |
-| Italia | 12 | 1 | 66% | 84% |
-| Spagna | 10 | 4 | 121% | 89% |
-| Francia | 8 | 1 | 74% | 91% |
-| Paesi Bassi | 6 | 1 | 80% | 82% |
+| Germany | 17 | 1 | 40% | 47% |
+| Italy | 12 | 1 | 66% | 84% |
+| Spain | 10 | 4 | 121% | 89% |
+| France | 8 | 1 | 74% | 91% |
+| Netherlands | 6 | 1 | 80% | 82% |
 | Austria | 5 | 2 | 38% | 30% |
-| Belgio | 4 | 2 | 44% | 44% |
-| Grecia | 4 | 3 | 101% | 94% |
-| Finlandia | 3 | 0 | 105% | 83% |
-| Irlanda | 3 | 1 | 26% | 60% |
-| Portogallo | 3 | 2 | 56% | 53% |
-| Lituania | 2 | 1 | 39% | 40% |
+| Belgium | 4 | 2 | 44% | 44% |
+| Greece | 4 | 3 | 101% | 94% |
+| Finland | 3 | 0 | 105% | 83% |
+| Ireland | 3 | 1 | 26% | 60% |
+| Portugal | 3 | 2 | 56% | 53% |
+| Lithuania | 2 | 1 | 39% | 40% |
 | Malta | 2 | 1 | 47% | 43% |
 | Slovenia | 2 | 1 | 68% | 58% |
-| Cipro | 1 | 0 | 37% | 39% |
+| Cyprus | 1 | 0 | 37% | 39% |
 | Estonia | 1 | 0 | 20% | 16% |
-| Lettonia | 1 | 0 | 17% | 8% |
-| Lussemburgo | 1 | 0 | 2% | 3% |
-| Bulgaria, Croazia, Slovacchia | 0 | - | - | - |
+| Latvia | 1 | 0 | 17% | 8% |
+| Luxembourg | 1 | 0 | 2% | 3% |
+| Bulgaria, Croatia, Slovakia | 0 | - | - | - |
 
-Il rapporto supera il 100% dove i gruppi hanno grandi controllate estere (Santander,
-BBVA, Nordea): al numeratore c'è il gruppo consolidato, al denominatore le sole banche
-residenti. Va letto come ordine di grandezza.
+The ratio exceeds 100% where groups have large foreign subsidiaries (Santander, BBVA,
+Nordea): the numerator is the consolidated group, the denominator only the resident
+banks. It should be read as an order of magnitude.
 
-### 3.4 Confronto con il modulo 5
+### 3.4 Comparison with module 5
 
-Scenario di controllo: livello centrale (15,4 miliardi di euro), regola R1, depositi a
-vista di famiglie e imprese, sostituzione piena. Ogni banca perde la stessa quota di
-depositi del suo paese; il coefficiente è quello alto (3,089) per le banche sopra la
-soglia e quello basso (0,441) per le altre. Nei 18 paesi coperti il deflusso è 15,0
-miliardi.
+Control scenario: central level (EUR 15.4 billion), rule R1, sight deposits of
+households and firms, full substitution. Each bank loses the same share of deposits as
+its country; the coefficient is the high one (3.089) for banks above the threshold and
+the low one (0.441) for the others. In the 18 countries covered the outflow is 15.0
+billion.
 
-| Calcolo | Prestiti in meno (mld €) | Per euro di deflusso |
+| Calculation | Loan reduction (EUR bn) | Per euro of outflow |
 |---|---|---|
-| **Modulo 6, banca per banca** | **6,7** | **0,45** |
-| Modulo 5, regola uniforme | 7,5 | 0,50 |
-| Modulo 5, variante continua | 3,7 | 0,25 |
-| Modulo 5, variante a soglia | 2,7 | 0,18 |
-| Modulo 5, coefficiente basso | 2,5 | 0,17 |
-| Modulo 5, coefficiente alto | 17,7 | 1,18 |
+| **Module 6, bank by bank** | **6.7** | **0.45** |
+| Module 5, uniform rule | 7.5 | 0.50 |
+| Module 5, continuous variant | 3.7 | 0.25 |
+| Module 5, threshold variant | 2.7 | 0.18 |
+| Module 5, low coefficient | 2.5 | 0.17 |
+| Module 5, high coefficient | 17.7 | 1.18 |
 
-- Applicati banca per banca, i coefficienti danno 0,45 euro di prestiti per euro di
-  deflusso: vicino alla regola uniforme di 0,5 che il paper indica per l'insieme delle
-  banche, e due volte e mezzo la variante a soglia tra paesi. Conferma la scelta del
-  prompt 5 di mettere in evidenza la regola uniforme.
-- La variante a soglia tra paesi sottostima perché classifica interi sistemi: i cinque
-  paesi sopra la soglia nazionale sono piccoli, mentre le banche ad alta quota retail
-  stanno anche nei paesi grandi (quattro in Spagna, tre in Grecia, due in Austria, Belgio
-  e Portogallo).
-- Dove i due calcoli divergono di più: Irlanda (0,95 banca per banca contro 0,05 a
-  soglia), perché i depositi di intermediari non bancari che abbassano la quota retail
-  nazionale non stanno nelle banche commerciali del campione; Lituania nel verso opposto
-  (0,26 contro 1,37), perché il paese è sopra la soglia ma la banca ad alta quota retail
-  del campione ha pochi prestiti.
-- Il valore banca per banca copre solo le banche del campione e, per costruzione, non
-  dipende dall'importo dello scenario: dipende dal tipo di deposito scelto.
+- Applied bank by bank, the coefficients give 0.45 euro of loans per euro of outflow:
+  close to the uniform rule of 0.5 that the paper indicates for banks as a whole, and two
+  and a half times the cross-country threshold variant. This confirms the choice made in
+  prompt 5 to highlight the uniform rule.
+- The cross-country threshold variant underestimates because it classifies entire
+  systems: the five countries above the national threshold are small, while banks with a
+  high retail share are also found in the large countries (four in Spain, three in
+  Greece, two each in Austria, Belgium and Portugal).
+- Where the two calculations diverge most: Ireland (0.95 bank by bank against 0.05 with
+  the threshold), because the deposits of non-bank intermediaries that lower the national
+  retail share are not held by the commercial banks of the sample; Lithuania in the
+  opposite direction (0.26 against 1.37), because the country is above the threshold but
+  the high-retail-share bank in the sample has few loans.
+- The bank-by-bank value covers only the banks in the sample and, by construction, does
+  not depend on the scenario amount: it depends on the type of deposit chosen.
 
-## 4. Sezione "Banche"
+## 4. The "Banks" section
 
-Completa, alla voce "Banks" del menu (`#/banks`).
+Complete, under the "Banks" item of the menu (`#/banks`).
 
-- **Campione**: banche incluse, soglia, copertura, credito per euro di deflusso contro
-  il modulo 5, ricalcolato nel browser sullo scenario del simulatore.
-- **Grafico**: quota retail contro raccolta all'ingrosso (depositi da banche più titoli
-  emessi sul totale attivo), dimensione per totale attivo, colore per classe, linea
-  sulla soglia. Un clic apre la scheda.
-- **Tabella**: 85 banche, ordinabile su ogni colonna, filtrabile per paese e per classe,
-  con ricerca per nome; deflusso e credito in meno nello scenario; download CSV. I
-  filtri restano nell'indirizzo.
-- **Per paese**: copertura e confronto con le varianti del modulo 5.
-- **Scheda della banca** (`#/banks/<LEI>`): sei indicatori, composizione della raccolta,
-  effetto di ogni scenario predefinito, voci di bilancio.
-- Avvertenze in ogni blocco: dati pubblici per banca e non di vigilanza; l'ordine non è
-  un giudizio sulla solidità; bilanci consolidati con attività fuori dall'area euro;
-  date diverse da quelle dei bilanci nazionali; adozione per banca non osservata.
+- **Sample**: banks included, threshold, coverage, credit per euro of outflow against
+  module 5, recalculated in the browser on the simulator scenario.
+- **Chart**: retail share against wholesale funding (deposits from banks plus securities
+  issued, over total assets), size by total assets, colour by class, line at the
+  threshold. A click opens the bank sheet.
+- **Table**: 85 banks, sortable on every column, filterable by country and by class,
+  with search by name; outflow and credit reduction in the scenario; CSV download. The
+  filters stay in the address.
+- **By country**: coverage and comparison with the module 5 variants.
+- **Bank sheet** (`#/banks/<LEI>`): six indicators, composition of funding, effect of
+  each predefined scenario, balance sheet items.
+- Caveats in every block: public bank-level data, not supervisory data; the ordering is
+  not a judgement on soundness; consolidated balance sheets that include activities
+  outside the euro area; dates different from those of the national balance sheets;
+  adoption by bank not observed.
 
-## 5. Lingua
+## 5. Language
 
-- Inglese all'avvio, italiano dal pulsante nella barra laterale. La scelta sta
-  nell'indirizzo (`lang=it`) e resta cambiando sezione.
-- 587 testi per lingua in `web/src/i18n/en.json` e `it.json`; i 117 testi che vengono da
-  SPEC.md (fonti, limiti, metodi scartati) sono tradotti in `src/i18n/spec_en.json`. Nel
-  codice dei componenti non resta testo. I file di dati contengono solo numeri e codici.
-- Numeri, date, simbolo di valuta e separatori del CSV seguono la lingua ("€15.4 bn" e
-  "15,4 mld €"; "25 November 2026" e "25 novembre 2026").
-- Anche i nomi delle sezioni negli indirizzi sono in inglese; i vecchi indirizzi in
-  italiano continuano a funzionare.
+- English at start-up, Italian from the button in the sidebar. The choice is kept in the
+  address (`lang=it`) and persists when the section changes.
+- 587 texts per language in `web/src/i18n/en.json` and `it.json`; the 117 texts that
+  come from SPEC.md (sources, limits, discarded methods) are translated in
+  `src/i18n/spec_en.json` (replaced in prompt 9 by `src/i18n/spec_it.json`, since
+  SPEC.md is now in English). No text remains in the component code. The data files
+  contain only numbers and codes.
+- Numbers, dates, currency symbol and CSV separators follow the language ("€15.4 bn" and
+  "15,4 mld €"; "25 November 2026" and "25 novembre 2026").
+- The section names in the addresses are also in English; the old Italian addresses
+  still work.
 
-## 6. Verifiche
+## 6. Checks
 
-| Controllo | Esito |
+| Check | Outcome |
 |---|---|
-| Test Python (`tests/`) | 22 su 22: quadratura, scenari, strato dati, cambio unico, traduzioni di SPEC, Bybit fuori dall'indice, modulo 6, riproducibilità senza rete |
-| Calcoli dell'applicazione contro gli script (`npm test`) | 20 su 20: nove scenari per paese, tre scenari per banca su 85 banche, sei varianti della stima del livello |
-| Traduzioni (`npm test`) | 11 su 11: stesse chiavi e stessi segnaposto nelle due lingue, ogni chiave usata esiste, nessuna inutilizzata, nessun testo nei componenti |
-| Browser (`npm run e2e`), undici pagine | 0 errori in console; 0 pixel di sbordo a 390 pixel; 0 tabelle tagliate a 1280 pixel su 23, nelle due lingue; 15 tabelle scorrono a 390 pixel, tutte con la prima colonna fissa; nessuna chiave mancante e nessuna parola dell'altra lingua |
-| Browser, comportamenti | Scenario nell'indirizzo, tema scuro, cambio lingua e ritorno, vecchio indirizzo in italiano, avvertenza a una riga che si apre, indicatore delle fonti, tre riquadri sulla mappa, rapporto A e B in stampa, filtro e scheda delle banche, file scaricati all'avvio: tutti superati |
+| Python tests (`tests/`) | 22 out of 22: reconciliation, scenarios, data layer, single exchange rate, SPEC translations, Bybit out of the index, module 6, reproducibility without network |
+| Application calculations against the scripts (`npm test`) | 20 out of 20: nine country scenarios, three bank scenarios on 85 banks, six variants of the level estimate |
+| Translations (`npm test`) | 11 out of 11: same keys and same placeholders in the two languages, every key used exists, none unused, no text in the components |
+| Browser (`npm run e2e`), eleven pages | 0 console errors; 0 pixels of overflow at 390 pixels; 0 clipped tables out of 23 at 1280 pixels, in both languages; 15 tables scroll at 390 pixels, all with the first column fixed; no missing key and no word from the other language |
+| Browser, behaviour | Scenario in the address, dark theme, language switch and back, old Italian address, one-line caveat that expands, source indicator, three insets on the map, report A and B in print, bank filter and bank sheet, files downloaded at start-up: all passed |
 
-Gli screenshot delle pagine, a 1280 e a 390 pixel, sono in `reports/figures/app/`,
-con l'esito in `browser_test_results.json`.
+The screenshots of the pages, at 1280 and 390 pixels, are in `reports/figures/app/`,
+with the outcome in `browser_test_results.json`.
 
-## 7. Cosa non è riuscito, e limiti
+## 7. What did not succeed, and limits
 
-- **Esposizioni in dollari per banca**: non esistono nei dati EBA. Le esposizioni verso
-  controparti statunitensi le sostituiscono solo in parte e per metà delle banche.
-- **Tre paesi senza banche** (Bulgaria, Croazia, Slovacchia) e coperture sotto il 20% in
-  Estonia, Lettonia e Lussemburgo: lì il modulo 6 non dice nulla o quasi.
-- **Date diverse**: banche al 30 giugno 2025, bilanci nazionali a settembre 2026. Il
-  modulo 6 non si aggiorna da solo: lo farà quando, e se, l'EBA pubblicherà un nuovo
-  esercizio.
-- **Perimetro consolidato**: i depositi di un gruppo comprendono quelli raccolti fuori
-  dall'area euro, e lo scenario li tratta come se fossero tutti nel paese della sede.
-- **Variante continua per banca**: non calcolata. Gli ancoraggi tra banche non erano
-  stati definiti prima, e definirli dopo aver visto i risultati avrebbe violato la
-  regola. La variante del credito scelta nel simulatore non si applica alle banche.
-- **Testi rimasti in italiano**: SPEC.md, i report, la descrizione dei file di dati e i
-  messaggi di errore dei moduli. L'applicazione li indica come tali.
-- **Libreria dei grafici**: resta un file unico da 617 kB (205 compressi), scaricato
-  dalla prima sezione che ha un grafico.
-- **Nomi dei paesi fuori dall'area euro**: sulla mappa compare solo "fuori dall'area
-  euro", senza nome.
-- **Esecuzione pianificata del lunedì**: ancora non osservata. L'esecuzione avviata a
-  mano dopo queste modifiche è riuscita in tutti i passi e ha dato lo stesso indice
-  dell'esecuzione locale, settimana per settimana (differenza massima 0,0 punti su 102
-  settimane), senza fonti aggiornate in parte.
-- **Dati vecchi nella memoria del browser**: dopo la pubblicazione il browser mostrava
-  per qualche minuto i file di dati precedenti insieme all'applicazione nuova. Corretto:
-  l'applicazione chiede sempre al server se i file sono cambiati.
+- **Dollar exposures by bank**: they do not exist in the EBA data. Exposures to US
+  counterparties replace them only in part and for half of the banks.
+- **Three countries without banks** (Bulgaria, Croatia, Slovakia) and coverage below 20%
+  in Estonia, Latvia and Luxembourg: there module 6 says nothing or almost nothing.
+- **Different dates**: banks at 30 June 2025, national balance sheets at September 2026.
+  Module 6 does not update itself: it will do so when, and if, the EBA publishes a new
+  exercise.
+- **Consolidated perimeter**: a group's deposits include those raised outside the euro
+  area, and the scenario treats them as if they were all in the country of the head
+  office.
+- **Continuous variant by bank**: not calculated. The anchors across banks had not been
+  defined in advance, and defining them after seeing the results would have broken the
+  rule. The credit variant chosen in the simulator does not apply to the banks.
+- **Texts still in Italian**: SPEC.md, the reports, the description of the data files and
+  the error messages of the modules. The application marks them as such.
+- **Chart library**: it remains a single 617 kB file (205 compressed), downloaded by the
+  first section that has a chart.
+- **Names of countries outside the euro area**: the map shows only "outside the euro
+  area", without a name.
+- **Scheduled Monday run**: not yet observed. The run started manually after these
+  changes succeeded in all steps and gave the same index as the local run, week by week
+  (maximum difference 0.0 points over 102 weeks), with no partly updated sources.
+- **Old data in the browser cache**: after publication the browser showed the previous
+  data files together with the new application for a few minutes. Corrected: the
+  application always asks the server whether the files have changed.
 
 ---
 
-**Cosa aggiunge questo al programma finale**: lo stesso scenario si legge ora fino alla
-singola banca, e mostra che i coefficienti applicati banca per banca danno quasi la
-regola uniforme; l'applicazione è in inglese, con indice e cambio uguali in ogni
-esecuzione.
+**What this adds to the final programme**: the same scenario can now be read down to the
+individual bank, and it shows that the coefficients applied bank by bank give almost the
+uniform rule; the application is in English, with the same index and exchange rate in
+every run.

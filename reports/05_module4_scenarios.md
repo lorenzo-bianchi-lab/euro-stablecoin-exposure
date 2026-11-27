@@ -1,321 +1,322 @@
-# 05 - Modulo 4: scenari di adozione e raccolta bancaria per paese
+# 05 - Module 4: adoption scenarios and bank funding by country
 
-Il modulo 4 di [SPEC.md](../SPEC.md) chiede, per ogni livello di adozione delle
-stablecoin in dollari, la variazione della raccolta di ciascun paese in miliardi di euro
-e in punti percentuali, e quanta raccolta all'ingrosso servirebbe per compensarla.
+Module 4 of [SPEC.md](../SPEC.md) asks, for each level of adoption of dollar
+stablecoins, for the change in each country's funding in EUR billions and in percentage
+points, and for how much wholesale funding would be needed to offset it.
 
-Le sezioni 1 e 2 sono state committate **prima** di calcolare i risultati. A quel punto
-conoscevo i bilanci di settembre 2026 dal modulo 3, quindi gli ordini di grandezza
-aggregati erano prevedibili; i risultati per paese no.
+Sections 1 and 2 were committed **before** the results were calculated. At that point I
+knew the September 2026 balance sheets from module 3, so the aggregate orders of
+magnitude were predictable; the country results were not.
 
-## 1. Che tipo di calcolo è
+## 1. What kind of calculation this is
 
-È un esercizio contabile, non una previsione né una stima causale. Risponde a una sola
-domanda: se i residenti dell'area euro detenessero un dato importo di stablecoin in
-dollari, e lo avessero finanziato prelevando depositi bancari, di quanto si ridurrebbe
-la raccolta delle banche di ciascun paese e quanta raccolta all'ingrosso servirebbe per
-sostituirla?
+It is an accounting exercise, not a forecast or a causal estimate. It answers a single
+question: if euro area residents held a given amount of dollar stablecoins, and had
+funded it by withdrawing bank deposits, by how much would the funding of each country's
+banks fall, and how much wholesale funding would be needed to replace it?
 
-Non dice se, quando o con quale probabilità questo accadrà, e non considera le reazioni
-di banche, depositanti e banca centrale.
+It does not say whether, when or with what probability this will happen, and it does not
+consider the reactions of banks, depositors and the central bank.
 
-## 2. Parametri, fissati prima dei risultati
+## 2. Parameters, set before the results
 
-### 2.1 Bilanci di partenza
+### 2.1 Starting balance sheets
 
-Bilanci bancari di settembre 2026 per i 21 paesi dell'area euro, dal modulo 3
-(`data/raw/m3_bsi.csv`). Gli scenari sono applicati ai bilanci di oggi, senza farli
-crescere: anche gli importi previsti per il 2030 sono confrontati con la raccolta attuale.
+Bank balance sheets for September 2026 for the 21 euro area countries, from module 3
+(`data/raw/m3_bsi.csv`). The scenarios are applied to today's balance sheets, without
+growing them: the amounts projected for 2030 are also compared with current funding.
 
-### 2.2 Livelli di adozione
+### 2.2 Adoption levels
 
-Gli importi vengono dall'ESM Working Paper 79 (sezione 5, verificata nel
-[report 02](02_benchmarks_and_module3_data.md)): stablecoin in dollari detenute nell'area euro.
+The amounts come from ESM Working Paper 79 (section 5, checked in
+[report 02](02_benchmarks_and_module3_data.md)): dollar stablecoins held in the euro area.
 
-| Scenario | Importo (mld $) | Come lo ottiene l'ESM |
+| Scenario | Amount (USD bn) | How the ESM obtains it |
 |---|---|---|
-| S0 - Oggi | 19 | 7,5% di 248 miliardi in circolazione al terzo trimestre 2025 |
-| S1 - Base 2030 | 143 | 7,5% di 1.900 miliardi |
-| S2 - Alto 2030 | 300 | 7,5% di 4.000 miliardi |
-| S3 - Alto 2030, quota doppia | 600 | 15% di 4.000 miliardi |
+| S0 - Today | 19 | 7.5% of 248 billion in circulation in the third quarter of 2025 |
+| S1 - Baseline 2030 | 143 | 7.5% of 1,900 billion |
+| S2 - High 2030 | 300 | 7.5% of 4,000 billion |
+| S3 - High 2030, double share | 600 | 15% of 4,000 billion |
 
-Sono ipotesi dell'ESM, non stime. Lo script accetta anche un importo qualsiasi, così il
-calcolo si può ripetere con il livello che produrrà il modulo 1.
+These are ESM assumptions, not estimates. The script also accepts any amount, so the
+calculation can be repeated with the level that module 1 will produce.
 
-### 2.3 Conversione e tasso di sostituzione
+### 2.3 Conversion and substitution rate
 
-- **Cambio**: tasso di riferimento BCE del 30 settembre 2026, cioè la data dei bilanci.
-- **Tasso di sostituzione**: 100%. Ogni euro di stablecoin detenute corrisponde a un
-  euro di depositi usciti dalle banche dell'area. È un tetto: una parte potrebbe venire
-  da contante, fondi o altre attività, e una parte dei fondi potrebbe tornare alle
-  banche per altre vie. Sensibilità al 50%.
+- **Exchange rate**: ECB reference rate of 30 September 2026, i.e. the date of the
+  balance sheets.
+- **Substitution rate**: 100%. Each euro of stablecoins held corresponds to one euro of
+  deposits leaving the area's banks. This is a ceiling: part could come from cash, funds
+  or other assets, and part of the funds could return to the banks by other routes.
+  Sensitivity at 50%.
 
-### 2.4 Ripartizione tra paesi
+### 2.4 Allocation across countries
 
-Non esistono dati sull'adozione per paese. Si usano due regole.
+There are no data on adoption by country. Two rules are used.
 
-| Regola | Definizione | Cosa assume |
+| Rule | Definition | What it assumes |
 |---|---|---|
-| **R1 - Pro quota sui depositi (principale)** | Il deflusso si distribuisce in proporzione ai depositi a vista di famiglie e imprese di ciascun paese | Ogni euro depositato ha la stessa probabilità di migrare. Tutti i paesi perdono la stessa percentuale di depositi a vista |
-| **R2 - Pro capite (alternativa)** | Il deflusso si distribuisce in proporzione alla popolazione (Eurostat, 1° gennaio 2025) | Ogni residente adotta nella stessa misura. I paesi con meno depositi per abitante perdono una percentuale maggiore |
+| **R1 - Pro rata to deposits (main)** | The outflow is distributed in proportion to each country's sight deposits of households and firms | Every euro deposited has the same probability of migrating. All countries lose the same percentage of sight deposits |
+| **R2 - Per capita (alternative)** | The outflow is distributed in proportion to population (Eurostat, 1 January 2025) | Every resident adopts to the same extent. Countries with fewer deposits per inhabitant lose a larger percentage |
 
-Con R2 il deflusso assegnato a un paese non può superare i suoi depositi a vista; se
-accadesse, l'eccedenza verrebbe segnalata, non redistribuita.
+Under R2 the outflow assigned to a country cannot exceed its sight deposits; if this
+happened, the excess would be flagged, not redistributed.
 
-### 2.5 Ripartizione tra tipi di deposito
+### 2.5 Allocation across deposit types
 
-| Regola | Definizione |
+| Rule | Definition |
 |---|---|
-| **T1 (principale)** | Escono solo depositi a vista, di famiglie e imprese in proporzione alle rispettive consistenze |
-| T2 (alternativa) | Escono solo depositi a vista delle famiglie; la ripartizione tra paesi di R1 si fa sui soli depositi a vista delle famiglie |
-| T3 (alternativa) | Escono depositi a vista e vincolati di famiglie e imprese, in proporzione alle consistenze; la ripartizione tra paesi di R1 si fa sui depositi totali |
+| **T1 (main)** | Only sight deposits leave, from households and firms in proportion to their respective stocks |
+| T2 (alternative) | Only household sight deposits leave; the R1 allocation across countries is based on household sight deposits only |
+| T3 (alternative) | Sight and term deposits of households and firms leave, in proportion to stocks; the R1 allocation across countries is based on total deposits |
 
-### 2.6 Grandezze calcolate per ogni paese e scenario
+### 2.6 Quantities calculated for each country and scenario
 
-| Grandezza | Formula |
+| Quantity | Formula |
 |---|---|
-| Deflusso | importo assegnato al paese, in miliardi di euro |
-| Perdita di depositi a vista | deflusso / depositi a vista di famiglie e imprese |
-| Perdita di depositi della clientela | deflusso / depositi totali di famiglie e imprese |
-| Effetto sulla raccolta | deflusso / totale del passivo, in punti percentuali |
-| Raccolta all'ingrosso necessaria | pari al deflusso: si assume sostituzione uno a uno |
-| Aumento della raccolta all'ingrosso | deflusso / (titoli di debito emessi + depositi da IFM) |
+| Outflow | amount assigned to the country, in EUR billions |
+| Loss of sight deposits | outflow / sight deposits of households and firms |
+| Loss of customer deposits | outflow / total deposits of households and firms |
+| Effect on funding | outflow / total liabilities, in percentage points |
+| Wholesale funding needed | equal to the outflow: one-for-one replacement is assumed |
+| Increase in wholesale funding | outflow / (debt securities issued + deposits from MFIs) |
 
-### 2.7 Soglie
+### 2.7 Thresholds
 
-Calcolo inverso: quale importo di stablecoin detenute nell'area euro corrisponde a una
-perdita dell'1%, del 5% e del 10% dei depositi a vista dell'area, in miliardi di euro e
-di dollari, e a quale quota della circolazione ipotizzata dall'ESM.
+Inverse calculation: what amount of stablecoins held in the euro area corresponds to a
+loss of 1%, 5% and 10% of the area's sight deposits, in EUR billions and USD billions,
+and to what share of the circulation assumed by the ESM.
 
-### 2.8 Sensibilità
+### 2.8 Sensitivity
 
-Il calcolo è lineare nell'importo: raddoppiare l'adozione, il tasso di sostituzione o la
-quota dell'area euro raddoppia ogni risultato. Si riportano comunque il tasso di
-sostituzione al 50% e un cambio a ±10%, e soprattutto il confronto tra le due regole di
-ripartizione e tra i tre tipi di deposito, che non sono lineari.
+The calculation is linear in the amount: doubling adoption, the substitution rate or the
+euro area share doubles every result. The report nevertheless gives the substitution
+rate at 50% and an exchange rate at ±10%, and above all the comparison between the two
+allocation rules and between the three deposit types, which are not linear.
 
-## 3. Risultati
+## 3. Results
 
-Calcolato il 2026-11-24. Bilanci di settembre 2026; cambio di riferimento BCE del 30
-settembre 2026: 1,1355 dollari per euro.
+Calculated on 2026-11-24. September 2026 balance sheets; ECB reference rate of 30
+September 2026: USD 1.1355 per euro.
 
-Grandezze di partenza per i 21 paesi: 8.180 miliardi di euro di depositi a vista di
-famiglie e imprese (5.526 famiglie, 2.654 imprese), 13.799 miliardi di depositi della
-clientela, 12.441 miliardi di raccolta all'ingrosso, 44.923 miliardi di passivo.
+Starting quantities for the 21 countries: EUR 8,180 billion of sight deposits of
+households and firms (5,526 households, 2,654 firms), 13,799 billion of customer
+deposits, 12,441 billion of wholesale funding, 44,923 billion of liabilities.
 
-### 3.1 Area euro
+### 3.1 Euro area
 
-Regola principale (R1 e T1), sostituzione al 100%.
+Main rule (R1 and T1), 100% substitution.
 
-| Scenario | Stablecoin detenute (mld $) | Deflusso (mld €) | Depositi a vista persi | Depositi della clientela persi | Effetto sulla raccolta (punti del passivo) | Aumento della raccolta all'ingrosso |
+| Scenario | Stablecoins held (USD bn) | Outflow (EUR bn) | Sight deposits lost | Customer deposits lost | Effect on funding (points of liabilities) | Increase in wholesale funding |
 |---|---|---|---|---|---|---|
-| S0 - Oggi | 19 | 16,7 | 0,2% | 0,1% | 0,04 | 0,1% |
-| S1 - Base 2030 | 143 | 125,9 | 1,5% | 0,9% | 0,28 | 1,0% |
-| S2 - Alto 2030 | 300 | 264,2 | 3,2% | 1,9% | 0,59 | 2,1% |
-| S3 - Alto 2030, quota doppia | 600 | 528,4 | 6,5% | 3,8% | 1,18 | 4,2% |
+| S0 - Today | 19 | 16.7 | 0.2% | 0.1% | 0.04 | 0.1% |
+| S1 - Baseline 2030 | 143 | 125.9 | 1.5% | 0.9% | 0.28 | 1.0% |
+| S2 - High 2030 | 300 | 264.2 | 3.2% | 1.9% | 0.59 | 2.1% |
+| S3 - High 2030, double share | 600 | 528.4 | 6.5% | 3.8% | 1.18 | 4.2% |
 
-Per l'area nel suo insieme l'effetto è contenuto anche nello scenario più alto: 528
-miliardi di euro di depositi da sostituire, pari al 6,5% dei depositi a vista e a un
-aumento del 4,2% della raccolta all'ingrosso esistente. Al livello di oggi l'effetto è
-dello 0,2% dei depositi a vista.
+For the area as a whole the effect is contained even in the highest scenario: EUR 528
+billion of deposits to be replaced, equal to 6.5% of sight deposits and to a 4.2%
+increase in existing wholesale funding. At today's level the effect is 0.2% of sight
+deposits.
 
-### 3.2 Le soglie: quanto deve crescere l'adozione perché conti
+### 3.2 Thresholds: how much adoption must grow before it matters
 
-| Perdita di depositi a vista dell'area | Stablecoin detenute nell'area euro | Multiplo del livello di oggi | Quota di una circolazione di 1.900 mld $ | Quota di una circolazione di 4.000 mld $ |
+| Loss of the area's sight deposits | Stablecoins held in the euro area | Multiple of today's level | Share of a circulation of USD 1,900 bn | Share of a circulation of USD 4,000 bn |
 |---|---|---|---|---|
-| 1% | 82 mld € = 93 mld $ | 4,9 volte | 4,9% | 2,3% |
-| 5% | 409 mld € = 464 mld $ | 24 volte | 24,4% | 11,6% |
-| 10% | 818 mld € = 929 mld $ | 49 volte | 48,9% | 23,2% |
+| 1% | EUR 82 bn = USD 93 bn | 4.9 times | 4.9% | 2.3% |
+| 5% | EUR 409 bn = USD 464 bn | 24 times | 24.4% | 11.6% |
+| 10% | EUR 818 bn = USD 929 bn | 49 times | 48.9% | 23.2% |
 
-Lettura: perché l'area euro perda il 5% dei depositi a vista, i suoi residenti
-dovrebbero detenere 464 miliardi di dollari di stablecoin. Con l'ipotesi ESM di una
-quota del 7,5%, servirebbe una circolazione mondiale di circa 6.200 miliardi di
-dollari, 25 volte quella del terzo trimestre 2025.
+Reading: for the euro area to lose 5% of its sight deposits, its residents would have to
+hold USD 464 billion of stablecoins. With the ESM assumption of a 7.5% share, this would
+require a global circulation of about USD 6,200 billion, 25 times that of the third
+quarter of 2025.
 
-### 3.3 Per paese
+### 3.3 By country
 
-Regola principale (R1 e T1). Paesi ordinati per effetto sulla raccolta. Lo scenario S0
-è omesso dalla tabella: vale il 13% di S1 in ogni cella.
+Main rule (R1 and T1). Countries ordered by effect on funding. Scenario S0 is omitted
+from the table: it is 13% of S1 in every cell.
 
-| Paese | Deflusso S1 (mld €) | Deflusso S2 | Deflusso S3 | Effetto S1 (punti del passivo) | Effetto S2 | Effetto S3 | Aumento ingrosso S1 | Aumento ingrosso S2 | Aumento ingrosso S3 |
+| Country | Outflow S1 (EUR bn) | Outflow S2 | Outflow S3 | Effect S1 (points of liabilities) | Effect S2 | Effect S3 | Wholesale increase S1 | Wholesale increase S2 | Wholesale increase S3 |
 |---|---|---|---|---|---|---|---|---|---|
-| Slovenia | 0,6 | 1,2 | 2,3 | 0,91 | 1,91 | 3,81 | 12,8% | 26,9% | 53,9% |
-| Bulgaria | 1,0 | 2,1 | 4,2 | 0,79 | 1,66 | 3,32 | 10,0% | 20,9% | 41,8% |
-| Lettonia | 0,3 | 0,5 | 1,1 | 0,77 | 1,63 | 3,25 | 23,0% | 48,2% | 96,4% |
-| Croazia | 0,7 | 1,6 | 3,1 | 0,75 | 1,57 | 3,14 | 10,4% | 21,8% | 43,7% |
-| Grecia | 2,7 | 5,6 | 11,3 | 0,74 | 1,54 | 3,09 | 5,6% | 11,6% | 23,3% |
-| Malta | 0,3 | 0,7 | 1,4 | 0,70 | 1,47 | 2,94 | 11,3% | 23,8% | 47,5% |
-| Cipro | 0,5 | 1,0 | 2,0 | 0,62 | 1,31 | 2,62 | 9,9% | 20,9% | 41,7% |
-| Slovacchia | 0,8 | 1,8 | 3,6 | 0,61 | 1,27 | 2,55 | 3,4% | 7,1% | 14,3% |
-| Lituania | 0,6 | 1,3 | 2,7 | 0,58 | 1,21 | 2,42 | 12,0% | 25,1% | 50,3% |
-| Spagna | 19,3 | 40,5 | 81,1 | 0,56 | 1,17 | 2,34 | 2,6% | 5,4% | 10,8% |
-| Estonia | 0,3 | 0,6 | 1,1 | 0,55 | 1,14 | 2,29 | 4,7% | 9,9% | 19,8% |
-| Italia | 20,0 | 41,9 | 83,7 | 0,47 | 0,99 | 1,98 | 2,1% | 4,4% | 8,8% |
-| Portogallo | 2,1 | 4,5 | 8,9 | 0,43 | 0,91 | 1,82 | 2,5% | 5,3% | 10,5% |
-| Austria | 4,2 | 8,9 | 17,7 | 0,39 | 0,82 | 1,64 | 1,3% | 2,6% | 5,3% |
-| Germania | 39,5 | 82,9 | 165,7 | 0,33 | 0,69 | 1,39 | 1,4% | 2,8% | 5,7% |
-| Finlandia | 1,9 | 3,9 | 7,9 | 0,28 | 0,58 | 1,16 | 0,7% | 1,4% | 2,8% |
-| Belgio | 3,2 | 6,8 | 13,6 | 0,22 | 0,46 | 0,91 | 1,2% | 2,5% | 5,1% |
-| Paesi Bassi | 5,6 | 11,8 | 23,7 | 0,18 | 0,37 | 0,74 | 0,8% | 1,7% | 3,4% |
-| Irlanda | 3,6 | 7,5 | 14,9 | 0,17 | 0,35 | 0,71 | 1,3% | 2,8% | 5,5% |
-| Francia | 17,3 | 36,4 | 72,7 | 0,13 | 0,27 | 0,55 | 0,3% | 0,7% | 1,3% |
-| Lussemburgo | 1,3 | 2,8 | 5,6 | 0,07 | 0,16 | 0,31 | 0,5% | 1,1% | 2,2% |
+| Slovenia | 0.6 | 1.2 | 2.3 | 0.91 | 1.91 | 3.81 | 12.8% | 26.9% | 53.9% |
+| Bulgaria | 1.0 | 2.1 | 4.2 | 0.79 | 1.66 | 3.32 | 10.0% | 20.9% | 41.8% |
+| Latvia | 0.3 | 0.5 | 1.1 | 0.77 | 1.63 | 3.25 | 23.0% | 48.2% | 96.4% |
+| Croatia | 0.7 | 1.6 | 3.1 | 0.75 | 1.57 | 3.14 | 10.4% | 21.8% | 43.7% |
+| Greece | 2.7 | 5.6 | 11.3 | 0.74 | 1.54 | 3.09 | 5.6% | 11.6% | 23.3% |
+| Malta | 0.3 | 0.7 | 1.4 | 0.70 | 1.47 | 2.94 | 11.3% | 23.8% | 47.5% |
+| Cyprus | 0.5 | 1.0 | 2.0 | 0.62 | 1.31 | 2.62 | 9.9% | 20.9% | 41.7% |
+| Slovakia | 0.8 | 1.8 | 3.6 | 0.61 | 1.27 | 2.55 | 3.4% | 7.1% | 14.3% |
+| Lithuania | 0.6 | 1.3 | 2.7 | 0.58 | 1.21 | 2.42 | 12.0% | 25.1% | 50.3% |
+| Spain | 19.3 | 40.5 | 81.1 | 0.56 | 1.17 | 2.34 | 2.6% | 5.4% | 10.8% |
+| Estonia | 0.3 | 0.6 | 1.1 | 0.55 | 1.14 | 2.29 | 4.7% | 9.9% | 19.8% |
+| Italy | 20.0 | 41.9 | 83.7 | 0.47 | 0.99 | 1.98 | 2.1% | 4.4% | 8.8% |
+| Portugal | 2.1 | 4.5 | 8.9 | 0.43 | 0.91 | 1.82 | 2.5% | 5.3% | 10.5% |
+| Austria | 4.2 | 8.9 | 17.7 | 0.39 | 0.82 | 1.64 | 1.3% | 2.6% | 5.3% |
+| Germany | 39.5 | 82.9 | 165.7 | 0.33 | 0.69 | 1.39 | 1.4% | 2.8% | 5.7% |
+| Finland | 1.9 | 3.9 | 7.9 | 0.28 | 0.58 | 1.16 | 0.7% | 1.4% | 2.8% |
+| Belgium | 3.2 | 6.8 | 13.6 | 0.22 | 0.46 | 0.91 | 1.2% | 2.5% | 5.1% |
+| Netherlands | 5.6 | 11.8 | 23.7 | 0.18 | 0.37 | 0.74 | 0.8% | 1.7% | 3.4% |
+| Ireland | 3.6 | 7.5 | 14.9 | 0.17 | 0.35 | 0.71 | 1.3% | 2.8% | 5.5% |
+| France | 17.3 | 36.4 | 72.7 | 0.13 | 0.27 | 0.55 | 0.3% | 0.7% | 1.3% |
+| Luxembourg | 1.3 | 2.8 | 5.6 | 0.07 | 0.16 | 0.31 | 0.5% | 1.1% | 2.2% |
 
-Tre letture:
+Three readings:
 
-- **L'effetto medio nasconde differenze di dodici volte.** Nello scenario S2 la raccolta
-  da sostituire va dallo 0,16% del passivo in Lussemburgo all'1,91% in Slovenia. Con la
-  regola R1 l'ordine è per costruzione quello della componente C1 del modulo 3.
-- **Il vero collo di bottiglia è la raccolta all'ingrosso, non l'importo.** In Lettonia
-  basta mezzo miliardo di euro di deflussi (scenario S2) per richiedere un aumento del
-  48% della raccolta all'ingrosso, perché quella esistente è piccolissima. Slovenia,
-  Lituania, Malta, Croazia, Bulgaria e Cipro dovrebbero aumentarla tra il 21% e il 27%.
-  Germania e Francia, che perdono 83 e 36 miliardi, dovrebbero aumentarla del 2,8% e
-  dello 0,7%.
-- **I miliardi stanno altrove.** Germania, Italia, Spagna e Francia assorbono il 76% del
-  deflusso in ogni scenario.
+- **The average effect hides twelvefold differences.** In scenario S2 the funding to be
+  replaced ranges from 0.16% of liabilities in Luxembourg to 1.91% in Slovenia. Under
+  rule R1 the order is by construction that of component C1 of module 3.
+- **The real bottleneck is wholesale funding, not the amount.** In Latvia half a billion
+  euro of outflows (scenario S2) is enough to require a 48% increase in wholesale
+  funding, because the existing wholesale funding is very small. Slovenia, Lithuania,
+  Malta, Croatia, Bulgaria and Cyprus would have to increase it by between 21% and 27%.
+  Germany and France, which lose 83 and 36 billion, would have to increase it by 2.8%
+  and 0.7%.
+- **The billions are elsewhere.** Germany, Italy, Spain and France absorb 76% of the
+  outflow in every scenario.
 
-### 3.4 Se l'adozione fosse uguale per abitante
+### 3.4 If adoption were the same per inhabitant
 
-Scenario S2, regola R1 a confronto con R2.
+Scenario S2, rule R1 compared with R2.
 
-![Scenario S2 per paese](figures/05_scenario_s2.png)
+![Scenario S2 by country](figures/05_scenario_s2.png)
 
-| Paese | Depositi a vista per abitante (migliaia di €) | Effetto R1 (punti del passivo) | Effetto R2 | Depositi a vista persi R1 | Depositi a vista persi R2 | Aumento ingrosso R1 | Aumento ingrosso R2 |
+| Country | Sight deposits per inhabitant (EUR thousands) | Effect R1 (points of liabilities) | Effect R2 | Sight deposits lost R1 | Sight deposits lost R2 | Wholesale increase R1 | Wholesale increase R2 |
 |---|---|---|---|---|---|---|---|
-| Lettonia | 9,1 | 1,63 | 4,08 | 3,2% | 8,1% | 48,2% | 120,9% |
-| Bulgaria | 10,1 | 1,66 | 3,74 | 3,2% | 7,3% | 20,9% | 46,9% |
-| Slovacchia | 10,2 | 1,27 | 2,85 | 3,2% | 7,2% | 7,1% | 16,0% |
-| Croazia | 12,5 | 1,57 | 2,85 | 3,2% | 5,9% | 21,8% | 39,7% |
-| Slovenia | 16,8 | 1,91 | 2,58 | 3,2% | 4,4% | 26,9% | 36,5% |
-| Grecia | 16,8 | 1,54 | 2,09 | 3,2% | 4,4% | 11,6% | 15,8% |
-| Estonia | 13,0 | 1,14 | 2,01 | 3,2% | 5,7% | 9,9% | 17,4% |
-| Lituania | 14,2 | 1,21 | 1,94 | 3,2% | 5,2% | 25,1% | 40,3% |
-| Portogallo | 12,1 | 0,91 | 1,71 | 3,2% | 6,1% | 5,3% | 9,9% |
-| Spagna | 25,5 | 1,17 | 1,04 | 3,2% | 2,9% | 5,4% | 4,8% |
-| Italia | 22,0 | 0,99 | 1,03 | 3,2% | 3,3% | 4,4% | 4,5% |
-| Cipro | 31,3 | 1,31 | 0,95 | 3,2% | 2,4% | 20,9% | 15,2% |
-| Malta | 38,9 | 1,47 | 0,86 | 3,2% | 1,9% | 23,8% | 13,9% |
-| Austria | 29,8 | 0,82 | 0,63 | 3,2% | 2,5% | 2,6% | 2,0% |
-| Finlandia | 21,7 | 0,58 | 0,61 | 3,2% | 3,4% | 1,4% | 1,5% |
-| Belgio | 17,7 | 0,46 | 0,59 | 3,2% | 4,2% | 2,5% | 3,3% |
-| Germania | 30,7 | 0,69 | 0,51 | 3,2% | 2,4% | 2,8% | 2,1% |
-| Paesi Bassi | 20,3 | 0,37 | 0,41 | 3,2% | 3,6% | 1,7% | 1,9% |
-| Francia | 16,3 | 0,27 | 0,38 | 3,2% | 4,5% | 0,7% | 0,9% |
-| Irlanda | 42,4 | 0,35 | 0,19 | 3,2% | 1,7% | 2,8% | 1,5% |
-| Lussemburgo | 127,7 | 0,16 | 0,03 | 3,2% | 0,6% | 1,1% | 0,2% |
+| Latvia | 9.1 | 1.63 | 4.08 | 3.2% | 8.1% | 48.2% | 120.9% |
+| Bulgaria | 10.1 | 1.66 | 3.74 | 3.2% | 7.3% | 20.9% | 46.9% |
+| Slovakia | 10.2 | 1.27 | 2.85 | 3.2% | 7.2% | 7.1% | 16.0% |
+| Croatia | 12.5 | 1.57 | 2.85 | 3.2% | 5.9% | 21.8% | 39.7% |
+| Slovenia | 16.8 | 1.91 | 2.58 | 3.2% | 4.4% | 26.9% | 36.5% |
+| Greece | 16.8 | 1.54 | 2.09 | 3.2% | 4.4% | 11.6% | 15.8% |
+| Estonia | 13.0 | 1.14 | 2.01 | 3.2% | 5.7% | 9.9% | 17.4% |
+| Lithuania | 14.2 | 1.21 | 1.94 | 3.2% | 5.2% | 25.1% | 40.3% |
+| Portugal | 12.1 | 0.91 | 1.71 | 3.2% | 6.1% | 5.3% | 9.9% |
+| Spain | 25.5 | 1.17 | 1.04 | 3.2% | 2.9% | 5.4% | 4.8% |
+| Italy | 22.0 | 0.99 | 1.03 | 3.2% | 3.3% | 4.4% | 4.5% |
+| Cyprus | 31.3 | 1.31 | 0.95 | 3.2% | 2.4% | 20.9% | 15.2% |
+| Malta | 38.9 | 1.47 | 0.86 | 3.2% | 1.9% | 23.8% | 13.9% |
+| Austria | 29.8 | 0.82 | 0.63 | 3.2% | 2.5% | 2.6% | 2.0% |
+| Finland | 21.7 | 0.58 | 0.61 | 3.2% | 3.4% | 1.4% | 1.5% |
+| Belgium | 17.7 | 0.46 | 0.59 | 3.2% | 4.2% | 2.5% | 3.3% |
+| Germany | 30.7 | 0.69 | 0.51 | 3.2% | 2.4% | 2.8% | 2.1% |
+| Netherlands | 20.3 | 0.37 | 0.41 | 3.2% | 3.6% | 1.7% | 1.9% |
+| France | 16.3 | 0.27 | 0.38 | 3.2% | 4.5% | 0.7% | 0.9% |
+| Ireland | 42.4 | 0.35 | 0.19 | 3.2% | 1.7% | 2.8% | 1.5% |
+| Luxembourg | 127.7 | 0.16 | 0.03 | 3.2% | 0.6% | 1.1% | 0.2% |
 
-Con un'adozione uguale per abitante i paesi con meno depositi a testa perdono molto di
-più: Lettonia, Bulgaria e Slovacchia perderebbero il 7% - 8% dei depositi a vista contro
-il 3,2% medio, e l'effetto sulla raccolta raddoppia o più. Malta, Cipro, Irlanda e
-Lussemburgo, dove i depositi per abitante sono alti, scendono. Per Italia, Spagna e
-Finlandia le due regole danno quasi lo stesso risultato.
+With equal adoption per inhabitant, the countries with fewer deposits per head lose much
+more: Latvia, Bulgaria and Slovakia would lose 7% - 8% of their sight deposits against
+the average of 3.2%, and the effect on funding doubles or more. Malta, Cyprus, Ireland
+and Luxembourg, where deposits per inhabitant are high, move down. For Italy, Spain and
+Finland the two rules give almost the same result.
 
-L'ordine dei paesi resta simile (correlazione di rango 0,89) e i primi cinque sono gli
-stessi in quattro casi su cinque: in testa ci sono comunque sistemi piccoli finanziati
-da depositi. In nessuno scenario il deflusso assegnato supera i depositi a vista di un paese.
+The order of countries remains similar (rank correlation 0.89) and the top five are the
+same in four cases out of five: small deposit-funded systems are at the top in any case.
+In no scenario does the assigned outflow exceed a country's sight deposits.
 
-### 3.5 Da quali depositi esce il denaro
+### 3.5 Which deposits the money comes from
 
-Scenario S2, regola R1, area euro: il deflusso è sempre 264 miliardi di euro, cambia su
-cosa pesa.
+Scenario S2, rule R1, euro area: the outflow is always EUR 264 billion; what changes is
+where it falls.
 
-| Regola | Categoria colpita | Perdita nella categoria |
+| Rule | Category affected | Loss in the category |
 |---|---|---|
-| T1 (principale) | Depositi a vista di famiglie e imprese | 3,2% |
-| T2 | Depositi a vista delle sole famiglie | 4,8% |
-| T3 | Tutti i depositi di famiglie e imprese | 1,9% |
+| T1 (main) | Sight deposits of households and firms | 3.2% |
+| T2 | Sight deposits of households only | 4.8% |
+| T3 | All deposits of households and firms | 1.9% |
 
-Per paese l'ordine cambia poco: correlazione di rango 0,96 tra T1 e T2 e 0,93 tra T1 e
-T3. Lo spostamento più ampio in T2 è Malta (da 1,47 a 1,78 punti del passivo), dove i
-depositi a vista sono quasi tutti di famiglie; in T3 è la Slovenia (da 1,91 a 1,34),
-che ha pochi depositi vincolati su cui spalmare il deflusso.
+By country the order changes little: rank correlation of 0.96 between T1 and T2 and 0.93
+between T1 and T3. The largest shift under T2 is Malta (from 1.47 to 1.78 points of
+liabilities), where sight deposits are almost all held by households; under T3 it is
+Slovenia (from 1.91 to 1.34), which has few term deposits over which to spread the
+outflow.
 
-### 3.6 Sensibilità
+### 3.6 Sensitivity
 
-Scenario S2, area euro, regola principale.
+Scenario S2, euro area, main rule.
 
-| Variante | Deflusso (mld €) | Depositi a vista persi | Aumento della raccolta all'ingrosso |
+| Variant | Outflow (EUR bn) | Sight deposits lost | Increase in wholesale funding |
 |---|---|---|---|
-| Base | 264,2 | 3,2% | 2,1% |
-| Sostituzione al 50% | 132,1 | 1,6% | 1,1% |
-| Dollaro più debole del 10% | 240,2 | 2,9% | 1,9% |
-| Dollaro più forte del 10% | 293,6 | 3,6% | 2,4% |
+| Baseline | 264.2 | 3.2% | 2.1% |
+| 50% substitution | 132.1 | 1.6% | 1.1% |
+| Dollar 10% weaker | 240.2 | 2.9% | 1.9% |
+| Dollar 10% stronger | 293.6 | 3.6% | 2.4% |
 
-Il calcolo è lineare: ogni risultato delle sezioni 3.1 e 3.3 si scala in proporzione
-all'importo, al tasso di sostituzione e alla quota attribuita all'area euro. La scelta
-che conta di più non è nessuna di queste, ma la regola di ripartizione tra paesi
-(sezione 3.4), che non è osservabile.
+The calculation is linear: every result in sections 3.1 and 3.3 scales in proportion to
+the amount, the substitution rate and the share attributed to the euro area. The choice
+that matters most is none of these, but the rule for allocation across countries
+(section 3.4), which is not observable.
 
-### 3.7 Criteri di completamento di SPEC
+### 3.7 SPEC completion criteria
 
-| Criterio | Stato |
+| Criterion | Status |
 |---|---|
-| (a) Scenari definiti da parametri scritti prima dei risultati | Fatto: sezione 2, committata prima |
-| (b) Regole di ripartizione dichiarate, con alternativa | Fatto: R1 e R2 tra paesi; T1, T2 e T3 tra tipi di deposito |
-| (c) Presentato come esercizio meccanico, con sensibilità | Fatto: sezioni 1, 3.6 e 4 |
-| (d) Il codice riproduce le tabelle | Fatto: una seconda esecuzione produce file identici |
+| (a) Scenarios defined by parameters written before the results | Done: section 2, committed first |
+| (b) Allocation rules stated, with an alternative | Done: R1 and R2 across countries; T1, T2 and T3 across deposit types |
+| (c) Presented as a mechanical exercise, with sensitivity | Done: sections 1, 3.6 and 4 |
+| (d) The code reproduces the tables | Done: a second run produces identical files |
 
-## 4. Limiti
+## 4. Limits
 
-- **È un calcolo contabile, non una previsione.** Non dice se e quando l'adozione
-  raggiungerà questi livelli. Gli importi sono ipotesi dell'ESM.
-- **La sostituzione piena è un tetto.** Chi compra stablecoin può usare contante, fondi
-  o altre attività, e il venditore può ridepositare i fondi in una banca dell'area.
-  L'effetto reale sui depositi è al massimo quello calcolato.
-- **La ripartizione tra paesi non è osservabile.** R1 e R2 sono due ipotesi estreme e
-  ragionevoli; l'adozione reale potrebbe seguire età, reddito, rimesse o uso delle
-  cripto-attività, per cui non ci sono dati per paese.
-- **Bilanci fermi.** Gli scenari al 2030 sono applicati ai bilanci di settembre 2026.
-  Se i depositi crescono, le percentuali scendono.
-- **Nessuna reazione.** Non si considerano aumenti dei tassi sui depositi, ricorso alla
-  banca centrale, riduzione degli attivi o vendita di titoli. Il "fabbisogno di raccolta
-  all'ingrosso" è quanto servirebbe se la banca sostituisse tutto uno a uno.
-- **Gli aumenti percentuali della raccolta all'ingrosso sono molto alti dove la base è
-  piccola.** Il 48% della Lettonia corrisponde a mezzo miliardo di euro. Indicano che il
-  canale andrebbe costruito, non che l'importo sia grande.
-- **Dati nazionali aggregati**, come nel modulo 3.
-- **Nessun effetto causale e nessun effetto sui tassi**: per la trasmissione della
-  politica monetaria il riferimento resta il Working Paper BCE 3199.
+- **It is an accounting calculation, not a forecast.** It does not say whether and when
+  adoption will reach these levels. The amounts are ESM assumptions.
+- **Full substitution is a ceiling.** Buyers of stablecoins may use cash, funds or other
+  assets, and the seller may redeposit the funds in a bank in the area. The actual effect
+  on deposits is at most the one calculated.
+- **The allocation across countries is not observable.** R1 and R2 are two extreme but
+  reasonable assumptions; actual adoption could follow age, income, remittances or the
+  use of crypto-assets, for which there are no data by country.
+- **Static balance sheets.** The 2030 scenarios are applied to the September 2026
+  balance sheets. If deposits grow, the percentages fall.
+- **No reaction.** Increases in deposit rates, recourse to the central bank, reductions
+  in assets or sales of securities are not considered. The "wholesale funding
+  requirement" is what would be needed if the bank replaced everything one for one.
+- **Percentage increases in wholesale funding are very high where the base is
+  small.** Latvia's 48% corresponds to half a billion euro. They indicate that the
+  channel would have to be built, not that the amount is large.
+- **Aggregate national data**, as in module 3.
+- **No causal effect and no effect on interest rates**: for monetary policy transmission
+  the reference remains ECB Working Paper 3199.
 
-## 5. Cosa non è stato possibile fare
+## 5. What could not be done
 
-- **Usare un livello di partenza aggiornato a oggi**: lo scenario S0 è il dato ESM del
-  terzo trimestre 2025. Il livello corrente arriverà dal modulo 1; lo script lo accetta
-  già con `--importo-usd`.
-- **Ripartire il deflusso secondo l'adozione reale per paese**: non esistono dati
-  pubblici. Il riquadro BCE copre 11 paesi ma pubblica solo il dato aggregato.
-- **Stimare il costo della sostituzione** (quanto costerebbe la nuova raccolta
-  all'ingrosso): richiederebbe i tassi di emissione per paese e un'ipotesi sulle
-  scadenze, fuori dal perimetro di un esercizio contabile.
+- **Using a starting level updated to today**: scenario S0 is the ESM figure for the
+  third quarter of 2025. The current level will come from module 1; the script already
+  accepts it with `--importo-usd`.
+- **Allocating the outflow according to actual adoption by country**: there are no
+  public data. The ECB box covers 11 countries but publishes only the aggregate figure.
+- **Estimating the cost of substitution** (how much the new wholesale funding would
+  cost): this would require issuance rates by country and an assumption on maturities,
+  which is outside the scope of an accounting exercise.
 
-## 6. Come si usa
+## 6. How to use it
 
 ```bash
-.venv/bin/python src/module4_scenarios.py                    # scenari ESM, soglie e sensibilità
-.venv/bin/python src/module4_scenarios.py --importo-usd 250  # un livello qualsiasi, in miliardi di dollari
-.venv/bin/python src/module4_scenarios.py --offline          # senza scaricare cambio e popolazione
+.venv/bin/python src/module4_scenarios.py                    # ESM scenarios, thresholds and sensitivity
+.venv/bin/python src/module4_scenarios.py --importo-usd 250  # any level, in billions of dollars
+.venv/bin/python src/module4_scenarios.py --offline          # without downloading the exchange rate and population
 ```
 
-| File | Contenuto |
+| File | Contents |
 |---|---|
-| `data/processed/m4_main_table.csv` | Risultati per paese nei quattro scenari, regole R1 e R2 |
-| `data/processed/m4_scenarios_by_country.csv` | Tutte le combinazioni di scenario, regola tra paesi e tipo di deposito |
-| `data/processed/m4_euro_area.csv` | Totali dell'area euro |
-| `data/processed/m4_thresholds.csv` | Soglie |
-| `data/processed/m4_rule_comparison.csv` | Confronto tra R1 e R2 nello scenario S2 |
-| `data/processed/m4_custom.csv` | Risultato dell'ultimo importo libero richiesto |
+| `data/processed/m4_main_table.csv` | Results by country in the four scenarios, rules R1 and R2 |
+| `data/processed/m4_scenarios_by_country.csv` | All combinations of scenario, country rule and deposit type |
+| `data/processed/m4_euro_area.csv` | Euro area totals |
+| `data/processed/m4_thresholds.csv` | Thresholds |
+| `data/processed/m4_rule_comparison.csv` | Comparison between R1 and R2 in scenario S2 |
+| `data/processed/m4_custom.csv` | Result of the last custom amount requested |
 
-Aggiornamento del 2026-11-24: completato il modulo 1, i file contengono anche gli
-scenari `M1_oggi_base` (18,3 miliardi di dollari) e `M1_oggi_alto` (36,6), calcolati
-sulla circolazione corrente. Vedi [06_module1_level.md](06_module1_level.md),
-sezione 3.6. Le tabelle di questo report non cambiano.
+Update of 2026-11-24: now that module 1 is complete, the files also contain the
+scenarios `M1_oggi_base` (USD 18.3 billion) and `M1_oggi_alto` (36.6), calculated on the
+current circulation. See [06_module1_level.md](06_module1_level.md), section 3.6. The
+tables in this report do not change.
 
 ---
 
-**Cosa aggiunge questo al programma finale**: lo strumento di scenario. Dato un
-qualsiasi importo di stablecoin detenute nell'area euro, restituisce per ciascuno dei 21
-paesi i miliardi di depositi da sostituire, l'effetto sulla raccolta e l'aumento di
-raccolta all'ingrosso necessario; e tre risultati pronti: al livello di oggi l'effetto è
-dello 0,2% dei depositi a vista, servono 464 miliardi di dollari per arrivare al 5%, e
-il vincolo più stretto è la raccolta all'ingrosso dei sistemi piccoli, non l'importo.
+**What this adds to the final programme**: the scenario tool. Given any amount of
+stablecoins held in the euro area, it returns for each of the 21 countries the billions
+of deposits to be replaced, the effect on funding and the increase in wholesale funding
+needed; and three ready results: at today's level the effect is 0.2% of sight deposits,
+USD 464 billion is needed to reach 5%, and the tightest constraint is the wholesale
+funding of small systems, not the amount.

@@ -1,4 +1,45 @@
-# Release notes
+# Changelog
+
+All notable changes to Euro Stablecoin Exposure Monitor. Versions are tagged in git
+(`v1.0`, `v1.1`) and published as GitHub releases. No version so far has changed a
+calculation or a result: the figures change only with the weekly data update.
+
+## Version 1.1 (27 November 2026)
+
+Repository ready for delivery. No calculation and no result changes.
+
+**Identity**
+- Described everywhere as an independent university project (ESCP Business School);
+  new footer: "Independent university project (ESCP Business School). Not affiliated
+  with any institution whose data it uses."
+- Sole author Lorenzo Bianchi, in the README, the About page, the methodological note
+  and `CITATION.cff`.
+- Code released under the MIT licence (`LICENSE`).
+- `DATA_SOURCES.md`: source, terms of use and attribution of every dataset. The map now
+  credits "© EuroGeographics for the administrative boundaries".
+- Repository, application and links moved to the GitHub account `lorenzo-bianchi-lab`:
+  https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/
+
+**Language**
+- The whole repository is in English: SPEC, reports, summary (`SINTESI.md` is now
+  `SUMMARY.md`), code comments and docstrings, workflow names, automatic commit
+  messages, file and folder names. Release notes became this changelog.
+- The JSON files of the data layer have English names (for example `simulatore.json` is
+  now `simulator.json`, `paesi/` is now `countries/`). The application keeps English as
+  default and Italian as an option.
+
+**Checks**
+- New workflow "Tests" on every push and pull request: Python formatting and static
+  checks (Ruff), TypeScript formatting (Prettier), static checks (ESLint) and type
+  checks, Python tests, application tests, build and browser tests.
+- Every module in `src/` opens with an English header describing it.
+
+**Repository**
+- README with screenshots, status badges and a "Key findings" section.
+- A current, compressed set of screenshots in `reports/figures/app/screenshots/`; the
+  screenshots taken before and after the redesign of version 1.0 remain in the git
+  history at tag `v1.0`.
+- Data of the methods discarded at the start moved to `data/archive/`, with a README.
 
 ## Version 1.0 (26 November 2026)
 
@@ -37,7 +78,8 @@ First complete version of Euro Stablecoin Exposure Monitor.
   flag is yellow.
 
 **Known limits**
-- Authors' names and the licence of the code are still to be filled in.
+- The author's name and the licence of the code were still to be filled in (added in
+  version 1.1).
 - The level is a survey-based estimate, not a measurement; credit figures are orders of
   magnitude. The full list is in the README and in "Method and data".
 - The first scheduled (Monday) run of the automatic update has not yet been observed;

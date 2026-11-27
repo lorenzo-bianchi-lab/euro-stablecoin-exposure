@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+type: software
+title: "Euro Stablecoin Exposure Monitor"
+abstract: >-
+  A web application that estimates how many dollar stablecoins (USDT, USDC) euro area
+  residents hold and shows what each level of adoption would mean for bank deposits,
+  wholesale funding and credit, country by country and bank by bank, with a weekly
+  monitor of stablecoin trading against the euro. Independent university project
+  (ESCP Business School).
+authors:
+  - family-names: Bianchi
+    given-names: Lorenzo
+    affiliation: ESCP Business School
+version: 1.1.0
+date-released: 2026-11-27
+license: MIT
+repository-code: "https://github.com/lorenzo-bianchi-lab/euro-stablecoin-exposure"
+url: "https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/"
+keywords:
+  - stablecoins
+  - monetary policy
+  - banking
+  - euro area
+  - bank deposits
+  - data visualization

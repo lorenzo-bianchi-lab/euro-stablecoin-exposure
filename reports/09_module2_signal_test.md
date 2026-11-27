@@ -1,216 +1,218 @@
-# 09 - Modulo 2: contenuto predittivo e regola di segnalazione
+# 09 - Module 2: predictive content and flagging rule
 
-L'indice del modulo 2 descrive il trading in euro. Qui si verifica se dice qualcosa in
-anticipo sui depositi bancari, e gli si aggiunge una regola di segnalazione esplicita.
+The module 2 index describes trading in euro. This report checks whether it says anything
+in advance about bank deposits, and adds an explicit flagging rule to it.
 
-Le sezioni 1 e 2 sono state committate **prima** di eseguire il test.
+Sections 1 and 2 were committed **before** the test was run.
 
-## 1. Domanda e criterio (fissati prima dei risultati)
+## 1. Question and criterion (set before the results)
 
-**Domanda**: le variazioni mensili dei volumi di stablecoin scambiati contro euro
-aiutano a prevedere la variazione dei depositi a vista delle famiglie dell'area euro,
-rispetto a un modello che usa solo i ritardi dei depositi?
+**Question**: do monthly changes in the volumes of stablecoins traded against the euro
+help to predict the change in euro area households' sight deposits, compared with a model
+that uses only the lags of deposits?
 
-**Criterio**: la risposta è sì solo se valgono entrambe le condizioni nella
-specificazione principale:
+**Criterion**: the answer is yes only if both conditions hold in the main
+specification:
 
-1. nel campione, il ritardo dei volumi è significativo al 5%;
-2. fuori campione, l'errore quadratico medio di previsione del modello con i volumi è
-   più basso di quello con i soli ritardi.
+1. in sample, the volume lag is significant at 5%;
+2. out of sample, the mean squared forecast error of the model with volumes is lower
+   than that of the model with lags only.
 
-In ogni altro caso la risposta è no, e lo si riporta così. Il risultato viene pubblicato
-anche se nullo.
+In any other case the answer is no, and it is reported as such. The result is published
+even if null.
 
-## 2. Metodo, fissato prima dei risultati
+## 2. Method, set before the results
 
-### 2.1 Dati
+### 2.1 Data
 
-- **Depositi**: depositi a vista delle famiglie, somma dei 21 paesi (BSI `L21`, settore
-  2250), consistenze di fine mese, non destagionalizzate. Ultimo mese: settembre 2026.
-- **Volumi**: somma mensile dei volumi di USDT e USDC scambiati contro euro, in unità di
-  stablecoin, dall'archivio del modulo 2. Si usa il pannello lungo (senza Kraken e
-  Gemini) perché parte dal gennaio 2023; con Kraken i mesi sarebbero 21.
-- **Campione**: da febbraio 2023 a settembre 2026, 44 variazioni mensili.
+- **Deposits**: households' sight deposits, sum of the 21 countries (BSI `L21`, sector
+  2250), end-of-month stocks, not seasonally adjusted. Last month: September 2026.
+- **Volumes**: monthly sum of the volumes of USDT and USDC traded against the euro, in
+  stablecoin units, from the module 2 archive. The long panel (without Kraken and
+  Gemini) is used because it starts in January 2023; with Kraken there would be 21 months.
+- **Sample**: from February 2023 to September 2026, 44 monthly changes.
 
-### 2.2 Specificazione principale
+### 2.2 Main specification
 
-    y(t) = variazione percentuale mensile dei depositi a vista delle famiglie
-    x(t) = variazione percentuale mensile dei volumi contro euro   (differenze dei logaritmi)
+    y(t) = monthly percentage change in households' sight deposits
+    x(t) = monthly percentage change in volumes against the euro   (log differences)
 
-    modello di base:   y(t) = a + b·y(t-1) + errore
-    modello ampliato:  y(t) = a + b·y(t-1) + c·x(t-1) + errore
+    base model:      y(t) = a + b·y(t-1) + error
+    extended model:  y(t) = a + b·y(t-1) + c·x(t-1) + error
 
-- Condizione 1: test su c con errori standard robusti all'eteroschedasticità.
-- Condizione 2: previsioni a un mese con finestra espandibile sugli ultimi 12 mesi;
-  rapporto tra gli errori quadratici medi dei due modelli.
+- Condition 1: test on c with heteroskedasticity-robust standard errors.
+- Condition 2: one-month-ahead forecasts with an expanding window over the last 12 months;
+  ratio between the mean squared errors of the two models.
 
-### 2.3 Varianti (riportate, non decidono l'esito)
+### 2.3 Variants (reported, they do not decide the outcome)
 
-- Due ritardi per entrambe le variabili.
-- Variazioni sui dodici mesi invece che mensili, per neutralizzare la stagionalità.
-- Al posto dei volumi: la quota EUR (indice), i volumi di sola USDT e di sola USDC.
-- Sono sette test: con una soglia del 5% ci si aspetta per caso circa un terzo di
-  probabilità che almeno uno risulti significativo. Per questo decide solo la principale.
+- Two lags for both variables.
+- Twelve-month changes instead of monthly changes, to neutralise seasonality.
+- In place of volumes: the EUR share (index), the volumes of USDT only and of USDC only.
+- There are seven tests: with a 5% threshold, the probability that at least one turns out
+  significant by chance is about one third. For this reason only the main specification
+  decides.
 
-### 2.4 Limiti noti in partenza
+### 2.4 Limitations known at the outset
 
-- 44 osservazioni sono poche: il test ha poca potenza, quindi un esito nullo non
-  dimostra che il legame non esista.
-- I volumi contro euro sono una frazione minima dei depositi (circa un miliardo di
-  dollari a settimana contro oltre 5.000 miliardi di euro di depositi a vista delle
-  famiglie): un legame meccanico sarebbe sorprendente.
-- Il pannello lungo esclude Kraken, che vale un terzo dei volumi recenti.
+- 44 observations are few: the test has little power, so a null outcome does not
+  prove that the link does not exist.
+- Volumes against the euro are a tiny fraction of deposits (about USD 1 billion a week
+  against more than EUR 5,000 billion of households' sight deposits): a mechanical link
+  would be surprising.
+- The long panel excludes Kraken, which accounts for one third of recent volumes.
 
-### 2.5 Regola di segnalazione
+### 2.5 Flagging rule
 
-Per ciascuna delle quattro serie, ogni settimana:
+For each of the four series, every week:
 
-    scarto della quota   = (quota EUR - media delle 52 settimane precedenti) / deviazione standard
-    scarto del volume    = (volume contro EUR - media delle 52 settimane precedenti) / deviazione standard
+    share gap   = (EUR share - mean of the previous 52 weeks) / standard deviation
+    volume gap  = (volume against EUR - mean of the previous 52 weeks) / standard deviation
 
-La finestra sono le 52 settimane che precedono quella osservata, esclusa.
+The window is the 52 weeks preceding the observed week, which is excluded.
 
-| Stato | Condizione |
+| Status | Condition |
 |---|---|
-| **Segnale** | Entrambi gli scarti oltre 2 in valore assoluto e dello stesso segno |
-| **Da verificare** | Uno solo dei due oltre 2, oppure entrambi oltre 2 ma di segno opposto |
-| Nessuno | Altrimenti |
+| **Flag** | Both gaps above 2 in absolute value and with the same sign |
+| **To be checked** | Only one of the two above 2, or both above 2 but with opposite signs |
+| None | Otherwise |
 
-Il doppio requisito serve a distinguere un movimento dell'euro da un movimento delle
-altre valute, che sposta la quota senza che i volumi in euro cambino. La regola marca
-valori insoliti. Se il test della sezione 1 è nullo, non va letta come segnale
-anticipatore di deflussi dai depositi.
+The double requirement serves to distinguish a movement of the euro from a movement of the
+other currencies, which shifts the share without any change in euro volumes. The rule
+marks unusual values. If the test of section 1 is null, it should not be read as a
+leading signal of deposit outflows.
 
-Si riporta quante volte la regola sarebbe scattata nello storico disponibile.
+The report gives the number of times the rule would have been triggered over the
+available history.
 
-## 3. Risultati
+## 3. Results
 
-Calcolato il 2026-11-25.
+Computed on 2026-11-25.
 
-### 3.1 Esito del test: no
+### 3.1 Test outcome: no
 
-**Le variazioni mensili dei volumi di stablecoin contro euro non aiutano a prevedere la
-variazione dei depositi a vista delle famiglie.** Nessuna delle due condizioni è
-soddisfatta.
+**Monthly changes in the volumes of stablecoins against the euro do not help to predict
+the change in households' sight deposits.** Neither of the two conditions is
+met.
 
-| | Specificazione principale |
+| | Main specification |
 |---|---|
-| Osservazioni | 43, da marzo 2023 a settembre 2026 |
-| Coefficiente del ritardo dei volumi | 0,0049 (errore standard 0,0048) |
-| Significatività (condizione 1) | p = 0,31: non significativo |
-| Errore di previsione fuori campione, con i volumi rispetto ai soli ritardi (condizione 2) | 1,009: non migliora |
-| Previsioni fuori campione | 12 |
+| Observations | 43, from March 2023 to September 2026 |
+| Coefficient of the volume lag | 0.0049 (standard error 0.0048) |
+| Significance (condition 1) | p = 0.31: not significant |
+| Out-of-sample forecast error, with volumes relative to lags only (condition 2) | 1.009: no improvement |
+| Out-of-sample forecasts | 12 |
 
-Il coefficiente dice che un aumento del 10% dei volumi sarebbe seguito da una variazione
-dei depositi di 0,05 punti in più, un effetto piccolo e non distinguibile da zero.
+The coefficient says that a 10% increase in volumes would be followed by a change in
+deposits 0.05 points higher, an effect that is small and not distinguishable from zero.
 
-### 3.2 Varianti
+### 3.2 Variants
 
-| Variante | Osservazioni | Significatività | Rapporto tra gli errori fuori campione | Aiuta? |
+| Variant | Observations | Significance | Ratio of out-of-sample errors | Does it help? |
 |---|---|---|---|---|
-| Due ritardi | 42 | p = 0,32 | 1,12 | no |
-| Variazioni sui dodici mesi | 32 | p = 0,16 | 0,96 | no |
-| Quota EUR al posto dei volumi | 43 | p = 0,57 | 1,02 | no |
-| Solo USDT | 43 | p = 0,50 | 1,03 | no |
-| Solo USDC | 43 | p = 0,44 | 1,01 | no |
+| Two lags | 42 | p = 0.32 | 1.12 | no |
+| Twelve-month changes | 32 | p = 0.16 | 0.96 | no |
+| EUR share in place of volumes | 43 | p = 0.57 | 1.02 | no |
+| USDT only | 43 | p = 0.50 | 1.03 | no |
+| USDC only | 43 | p = 0.44 | 1.01 | no |
 
-Nessuna variante è significativa. Nella variante a dodici mesi l'errore fuori campione
-scende del 4%, ma il coefficiente non è significativo e le osservazioni si
-sovrappongono: non basta.
+No variant is significant. In the twelve-month variant the out-of-sample error falls by
+4%, but the coefficient is not significant and the observations overlap: this is not
+enough.
 
-### 3.3 Perché il risultato è nullo, e cosa non dimostra
+### 3.3 Why the result is null, and what it does not prove
 
-- **Le grandezze non sono confrontabili per scala.** I volumi contro euro valgono in
-  media 3 miliardi di dollari al mese; i depositi a vista delle famiglie 5.526 miliardi
-  di euro. Anche se ogni dollaro scambiato fosse un deposito uscito, sarebbe lo 0,05%.
-- **I volumi sono molto più variabili dei depositi**: deviazione standard delle
-  variazioni mensili del 22% contro lo 0,7%. La correlazione nello stesso mese è zero;
-  con un mese di ritardo è 0,15.
-- **Il test ha poca potenza.** Con 43 osservazioni un legame debole non si vedrebbe.
-  L'esito dice che in questi dati non c'è evidenza, non che il legame non esista.
-- **Il campione non contiene un episodio di adozione ampia.** Il Working Paper BCE 3199
-  dice esplicitamente che ai livelli attuali gli effetti aggregati sono trascurabili:
-  questo risultato è coerente.
+- **The quantities are not comparable in scale.** Volumes against the euro average
+  USD 3 billion a month; households' sight deposits amount to EUR 5,526 billion. Even if
+  every dollar traded were a deposit that had left, it would be 0.05%.
+- **Volumes are much more volatile than deposits**: the standard deviation of monthly
+  changes is 22% against 0.7%. The correlation in the same month is zero; with a one-month
+  lag it is 0.15.
+- **The test has little power.** With 43 observations a weak link would not be seen.
+  The outcome says that there is no evidence in these data, not that the link does not exist.
+- **The sample does not contain an episode of broad adoption.** ECB Working Paper 3199
+  states explicitly that at current levels the aggregate effects are negligible:
+  this result is consistent with it.
 
-Conseguenza: l'indice del modulo 2 resta un indicatore descrittivo del trading in euro.
-Non va presentato come anticipatore dei depositi.
+Consequence: the module 2 index remains a descriptive indicator of trading in euro.
+It should not be presented as a leading indicator of deposits.
 
-### 3.4 Regola di segnalazione
+### 3.4 Flagging rule
 
-La regola è attiva in `src/module2_index.py` e i suoi esiti sono in
-`data/processed/m2_flags.csv`. Ultima settimana (16-22 novembre 2026):
+The rule is active in `src/module2_index.py` and its outcomes are in
+`data/processed/m2_flags.csv`. Last week (16-22 November 2026):
 
-| Serie | Scarto della quota | Scarto del volume | Stato |
+| Series | Share gap | Volume gap | Status |
 |---|---|---|---|
-| USDT | -0,7 | +0,5 | nessuno |
-| USDT senza Coinbase | -1,0 | +0,2 | nessuno |
-| USDC | +0,7 | +2,6 | **da verificare** |
-| USDC senza Coinbase | +0,4 | +2,0 | nessuno |
+| USDT | -0.7 | +0.5 | none |
+| USDT without Coinbase | -1.0 | +0.2 | none |
+| USDC | +0.7 | +2.6 | **to be checked** |
+| USDC without Coinbase | +0.4 | +2.0 | none |
 
-USDC è "da verificare" perché i volumi contro euro sono insolitamente alti (1,6 miliardi
-di dollari nella settimana) mentre la quota è nella norma: si scambia più USDC contro
-tutte le valute, non in particolare contro l'euro. È la quarta settimana consecutiva.
+USDC is "to be checked" because volumes against the euro are unusually high (USD 1.6
+billion in the week) while the share is normal: more USDC is being traded against
+all currencies, not against the euro in particular. It is the fourth consecutive week.
 
-Storico, sulle 50 settimane in cui la finestra di 52 è disponibile (dal dicembre 2025):
+History, over the 50 weeks for which the 52-week window is available (from December 2025):
 
-| Serie | Segnale | Da verificare | Nessuno |
+| Series | Flag | To be checked | None |
 |---|---|---|---|
 | USDT | 0 | 1 | 49 |
-| USDT senza Coinbase | 0 | 0 | 50 |
+| USDT without Coinbase | 0 | 0 | 50 |
 | USDC | 0 | 12 | 38 |
-| USDC senza Coinbase | 0 | 7 | 43 |
+| USDC without Coinbase | 0 | 7 | 43 |
 
-- **Il segnale pieno non è mai scattato.** In nessuna settimana quota e volume si sono
-  mossi insieme oltre le due deviazioni standard.
-- **I "da verificare" di USDC a gennaio-febbraio 2026** sono l'episodio già descritto nel
-  report 03: la quota è scesa di oltre due deviazioni mentre i volumi contro euro erano
-  normali, perché erano aumentati i volumi contro won. La regola li classifica
-  correttamente come movimento del denominatore, non dell'euro.
-- **L'unico caso su USDT** è la settimana del 2 marzo 2026 (quota +2,8, volume +1,7).
+- **The full flag has never been triggered.** In no week did share and volume
+  move together beyond two standard deviations.
+- **The USDC "to be checked" weeks in January-February 2026** are the episode already
+  described in report 03: the share fell by more than two deviations while volumes against
+  the euro were normal, because volumes against the won had increased. The rule
+  correctly classifies them as a movement of the denominator, not of the euro.
+- **The only case for USDT** is the week of 2 March 2026 (share +2.8, volume +1.7).
 
-La regola fa quello per cui è stata disegnata: distingue un movimento dell'euro da un
-movimento delle altre valute. Dato l'esito della sezione 3.1, non è un segnale
-anticipatore di deflussi dai depositi.
+The rule does what it was designed to do: it distinguishes a movement of the euro from a
+movement of the other currencies. Given the outcome of section 3.1, it is not a leading
+signal of deposit outflows.
 
-Una precisazione: lo scarto standardizzato riportato nel report 03 e nella sintesi
-usava una finestra che includeva la settimana osservata. Da ora vale la definizione di
-questo documento, con le 52 settimane precedenti; i valori cambiano di poco.
+A clarification: the standardised gap reported in report 03 and in the summary
+used a window that included the observed week. From now on the definition in this
+document applies, with the 52 preceding weeks; the values change only slightly.
 
-### 3.5 Criterio
+### 3.5 Criterion
 
-| Condizione | Esito |
+| Condition | Outcome |
 |---|---|
-| 1. Ritardo dei volumi significativo al 5% nella specificazione principale | No (p = 0,31) |
-| 2. Errore fuori campione più basso con i volumi | No (rapporto 1,009) |
-| **Risposta alla domanda** | **No** |
+| 1. Volume lag significant at 5% in the main specification | No (p = 0.31) |
+| 2. Lower out-of-sample error with volumes | No (ratio 1.009) |
+| **Answer to the question** | **No** |
 
-## 4. Limiti
+## 4. Limitations
 
-- 43 osservazioni mensili, tre anni e mezzo, nessun episodio di stress.
-- Pannello lungo senza Kraken, che vale un terzo dei volumi recenti contro fiat.
-- Depositi non destagionalizzati; la variante a dodici mesi riduce il campione a 32.
-- Errori standard robusti all'eteroschedasticità ma non all'autocorrelazione.
-- La regola di segnalazione ha solo 50 settimane di storico: la frequenza dei "da
-  verificare" su USDC (una settimana su quattro) dice che la soglia di 2 è stretta per
-  una serie così variabile.
+- 43 monthly observations, three and a half years, no stress episode.
+- Long panel without Kraken, which accounts for one third of recent volumes against fiat.
+- Deposits not seasonally adjusted; the twelve-month variant reduces the sample to 32.
+- Standard errors robust to heteroskedasticity but not to autocorrelation.
+- The flagging rule has only 50 weeks of history: the frequency of "to be checked"
+  for USDC (one week in four) suggests that the threshold of 2 is tight for
+  such a volatile series.
 
-## 5. Cosa non è stato possibile fare
+## 5. What could not be done
 
-- **Usare i volumi con Kraken**: il suo storico parte da dicembre 2024 e darebbe 21 mesi.
-- **Provare il test per paese**: i volumi contro euro non sono attribuibili a un paese.
-- **Validare la regola di segnalazione su un evento**: nel campione non ce ne sono.
+- **Using the volumes with Kraken**: its history starts in December 2024 and would give 21 months.
+- **Running the test by country**: volumes against the euro cannot be attributed to a country.
+- **Validating the flagging rule on an event**: there are none in the sample.
 
-## 6. Come si usa
+## 6. How to use it
 
 ```bash
-.venv/bin/python src/module2_link_test.py   # ripete il test sui dati aggiornati
-.venv/bin/python src/module2_index.py       # aggiorna indice e segnalazioni
+.venv/bin/python src/module2_link_test.py   # repeats the test on the updated data
+.venv/bin/python src/module2_index.py       # updates the index and the flags
 ```
 
 ---
 
-**Cosa aggiunge questo al programma finale**: un risultato negativo utile e una regola.
-L'indice settimanale non anticipa i depositi a vista delle famiglie, quindi il programma
-non lo presenta come tale; e ogni settimana l'indice esce ora con uno stato esplicito
-(segnale, da verificare, nessuno) che separa i movimenti dell'euro da quelli delle
-altre valute.
+**What this adds to the final programme**: a useful negative result and a rule.
+The weekly index does not anticipate households' sight deposits, so the programme
+does not present it as such; and every week the index now comes with an explicit status
+(flag, to be checked, none) that separates movements of the euro from those of the
+other currencies.

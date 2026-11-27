@@ -1,247 +1,252 @@
-# 06 - Modulo 1: il livello, da fonti esterne
+# 06 - Module 1: the level, from external sources
 
-Il modulo 1 di [SPEC.md](../SPEC.md) chiede un numero: il valore delle stablecoin in
-dollari attribuibile all'area euro secondo le ipotesi esterne, aggiornato alla
-circolazione corrente, affiancato dalla diffusione tra i consumatori.
+Module 1 of [SPEC.md](../SPEC.md) asks for a number: the value of dollar stablecoins
+attributable to the euro area under the external assumptions, updated to current
+circulation, alongside the prevalence among consumers.
 
-Le sezioni 1 e 2 sono state committate **prima** di leggere i dati di circolazione. Le
-due quote applicate (7,5% e 15%) non sono scelte nostre: vengono dall'ESM Working Paper
-79, verificato sull'originale nel [report 02](02_benchmarks_and_module3_data.md).
+Sections 1 and 2 were committed **before** the circulation data were read. The two
+shares applied (7.5% and 15%) were not chosen here: they come from ESM Working Paper
+79, checked against the original in [report 02](02_benchmarks_and_module3_data.md).
 
-## 1. Che tipo di numero è
+## 1. What kind of number it is
 
-Non è una stima. È l'applicazione meccanica di un'ipotesi esterna a un dato osservato:
+It is not an estimate. It is the mechanical application of an external assumption to an
+observed figure:
 
-    livello = circolazione mondiale di stablecoin in dollari × quota assunta dall'ESM
+    level = world circulation of dollar stablecoins × share assumed by the ESM
 
-La circolazione è misurata; la quota è un'ipotesi di calibrazione degli autori dell'ESM,
-senza intervallo di confidenza. Il risultato eredita tutta l'incertezza della quota.
+Circulation is measured; the share is a calibration assumption made by the ESM authors,
+with no confidence interval. The result inherits all the uncertainty of the share.
 
-## 2. Metodo, fissato prima dei numeri
+## 2. Method, set before the numbers
 
-### 2.1 Circolazione
+### 2.1 Circulation
 
-- **Fonte principale**: API pubblica di DefiLlama (`stablecoins.llama.fi`), senza chiave.
-  Tre grandezze: tutte le stablecoin ancorate al dollaro, USDT, USDC.
-- **Fonte di controllo**: CoinGecko (`circulating_supply` di USDT e USDC). Se le due
-  fonti differiscono di più del 2% per uno dei due token, il report lo segnala.
-- **Convalida sull'ESM**: l'ESM indica 248 miliardi di dollari in circolazione al terzo
-  trimestre 2025. Si confronta con il dato DefiLlama del 30 settembre 2025. Se tornano,
-  la base a cui applicare la quota è la stessa usata dagli autori.
+- **Main source**: the DefiLlama public API (`stablecoins.llama.fi`), no key required.
+  Three quantities: all dollar-pegged stablecoins, USDT, USDC.
+- **Control source**: CoinGecko (`circulating_supply` of USDT and USDC). If the two
+  sources differ by more than 2% for either token, the report flags it.
+- **Validation against the ESM**: the ESM gives USD 248 billion in circulation in the
+  third quarter of 2025. This is compared with the DefiLlama figure for 30 September
+  2025. If they match, the base to which the share is applied is the same one the ESM
+  authors used.
 
-### 2.2 Livello
+### 2.2 Level
 
-| Grandezza | Definizione |
+| Quantity | Definition |
 |---|---|
-| **Livello di base** | 7,5% della circolazione di tutte le stablecoin in dollari (la base usata dall'ESM) |
-| **Livello alto** | 15% della stessa circolazione (scenario di sensibilità D dell'ESM) |
-| Di cui USDT e USDC | Le stesse quote applicate alla sola circolazione di USDT e USDC, che sono l'oggetto del progetto |
+| **Base level** | 7.5% of the circulation of all dollar stablecoins (the base used by the ESM) |
+| **High level** | 15% of the same circulation (ESM sensitivity scenario D) |
+| Of which USDT and USDC | The same shares applied to the circulation of USDT and USDC alone, which are the subject of the project |
 
-In dollari e in euro, al tasso di riferimento BCE dell'ultimo giorno disponibile.
+In dollars and in euros, at the ECB reference rate for the latest available day.
 
-### 2.3 Serie storica
+### 2.3 Time series
 
-Lo stesso calcolo a ogni fine mese dal gennaio 2023, e il rapporto tra il livello di
-base e i depositi a vista di famiglie e imprese dell'area euro (dal modulo 3) nei mesi
-in cui il dato bancario esiste.
+The same calculation at each month-end since January 2023, and the ratio of the base
+level to the sight deposits of euro area households and firms (from module 3) in the
+months for which the bank data exist.
 
-### 2.4 Diffusione tra i consumatori
+### 2.4 Prevalence among consumers
 
-Riportata senza elaborazioni: 5% dei consumatori dichiara che in famiglia si possiedono
-stablecoin (BCE, indagine CES, agosto 2025, 11 paesi). Non è aggiornabile: dipende dalla
-prossima rilevazione della BCE.
+Reported without processing: 5% of consumers report that their household holds
+stablecoins (ECB, CES survey, August 2025, 11 countries). It cannot be updated: it
+depends on the ECB's next survey round.
 
-### 2.5 Controllo di coerenza tra le due fonti
+### 2.5 Consistency check between the two sources
 
-Le due fonti esterne non misurano la stessa cosa, ma si possono confrontare con un
-calcolo dichiarato. Il riquadro BCE dice che circa il 10% dei detentori ha almeno 10.000
-euro in stablecoin (novembre 2025). Ne segue un **pavimento**:
+The two external sources do not measure the same thing, but they can be compared with a
+declared calculation. The ECB box says that about 10% of holders have at least EUR
+10,000 in stablecoins (November 2025). This gives a **floor**:
 
-    pavimento = famiglie dell'area euro × 5% × 10% × 10.000 euro
+    floor = euro area households × 5% × 10% × EUR 10,000
 
-con il numero di famiglie da Eurostat. È un minimo, perché ignora il 90% dei detentori
-e conta 10.000 euro esatti per gli altri. Si confronta con il livello di base alla fine
-di novembre 2025. È un nostro calcolo su cifre BCE, non una stima della BCE, e assume
-che i risultati degli 11 paesi dell'indagine valgano per tutti i 21.
+with the number of households from Eurostat. It is a minimum, because it ignores 90% of
+holders and counts exactly EUR 10,000 for the others. It is compared with the base level
+at the end of November 2025. It is this project's own calculation on ECB figures, not
+an ECB estimate, and it assumes that the results for the 11 survey countries hold for
+all 21.
 
-### 2.6 Collegamento con il modulo 4
+### 2.6 Link with module 4
 
-Il livello di base e quello alto vengono salvati in `data/processed/m1_level.json`. Il
-modulo 4 li legge e li aggiunge agli scenari ESM come livello di partenza aggiornato.
+The base level and the high level are saved in `data/processed/m1_level.json`. Module 4
+reads them and adds them to the ESM scenarios as an updated starting level.
 
-## 3. Risultati
+## 3. Results
 
-Calcolato il 2026-11-24.
+Calculated on 2026-11-24.
 
-### 3.1 Il numero
+### 3.1 The number
 
-Circolazione del 24 novembre 2026 (DefiLlama): USDT 174,9 miliardi di dollari, USDC 69,4,
-insieme 244,2. Cambio di riferimento BCE dello stesso giorno: 1,0963 dollari per euro.
+Circulation on 24 November 2026 (DefiLlama): USDT USD 174.9 billion, USDC 69.4,
+together 244.2. ECB reference rate on the same day: 1.0963 dollars per euro.
 
-| | Quota applicata | In dollari | In euro |
+| | Share applied | In dollars | In euros |
 |---|---|---|---|
-| **Livello di base** | 7,5% | **18,3 miliardi** | **16,7 miliardi** |
-| **Livello alto** | 15% | **36,6 miliardi** | **33,4 miliardi** |
+| **Base level** | 7.5% | **18.3 billion** | **16.7 billion** |
+| **High level** | 15% | **36.6 billion** | **33.4 billion** |
 
-Rispetto ai depositi a vista di famiglie e imprese dell'area euro (8.180 miliardi di
-euro a settembre 2026) il livello di base vale lo **0,21%** e quello alto lo 0,42%.
+Relative to the sight deposits of euro area households and firms (EUR 8,180 billion in
+September 2026), the base level is **0.21%** and the high level 0.42%.
 
-Diffusione tra i consumatori, da leggere accanto: **5%** dichiara che in famiglia si
-possiedono stablecoin (BCE, agosto 2025, 11 paesi).
+Prevalence among consumers, to be read alongside: **5%** report that their household
+holds stablecoins (ECB, August 2025, 11 countries).
 
-Questo non è una stima di quanto detengono i residenti dell'area euro. È ciò che
-risulta applicando alla circolazione di oggi la quota che gli autori dell'ESM hanno
-assunto. Se la quota vera fosse diversa, il numero cambierebbe in proporzione.
+This is not an estimate of how much euro area residents hold. It is what results from
+applying to today's circulation the share that the ESM authors assumed. If the true
+share were different, the number would change in proportion.
 
-### 3.2 Scostamento dal metodo pre-registrato
+### 3.2 Departure from the pre-registered method
 
-La sezione 2.2 definiva il livello di base sulla circolazione di **tutte** le stablecoin
-in dollari, indicandola come "la base usata dall'ESM". La convalida prevista dalla
-sezione 2.1 ha mostrato che quella premessa era sbagliata:
+Section 2.2 defined the base level on the circulation of **all** dollar stablecoins,
+describing it as "the base used by the ESM". The validation planned in section 2.1
+showed that this premise was wrong:
 
-| Al 30 settembre 2025 | Miliardi di dollari | Differenza dai 248 dell'ESM |
+| At 30 September 2025 | USD billion | Difference from the ESM's 248 |
 |---|---|---|
-| USDT + USDC (DefiLlama) | 247,8 | -0,1% |
-| Tutte le stablecoin in dollari (DefiLlama) | 292,9 | +18,1% |
+| USDT + USDC (DefiLlama) | 247.8 | -0.1% |
+| All dollar stablecoins (DefiLlama) | 292.9 | +18.1% |
 
-Ho ricontrollato il testo: nella sezione 4.4.1 (p. 39) gli autori considerano solo USDT
-e USDC, 174 e 74 miliardi, e assumono che rappresentino l'intero universo delle
-stablecoin in dollari. La base a cui si riferisce il 7,5% è quindi USDT più USDC.
+I rechecked the text: in section 4.4.1 (p. 39) the authors consider only USDT and USDC,
+174 and 74 billion, and assume that they represent the entire universe of dollar
+stablecoins. The base to which the 7.5% refers is therefore USDT plus USDC.
 
-Il livello della sezione 3.1 è calcolato su quella base, che è anche il perimetro del
-progetto. La definizione pre-registrata resta come variante: con tutte le stablecoin in
-dollari (283,7 miliardi) il livello di base sarebbe 21,3 miliardi di dollari, cioè 19,4
-miliardi di euro, e quello alto 42,6 e 38,8. La differenza è del 16%.
+The level in section 3.1 is calculated on that base, which is also the scope of the
+project. The pre-registered definition remains as a variant: with all dollar
+stablecoins (USD 283.7 billion) the base level would be USD 21.3 billion, i.e. EUR 19.4
+billion, and the high level 42.6 and 38.8. The difference is 16%.
 
-### 3.3 Controlli sulle fonti
+### 3.3 Source checks
 
-| Controllo | Esito |
+| Check | Outcome |
 |---|---|
-| DefiLlama contro CoinGecko, USDT | 174,86 contro 174,84 miliardi: +0,01% |
-| DefiLlama contro CoinGecko, USDC | 69,37 contro 69,12 miliardi: +0,36% |
-| Soglia di segnalazione | 2%: non superata |
-| Base ESM al 30 settembre 2025 | 247,8 contro 248: -0,1% |
-| Livello ESM ricalcolato | 18,6 contro i 19 miliardi di dollari indicati dal paper |
+| DefiLlama against CoinGecko, USDT | 174.86 against 174.84 billion: +0.01% |
+| DefiLlama against CoinGecko, USDC | 69.37 against 69.12 billion: +0.36% |
+| Flag threshold | 2%: not exceeded |
+| ESM base at 30 September 2025 | 247.8 against 248: -0.1% |
+| ESM level recalculated | 18.6 against the USD 19 billion given in the paper |
 
-USDT e USDC insieme sono l'86% di tutte le stablecoin in dollari in circolazione.
+USDT and USDC together are 86% of all dollar stablecoins in circulation.
 
-### 3.4 Il numero nel tempo
+### 3.4 The number over time
 
-![Livello nel tempo](figures/06_level.png)
+![Level over time](figures/06_level.png)
 
-| Fine mese | USDT + USDC (mld $) | Livello di base (mld $) | Livello di base (mld €) | Livello alto (mld €) | Base sui depositi a vista dell'area |
+| Month-end | USDT + USDC (USD bn) | Base level (USD bn) | Base level (EUR bn) | High level (EUR bn) | Base level over the area's sight deposits |
 |---|---|---|---|---|---|
-| Gennaio 2023 | 110,0 | 8,2 | 7,6 | 15,2 | 0,09% |
-| Gennaio 2024 | 122,7 | 9,2 | 8,5 | 17,0 | 0,11% |
-| Gennaio 2025 | 192,8 | 14,5 | 13,9 | 27,8 | 0,18% |
-| Settembre 2025 | 247,8 | 18,6 | 15,8 | 31,7 | 0,20% |
-| Gennaio 2026 | 255,6 | 19,2 | 16,1 | 32,2 | 0,20% |
-| Maggio 2026 | 264,4 | 19,8 | 17,0 | 34,1 | 0,21% |
-| Settembre 2026 | 258,4 | 19,4 | 17,1 | 34,1 | 0,21% |
-| 24 novembre 2026 | 244,2 | 18,3 | 16,7 | 33,4 | n.d. |
+| January 2023 | 110.0 | 8.2 | 7.6 | 15.2 | 0.09% |
+| January 2024 | 122.7 | 9.2 | 8.5 | 17.0 | 0.11% |
+| January 2025 | 192.8 | 14.5 | 13.9 | 27.8 | 0.18% |
+| September 2025 | 247.8 | 18.6 | 15.8 | 31.7 | 0.20% |
+| January 2026 | 255.6 | 19.2 | 16.1 | 32.2 | 0.20% |
+| May 2026 | 264.4 | 19.8 | 17.0 | 34.1 | 0.21% |
+| September 2026 | 258.4 | 19.4 | 17.1 | 34.1 | 0.21% |
+| 24 November 2026 | 244.2 | 18.3 | 16.7 | 33.4 | n.a. |
 
-- **Il livello è più che raddoppiato in quattro anni e si è fermato da uno.** In euro è
-  passato da 7,6 a 16,7 miliardi; il massimo in dollari è di aprile 2026 (20,0 miliardi)
-  e da allora la circolazione è scesa.
-- **Rispetto al dato su cui l'ESM ha costruito i suoi scenari la circolazione è oggi
-  più bassa dell'1,5%.** Il punto di partenza degli scenari non è invecchiato.
-- **In rapporto ai depositi è stabile intorno allo 0,2% da metà 2025.**
+- **The level has more than doubled in four years and has stalled over the past year.**
+  In euros it rose from 7.6 to 16.7 billion; the peak in dollars was in April 2026
+  (USD 20.0 billion) and circulation has fallen since then.
+- **Compared with the figure on which the ESM built its scenarios, circulation is now
+  1.5% lower.** The starting point of the scenarios has not become outdated.
+- **Relative to deposits it has been stable at around 0.2% since mid-2025.**
 
-Poiché la quota è costante, la serie replica l'andamento della circolazione mondiale e,
-per la parte in euro, del cambio: non contiene alcuna informazione sull'area euro in sé.
+Since the share is constant, the series replicates the path of world circulation and,
+for the values in euros, of the exchange rate: it contains no information on the euro
+area itself.
 
-### 3.5 Le due fonti esterne sono compatibili?
+### 3.5 Are the two external sources compatible?
 
-Il riquadro BCE dice che il 5% dei consumatori possiede stablecoin e che circa il 10%
-dei detentori ne ha almeno 10.000 euro. Con 163,5 milioni di famiglie nei 21 paesi
+The ECB box says that 5% of consumers own stablecoins and that about 10% of holders have
+at least EUR 10,000 in them. With 163.5 million households in the 21 countries
 (Eurostat, 2025):
 
-| Passaggio | Valore |
+| Step | Value |
 |---|---|
-| Famiglie con stablecoin (5%) | 8,2 milioni |
-| Di cui con almeno 10.000 euro (10%) | 0,8 milioni |
-| **Pavimento** (solo queste, a 10.000 euro esatti) | **8,2 miliardi di euro** |
-| Livello di base a fine novembre 2025 | 16,9 miliardi di euro |
-| Livello alto a fine novembre 2025 | 33,8 miliardi di euro |
-| Importo medio per famiglia detentrice implicito nel livello di base | circa 2.100 euro |
+| Households with stablecoins (5%) | 8.2 million |
+| Of which with at least EUR 10,000 (10%) | 0.8 million |
+| **Floor** (these only, at exactly EUR 10,000) | **EUR 8.2 billion** |
+| Base level at end-November 2025 | EUR 16.9 billion |
+| High level at end-November 2025 | EUR 33.8 billion |
+| Average amount per holding household implied by the base level | about EUR 2,100 |
 
-Le due fonti non si contraddicono. Il pavimento ricavato dall'indagine BCE è circa la
-metà del livello di base ESM, e il livello di base implica un importo medio di circa
-2.100 euro per famiglia detentrice, compatibile con una distribuzione in cui la maggior
-parte ha poco e un decimo ha più di 10.000 euro.
+The two sources do not contradict each other. The floor derived from the ECB survey is
+about half the ESM base level, and the base level implies an average amount of about
+EUR 2,100 per holding household, consistent with a distribution in which most have
+little and one tenth have more than EUR 10,000.
 
-Non si può dire di più: il calcolo non conferma il 7,5%, mostra soltanto che non è
-smentito dai dati della BCE. È un nostro calcolo, assume che gli 11 paesi dell'indagine
-rappresentino tutti i 21, e tratta come famiglie i consumatori intervistati, a cui la
-domanda è stata posta con riferimento alla famiglia.
+Nothing more can be said: the calculation does not confirm the 7.5%, it only shows that
+it is not contradicted by the ECB data. It is this project's own calculation, it assumes
+that the 11 survey countries represent all 21, and it treats as households the
+consumers interviewed, who were asked the question with reference to their household.
 
-### 3.6 Collegamento con il modulo 4
+### 3.6 Link with module 4
 
-Il livello viene scritto in `data/processed/m1_level.json` e il modulo 4 lo aggiunge
-agli scenari. Con i bilanci di settembre 2026:
+The level is written to `data/processed/m1_level.json` and module 4 adds it to the
+scenarios. With the September 2026 balance sheets:
 
-| Scenario | Stablecoin detenute (mld $) | Depositi da sostituire (mld €) | Depositi a vista persi | Aumento della raccolta all'ingrosso |
+| Scenario | Stablecoins held (USD bn) | Deposits to be replaced (EUR bn) | Sight deposits lost | Increase in wholesale funding |
 |---|---|---|---|---|
-| Oggi, livello di base | 18,3 | 16,1 | 0,20% | 0,13% |
-| Oggi, livello alto | 36,6 | 32,3 | 0,39% | 0,26% |
+| Today, base level | 18.3 | 16.1 | 0.20% | 0.13% |
+| Today, high level | 36.6 | 32.3 | 0.39% | 0.26% |
 
-Per paese, al livello di base: la raccolta da sostituire va dallo 0,01% del passivo in
-Lussemburgo allo 0,12% in Slovenia; in miliardi, 5,1 in Germania, 2,6 in Italia, 2,5 in
-Spagna. Il dettaglio è in `data/processed/m4_scenarios_by_country.csv`, scenari
-`M1_oggi_base` e `M1_oggi_alto`.
+By country, at the base level: the funding to be replaced ranges from 0.01% of
+liabilities in Luxembourg to 0.12% in Slovenia; in billions, 5.1 in Germany, 2.6 in
+Italy, 2.5 in Spain. The detail is in `data/processed/m4_scenarios_by_country.csv`,
+scenarios `M1_oggi_base` and `M1_oggi_alto`.
 
-Gli importi in euro qui sono leggermente più bassi di quelli della sezione 3.1 perché
-il modulo 4 converte al cambio della data dei bilanci (1,1355) e non a quello di oggi.
+The euro amounts here are slightly lower than those in section 3.1 because module 4
+converts at the exchange rate on the balance-sheet date (1.1355) and not at today's
+rate.
 
-### 3.7 Criteri di completamento di SPEC
+### 3.7 SPEC completion criteria
 
-| Criterio | Stato |
+| Criterion | Status |
 |---|---|
-| (a) Tabella dei riferimenti verificata sugli originali | Fatto nel report 02, parte A |
-| (b) Script che scarica la circolazione di USDT e USDC da una fonte gratuita verificata e produce il livello nei due scenari, con data | Fatto: DefiLlama, verificata con CoinGecko e con la base dell'ESM |
-| (c) Risultato etichettato come applicazione di un'ipotesi esterna | Fatto: sezioni 1 e 3.1, e campo `avvertenza` nel file di output |
+| (a) Table of references checked against the originals | Done in report 02, part A |
+| (b) Script that downloads the circulation of USDT and USDC from a verified free source and produces the level in the two scenarios, with the date | Done: DefiLlama, checked against CoinGecko and against the ESM base |
+| (c) Result labelled as the application of an external assumption | Done: sections 1 and 3.1, and the `avvertenza` field in the output file |
 
-## 4. Limiti
+## 4. Limitations
 
-- **La quota è un'ipotesi.** Il 7,5% e il 15% sono scelte di calibrazione degli autori
-  dell'ESM, che scontano a giudizio le stime di Reuter (2025). Non hanno intervallo di
-  confidenza. Tutta l'incertezza del numero sta lì, e non è quantificabile.
-- **Il numero si muove solo con la circolazione mondiale e con il cambio.** Se i
-  residenti dell'area euro raddoppiassero le loro detenzioni a circolazione invariata,
-  questo indicatore non se ne accorgerebbe.
-- **Si riferisce alle famiglie**, come nell'ESM. Le detenzioni di imprese e intermediari
-  non sono comprese.
-- **La diffusione al 5% è ferma ad agosto 2025** e copre 11 paesi.
-- **La circolazione viene da un aggregatore**, non dagli emittenti. I due controlli
-  incrociati tornano entro lo 0,4%.
+- **The share is an assumption.** The 7.5% and the 15% are calibration choices by the
+  ESM authors, who apply a judgemental discount to the estimates of Reuter (2025). They
+  have no confidence interval. All the uncertainty of the number lies there, and it
+  cannot be quantified.
+- **The number moves only with world circulation and with the exchange rate.** If euro
+  area residents doubled their holdings with circulation unchanged, this indicator would
+  not notice.
+- **It refers to households**, as in the ESM. Holdings of firms and intermediaries are
+  not included.
+- **The 5% prevalence dates from August 2025** and covers 11 countries.
+- **Circulation comes from an aggregator**, not from the issuers. The two cross-checks
+  match within 0.4%.
 
-## 5. Cosa non è stato possibile fare
+## 5. What could not be done
 
-- **Dare un livello misurato.** È il risultato dei test 00 e 01: con dati gratuiti la
-  quota dell'area euro non è stimabile. Questo modulo applica un'ipotesi dichiarata.
-- **Aggiornare la diffusione tra i consumatori**: dipende dalla prossima rilevazione
-  della BCE.
-- **Leggere la circolazione direttamente dalle pagine di trasparenza degli emittenti**:
-  non hanno un'API pubblica stabile; il confronto tra due aggregatori indipendenti è il
-  controllo adottato.
+- **Provide a measured level.** This is the result of tests 00 and 01: with free data
+  the euro area share cannot be estimated. This module applies a declared assumption.
+- **Update the prevalence among consumers**: it depends on the ECB's next survey round.
+- **Read circulation directly from the issuers' transparency pages**: they have no
+  stable public API; the comparison between two independent aggregators is the check
+  adopted.
 
-## 6. Come si usa
+## 6. How to use it
 
 ```bash
-.venv/bin/python src/module1_level.py       # aggiorna il livello alla circolazione di oggi
-.venv/bin/python src/module4_scenarios.py   # ricalcola gli scenari con il nuovo livello
+.venv/bin/python src/module1_level.py       # updates the level to today's circulation
+.venv/bin/python src/module4_scenarios.py   # recalculates the scenarios with the new level
 ```
 
-| File | Contenuto |
+| File | Contents |
 |---|---|
-| `data/processed/m1_level.json` | Livello di base e alto, circolazione, cambio, controlli |
-| `data/processed/m1_monthly_series.csv` | Serie di fine mese dal 2023 |
-| `data/raw/m1_circulation_daily.csv` | Circolazione giornaliera di USDT, USDC e di tutte le stablecoin in dollari |
+| `data/processed/m1_level.json` | Base and high level, circulation, exchange rate, checks |
+| `data/processed/m1_monthly_series.csv` | Month-end series since 2023 |
+| `data/raw/m1_circulation_daily.csv` | Daily circulation of USDT, USDC and all dollar stablecoins |
 
 ---
 
-**Cosa aggiunge questo al programma finale**: il punto di partenza di tutto il resto.
-Un livello aggiornabile con un comando (16,7 miliardi di euro nello scenario di base,
-33,4 in quello alto, lo 0,2% - 0,4% dei depositi a vista dell'area), ancorato alla
-stessa base dell'ESM e alimentato direttamente negli scenari del modulo 4; e la verifica
-che le due fonti esterne, indagine BCE e ipotesi ESM, sono tra loro compatibili.
+**What this adds to the final programme**: the starting point for everything else. A
+level that can be updated with one command (EUR 16.7 billion in the base scenario, 33.4
+in the high one, 0.2% - 0.4% of the area's sight deposits), anchored to the same base as
+the ESM and fed directly into the module 4 scenarios; and the check that the two
+external sources, the ECB survey and the ESM assumption, are compatible with each other.

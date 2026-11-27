@@ -1,316 +1,315 @@
-# 00 - Test di fattibilità dell'ipotesi H1
+# 00 - Feasibility test of hypothesis H1
 
-> **H1**: indicatori pubblici indipendenti danno stime tra loro coerenti della quota
-> di attività in stablecoin in dollari (USDT, USDC) attribuibile all'area euro.
+> **H1**: independent public indicators give mutually consistent estimates of the share
+> of dollar stablecoin assets (USDT, USDC) attributable to the euro area.
 
-Questo documento è scritto in due tempi. Le sezioni 1 e 2 (criterio e metodo) sono
-state committate **prima** di scaricare qualsiasi volume o profilo orario: la
-cronologia git lo dimostra. Le sezioni successive riportano i risultati.
+This document is written in two stages. Sections 1 and 2 (criterion and method) were
+committed **before** any volume or hourly profile was downloaded: the git history shows
+this. The following sections report the results.
 
-## 1. Criterio di decisione (fissato prima dei risultati)
+## 1. Decision criterion (set before the results)
 
-Sia R il rapporto tra la stima centrale più alta e quella più bassa delle due proxy.
+Let R be the ratio between the higher and the lower of the two proxies' central estimates.
 
-| R | Verdetto |
+| R | Verdict |
 |---|---|
 | R ≤ 2 | GO |
-| 2 < R ≤ 4 | GO CON RISERVA (intervallo ampio, da dichiarare) |
+| 2 < R ≤ 4 | GO WITH RESERVATIONS (wide range, to be declared) |
 | R > 4 | NO-GO |
 
-Il verdetto si calcola sulle due **stime centrali** definite qui sotto. Gli intervalli
-servono a descrivere l'incertezza e non modificano il verdetto.
+The verdict is calculated on the two **central estimates** defined below. The ranges
+serve to describe the uncertainty and do not change the verdict.
 
-## 2. Metodo pre-registrato
+## 2. Pre-registered method
 
-Finestra comune alle due proxy: sei settimane complete, da lunedì 2026-10-12 00:00 UTC
-a lunedì 2026-11-23 00:00 UTC (42 giorni).
+Window common to both proxies: six complete weeks, from Monday 2026-10-12 00:00 UTC
+to Monday 2026-11-23 00:00 UTC (42 days).
 
-### 2.1 Proxy 1 - Exchange
+### 2.1 Proxy 1 - Exchanges
 
-- **Grandezza**: quota dei volumi spot di USDT e USDC scambiati contro EUR sul totale
-  dei volumi scambiati contro valute fiat.
-- **Universo**: tutte le coppie spot stablecoin/fiat (in entrambi i versi, per esempio
-  USDT/EUR e EUR/USDT) sugli exchange che espongono candele giornaliere tramite API
-  pubblica gratuita senza chiave e che risultano raggiungibili. L'elenco si chiude in
-  base alla raggiungibilità, non in base ai volumi osservati.
-- **Unità**: volume espresso in unità di stablecoin (circa dollari). Se la stablecoin
-  è la valuta base si usa il volume base; se è la valuta quotata si usa il volume
-  quotato o, se manca, volume base per prezzo di chiusura.
-- **Stima centrale P1**: somma dei volumi contro EUR divisa per la somma dei volumi
-  contro tutte le fiat, USDT e USDC insieme, sull'intera finestra.
-- **Intervallo P1**: minimo e massimo tra (a) le sei quote settimanali, (b) la quota
-  calcolata solo su USDT e solo su USDC, (c) la quota ricavata da un'istantanea a 24
-  ore dei ticker CoinGecko, che copre più exchange ma un solo giorno (esclusi i ticker
-  marcati come anomali o non aggiornati).
-- **Robustezza** (riportata, fuori dall'intervallo): esclusione di un exchange alla
-  volta; quota EUR sul totale delle fiat diverse dal dollaro.
+- **Quantity**: share of USDT and USDC spot volumes traded against EUR in total volumes
+  traded against fiat currencies.
+- **Universe**: all spot stablecoin/fiat pairs (in both directions, for example
+  USDT/EUR and EUR/USDT) on the exchanges that expose daily candles through a free
+  public API without a key and that are reachable. The list is closed on the basis of
+  reachability, not of observed volumes.
+- **Unit**: volume expressed in stablecoin units (roughly dollars). If the stablecoin
+  is the base currency, the base volume is used; if it is the quote currency, the quote
+  volume is used or, if that is missing, base volume times closing price.
+- **Central estimate P1**: sum of volumes against EUR divided by the sum of volumes
+  against all fiat currencies, USDT and USDC together, over the whole window.
+- **Range P1**: minimum and maximum among (a) the six weekly shares, (b) the share
+  calculated on USDT only and on USDC only, (c) the share derived from a 24-hour
+  snapshot of CoinGecko tickers, which covers more exchanges but a single day
+  (excluding tickers flagged as anomalous or stale).
+- **Robustness** (reported, outside the range): exclusion of one exchange at a time;
+  EUR share of total non-dollar fiat currencies.
 
-### 2.2 Proxy 2 - Orari on-chain
+### 2.2 Proxy 2 - On-chain hours
 
-- **Grandezza**: quota dei trasferimenti on-chain compatibile con l'orario lavorativo
-  europeo.
-- **Serie**: USDT su Ethereum, USDC su Ethereum, USDT su Tron (USDC su Tron non è più
-  supportata dall'emittente e viene esclusa).
-- **Dati**: eventi `Transfer` dei contratti, letti da RPC pubblici. Il censimento
-  completo non è praticabile gratis (circa un milione di eventi al giorno su Ethereum
-  e alcuni milioni su Tron), quindi si usa un **campione sistematico di blocchi**:
-  un blocco ogni 50 su Ethereum e uno ogni 200 su Tron, cioè circa sei blocchi per
-  ora su ciascuna rete. Il campionamento è uniforme nel tempo e non altera il profilo
-  orario. Sono dati reali campionati, non simulati.
-- **Metrica principale**: numero di trasferimenti (esclusi conio e distruzione, cioè
-  da o verso l'indirizzo zero). Metriche di sensibilità: trasferimenti di taglia
-  "retail" (tra 1 e 10.000 dollari) e valore trasferito.
-- **Profilo orario**: media dei trasferimenti per blocco campionato in ciascuna delle
-  24 ore UTC. Versione principale sui soli giorni feriali (lunedì-venerdì UTC);
-  versione di sensibilità su tutti i giorni.
-- **Metodo A (principale), scomposizione in tre fasce**: il profilo è modellato come
-  una componente piatta (attività automatica 24 ore su 24, non attribuita) più tre
-  componenti regionali non negative. Ogni componente regionale vale 1 nelle ore
-  lavorative locali 09:00-18:00 e 0 altrove, con fusi di riferimento Asia/Shanghai,
-  Europe/Berlin e America/New_York e ora legale reale giorno per giorno. I pesi si
-  stimano con minimi quadrati non negativi. Quota Europa = peso Europa diviso la
-  somma dei tre pesi regionali.
-- **Metodo B (sensibilità), partizione semplice**: quota dell'attività che cade nella
-  fascia 08:00-16:00 UTC, con Asia 00:00-08:00 e Americhe 16:00-24:00. Con un profilo
-  piatto questo metodo restituisce 33,3% per costruzione.
-- **Stima centrale P2**: media semplice della quota Europa del metodo A sulle tre
-  serie, metrica principale, giorni feriali.
-- **Intervallo P2**: minimo e massimo su tutte le combinazioni di serie, metrica,
-  metodo e insieme di giorni.
+- **Quantity**: share of on-chain transfers consistent with European working hours.
+- **Series**: USDT on Ethereum, USDC on Ethereum, USDT on Tron (USDC on Tron is no
+  longer supported by the issuer and is excluded).
+- **Data**: `Transfer` events of the contracts, read from public RPCs. A full census
+  is not feasible for free (around one million events per day on Ethereum and several
+  million on Tron), so a **systematic block sample** is used: one block in every 50 on
+  Ethereum and one in every 200 on Tron, i.e. about six blocks per hour on each
+  network. The sampling is uniform over time and does not alter the hourly profile.
+  These are real sampled data, not simulated.
+- **Main metric**: number of transfers (excluding minting and burning, i.e. from or to
+  the zero address). Sensitivity metrics: "retail"-size transfers (between 1 and 10,000
+  dollars) and value transferred.
+- **Hourly profile**: average transfers per sampled block in each of the 24 UTC hours.
+  Main version on weekdays only (Monday-Friday UTC); sensitivity version on all days.
+- **Method A (main), decomposition into three bands**: the profile is modelled as a
+  flat component (automated activity 24 hours a day, not attributed) plus three
+  non-negative regional components. Each regional component equals 1 in local working
+  hours 09:00-18:00 and 0 elsewhere, with reference time zones Asia/Shanghai,
+  Europe/Berlin and America/New_York and actual daylight saving time day by day. The
+  weights are estimated with non-negative least squares. Europe share = Europe weight
+  divided by the sum of the three regional weights.
+- **Method B (sensitivity), simple partition**: share of activity falling in the
+  08:00-16:00 UTC band, with Asia 00:00-08:00 and the Americas 16:00-24:00. With a flat
+  profile this method returns 33.3% by construction.
+- **Central estimate P2**: simple average of the method A Europe share over the three
+  series, main metric, weekdays.
+- **Range P2**: minimum and maximum over all combinations of series, metric, method
+  and set of days.
 
-### 2.3 Limiti noti in partenza
+### 2.3 Limitations known at the outset
 
-- L'orario europeo comprende Regno Unito, Svizzera e Africa e non distingue l'area
-  euro dal resto del fuso.
-- I volumi sugli exchange misurano il trading, non le detenzioni.
-- Le due proxy non misurano la stessa grandezza: la prima è una quota di valuta
-  (EUR sulle fiat), la seconda una quota di fuso orario. La coerenza tra le due è
-  proprio ciò che H1 mette alla prova.
+- European hours include the United Kingdom, Switzerland and Africa and do not
+  distinguish the euro area from the rest of the time zone.
+- Exchange volumes measure trading, not holdings.
+- The two proxies do not measure the same quantity: the first is a currency share
+  (EUR in fiat), the second a time-zone share. The consistency between the two is
+  exactly what H1 puts to the test.
 
-## 3. Risultati
+## 3. Results
 
-Eseguito il 2026-11-23. Tutti i numeri sono riproducibili con gli script in `src/`
-a partire dai file in `data/raw/`.
+Run on 2026-11-23. All figures are reproducible with the scripts in `src/` starting
+from the files in `data/raw/`.
 
-### 3.1 Verdetto
+### 3.1 Verdict
 
-| | Stima centrale | Intervallo |
+| | Central estimate | Range |
 |---|---|---|
-| Proxy 1 - quota EUR dei volumi stablecoin/fiat | **24,3%** | 11,9% - 50,4% |
-| Proxy 2 - quota "orario europeo" on-chain | **52,4%** | 27,3% - 85,0% |
+| Proxy 1 - EUR share of stablecoin/fiat volumes | **24.3%** | 11.9% - 50.4% |
+| Proxy 2 - on-chain "European hours" share | **52.4%** | 27.3% - 85.0% |
 
-**R = 52,4 / 24,3 = 2,16 → GO CON RISERVA.**
+**R = 52.4 / 24.3 = 2.16 → GO WITH RESERVATIONS.**
 
-Il verdetto è quello che il criterio pre-registrato produce, e non è stato ritoccato.
-Va però letto con tre avvertenze, sviluppate nella sezione 4:
+The verdict is the one the pre-registered criterion produces, and it has not been
+adjusted. It should, however, be read with three caveats, developed in section 4:
 
-- R è a ridosso della soglia tra GO e GO CON RISERVA. L'incertezza campionaria della
-  sola proxy 2 (ricampionamento dei giorni, 95%: 45,4% - 61,0%) sposta R tra 1,87 e 2,51.
-- Gli intervalli delle due proxy si sovrappongono, ma sono molto larghi: combinando
-  gli estremi, R va da 1 a 7,1.
-- Entrambe le stime sono molto sopra i benchmark pubblicati per l'area euro (7,5% - 15%).
-  La coerenza trovata riguarda due misure di "attività in euro o in orario europeo",
-  non la quota detenuta dai residenti dell'area euro.
+- R is close to the threshold between GO and GO WITH RESERVATIONS. The sampling
+  uncertainty of proxy 2 alone (resampling of days, 95%: 45.4% - 61.0%) moves R between
+  1.87 and 2.51.
+- The ranges of the two proxies overlap, but they are very wide: combining the
+  extremes, R goes from 1 to 7.1.
+- Both estimates are well above the published benchmarks for the euro area (7.5% - 15%).
+  The consistency found concerns two measures of "activity in euro or in European
+  hours", not the share held by euro area residents.
 
-### 3.2 Fonti usate e periodo
+### 3.2 Sources used and period
 
-Periodo: 2026-10-12 - 2026-11-22 (42 giorni, sei settimane complete) per entrambe le proxy.
+Period: 2026-10-12 - 2026-11-22 (42 days, six complete weeks) for both proxies.
 
-| Dato | Fonte | Chiave API | Copertura |
+| Data | Source | API key | Coverage |
 |---|---|---|---|
-| Volumi giornalieri stablecoin/fiat | API pubbliche di 25 exchange: Binance, Binance.US, Kraken, Coinbase, Bitstamp, OKX, Bybit, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso | no | 142 coppie con dati, 53,7 miliardi di dollari scambiati |
-| Istantanea 24 ore dei ticker | CoinGecko, API pubblica | no | 142 ticker validi su 48 exchange, 1,03 miliardi di dollari, rilevata il 2026-11-23 tra le 07:16 e le 09:38 UTC |
-| Trasferimenti USDT e USDC su Ethereum | RPC pubblici dRPC e MEV Blocker (`eth_getLogs`) | no | 6.029 blocchi campionati (uno ogni 50), 1.082.677 trasferimenti |
-| Trasferimenti USDT su Tron | RPC pubblici PublicNode, TronGrid per le intestazioni | no | 6.046 blocchi campionati (uno ogni 200), 489.934 trasferimenti |
+| Daily stablecoin/fiat volumes | Public APIs of 25 exchanges: Binance, Binance.US, Kraken, Coinbase, Bitstamp, OKX, Bybit, Upbit, Bithumb, Coinone, Korbit, BtcTurk, Bitvavo, Bitfinex, Gemini, Crypto.com, KuCoin, Gate, Bitget, MEXC, WhiteBIT, Indodax, CoinDCX, BTC Markets, Bitso | no | 142 pairs with data, USD 53.7 billion traded |
+| 24-hour ticker snapshot | CoinGecko, public API | no | 142 valid tickers on 48 exchanges, USD 1.03 billion, taken on 2026-11-23 between 07:16 and 09:38 UTC |
+| USDT and USDC transfers on Ethereum | Public RPCs dRPC and MEV Blocker (`eth_getLogs`) | no | 6,029 sampled blocks (one in every 50), 1,082,677 transfers |
+| USDT transfers on Tron | Public RPCs PublicNode, TronGrid for the headers | no | 6,046 sampled blocks (one in every 200), 489,934 transfers |
 
-Nessuna fonte ha richiesto una chiave API. Nessun blocco campionato è andato perso.
+No source required an API key. No sampled block was lost.
 
-### 3.3 Proxy 1 - Exchange
+### 3.3 Proxy 1 - Exchanges
 
-Quota EUR sul totale dei volumi contro fiat, USDT e USDC insieme: **24,3%**.
+EUR share of total volumes against fiat, USDT and USDC together: **24.3%**.
 
-| Valuta | Quota del volume | di cui USDT (mld $) | di cui USDC (mld $) |
+| Currency | Share of volume | of which USDT (USD bn) | of which USDC (USD bn) |
 |---|---|---|---|
-| USD | 41,2% | 16,6 | 5,5 |
-| EUR | 24,3% | 4,3 | 8,7 |
-| KRW | 17,0% | 8,1 | 1,0 |
-| BRL | 7,5% | 3,3 | 0,8 |
-| TRY | 3,5% | 1,7 | 0,2 |
-| GBP | 2,2% | 0,6 | 0,6 |
-| altre 19 valute | 4,2% | | |
+| USD | 41.2% | 16.6 | 5.5 |
+| EUR | 24.3% | 4.3 | 8.7 |
+| KRW | 17.0% | 8.1 | 1.0 |
+| BRL | 7.5% | 3.3 | 0.8 |
+| TRY | 3.5% | 1.7 | 0.2 |
+| GBP | 2.2% | 0.6 | 0.6 |
+| other 19 currencies | 4.2% | | |
 
-Componenti dell'intervallo:
+Components of the range:
 
-| Variante | Quota EUR |
+| Variant | EUR share |
 |---|---|
-| Settimana per settimana (sei valori) | da 22,4% a 25,2% |
-| Solo USDT | 11,9% |
-| Solo USDC | 50,4% |
-| Istantanea CoinGecko, 48 exchange, 24 ore | 24,3% |
+| Week by week (six values) | from 22.4% to 25.2% |
+| USDT only | 11.9% |
+| USDC only | 50.4% |
+| CoinGecko snapshot, 48 exchanges, 24 hours | 24.3% |
 
-Robustezza, fuori dall'intervallo:
+Robustness, outside the range:
 
-- Togliendo un exchange alla volta la quota resta tra 20,7% e 26,7%. Il pannello è
-  però concentrato: Kraken vale il 39,7% del volume, Binance il 15,2%, Coinbase il 9,3%.
-- Quota EUR sulle sole fiat diverse dal dollaro: 41,3%.
-- CoinGecko marca come "anomali" i ticker USDT/KRW di Upbit, Bithumb e Coinone. Se
-  li si include la quota dell'istantanea scende a 20,5%. La regola pre-registrata li
-  esclude; nel pannello a sei settimane quegli stessi exchange sono inclusi.
+- Removing one exchange at a time, the share stays between 20.7% and 26.7%. The panel
+  is, however, concentrated: Kraken accounts for 39.7% of volume, Binance for 15.2%,
+  Coinbase for 9.3%.
+- EUR share of non-dollar fiat currencies only: 41.3%.
+- CoinGecko flags the USDT/KRW tickers of Upbit, Bithumb and Coinone as "anomalous".
+  If they are included, the snapshot share falls to 20.5%. The pre-registered rule
+  excludes them; in the six-week panel those same exchanges are included.
 
-Lettura: la stabilità nel tempo è alta (meno di tre punti tra una settimana e l'altra),
-quella tra token è bassa. USDC è scambiata contro euro quattro volte più di USDT, ed è
-questo scarto a generare quasi tutta la larghezza dell'intervallo.
+Reading: stability over time is high (less than three points from one week to the
+next), stability across tokens is low. USDC is traded against the euro four times more
+than USDT, and this gap generates almost all of the width of the range.
 
-### 3.4 Proxy 2 - Orari on-chain
+### 3.4 Proxy 2 - On-chain hours
 
-![Profilo orario dei trasferimenti](figures/00_hourly_profiles.png)
+![Hourly profile of transfers](figures/00_hourly_profiles.png)
 
-Giorni feriali, numero di trasferimenti (metrica principale):
+Weekdays, number of transfers (main metric):
 
-| Serie | Metodo A: quota Europa | Componente piatta | Metodo B: fascia 08-16 UTC |
+| Series | Method A: Europe share | Flat component | Method B: 08-16 UTC band |
 |---|---|---|---|
-| USDT su Ethereum | 63,6% | 90% | 36,8% |
-| USDC su Ethereum | 32,3% | 86% | 35,6% |
-| USDT su Tron | 61,3% | 58% | 45,8% |
-| **Media (stima centrale)** | **52,4%** | | 39,4% |
+| USDT on Ethereum | 63.6% | 90% | 36.8% |
+| USDC on Ethereum | 32.3% | 86% | 35.6% |
+| USDT on Tron | 61.3% | 58% | 45.8% |
+| **Average (central estimate)** | **52.4%** | | 39.4% |
 
-Con un profilo perfettamente piatto il metodo B darebbe 33,3%.
+With a perfectly flat profile, method B would give 33.3%.
 
-L'intervallo 27,3% - 85,0% copre le 36 combinazioni di serie, metrica, metodo e
-insieme di giorni (tabella completa in `data/processed/proxy2_decomposition.csv`).
-Limitandosi alla metrica principale l'intervallo è 27,3% - 63,6%. L'estremo superiore
-viene dal valore trasferito su Tron, che è dominato da pochi trasferimenti molto grandi.
+The range 27.3% - 85.0% covers the 36 combinations of series, metric, method and set
+of days (full table in `data/processed/proxy2_decomposition.csv`). Restricting to the
+main metric, the range is 27.3% - 63.6%. The upper extreme comes from the value
+transferred on Tron, which is dominated by a few very large transfers.
 
-Lettura, in ordine di importanza:
+Reading, in order of importance:
 
-- Su Ethereum il profilo è quasi piatto: ogni ora pesa tra il 2,9% e il 5,0% del
-  totale e la componente piatta assorbe l'86% - 90% dell'attività. La quota Europa
-  del metodo A è quindi calcolata su circa un decimo dei trasferimenti.
-- Il metodo A assegna peso zero all'Asia su Ethereum. Non è un risultato credibile:
-  la componente piatta assorbe il livello minimo della giornata, che cade nelle ore
-  asiatiche, e la quota delle altre due fasce risulta gonfiata.
-- Su Tron il ciclo giornaliero è netto (da 1,7% a 6,2% per ora) ma non ha la forma
-  di un orario d'ufficio europeo: sale dalle 00 UTC e culmina alle 13-15 UTC. È
-  compatibile con la veglia in Asia sommata alla giornata di Medio Oriente, Turchia,
-  Russia e Africa, che condividono la fascia oraria europea.
+- On Ethereum the profile is almost flat: each hour accounts for between 2.9% and 5.0%
+  of the total and the flat component absorbs 86% - 90% of activity. The method A
+  Europe share is therefore calculated on about one tenth of transfers.
+- Method A assigns zero weight to Asia on Ethereum. This is not a credible result: the
+  flat component absorbs the minimum level of the day, which falls in Asian hours, and
+  the share of the other two bands is inflated.
+- On Tron the daily cycle is clear (from 1.7% to 6.2% per hour) but it does not have
+  the shape of European office hours: it rises from 00 UTC and peaks at 13-15 UTC. It
+  is consistent with waking hours in Asia combined with the working day of the Middle
+  East, Turkey, Russia and Africa, which share the European time band.
 
-### 3.5 Benchmark esterno
+### 3.5 External benchmark
 
-Aggiornamento del 2026-11-24: tutte le cifre di questa tabella sono state rilette sui
-documenti originali. Valore, periodo, campione e pagina di ciascuna sono in
-[02_benchmarks_and_module3_data.md](02_benchmarks_and_module3_data.md), parte A. Nessuna fonte pubblica
-una quota **misurata** dell'area euro sulle stablecoin in dollari.
+Update of 2026-11-24: all the figures in this table have been checked again against
+the original documents. The value, period, sample and page of each are in
+[02_benchmarks_and_module3_data.md](02_benchmarks_and_module3_data.md), part A. No source publishes a
+**measured** euro area share of dollar stablecoins.
 
-| Fonte | Cifra | Cosa misura | Dove |
+| Source | Figure | What it measures | Where |
 |---|---|---|---|
-| [ESM Working Paper 79](https://www.esm.europa.eu/system/files/document/2026-10/WP%2079.pdf), 2026 | 7,5% (scenario alto 15%) | Area euro sulla circolazione mondiale di stablecoin in dollari. È un'ipotesi di calibrazione, non una stima | Sezione 5.1, pp. 47-48 |
-| [ESMA, "Crypto assets: Market structures and EU relevance"](https://www.esma.europa.eu/sites/default/files/2024-04/ESMA50-524821-3153_risk_article_crypto_assets_market_structures_and_eu_relevance.pdf), 2024 | circa 10% | EUR sui volumi fiat-crypto, tutte le crypto, dati Kaiko da dic 2020 a dic 2023 | p. 7, grafico 5 |
-| [Kaiko, "The State of the European Crypto Market 2025-2026"](https://resources.kaiko.com/hubfs/Research/The%20State%20of%20the%20European%20Crypto%20Market%20-%202025%20-%202026%20Trends%20in%20Trading%20Activity.pdf), mag 2026 | 9,0% | EUR sul volume mondiale crypto-fiat, primo trimestre 2026 | Parte 1, p. 2 |
-| [Chainalysis](https://www.chainalysis.com/blog/western-europe-crypto-adoption-2026/), nov 2026 | 11,8% | Scambi in euro sul volume crypto contro 33 valute fiat, fine del periodo luglio 2025 - giugno 2026 | Testo dell'articolo |
-| [Chainalysis](https://www.chainalysis.com/blog/2024-western-europe-crypto-adoption/), ott 2024 | 24% | EUR sugli acquisti di stablecoin contro valute fiat. Unica cifra specifica per le stablecoin; periodo e campione non dichiarati | Testo dell'articolo |
-| [IMF WP/25/141](https://www.elibrary.imf.org/view/journals/001/2025/141/article-A001-en.xml), Reuter, 2025 | 21,4% | "Europa" in senso largo sui flussi USDT e USDC del 2024 (nostro calcolo: 334 su 1.561 miliardi). Usa anche profili orari | Tabella 6 |
-| [Bruegel Policy Brief 09/2026](https://www.bruegel.org/policy-brief/new-strategy-contain-stablecoin-risks-european-union), 2026 | 38% | Transazioni in stablecoin attribuite all'Europa per fuso orario, quarto trimestre 2025, dati Artemis | Figura 3b |
-| [Chainalysis](https://www.chainalysis.com/blog/western-europe-crypto-adoption-2026/), nov 2026 | 5,1% | Europa occidentale sui saldi mondiali in stablecoin, luglio 2025 - giugno 2026 | Testo dell'articolo |
-| [BCE, Bollettino economico 7/2026](https://www.ecb.europa.eu/press/economic-bulletin/focus/2026/html/ecb.ebbox202607_08~f4ddf0117c.en.html) | 5% | Consumatori dell'area euro che dichiarano di possedere stablecoin, agosto 2025, indagine CES in 11 paesi. È una diffusione, non una quota dell'offerta | Grafico B, riquadro a |
+| [ESM Working Paper 79](https://www.esm.europa.eu/system/files/document/2026-10/WP%2079.pdf), 2026 | 7.5% (high scenario 15%) | Euro area share of global circulation of dollar stablecoins. It is a calibration assumption, not an estimate | Section 5.1, pp. 47-48 |
+| [ESMA, "Crypto assets: Market structures and EU relevance"](https://www.esma.europa.eu/sites/default/files/2024-04/ESMA50-524821-3153_risk_article_crypto_assets_market_structures_and_eu_relevance.pdf), 2024 | about 10% | EUR share of fiat-crypto volumes, all crypto-assets, Kaiko data from Dec 2020 to Dec 2023 | p. 7, chart 5 |
+| [Kaiko, "The State of the European Crypto Market 2025-2026"](https://resources.kaiko.com/hubfs/Research/The%20State%20of%20the%20European%20Crypto%20Market%20-%202025%20-%202026%20Trends%20in%20Trading%20Activity.pdf), May 2026 | 9.0% | EUR share of global crypto-fiat volume, first quarter of 2026 | Part 1, p. 2 |
+| [Chainalysis](https://www.chainalysis.com/blog/western-europe-crypto-adoption-2026/), Nov 2026 | 11.8% | Euro trading as a share of crypto volume against 33 fiat currencies, end of the period July 2025 - June 2026 | Article text |
+| [Chainalysis](https://www.chainalysis.com/blog/2024-western-europe-crypto-adoption/), Oct 2024 | 24% | EUR share of stablecoin purchases against fiat currencies. The only stablecoin-specific figure; period and sample not declared | Article text |
+| [IMF WP/25/141](https://www.elibrary.imf.org/view/journals/001/2025/141/article-A001-en.xml), Reuter, 2025 | 21.4% | "Europe" in the broad sense as a share of 2024 USDT and USDC flows (own calculation: 334 out of 1,561 billion). Also uses hourly profiles | Table 6 |
+| [Bruegel Policy Brief 09/2026](https://www.bruegel.org/policy-brief/new-strategy-contain-stablecoin-risks-european-union), 2026 | 38% | Stablecoin transactions attributed to Europe by time zone, fourth quarter of 2025, Artemis data | Figure 3b |
+| [Chainalysis](https://www.chainalysis.com/blog/western-europe-crypto-adoption-2026/), Nov 2026 | 5.1% | Western Europe share of global stablecoin balances, July 2025 - June 2026 | Article text |
+| [ECB, Economic Bulletin 7/2026](https://www.ecb.europa.eu/press/economic-bulletin/focus/2026/html/ecb.ebbox202607_08~f4ddf0117c.en.html) | 5% | Euro area consumers who report owning stablecoins, August 2025, CES survey in 11 countries. It is a prevalence, not a share of supply | Chart B, panel a |
 
-Il documento di riferimento del progetto, [ECB Working Paper 3199](https://www.ecb.europa.eu/pub/pdf/scpwps/ecb.wp3199~ad552b59ec.en.pdf)
-("Stablecoins and monetary policy transmission", marzo 2026), studia la sostituzione dei
-depositi con dati granulari sulle banche dell'area euro. Una ricerca nel testo non
-trova alcuna quota dell'area euro sulle stablecoin.
+The project's reference document, [ECB Working Paper 3199](https://www.ecb.europa.eu/pub/pdf/scpwps/ecb.wp3199~ad552b59ec.en.pdf)
+("Stablecoins and monetary policy transmission", March 2026), studies deposit
+substitution with granular data on euro area banks. A search of the text finds no euro
+area share of stablecoins.
 
-Confronto:
+Comparison:
 
-- La proxy 1 (24,3%) coincide con l'unica cifra pubblicata specifica per le
-  stablecoin (Chainalysis 2024: 24%) ed è circa il doppio della quota EUR sul trading
-  crypto complessivo (9% - 12%).
-- La proxy 2, metodo B (36% - 46%), è nello stesso ordine di grandezza dell'altra
-  stima per fuso orario (Bruegel/Artemis: 38%). Il metodo A (52,4%) è sopra ogni
-  benchmark.
-- Entrambe sono ben sopra le quote di offerta riferite all'area euro o all'Europa
-  occidentale (5,1% - 15%).
+- Proxy 1 (24.3%) matches the only published stablecoin-specific figure (Chainalysis
+  2024: 24%) and is about twice the EUR share of overall crypto trading (9% - 12%).
+- Proxy 2, method B (36% - 46%), is of the same order of magnitude as the other
+  time-zone estimate (Bruegel/Artemis: 38%). Method A (52.4%) is above every benchmark.
+- Both are well above the supply shares referring to the euro area or to Western
+  Europe (5.1% - 15%).
 
-## 4. Limiti
+## 4. Limitations
 
-I tre principali:
+The three main ones:
 
-1. **La proxy 2 non identifica l'area euro, e a fatica l'Europa.** Su Ethereum
-   l'86% - 90% dell'attività non ha ciclo giornaliero (bot, arbitraggio, protocolli) e
-   la quota è stimata sul residuo. La fascia europea si sovrappone alla sera asiatica
-   e al mattino americano e comprende Regno Unito, Svizzera, Africa, Medio Oriente,
-   Turchia e Russia. Il peso zero dell'Asia su Ethereum mostra che la scomposizione
-   scelta non separa bene le tre fasce.
-2. **La proxy 1 misura il trading in euro, non le detenzioni né la residenza.**
-   Copre solo i book centralizzati con candele pubbliche: restano fuori OTC, P2P,
-   emissione e rimborso diretti e gli acquisti di stablecoin contro altre crypto. Una
-   coppia in euro può essere usata da non residenti e da market maker. Il risultato
-   dipende molto dalla composizione: un solo exchange vale il 40% del volume e la
-   quota passa dal 12% (USDT) al 50% (USDC).
-3. **La coerenza trovata è debole e in parte nominale.** Le due proxy misurano
-   grandezze diverse e nessuna delle due è vicina ai benchmark per l'area euro. R sta
-   tra 1,6 e 2,5 a seconda di scelte di specificazione tutte ragionevoli (per esempio
-   R = 1,62 usando il metodo B al posto del metodo A), quindi il verdetto non è robusto
-   rispetto alla soglia di 2.
+1. **Proxy 2 does not identify the euro area, and barely identifies Europe.** On
+   Ethereum 86% - 90% of activity has no daily cycle (bots, arbitrage, protocols) and
+   the share is estimated on the residual. The European band overlaps with the Asian
+   evening and the American morning and includes the United Kingdom, Switzerland,
+   Africa, the Middle East, Turkey and Russia. The zero weight for Asia on Ethereum
+   shows that the chosen decomposition does not separate the three bands well.
+2. **Proxy 1 measures trading in euro, not holdings or residence.** It covers only
+   centralised order books with public candles: OTC, P2P, direct issuance and
+   redemption, and purchases of stablecoins against other crypto-assets are left out.
+   A euro pair can be used by non-residents and by market makers. The result depends
+   heavily on composition: a single exchange accounts for 40% of volume and the share
+   goes from 12% (USDT) to 50% (USDC).
+3. **The consistency found is weak and partly nominal.** The two proxies measure
+   different quantities and neither is close to the euro area benchmarks. R lies
+   between 1.6 and 2.5 depending on specification choices that are all reasonable (for
+   example R = 1.62 using method B instead of method A), so the verdict is not robust
+   with respect to the threshold of 2.
 
-Altri limiti:
+Other limitations:
 
-- I dati on-chain sono un campione (2% dei blocchi Ethereum, 0,5% dei blocchi Tron).
-  L'errore campionario sui conteggi è piccolo; sul valore trasferito è grande.
-- Sono coperte solo Ethereum e Tron. Mancano Solana, BNB Chain e le reti di secondo
-  livello, dove passa una parte rilevante di USDC e USDT.
-- La finestra contiene il cambio dell'ora in Europa (25 ottobre) e negli Stati Uniti
-  (1 novembre). I profili regionali ne tengono conto giorno per giorno.
-- Sei settimane non dicono nulla sulla stabilità di lungo periodo.
-- I volumi dichiarati dagli exchange possono includere scambi fittizi. Non è stato
-  applicato alcun filtro, per non introdurre scelte soggettive dopo aver visto i dati.
+- The on-chain data are a sample (2% of Ethereum blocks, 0.5% of Tron blocks). The
+  sampling error on counts is small; on value transferred it is large.
+- Only Ethereum and Tron are covered. Solana, BNB Chain and layer-2 networks, through
+  which a significant part of USDC and USDT passes, are missing.
+- The window contains the clock change in Europe (25 October) and in the United States
+  (1 November). The regional profiles take this into account day by day.
+- Six weeks say nothing about long-term stability.
+- Volumes reported by exchanges may include fictitious trades. No filter was applied,
+  so as not to introduce subjective choices after seeing the data.
 
-## 5. Cosa non è stato possibile fare
+## 5. What could not be done
 
-- **Censimento completo dei trasferimenti**: con gli RPC gratuiti richiederebbe
-  decine di gigabyte e molte ore. Si è usato un campione sistematico.
-- **Dune, Etherscan, BigQuery**: richiedono una chiave o un account e non sono stati
-  usati. Una chiave Dune gratuita permetterebbe il censimento completo e l'analisi per
-  indirizzo; per questo test non è servita.
-- **TronGrid senza chiave** limita a 3 richieste al secondo: sostituito con PublicNode.
-- **Exchange non raggiunti o senza storico gratuito**: Mercado Bitcoin (HTTP 403),
-  Bitkub (HTTP 502), HTX (simboli fiat non validi), Luno (candele solo con
-  autenticazione), Paribu, Independent Reserve, Coins.ph, Bit2Me. Alcuni compaiono
-  solo nell'istantanea CoinGecko. bitFlyer non quota stablecoin. Una coppia Bitget
-  (RON/USDT) ha restituito errore e 12 coppie Binance non hanno dati nella finestra.
-- **Storico CoinGecko**: l'API gratuita dà solo le ultime 24 ore. L'istantanea è di
-  lunedì mattina e copre in buona parte la domenica.
-- **USDC su Tron**: esclusa, l'emittente non la supporta più.
-- **Distinzione tra area euro e resto d'Europa**: nessuna delle due proxy la consente.
-- **Verifica indipendente dei benchmark**: le cifre "di seconda mano" e quelle lette
-  solo sulla pagina web non sono state ricontrollate sui documenti originali. Il PDF
-  di Kaiko e le pagine di Bloomberg e Bitvavo non erano accessibili.
+- **Full census of transfers**: with free RPCs it would require tens of gigabytes and
+  many hours. A systematic sample was used.
+- **Dune, Etherscan, BigQuery**: they require a key or an account and were not used.
+  A free Dune key would allow a full census and address-level analysis; it was not
+  needed for this test.
+- **TronGrid without a key** is limited to 3 requests per second: replaced with
+  PublicNode.
+- **Exchanges not reached or without free history**: Mercado Bitcoin (HTTP 403),
+  Bitkub (HTTP 502), HTX (invalid fiat symbols), Luno (candles only with
+  authentication), Paribu, Independent Reserve, Coins.ph, Bit2Me. Some appear only in
+  the CoinGecko snapshot. bitFlyer does not list stablecoins. One Bitget pair
+  (RON/USDT) returned an error and 12 Binance pairs have no data in the window.
+- **CoinGecko history**: the free API gives only the last 24 hours. The snapshot is
+  from Monday morning and largely covers Sunday.
+- **USDC on Tron**: excluded, as the issuer no longer supports it.
+- **Distinction between the euro area and the rest of Europe**: neither proxy allows it.
+- **Independent check of the benchmarks**: the "second-hand" figures and those read
+  only on the web page were not checked again against the original documents. The
+  Kaiko PDF and the Bloomberg and Bitvavo pages were not accessible.
 
-## 6. Indicazioni per il passo successivo
+## 6. Pointers for the next step
 
-- Tenere la proxy 1 come indicatore principale, separando sempre USDT e USDC.
-- Sostituire la proxy 2 con una misura che identifichi la residenza: indirizzi di
-  deposito di exchange europei, oppure il metodo IMF (etichette regionali più profili
-  orari per indirizzo). Entrambe richiedono dati per indirizzo, quindi una chiave Dune.
-- Aggiungere una terza proxy indipendente (per esempio traffico web o download delle
-  app per paese) prima di ripartire la quota tra i sistemi bancari nazionali.
+- Keep proxy 1 as the main indicator, always separating USDT and USDC.
+- Replace proxy 2 with a measure that identifies residence: deposit addresses of
+  European exchanges, or the IMF method (regional labels plus hourly profiles by
+  address). Both require address-level data, hence a Dune key.
+- Add a third independent proxy (for example web traffic or app downloads by country)
+  before allocating the share among national banking systems.
 
-## 7. Riproducibilità
+## 7. Reproducibility
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python src/exchange_fetch.py      # volumi giornalieri, circa 1 minuto
-.venv/bin/python src/coingecko_snapshot.py  # istantanea 24 ore, circa 15 minuti
-.venv/bin/python src/onchain_fetch.py       # campione di blocchi, circa 30 minuti
+.venv/bin/python src/exchange_fetch.py      # daily volumes, about 1 minute
+.venv/bin/python src/coingecko_snapshot.py  # 24-hour snapshot, about 15 minutes
+.venv/bin/python src/onchain_fetch.py       # block sample, about 30 minutes
 .venv/bin/python src/proxy1_exchange.py
 .venv/bin/python src/proxy2_onchain.py
 .venv/bin/python src/h1_decision.py
 ```
 
-Rieseguire gli script di raccolta in un altro giorno cambia l'istantanea CoinGecko;
-i dati della finestra 12 ottobre - 22 novembre restano gli stessi.
+Rerunning the collection scripts on another day changes the CoinGecko snapshot; the
+data for the window 12 October - 22 November remain the same.
 
 ---
 
-**Cosa aggiunge questo al programma finale**: la quota EUR dei volumi stablecoin/fiat
-(24,3%, stabile tra 22,4% e 25,2% nelle sei settimane), che diventa l'indice del modulo
-2 con la raccolta dati già funzionante su 25 exchange, e la prova che il profilo orario
-on-chain non distingue l'Europa e non va usato.
+**What this adds to the final programme**: the EUR share of stablecoin/fiat volumes
+(24.3%, stable between 22.4% and 25.2% over the six weeks), which becomes the module 2
+index with data collection already working on 25 exchanges, and the evidence that the
+on-chain hourly profile does not distinguish Europe and should not be used.

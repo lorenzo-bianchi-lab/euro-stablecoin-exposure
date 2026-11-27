@@ -1,424 +1,470 @@
 # SPEC - euro-stablecoin-exposure
 
-Documento di riferimento del progetto. Va riletto all'inizio di ogni sessione di lavoro,
-prima di scrivere codice o report. Ogni modifica a obiettivo, moduli o criteri passa da
-qui e viene annotata nel registro in fondo.
+Reference document of the project. It is to be re-read at the start of every work
+session, before writing code or reports. Every change to the objective, modules or
+criteria goes through here and is recorded in the log at the end.
 
-Ultimo aggiornamento: 2026-11-26 (prompt 8).
+Last updated: 2026-11-27 (prompt 9).
 
-## 0. Obiettivo non negoziabile
+## 0. Non-negotiable objective
 
-Il prodotto finale è un programma utile, potente e innovativo per la BCE, non una
-raccolta di report prudenti. **È un'applicazione web completa**, non una pagina di
-sintesi: statica, senza server, pubblicata su GitHub Pages, con tutti i calcoli di
-scenario eseguiti nel browser. In questa fase conta il funzionamento: grafica pulita ma
-essenziale.
+The final product is a useful, powerful and innovative programme, not a collection of
+cautious reports. **It is a complete web application**, not a summary page: static,
+without a server, published on GitHub Pages, with all scenario calculations run in the
+browser. At this stage what matters is that it works: clean but essential graphics.
 
-- Ogni modulo deve produrre un risultato che un analista della BCE possa usare: un
-  numero, una classifica, uno scenario.
-- Dichiarare i limiti è obbligatorio, ma non sostituisce il risultato.
-- Se un metodo fallisce, si propone e si prova subito un'alternativa.
-- Ogni report termina con la riga "Cosa aggiunge questo al programma finale".
+- Every module must produce a result an analyst can use: a number, a ranking, a
+  scenario.
+- Stating the limits is mandatory, but it does not replace the result.
+- If a method fails, an alternative is proposed and tried at once.
+- Every report ends with the line "What this adds to the final programme".
 
-Questa sezione prevale sulle altre in caso di dubbio su quanto spingersi. Non prevale
-sulla sezione 4 né sulla regola di non inventare dati: un risultato utile è un risultato
-vero, con il suo perimetro dichiarato.
+This section prevails over the others when in doubt about how far to go. It does not
+prevail over section 4 or over the rule of not inventing data: a useful result is a true
+result, with its scope stated.
 
-## 1. Obiettivo
+## 1. Objective
 
-Progetto universitario (ESCP, economia e finanza) destinato alla BCE. Riferimento:
-ECB Working Paper n. 3199, "Stablecoins and monetary policy transmission" (marzo 2026).
+University project (ESCP Business School, economics and finance). Reference: ECB Working
+Paper No 3199, "Stablecoins and monetary policy transmission" (March 2026).
 
-Obiettivo iniziale, **abbandonato**: stimare quanta parte delle stablecoin in dollari
-(USDT, USDC) è detenuta da residenti dell'area euro. I test 00 e 01 hanno mostrato che
-con dati gratuiti non è stimabile.
+Initial objective, **abandoned**: estimate how much of the dollar stablecoins (USDT,
+USDC) is held by euro area residents. Tests 00 and 01 showed that it cannot be estimated
+with free data.
 
-Obiettivo attuale: costruire uno strumento descrittivo che, dato un livello di adozione
-delle stablecoin in dollari preso da fonti esterne o ipotizzato, mostri
+Current objective: build a descriptive tool that, given a level of adoption of dollar
+stablecoins taken from external sources or assumed, shows
 
-- come si muove nel tempo l'attività in stablecoin contro euro rispetto alle altre valute;
-- quali sistemi bancari nazionali dell'area euro hanno una raccolta più esposta a una
-  sostituzione dei depositi;
-- quanto cambierebbe la raccolta di ciascun paese sotto diversi livelli di adozione.
+- how stablecoin activity against the euro moves over time relative to other currencies;
+- which national banking systems of the euro area have funding more exposed to deposit
+  substitution;
+- how much each country's funding would change under different levels of adoption.
 
-## 2. I moduli
+## 2. The modules
 
-### Modulo 1 - Livello (da fonti esterne, non stimato)
+### Module 1 - Level (from external sources, not estimated)
 
-- **Risultato per l'analista**: un numero. Il valore in dollari e in euro delle
-  stablecoin in dollari attribuibile all'area euro secondo le ipotesi esterne, aggiornato
-  alla circolazione corrente (circolazione mondiale × 7,5% nello scenario di base, × 15%
-  nello scenario alto), affiancato dalla diffusione tra i consumatori.
-- **Cosa fa**: riporta i riferimenti esterni sul livello di adozione nell'area euro, con
-  la definizione esatta di ciascuno, e li applica alla circolazione corrente. Non stima
-  quote proprie.
-- **Fonti**: riquadro del Bollettino economico BCE 7/2026 (5% dei consumatori dichiara di
-  possedere stablecoin, agosto 2025, indagine CES in 11 paesi); ESM Working Paper 79
-  (7,5% della circolazione di stablecoin in dollari assunto in mano a famiglie dell'area
-  euro, 19 miliardi di dollari al terzo trimestre 2025; 15% nello scenario alto).
-- **Avvertenza**: le due cifre non misurano la stessa cosa. Quella BCE è una diffusione
-  tra i consumatori, quella ESM è un'ipotesi di calibrazione. Nessuna delle due è una
-  misura del valore detenuto.
-- **Completato quando**: (a) esiste una tabella con, per ogni riferimento, valore,
-  grandezza misurata, periodo, campione, pagina e link, e ogni valore è stato riletto
-  sull'originale (fatto in `reports/02_benchmarks_and_module3_data.md`, parte A); (b) uno script
-  scarica la circolazione corrente di USDT e USDC da una fonte gratuita verificata e
-  produce il livello nei due scenari, con data; (c) il risultato è etichettato come
-  applicazione di un'ipotesi esterna, non come stima.
-- **Stato**: completato il 2026-11-24 (`reports/06_module1_level.md`,
-  `src/module1_level.py`). La base a cui si applicano le quote è USDT più USDC, la
-  stessa dell'ESM (verificato: 247,8 contro 248 miliardi al 30 settembre 2025).
-  Circolazione da DefiLlama, controllata con CoinGecko. Il livello alimenta il modulo 4.
+- **Result for the analyst**: a number. The value in dollars and in euro of the dollar
+  stablecoins attributable to the euro area according to the external assumptions,
+  updated to current circulation (world circulation × 7.5% in the baseline scenario,
+  × 15% in the high scenario), alongside the diffusion among consumers.
+- **What it does**: reports the external references on the level of adoption in the
+  euro area, with the exact definition of each, and applies them to current
+  circulation. It does not estimate shares of its own.
+- **Sources**: box in the ECB Economic Bulletin 7/2026 (5% of consumers report holding
+  stablecoins, August 2025, CES survey in 11 countries); ESM Working Paper 79 (7.5% of
+  the circulation of dollar stablecoins assumed to be held by euro area households,
+  USD 19 billion in the third quarter of 2025; 15% in the high scenario).
+- **Caveat**: the two figures do not measure the same thing. The ECB one is a diffusion
+  among consumers, the ESM one is a calibration assumption. Neither is a measure of the
+  value held.
+- **Complete when**: (a) there is a table with, for each reference, value, quantity
+  measured, period, sample, page and link, and every value has been re-read against the
+  original (done in `reports/02_benchmarks_and_module3_data.md`, part A); (b) a script
+  downloads the current circulation of USDT and USDC from a verified free source and
+  produces the level in the two scenarios, with its date; (c) the result is labelled as
+  the application of an external assumption, not as an estimate.
+- **Status**: completed on 2026-11-24 (`reports/06_module1_level.md`,
+  `src/module1_level.py`). The base to which the shares are applied is USDT plus USDC,
+  the same as the ESM's (verified: 247.8 against 248 billion at 30 September 2025).
+  Circulation from DefiLlama, checked against CoinGecko. The level feeds module 4.
 
-### Modulo 2 - Andamento (indice settimanale)
+### Module 2 - Trend (weekly index)
 
-- **Risultato per l'analista**: un numero per settimana e la sua variazione. Quattro
-  serie storiche aggiornabili con un comando, più l'ultimo valore e lo scarto dalla media.
-- **Cosa fa**: indice settimanale della quota EUR dei volumi spot stablecoin/fiat sugli
-  exchange centralizzati (ex proxy 1). Quattro serie: USDT e USDC, ciascuna con e senza
-  Coinbase.
-- **Perché senza Coinbase**: su Coinbase USDC si converte in dollari fuori dal book,
-  quindi la sua quota EUR è gonfiata.
-- **Fonti**: candele giornaliere pubbliche di 24 exchange (`src/exchange_fetch.py`);
-  erano 25 fino al 2026-11-25, quando Bybit è stato escluso per tutto lo storico.
-- **Completato quando**: (a) uno script produce le quattro serie settimanali per tutto
-  lo storico che le API gratuite restituiscono, con il periodo effettivo dichiarato;
-  (b) per ogni settimana è registrato quali exchange hanno contribuito; (c) il pannello
-  di exchange è fisso oppure ogni ingresso e uscita è documentato; (d) una seconda
-  esecuzione riproduce gli stessi valori per le settimane già chiuse; (e) il report
-  dichiara che l'indice misura trading in euro, non detenzioni né residenza.
-- **Stato**: completato il 2026-11-24 (`reports/03_module2_weekly_index.md`, `src/module2_index.py`).
-  Indice principale su 102 settimane dal 2024-12-09; indice lungo su 203 settimane dal
-  2023-01-02 senza Kraken e Gemini. Lo storico cresce a ogni aggiornamento settimanale.
-- **Limite noto**: il pannello contiene solo le coppie quotate il 2026-11-23; quelle
-  eliminate prima mancano dallo storico.
+- **Result for the analyst**: a number per week and its change. Four time series that
+  can be updated with one command, plus the latest value and the deviation from the
+  mean.
+- **What it does**: weekly index of the EUR share of stablecoin/fiat spot volumes on
+  centralised exchanges (formerly proxy 1). Four series: USDT and USDC, each with and
+  without Coinbase.
+- **Why without Coinbase**: on Coinbase, USDC is converted into dollars outside the
+  order book, so its EUR share is inflated.
+- **Sources**: public daily candles from 24 exchanges (`src/exchange_fetch.py`); there
+  were 25 until 2026-11-25, when Bybit was excluded for the whole history.
+- **Complete when**: (a) a script produces the four weekly series for the whole history
+  that the free APIs return, with the actual period stated; (b) for each week it is
+  recorded which exchanges contributed; (c) the exchange panel is fixed, or every entry
+  and exit is documented; (d) a second run reproduces the same values for the weeks
+  already closed; (e) the report states that the index measures trading in euro, not
+  holdings or residence.
+- **Status**: completed on 2026-11-24 (`reports/03_module2_weekly_index.md`,
+  `src/module2_index.py`). Main index over 102 weeks from 2024-12-09; long index over
+  203 weeks from 2023-01-02 without Kraken and Gemini. The history grows with each
+  weekly update.
+- **Known limit**: the panel contains only the pairs listed on 2026-11-23; those
+  delisted earlier are missing from the history.
 
-### Modulo 3 - Vulnerabilità (struttura della raccolta bancaria per paese)
+### Module 3 - Vulnerability (structure of bank funding by country)
 
-- **Risultato per l'analista**: una classifica. I paesi dell'area euro ordinati per
-  esposizione strutturale della raccolta a una sostituzione dei depositi, con le
-  componenti che spiegano la posizione di ciascuno e la sua evoluzione nel tempo.
-- **Cosa fa**: descrive, per ciascuno dei 21 paesi dell'area euro e per mese, com'è
-  composta la raccolta delle banche: depositi a vista e totali di famiglie e imprese,
-  depositi interbancari, titoli di debito emessi, passività verso l'estero, capitale.
-  Aggiunge, per i paesi coperti, la quota di passività in valuta estera e in dollari.
-- **Fonti**: ECB Data Portal, dataset BSI, 12 serie confermate (`src/ecb_bsi_probe.py`);
-  statistiche bancarie territoriali della BRI per le passività in valuta estera
-  (`src/bis_lbs_probe.py`). Elenco in `reports/02_benchmarks_and_module3_data.md`, parte B.
-- **Limite noto**: le passività in valuta estera sono trimestrali e coprono 13 paesi su
-  21 (mancano BG, EE, HR, LT, LV, MT, SI, SK, che non dichiarano alla BRI).
-- **Stato**: completato il 2026-11-24 (`reports/04_module3_ranking.md`,
-  `src/module3_ranking.py`). Indicatore: 0,50 z(C1) + 0,25 z(C2) + 0,25 z(C3), con
-  C1 = depositi a vista di famiglie e imprese sul passivo, C2 = quota a vista dei
-  depositi della clientela, C3 = dipendenza dai depositi rispetto alla raccolta
-  all'ingrosso. La raccolta in dollari resta una seconda mappa, non una componente.
-- **Completato quando**: (a) esiste una tabella paese per mese con le quote di
-  composizione della raccolta, calcolate con formule scritte nel report; (b) le quote
-  sommano al totale del passivo entro una tolleranza dichiarata, o lo scarto è spiegato;
-  (c) la classifica è prodotta da un indicatore con componenti e pesi scritti e motivati
-  prima di guardare l'ordine dei paesi, e accompagnata da almeno una pesatura
-  alternativa per mostrare quanto l'ordine è stabile; (d) il report dichiara che la
-  classifica ordina la struttura della raccolta, non la probabilità di deflusso.
+- **Result for the analyst**: a ranking. The euro area countries ordered by the
+  structural exposure of their funding to deposit substitution, with the components that
+  explain each country's position and its evolution over time.
+- **What it does**: describes, for each of the 21 euro area countries and for each
+  month, how the funding of banks is composed: sight and total deposits of households
+  and firms, interbank deposits, debt securities issued, external liabilities, capital.
+  It adds, for the countries covered, the share of liabilities in foreign currency and
+  in dollars.
+- **Sources**: ECB Data Portal, BSI dataset, 12 confirmed series
+  (`src/ecb_bsi_probe.py`); BIS locational banking statistics for foreign-currency
+  liabilities (`src/bis_lbs_probe.py`). List in
+  `reports/02_benchmarks_and_module3_data.md`, part B.
+- **Known limit**: foreign-currency liabilities are quarterly and cover 13 countries out
+  of 21 (BG, EE, HR, LT, LV, MT, SI and SK are missing, as they do not report to the
+  BIS).
+- **Status**: completed on 2026-11-24 (`reports/04_module3_ranking.md`,
+  `src/module3_ranking.py`). Indicator: 0.50 z(C1) + 0.25 z(C2) + 0.25 z(C3), with
+  C1 = sight deposits of households and firms over liabilities, C2 = sight share of
+  customer deposits, C3 = reliance on deposits relative to wholesale funding. Dollar
+  funding remains a second map, not a component.
+- **Complete when**: (a) there is a country-by-month table with the composition shares
+  of funding, calculated with formulas written in the report; (b) the shares add up to
+  total liabilities within a stated tolerance, or the gap is explained; (c) the ranking
+  is produced by an indicator whose components and weights are written and justified
+  before looking at the order of countries, and is accompanied by at least one
+  alternative weighting to show how stable the order is; (d) the report states that the
+  ranking orders funding structure, not the probability of outflow.
 
-### Modulo 4 - Scenari (effetto sulla raccolta per paese)
+### Module 4 - Scenarios (effect on funding by country)
 
-- **Risultato per l'analista**: uno scenario. Per ogni livello di adozione, la variazione
-  della raccolta di ciascun paese in miliardi di euro e in punti percentuali, e quanta
-  raccolta all'ingrosso servirebbe per compensarla.
-- **Cosa fa**: calcolo contabile di quanto cambierebbe la raccolta di ciascun paese per
-  diversi livelli di adozione, usando i livelli del modulo 1 come punti di partenza e la
-  struttura del modulo 3 come base.
-- **Completato quando**: (a) ogni scenario è definito da parametri espliciti scritti
-  prima di calcolare i risultati; (b) la regola con cui il deflusso è ripartito tra
-  paesi e tra tipi di deposito è dichiarata, con almeno una regola alternativa di
-  confronto; (c) i risultati sono presentati come esercizio meccanico, con la
-  sensibilità ai parametri; (d) il codice riproduce le tabelle del report.
-- **Stato**: completato il 2026-11-24 (`reports/05_module4_scenarios.md`,
-  `src/module4_scenarios.py`). Scenari ESM da 19 a 600 miliardi di dollari; ripartizione
-  tra paesi pro quota sui depositi a vista (R1) o pro capite (R2); lo script accetta
-  anche un importo libero, che sarà il livello prodotto dal modulo 1.
+- **Result for the analyst**: a scenario. For each level of adoption, the change in each
+  country's funding in EUR billion and in percentage points, and how much wholesale
+  funding would be needed to offset it.
+- **What it does**: an accounting calculation of how much each country's funding would
+  change for different levels of adoption, using the levels of module 1 as starting
+  points and the structure of module 3 as the base.
+- **Complete when**: (a) each scenario is defined by explicit parameters written before
+  the results are calculated; (b) the rule by which the outflow is allocated across
+  countries and across deposit types is stated, with at least one alternative rule for
+  comparison; (c) the results are presented as a mechanical exercise, with the
+  sensitivity to the parameters; (d) the code reproduces the tables in the report.
+- **Status**: completed on 2026-11-24 (`reports/05_module4_scenarios.md`,
+  `src/module4_scenarios.py`). ESM scenarios from USD 19 to 600 billion; allocation
+  across countries pro rata to sight deposits (R1) or per capita (R2); the script also
+  accepts any amount, which will be the level produced by module 1.
 
-### Modulo 5 - Credito e trasmissione (aggiunto il 2026-11-25)
+### Module 5 - Credit and transmission (added on 2026-11-25)
 
-- **Risultato per l'analista**: un numero e una mappa. Per ogni scenario e paese del
-  modulo 4, i prestiti in meno a famiglie e imprese in miliardi e in percentuale, con un
-  intervallo; e la collocazione di ogni paese su due canali, depositi a vista e raccolta
-  in dollari, con ciò che ciascun quadrante implica per la trasmissione.
-- **Cosa fa**: applica ai deflussi del modulo 4 i coefficienti pubblicati nel Working
-  Paper BCE 3199, trascritti e verificati sull'originale. Non stima nulla di proprio.
-- **Avvertenza obbligatoria**: sono coefficienti stimati su singole banche e applicati
-  ad aggregati nazionali. Danno ordini di grandezza, non previsioni.
-- **Completato quando**: (a) i coefficienti sono in una tabella con sezione e tabella di
-  origine, verificati sul PDF; (b) soglie e regole di applicazione sono scritte prima
-  dei risultati (`reports/07_module5_credit.md`, sezione 2); (c) per ogni scenario e
-  paese esistono prestiti in meno con intervallo, variante a soglia e variante uniforme;
-  (d) la mappa a due canali copre i 21 paesi o dichiara quali mancano e perché.
-- **Stato**: completato il 2026-11-25 (`reports/07_module5_credit.md`,
-  `src/module5_credit.py`). Soglia di quota retail: 75° percentile tra i paesi (92,4%),
-  cinque paesi sopra. Mappa: 13 paesi con dati BRI, 8 con la scomposizione trimestrale
-  per valuta del BSI.
+- **Result for the analyst**: a number and a map. For each scenario and country of
+  module 4, the credit reduction to households and firms in billions and in per cent,
+  with a range; and the position of each country on two channels, sight deposits and
+  dollar funding, with what each quadrant implies for transmission.
+- **What it does**: applies to the outflows of module 4 the coefficients published in
+  ECB Working Paper 3199, transcribed and verified against the original. It estimates
+  nothing of its own.
+- **Mandatory caveat**: these are coefficients estimated on individual banks and applied
+  to national aggregates. They give orders of magnitude, not forecasts.
+- **Complete when**: (a) the coefficients are in a table with the section and table of
+  origin, verified against the PDF; (b) thresholds and application rules are written
+  before the results (`reports/07_module5_credit.md`, section 2); (c) for each scenario
+  and country there is a credit reduction with a range, a threshold variant and a
+  uniform variant; (d) the two-channel map covers the 21 countries or states which are
+  missing and why.
+- **Status**: completed on 2026-11-25 (`reports/07_module5_credit.md`,
+  `src/module5_credit.py`). Retail share threshold: 75th percentile across countries
+  (92.4%), five countries above. Map: 13 countries with BIS data, 8 with the quarterly
+  currency breakdown of the BSI.
 
-### Estensioni dei moduli 1, 2 e 4 (aggiunte il 2026-11-25)
+### Extensions of modules 1, 2 and 4 (added on 2026-11-25)
 
-- **Modulo 1, livello proprio**: tre stime indipendenti del valore detenuto dai residenti
-  (B1 dal basso con l'indagine BCE; B2 dalle riserve dei clienti degli exchange; B3 da
-  dati nazionali). Criterio fissato prima: se almeno due delle tre stime centrali stanno
-  entro un fattore 3, il modulo 1 pubblica un intervallo proprio accanto all'ipotesi
-  ESM; altrimenti pubblica il minimo di B1. Metodo in `reports/08_own_level_estimate.md`.
-  **Esito del 2026-11-25: criterio non soddisfatto.** B1 = 15,4 miliardi di euro, B3 =
-  0,9, B2 senza numero. Il modulo 1 pubblica come proprio solo il minimo di B1, 8,9
-  miliardi di euro, accanto all'ipotesi ESM.
-- **Modulo 4, regola R3**: ripartizione tra paesi basata sulla quota di possessori di
-  cripto-attività, se un'indagine la dà per almeno 15 paesi dell'area euro.
-  **Esito: aggiunta.** Indagine SPACE 2024 della BCE, 20 paesi su 21 (Bulgaria imputata).
-- **Modulo 2, collegamento e segnalazione**: test pre-registrato sul contenuto predittivo
-  dei volumi stablecoin contro euro per i depositi a vista delle famiglie, riportato
-  anche se nullo; regola di segnalazione esplicita sull'indice. Metodo in
-  `reports/09_module2_signal_test.md`. **Esito: test nullo** (p = 0,31; nessun miglioramento
-  fuori campione). L'indice resta descrittivo; la regola di segnalazione è attiva.
+- **Module 1, own level**: three independent estimates of the value held by residents
+  (B1 bottom-up from the ECB survey; B2 from exchanges' customer reserves; B3 from
+  national data). Criterion set in advance: if at least two of the three central
+  estimates lie within a factor of 3, module 1 publishes a range of its own alongside
+  the ESM assumption; otherwise it publishes the minimum of B1. Method in
+  `reports/08_own_level_estimate.md`. **Outcome of 2026-11-25: criterion not met.**
+  B1 = EUR 15.4 billion, B3 = 0.9, B2 without a number. Module 1 publishes as its own
+  only the minimum of B1, EUR 8.9 billion, alongside the ESM assumption.
+- **Module 4, rule R3**: allocation across countries based on the share of crypto-asset
+  owners, if a survey gives it for at least 15 euro area countries. **Outcome: added.**
+  ECB SPACE 2024 survey, 20 countries out of 21 (Bulgaria imputed).
+- **Module 2, link and flag**: pre-registered test of the predictive content of
+  stablecoin volumes against the euro for households' sight deposits, reported even if
+  null; explicit flagging rule on the index. Method in
+  `reports/09_module2_signal_test.md`. **Outcome: null test** (p = 0.31; no
+  out-of-sample improvement). The index remains descriptive; the flagging rule is
+  active.
 
-### Cruscotto e test (aggiunti il 2026-11-25)
+### Dashboard and tests (added on 2026-11-25)
 
-- **Cruscotto**: una pagina HTML unica (`docs/index.html`), generata da
-  `src/dashboard.py`, senza server e senza dipendenze esterne, pubblicata con GitHub
-  Pages. Cursore sull'importo detenuto, scelta della regola di ripartizione e del tasso
-  di sostituzione; per paese mostra deflusso, raccolta all'ingrosso necessaria e credito
-  in meno; mostra la mappa a due canali e l'indice settimanale.
-- **Test automatici** (`tests/`): quadratura dei bilanci, linearità degli scenari,
-  somma delle ripartizioni, riproducibilità senza rete.
-- **Completato quando**: il cruscotto ricalcola nel browser gli stessi numeri degli
-  script per almeno uno scenario di controllo, e tutti i test passano.
-- **Stato**: completato il 2026-11-25 (`reports/10_dashboard_and_tests.md`), poi sostituito
-  lo stesso giorno dall'applicazione descritta più sotto, allo stesso indirizzo.
+- **Dashboard**: a single HTML page (`docs/index.html`), generated by
+  `src/dashboard.py`, without a server and without external dependencies, published with
+  GitHub Pages. Slider for the amount held, choice of the allocation rule and of the
+  substitution rate; for each country it shows the outflow, the wholesale funding needed
+  and the credit reduction; it shows the two-channel map and the weekly index.
+- **Automated tests** (`tests/`): balance sheets adding up, linearity of the scenarios,
+  sum of the allocations, reproducibility without a network.
+- **Complete when**: the dashboard recalculates in the browser the same numbers as the
+  scripts for at least one control scenario, and all tests pass.
+- **Status**: completed on 2026-11-25 (`reports/10_dashboard_and_tests.md`), then
+  replaced the same day by the application described below, at the same address.
 
-### Correzioni al motore (2026-11-25, prompt 5)
+### Corrections to the engine (2026-11-25, prompt 5)
 
-- **Livello di riferimento.** Il livello di riferimento del programma è la stima propria
-  dal basso (B1, variante famiglie): 15,4 miliardi di euro, intervallo 8,9 - 23,1.
-  L'ipotesi ESM diventa il confronto. La variante individui è l'estremo superiore
-  dichiarato. **Questa è una decisione presa dopo aver visto i risultati**: il criterio
-  fissato nel report 08 non era soddisfatto e prevedeva di pubblicare solo il minimo.
-  Il criterio non viene riscritto: resta agli atti, con il suo esito, e la decisione di
-  superarlo è annotata qui e nel registro.
-- **Credito.** Il valore in evidenza è la regola uniforme del Working Paper BCE 3199
-  (0,5 euro di prestiti per euro di depositi), con l'intervallo tra coefficiente basso e
-  alto. La variante a soglia resta come sensibilità. Si aggiunge una **variante
-  continua**, definita prima di calcolarla:
+- **Reference level.** The reference level of the programme is the own bottom-up
+  estimate (B1, households variant): EUR 15.4 billion, range 8.9 - 23.1. The ESM
+  assumption becomes the comparison. The individuals variant is the declared upper
+  extreme. **This is a decision taken after seeing the results**: the criterion set in
+  report 08 was not met and provided for publishing only the minimum. The criterion is
+  not rewritten: it stays on record, with its outcome, and the decision to override it
+  is recorded here and in the log.
+- **Credit.** The headline value is the uniform rule of ECB Working Paper 3199 (EUR 0.5
+  of loans per euro of deposits), with the range between the low and the high
+  coefficient. The threshold variant remains as a sensitivity. A **continuous variant**
+  is added, defined before it was calculated:
 
-      coefficiente(q) = basso + (alto - basso) × t,   t = (q - qL) / (qH - qL), limitato tra 0 e 1
+      coefficient(q) = low + (high - low) × t,   t = (q - qL) / (qH - qL), bounded between 0 and 1
 
-  dove q è la quota retail del paese, qL la mediana della quota retail dei paesi sotto
-  la soglia del 75° percentile e qH la mediana di quelli sopra. I due gruppi del paper
-  diventano i due punti di ancoraggio e in mezzo si interpola, senza salto.
-- **Riproducibilità.** Versioni delle librerie bloccate in `requirements.txt`; il test
-  di riproducibilità confronta i valori con una tolleranza sull'ultima cifra decimale.
-- **Stato**: applicate il 2026-11-25 (`reports/11_application.md`). I numeri dei report
-  07 e 08 restano fotografie di prima delle correzioni.
+  where q is the country's retail share, qL the median retail share of the countries
+  below the 75th percentile threshold and qH the median of those above. The two groups
+  of the paper become the two anchor points, with interpolation in between and no jump.
+- **Reproducibility.** Library versions pinned in `requirements.txt`; the
+  reproducibility test compares the values with a tolerance on the last decimal digit.
+- **Status**: applied on 2026-11-25 (`reports/11_application.md`). The numbers in
+  reports 07 and 08 remain snapshots from before the corrections.
 
-### Strato dati e applicazione (2026-11-25, prompt 5)
+### Data layer and application (2026-11-25, prompt 5)
 
-- **Strato dati**: `src/export_app_data.py` esporta tutti i risultati in file JSON
-  versionati e documentati, uno per sezione, in `web/public/data/`, ciascuno con la data
-  dei dati; `meta.json` riporta lo stato di ogni fonte. L'applicazione legge solo quei
-  file. I confini dei 21 paesi vengono da Eurostat GISCO.
-- **Aggiornamento automatico**: una GitHub Action esegue l'aggiornamento ogni lunedì,
-  rigenera i dati e ripubblica. Se una fonte fallisce si tiene l'ultimo dato valido e
-  l'applicazione lo segnala.
-- **Applicazione** (`web/`, pubblicata da `docs/`): React, Vite, TypeScript, ECharts.
-  Navigazione laterale, indirizzi condivisibili che conservano lo scenario, tema chiaro e
-  scuro, utilizzabile da 390 pixel. Nove sezioni (dieci dal prompt 6, con "Banche"; dal
-  prompt 6 in inglese e italiano, e con i testi fuori dai file di dati): panoramica, simulatore, mappa d'Europa,
-  scheda paese, mappa a due canali, monitor settimanale, stima del livello, confronto ed
-  esportazione, metodo e dati.
-- **Completato quando**: (a) ogni sezione funziona e mostra accanto ai numeri le
-  avvertenze che li riguardano; (b) i calcoli dell'applicazione coincidono con gli script
-  Python su almeno tre scenari per ogni regola; (c) ogni sezione si carica senza errori
-  in console; (d) nessuno sbordo orizzontale a 390 pixel; (e) esiste uno screenshot di
-  ogni sezione in `reports/figures/app/`.
-- Il cruscotto a pagina unica del 2026-11-25 (`src/dashboard.py`) è sostituito
-  dall'applicazione.
-- **Stato**: applicazione completata e pubblicata il 2026-11-25
-  (`reports/11_application.md`), criteri da (a) a (e) soddisfatti. Indirizzo:
+- **Data layer**: `src/export_app_data.py` exports all results to versioned and
+  documented JSON files, one per section, in `web/public/data/`, each with the date of
+  its data; `meta.json` reports the status of each source. The application reads only
+  those files. The boundaries of the 21 countries come from Eurostat GISCO.
+- **Automatic update**: a GitHub Action runs the update every Monday, regenerates the
+  data and republishes. If a source fails, the last valid data are kept and the
+  application flags it.
+- **Application** (`web/`, published from `docs/`): React, Vite, TypeScript, ECharts.
+  Side navigation, shareable addresses that preserve the scenario, light and dark theme,
+  usable from 390 pixels. Nine sections (ten from prompt 6, with "Banks"; from prompt 6
+  in English and Italian, and with the texts outside the data files): Overview,
+  Simulator, Map of Europe, Country sheet, Two-channel map, Weekly monitor, Level
+  estimate, Compare and export, Method and data.
+- **Complete when**: (a) every section works and shows, next to the numbers, the caveats
+  that concern them; (b) the application's calculations match the Python scripts on at
+  least three scenarios for each rule; (c) every section loads without errors in the
+  console; (d) no horizontal overflow at 390 pixels; (e) there is a screenshot of every
+  section in `reports/figures/app/`.
+- The single-page dashboard of 2026-11-25 (`src/dashboard.py`) is replaced by the
+  application.
+- **Status**: application completed and published on 2026-11-25
+  (`reports/11_application.md`), criteria (a) to (e) met. Address:
   https://lorenzo-bianchi-lab.github.io/euro-stablecoin-exposure/
-  L'aggiornamento automatico (`.github/workflows/weekly-update.yml`) è in funzione dal
-  2026-11-25: prima esecuzione, avviata a mano, riuscita in tutti i passi. Dai server di
-  GitHub Bybit non risponde (403): le settimane nuove calcolate lì escono senza Bybit,
-  che pesa lo 0,9% dei volumi (1,8% nell'ultima settimana); l'applicazione marca la fonte
-  "aggiornata in parte" e mostra un avviso in cima a ogni pagina.
+  The automatic update (`.github/workflows/weekly-update.yml`) has been running since
+  2026-11-25: the first run, started by hand, succeeded in all steps. Bybit does not
+  respond from GitHub's servers (403): the new weeks calculated there come out without
+  Bybit, which accounts for 0.9% of volumes (1.8% in the last week); the application
+  marks the source "partly updated" and shows a notice at the top of every page.
 
-### Rifiniture, lingua e modulo 6 (2026-11-25, prompt 6)
+### Refinements, language and module 6 (2026-11-25, prompt 6)
 
-Criteri e definizioni scritti prima di calcolare i risultati. Prima di scriverli è stata
-verificata solo la disponibilità dei dati EBA (quali file, quali voci, quante banche).
+Criteria and definitions written before the results were calculated. Before writing
+them, only the availability of the EBA data was checked (which files, which items, how
+many banks).
 
-- **Bybit fuori dall'indice del modulo 2.** Dai server di GitHub Bybit non risponde,
-  quindi l'esecuzione automatica e quella locale davano indici diversi. Bybit esce dal
-  pannello per tutte le serie e per tutto lo storico; i suoi dati già scaricati restano
-  nell'archivio grezzo, non usati. Il pannello passa a 24 exchange (22 nell'indice
-  lungo). La variazione si misura così, qualunque sia l'esito: per ciascuna delle
-  quattro serie, sulle settimane dell'indice principale in cui Bybit ha dati, differenza
-  tra indice senza e con Bybit in punti percentuali (media, massima in valore assoluto,
-  ultima settimana comune), e numero di settimane in cui cambia lo stato della
-  segnalazione. L'esclusione non dipende dal risultato.
-- **Un solo cambio.** Tutto il programma converte dollari ed euro con un solo cambio:
-  il cambio di riferimento BCE più recente alla data della circolazione (modulo 1). Il
-  modulo 4 lo legge dal modulo 1. L'ipotesi ESM ha così un solo valore ovunque.
-- **Applicazione, rifiniture.** Completate quando: (a) a 1280 pixel nessuna tabella ha
-  colonne tagliate e sotto quella larghezza lo scorrimento è interno alla tabella con la
-  prima colonna fissa, verificato da un test in ogni sezione; (b) l'avviso sulle fonti è
-  un indicatore nella barra laterale con il dettaglio in "Metodo e dati", e ogni
-  avvertenza di sezione è una riga con il testo completo espandibile, senza eliminarne
-  nessuna; (c) la mappa ha riquadri ingranditi per Malta, Lussemburgo e Cipro; (d) il
-  rapporto stampabile esiste anche per il confronto tra due scenari; (e) il codice è
-  diviso per sezione e l'avvio carica solo la sezione aperta.
-- **Lingua.** Inglese come lingua principale, italiano selezionabile, scelta conservata
-  nell'indirizzo (`lang=it`). Tutti i testi stanno in file di traduzione separati
-  (`web/src/i18n/`; per i testi che vengono da questo documento, `src/i18n/`). Numeri e
-  date seguono la lingua. Un test verifica che non restino stringhe non tradotte.
-- **Stato**: tutto applicato il 2026-11-25 (`reports/12_refinements_language_banks.md`).
-  Senza Bybit l'indice è in media 0,40 punti più basso per USDT e 0,12 per USDC
-  (massimo 4,5 punti, settimana del 1° giugno 2026; ultima settimana -1,76 e -0,58);
-  cambia lo stato di una segnalazione. Cambio unico: 1,0935 dollari per euro; l'ipotesi
-  ESM vale 16,7 miliardi di euro ovunque. L'applicazione ha dieci sezioni, con "Banche".
+- **Bybit out of the module 2 index.** Bybit does not respond from GitHub's servers, so
+  the automatic run and the local run gave different indices. Bybit leaves the panel for
+  all series and for the whole history; its data already downloaded remain in the raw
+  archive, unused. The panel goes to 24 exchanges (22 in the long index). The change is
+  measured as follows, whatever the outcome: for each of the four series, over the weeks
+  of the main index in which Bybit has data, the difference between the index without
+  and with Bybit in percentage points (mean, maximum in absolute value, last common
+  week), and the number of weeks in which the status of the flag changes. The exclusion
+  does not depend on the result.
+- **A single exchange rate.** The whole programme converts dollars and euro with a
+  single exchange rate: the most recent ECB reference rate at the date of the
+  circulation (module 1). Module 4 reads it from module 1. The ESM assumption thus has a
+  single value everywhere.
+- **Application, refinements.** Complete when: (a) at 1280 pixels no table has columns
+  cut off, and below that width scrolling is internal to the table with the first
+  column fixed, verified by a test in every section; (b) the notice on the sources is an
+  indicator in the sidebar with the detail in "Method and data", and every section
+  caveat is one line with the full text expandable, without removing any; (c) the map
+  has enlarged insets for Malta, Luxembourg and Cyprus; (d) the printable report also
+  exists for the comparison between two scenarios; (e) the code is split by section and
+  start-up loads only the section that is open.
+- **Language.** English as the main language, Italian selectable, the choice kept in the
+  address (`lang=it`). All texts are in separate translation files (`web/src/i18n/`;
+  for the texts that come from this document, `src/i18n/`). Numbers and dates follow
+  the language. A test checks that no untranslated strings remain.
+- **Status**: all applied on 2026-11-25 (`reports/12_refinements_language_banks.md`).
+  Without Bybit the index is on average 0.40 points lower for USDT and 0.12 for USDC
+  (maximum 4.5 points, week of 1 June 2026; last week -1.76 and -0.58); the status of
+  one flag changes. Single exchange rate: USD 1.0935 per euro; the ESM assumption is
+  EUR 16.7 billion everywhere. The application has ten sections, with "Banks".
 
-### Modulo 6 - Singole banche (aggiunto il 2026-11-25, prompt 6)
+### Module 6 - Individual banks (added on 2026-11-25, prompt 6)
 
-- **Risultato per l'analista**: una classifica e uno scenario per banca. Per ogni banca
-  dell'area euro presente nell'esercizio di trasparenza dell'EBA: quota retail,
-  posizione rispetto al 75° percentile tra banche, raccolta all'ingrosso, ed effetto
-  dello scenario del simulatore su depositi e credito.
-- **Fonte**: EBA, esercizio di trasparenza 2025 (pubblicato il 4 dicembre 2025, ultimo
-  disponibile), database completo in CSV, gratuito. Dati al 30 giugno 2025, al massimo
-  livello di consolidamento. Sono dati pubblici per banca, non dati di vigilanza
-  riservati.
-- **Criterio di sufficienza, fissato prima**: i dati EBA bastano se, tra le banche con
-  sede nei 21 paesi dell'area euro, almeno 50 hanno tutte le voci necessarie (depositi
-  di famiglie, imprese, altre società finanziarie e banche; titoli emessi; totale
-  attivo; prestiti a famiglie e imprese) e coprono almeno 15 paesi. Altrimenti si
-  passa alle statistiche di vigilanza aggregate della BCE per modello di business, e la
-  sezione dell'applicazione mostra i modelli di business invece delle banche.
-- **Definizioni** (le stesse del modulo 5, portate a livello di banca):
-  - quota retail = depositi delle famiglie / (depositi delle famiglie + depositi di
-    società finanziarie diverse dalle banche), come nel Working Paper BCE 3199;
-  - alta quota retail = sopra il 75° percentile della quota retail tra le banche
-    dell'area euro del campione, non ponderato;
-  - raccolta all'ingrosso = depositi da banche più titoli di debito emessi, sul totale
-    dell'attivo;
-  - scenario: ogni banca perde la stessa quota di depositi che lo scenario assegna al
-    suo paese (deflusso della banca = quota persa nel paese × depositi della banca nella
-    categoria scelta: a vista di famiglie e imprese, a vista delle famiglie, o tutti);
-  - credito: deflusso in deviazioni standard = 100 × deflusso / totale attivo / 0,8;
-    prestiti in meno = coefficiente × deviazioni standard / 100 × prestiti a famiglie e
-    imprese, con coefficiente alto (3,089) sopra la soglia e basso (0,441) sotto.
-- **Confronto con il modulo 5**, definito prima: per ogni paese, prestiti in meno per
-  euro di deflusso calcolati banca per banca (somma dei prestiti in meno / somma dei
-  deflussi delle banche del paese) contro le varianti del modulo 5 (bassa, alta, a
-  soglia, continua, uniforme). Scenario di controllo: livello centrale, regola R1,
-  depositi a vista di famiglie e imprese, sostituzione piena.
-- **Copertura**: per ogni paese, totale attivo delle banche del campione sul totale
-  attivo delle istituzioni finanziarie monetarie del paese (BSI, giugno 2025). I
-  perimetri sono diversi (gruppo consolidato con le controllate estere contro residenti
-  non consolidati): il rapporto può superare il 100% e va letto come ordine di
-  grandezza. Se i dati bancari consolidati della BCE sono scaricabili, si aggiunge il
-  rapporto sul totale attivo consolidato.
-- **Esposizioni in dollari**: l'esercizio EBA non ha scomposizione per valuta. Si
-  riportano, se presenti, le esposizioni creditizie verso controparti statunitensi, che
-  non sono la stessa cosa.
-- **Avvertenze obbligatorie**: dati pubblici per banca, non dati di vigilanza; l'ordine
-  non è un giudizio sulla solidità; bilanci consolidati che comprendono attività fuori
-  dall'area euro; data dei dati diversa da quella dei bilanci nazionali.
-- **Stato**: completato il 2026-11-25 (`reports/12_refinements_language_banks.md`,
-  `src/module6_banks.py`). Criterio di sufficienza soddisfatto: 85 banche con tutte le
-  voci su 99, in 18 paesi (mancano Bulgaria, Croazia e Slovacchia). Soglia di quota
-  retail tra banche 94,4%, 21 banche sopra. Copertura: 61% dell'attivo delle banche
-  residenti, 69% di quello consolidato. Nei paesi coperti i coefficienti applicati banca
-  per banca danno 0,45 euro di prestiti in meno per euro di deflusso, contro 0,18 della
-  variante a soglia del modulo 5, 0,25 della continua e 0,50 della regola uniforme.
-  Nessuna esposizione in dollari nei dati. La variante continua per banca non è
-  calcolata: gli ancoraggi tra banche non erano definiti prima dei risultati.
+- **Result for the analyst**: a ranking and a scenario for each bank. For each euro area
+  bank included in the EBA transparency exercise: retail share, position relative to
+  the 75th percentile across banks, wholesale funding, and the effect of the simulator
+  scenario on deposits and credit.
+- **Source**: EBA, 2025 transparency exercise (published on 4 December 2025, the latest
+  available), full database in CSV, free. Data as at 30 June 2025, at the highest level
+  of consolidation. These are public bank-level data, not confidential supervisory data.
+- **Sufficiency criterion, set in advance**: the EBA data are sufficient if, among the
+  banks headquartered in the 21 euro area countries, at least 50 have all the necessary
+  items (deposits of households, firms, other financial corporations and banks;
+  securities issued; total assets; loans to households and firms) and they cover at
+  least 15 countries. Otherwise the ECB's aggregate supervisory statistics by business
+  model are used instead, and the application section shows business models instead of
+  banks.
+- **Definitions** (the same as in module 5, brought to bank level):
+  - retail share = household deposits / (household deposits + deposits of financial
+    corporations other than banks), as in ECB Working Paper 3199;
+  - high retail share = above the 75th percentile of the retail share among the euro
+    area banks in the sample, unweighted;
+  - wholesale funding = deposits from banks plus debt securities issued, over total
+    assets;
+  - scenario: each bank loses the same share of deposits that the scenario assigns to
+    its country (bank outflow = share lost in the country × the bank's deposits in the
+    chosen category: sight deposits of households and firms, sight deposits of
+    households, or all deposits);
+  - credit: outflow in standard deviations = 100 × outflow / total assets / 0.8;
+    credit reduction = coefficient × standard deviations / 100 × loans to households and
+    firms, with the high coefficient (3.089) above the threshold and the low one (0.441)
+    below.
+- **Comparison with module 5**, defined in advance: for each country, the credit
+  reduction per euro of outflow calculated bank by bank (sum of the credit reductions /
+  sum of the outflows of the country's banks) against the module 5 variants (low, high,
+  threshold, continuous, uniform). Control scenario: central level, rule R1, sight
+  deposits of households and firms, full substitution.
+- **Coverage**: for each country, total assets of the sample banks over total assets of
+  the country's monetary financial institutions (BSI, June 2025). The perimeters differ
+  (consolidated group with its foreign subsidiaries against unconsolidated residents):
+  the ratio can exceed 100% and is to be read as an order of magnitude. If the ECB's
+  consolidated banking data can be downloaded, the ratio to consolidated total assets is
+  added.
+- **Dollar exposures**: the EBA exercise has no currency breakdown. Credit exposures to
+  US counterparties are reported instead, if present; they are not the same thing.
+- **Mandatory caveats**: public bank-level data, not supervisory data; the ordering is
+  not a judgement on soundness; consolidated balance sheets that include activities
+  outside the euro area; a data date different from that of the national balance
+  sheets.
+- **Status**: completed on 2026-11-25 (`reports/12_refinements_language_banks.md`,
+  `src/module6_banks.py`). Sufficiency criterion met: 85 banks with all items out of 99,
+  in 18 countries (Bulgaria, Croatia and Slovakia are missing). Retail share threshold
+  across banks 94.4%, 21 banks above. Coverage: 61% of the assets of resident banks,
+  69% of consolidated assets. In the countries covered, the coefficients applied bank by
+  bank give EUR 0.45 of credit reduction per euro of outflow, against 0.18 for the
+  threshold variant of module 5, 0.25 for the continuous one and 0.50 for the uniform
+  rule. No dollar exposures in the data. The continuous variant by bank is not
+  calculated: the anchors across banks were not defined before the results.
 
-### Estetica e identità (2026-11-26, prompt 7)
+### Design and identity (2026-11-26, prompt 7)
 
-In questo prompt non cambia nessun calcolo: moduli, strato dati e modello
-dell'applicazione restano quelli del prompt 6, e tutti i test esistenti devono restare
-verdi. Cambia solo la presentazione. Criteri scritti prima del lavoro.
+No calculation changes in this prompt: modules, data layer and application model remain
+those of prompt 6, and all existing tests must stay green. Only the presentation
+changes. Criteria written before the work.
 
-- **Nome**: "Euro Stablecoin Exposure Monitor". Nessun logo, colore o marchio della BCE o
-  di altre istituzioni. In fondo a ogni pagina: "Progetto universitario, non affiliato
-  alla BCE".
-- **Sistema grafico in un unico file** (`web/src/styles/tokens.css`): colori, tipografia
-  (un carattere per i titoli, uno per testo e numeri, cifre tabulari), spaziature,
-  raggi, ombre, stati. Direzione: istituzionale, sobria, blu profondo con un solo colore
-  d'accento; tema scuro allo stesso livello. Un tema unico per i grafici, letto dagli
-  stessi token: palette per serie, palette sequenziale per la mappa, griglie leggere,
-  etichette dirette al posto delle legende dove possibile; le serie si distinguono
-  anche per tratto o forma, non solo per colore.
-- **Pagine nuove**: pagina iniziale con una frase su cosa fa il programma, tre risultati
-  generati dai dati correnti (livello stimato, paesi più esposti per ciascun canale,
-  effetto dello scenario alto), mappa d'anteprima e ingressi agli strumenti; pagina
-  "About" con scopo, autori (segnaposto), fonti e licenze.
-- **Sezioni**: un risultato principale in evidenza per sezione; comandi dello scenario
-  in un pannello stabile; tabella delle banche con paginazione; mappa con proiezione
-  equivalente, legenda a classi e paese selezionato in evidenza; rapporto stampabile di
-  due pagine con intestazione, data dei dati e scenario; navigazione mobile dedicata.
-- **Completato quando**: (a) tutti i test del prompt 6 passano, con le sole modifiche
-  rese necessarie dalle nuove pagine e dalla paginazione, elencate nel report; (b) un
-  controllo automatico verifica il contrasto AA (4,5:1 per il testo, 3:1 per testo
-  grande ed elementi grafici) sui token dei due temi e sul testo reso in ogni pagina;
-  (c) ogni pagina si usa da tastiera con fuoco visibile, ogni grafico ha un testo
-  alternativo, e con la preferenza di riduzione del movimento non ci sono animazioni;
-  (d) esistono screenshot prima e dopo di ogni sezione a 1280 e 390 pixel nei due temi
-  (`reports/figures/app/before`, `after`), e ogni screenshot "dopo" è stato guardato;
-  (e) il peso delle pagine è riportato prima e dopo.
-- **Stato**: completato il 2026-11-26 (`reports/13_design_and_identity.md`). Criteri da
-  (a) a (e) soddisfatti. Blu profondo `#163b6e` con accento rame `#a8481f`; Source Serif
-  4 per i titoli, Inter per testo e numeri. Dodici pagine: le dieci sezioni, la pagina
-  iniziale e About. Le sezioni sono state ridisegnate da dieci agenti in parallelo, uno
-  per sezione, poi uniformate. Le pagine pesano circa 90 kB compressi in più, per i
-  caratteri. Autori e licenza del codice restano da compilare.
+- **Name**: "Euro Stablecoin Exposure Monitor". No logo, colour or brand of the ECB or
+  of other institutions. At the bottom of every page: "University project, not
+  affiliated with the ECB" (replaced in prompt 9 by: Independent university project
+  (ESCP Business School). Not affiliated with any institution whose data it uses.)
+- **Graphic system in a single file** (`web/src/styles/tokens.css`): colours, typography
+  (one typeface for headings, one for text and numbers, tabular figures), spacing,
+  radii, shadows, states. Direction: institutional, sober, deep blue with a single
+  accent colour; a dark theme of the same standard. A single theme for the charts, read
+  from the same tokens: palette for series, sequential palette for the map, light grids,
+  direct labels instead of legends where possible; series are also distinguished by
+  stroke or shape, not only by colour.
+- **New pages**: a home page with a sentence on what the programme does, three results
+  generated from the current data (estimated level, most exposed countries for each
+  channel, effect of the high scenario), a preview map and entry points to the tools;
+  an "About" page with purpose, author, sources and licences.
+- **Sections**: one main result highlighted in each section; scenario controls in a
+  stable panel; banks table with pagination; map with an equal-area projection, a class
+  legend and the selected country highlighted; two-page printable report with header,
+  data date and scenario; dedicated mobile navigation.
+- **Complete when**: (a) all prompt 6 tests pass, with only the changes made necessary
+  by the new pages and by pagination, listed in the report; (b) an automated check
+  verifies AA contrast (4.5:1 for text, 3:1 for large text and graphic elements) on the
+  tokens of both themes and on the text rendered in every page; (c) every page can be
+  used from the keyboard with visible focus, every chart has an alternative text, and
+  with the reduced-motion preference there are no animations; (d) there are before and
+  after screenshots of every section at 1280 and 390 pixels in both themes
+  (`reports/figures/app/before`, `after`), and every "after" screenshot has been looked
+  at; (e) the page weight is reported before and after. (These screenshots were
+  replaced in prompt 9 by the current set in `reports/figures/app/screenshots/`; the
+  earlier ones remain in the git history at tag `v1.0`.)
+- **Status**: completed on 2026-11-26 (`reports/13_design_and_identity.md`). Criteria
+  (a) to (e) met. Deep blue `#163b6e` with copper accent `#a8481f`; Source Serif 4 for
+  headings, Inter for text and numbers. Twelve pages: the ten sections, the home page
+  and About. The sections were redesigned by ten agents in parallel, one per section,
+  then harmonised. The pages weigh about 90 kB more compressed, because of the fonts.
+  The author and the code licence were added in prompt 9: author Lorenzo Bianchi, MIT
+  licence.
 
-### Chiusura e versione 1.0 (2026-11-26, prompt 8)
+### Closing and version 1.0 (2026-11-26, prompt 8)
 
-Nessun calcolo cambia e tutti i test restano verdi. Criteri scritti prima del lavoro.
+No calculation changes and all tests stay green. Criteria written before the work.
 
-- **Correzioni**: (1) l'indirizzo senza sezione apre la pagina iniziale; (2) il primo
-  disegno di ogni grafico è completo e immediato, senza animazione, anche con la scheda
-  in secondo piano, in stampa o in una cattura, e un test confronta per ogni pagina i
-  punti disegnati con i punti dei dati dopo tre secondi, a scheda visibile e non; (3) la
-  mappa si apre con il paese dal valore più alto già selezionato; (4) le avvertenze
-  stanno sotto il grafico o la tabella a cui si riferiscono, in stile neutro, e resta
-  gialla solo una segnalazione attiva, senza eliminarne nessuna; (5) la pagina About
-  riporta autori (segnaposto "[NOMI DA INSERIRE]"), corso e università.
-- **Completamento**: (6) visita guidata in cinque passi (pagina iniziale, simulatore,
-  mappa, banche, monitor), avviabile dalla pagina iniziale e saltabile; (7) README in
-  inglese e nota metodologica di due pagine in inglese, scaricabile da "Method and
-  data"; (8) esecuzione completa da un clone pulito seguendo solo il README; (9)
-  verifica dell'aggiornamento pianificato, o istruzioni scritte per farla; (10)
-  etichetta della versione 1.0 con note di rilascio.
-- **Stato**: completato il 2026-11-26 (`reports/14_closing.md`). Punti da 1 a 8 e 10
-  fatti; il clone pulito è riuscito senza correzioni. Punto 9: nessuna esecuzione
-  pianificata è ancora partita, perché il workflow esiste dal 25 novembre; il primo
-  lunedì utile è il 30 novembre 2026 e il README dice come controllarlo. Versione 1.0
-  etichettata (`v1.0`).
+- **Corrections**: (1) the address without a section opens the home page; (2) the first
+  drawing of every chart is complete and immediate, without animation, even with the
+  tab in the background, in print or in a capture, and a test compares, for every page,
+  the points drawn with the data points after three seconds, with the tab visible and
+  not visible; (3) the map opens with the country with the highest value already
+  selected; (4) the caveats sit below the chart or table they refer to, in a neutral
+  style, and only an active flag stays yellow, without removing any; (5) the About page
+  shows the author, course and university (completed in prompt 9: author Lorenzo
+  Bianchi, MIT licence).
+- **Completion**: (6) a guided tour in five steps (home page, simulator, map, banks,
+  monitor), which can be started from the home page and skipped; (7) a README in
+  English and a two-page methodological note in English, downloadable from "Method and
+  data"; (8) a complete run from a clean clone following only the README; (9)
+  verification of the scheduled update, or written instructions for doing it; (10) a
+  version 1.0 tag with release notes.
+- **Status**: completed on 2026-11-26 (`reports/14_closing.md`). Points 1 to 8 and 10
+  done; the clean clone succeeded without corrections. Point 9: no scheduled run has
+  started yet, because the workflow has existed since 25 November; the first available
+  Monday is 30 November 2026 and the README says how to check it. Version 1.0 tagged
+  (`v1.0`).
 
-### Aggiornamento e sintesi
+### Repository ready for delivery (2026-11-27, prompt 9)
 
-Un solo comando aggiorna i moduli nell'ordine giusto e rigenera la pagina di sintesi e i
-dati dell'applicazione:
+No calculation and no result changes; all tests stay green; the commit history is not
+rewritten. Criteria written before the work.
+
+- **Identity**: (1) the project is described everywhere as an independent university
+  project (ESCP Business School), with no statement that it is made for, addressed to or
+  intended for the ECB; the ECB appears only as a source of data or as the author of
+  Working Paper 3199; footer "Independent university project (ESCP Business School). Not
+  affiliated with any institution whose data it uses."; (2) every link points to the
+  GitHub account `lorenzo-bianchi-lab`; (3) sole author Lorenzo Bianchi, code under the
+  MIT licence (`LICENSE`, `CITATION.cff`), and `DATA_SOURCES.md` with source, terms of
+  use and attribution of every dataset, checked on the providers' sites.
+- **Language**: (4) the whole repository in English: SPEC, summary (`SUMMARY.md`),
+  reports, code comments and docstrings, workflow names, automatic commit messages, file
+  and folder names; release notes become `CHANGELOG.md`. Italian keys of the data layer
+  and Italian CSV column names are renamed only if every test still passes afterwards,
+  otherwise they are kept and listed. The application keeps English as default and
+  Italian as an option.
+- **Presentation and checks**: (5) repository description, website and topics on
+  GitHub; (6) README with a home page screenshot, status badges, three small screenshots
+  and a "Key findings" section; (7) a workflow that runs the Python tests, the
+  application tests, the build and the browser tests on every push and pull request;
+  (8) old screenshots removed and a current, compressed set generated (every page at
+  1280 px in both themes, four at 390 px), the data of discarded methods moved to
+  `data/archive/` with a README; (9) formatter and static checks for Python and
+  TypeScript, run in the workflow, and an English header for every module in `src/`;
+  (10) a run from a clean clone following only the README, every README link
+  responding, version 1.1 tagged.
+
+### Update and summary
+
+A single command updates the modules in the right order and regenerates the summary page
+and the application data:
 
     .venv/bin/python src/run_all.py
 
-- Ordine: modulo 3, modulo 1, modulo 2, livello proprio, modulo 4, modulo 5, modulo 6,
-  test del modulo 2, sintesi, dati dell'applicazione. Circa cinque minuti. Il modulo 6 usa
-  l'estratto EBA già nel repository e non scarica nulla, salvo `--download`. L'applicazione si
-  ricompila con `npm run build` in `web/`.
-- `SUMMARY.md` è generata da `src/summary.py` a partire dai file in `data/processed`:
-  non si modifica a mano.
-- Se una fonte non risponde, il modulo corrispondente fallisce senza toccare i dati
-  esistenti, gli altri proseguono, la sintesi indica quali dati sono quelli precedenti e
-  il comando esce con codice di errore.
-- I report numerati sono fotografie alla data indicata. I file in `data/processed` e la
-  sintesi riflettono l'ultimo aggiornamento.
+- Order: module 3, module 1, module 2, own level, module 4, module 5, module 6, module 2
+  test, summary, application data. About five minutes. Module 6 uses the EBA extract
+  already in the repository and downloads nothing, unless `--download` is given. The
+  application is rebuilt with `npm run build` in `web/`.
+- `SUMMARY.md` is generated by `src/summary.py` from the files in `data/processed`: it
+  is not edited by hand.
+- If a source does not respond, the corresponding module fails without touching the
+  existing data, the others carry on, the summary indicates which data are the previous
+  ones, and the command exits with an error code.
+- The numbered reports are snapshots at the date stated. The files in `data/processed`
+  and the summary reflect the latest update.
 
 ## 3. Confirmed data sources
 
@@ -494,42 +540,44 @@ request. They hold in the form below.
 | Dollar exposures of individual banks from EBA data | `reports/12_refinements_language_banks.md` | The transparency exercise has no currency breakdown. Exposures to US counterparties are reported instead, which are a different quantity |
 | CoinGecko snapshot as a time series | `reports/00_h1_feasibility_test.md` | The free API only returns the last 24 hours |
 
-## 6. Regole di lavoro
+## 6. Working rules
 
-- Non inventare e non simulare dati. Se una fonte non è raggiungibile, scriverlo.
-- Criterio e metodo si committano prima di guardare i risultati e non si modificano dopo.
-- Ogni cifra esterna va riletta sull'originale, con pagina o sezione.
-- Le chiavi API stanno solo in `.env`, escluso da git. Nessun file di dati oltre 50 MB.
-- Commit piccoli con messaggi chiari; push alla fine di ogni sessione.
-- Ogni report dichiara i propri limiti e cosa non è stato possibile fare.
-- Se un metodo fallisce, nello stesso report si propone e si prova un'alternativa: due
-  righe sul motivo e si passa alla strada successiva.
-- Ogni report termina con la riga "Cosa aggiunge questo al programma finale".
+- Do not invent or simulate data. If a source cannot be reached, say so in writing.
+- Criterion and method are committed before looking at the results and are not changed
+  afterwards.
+- Every external figure must be re-read against the original, with page or section.
+- API keys are kept only in `.env`, which is excluded from git. No data file over 50 MB.
+- Small commits with clear messages, in English (from prompt 9); push at the end of
+  every session. The commit history is not rewritten.
+- Every report states its own limits and what could not be done.
+- If a method fails, an alternative is proposed and tried in the same report: two lines
+  on the reason, then on to the next route.
+- Every report ends with the line "What this adds to the final programme".
 
-## 7. Registro
+## 7. Log
 
-| Data | Evento |
+| Date | Event |
 |---|---|
-| 2026-11-23 | Test H1 (`reports/00_h1_feasibility_test.md`): R = 2,16, GO CON RISERVA |
-| 2026-11-24 | Test proxy 3 (`reports/01_proxy3_test.md`): 38,4%, SOLO ANDAMENTO; proxy 2 e 3 scartate |
-| 2026-11-24 | Progetto ridefinito in quattro moduli; benchmark verificati e serie BCE confermate (`reports/02_benchmarks_and_module3_data.md`) |
-| 2026-11-24 | Aggiunta la sezione 0 (obiettivo non negoziabile); ogni modulo ha ora un risultato dichiarato per l'analista; passività in valuta estera recuperate dalle statistiche BRI |
-| 2026-11-24 | Modulo 2 completato (`reports/03_module2_weekly_index.md`): indice settimanale in quattro serie, riproducibile |
-| 2026-11-24 | Modulo 3 completato (`reports/04_module3_ranking.md`): classifica dei 21 paesi, stabile a cinque pesature |
-| 2026-11-24 | Modulo 4 completato (`reports/05_module4_scenarios.md`): scenari per paese, soglie e strumento con importo libero. Resta il modulo 1 |
-| 2026-11-24 | Modulo 1 completato (`reports/06_module1_level.md`): livello di base 16,7 miliardi di euro, alto 33,4. Tutti e quattro i moduli sono completi |
-| 2026-11-24 | Aggiunti il comando unico `src/run_all.py` e la sintesi generata `SUMMARY.md` |
-| 2026-11-25 | Aggiunti il modulo 5 (credito e trasmissione), il livello proprio, la regola R3, il test e la segnalazione del modulo 2, il cruscotto e i test automatici. Ridefinite le tre non-promesse della sezione 4 |
-| 2026-11-25 | Modulo 5 completato; livello proprio: criterio non soddisfatto, pubblicato il minimo di B1; regola R3 aggiunta; test del modulo 2 nullo; cruscotto pubblicato e test automatici superati |
-| 2026-11-25 | Prompt 5. Sezione 0: il prodotto finale è un'applicazione web completa. Il livello di riferimento diventa la stima propria (15,4; 8,9 - 23,1), per decisione successiva ai risultati e in deroga al criterio del report 08, che resta agli atti. Credito: regola uniforme in evidenza, variante continua definita prima del calcolo. Aggiunti strato dati JSON, aggiornamento automatico e applicazione |
-| 2026-11-25 | Applicazione completata (`reports/11_application.md`): nove sezioni, strato dati in 29 file JSON, calcoli nel browser coincidenti con gli script su nove scenari, test nel browser superati. Aggiornamento automatico del lunedì scritto |
-| 2026-11-25 | Aggiornamento automatico in funzione: prima esecuzione su GitHub riuscita (dati, 13 test, compilazione, test nel browser, pubblicazione). Bybit non risponde dai server di GitHub: annotato nel report 11 |
-| 2026-11-25 | Prompt 6. Criteri fissati prima dei risultati: Bybit fuori dall'indice per tutto lo storico, con la misura della variazione; un solo cambio per tutto il programma; rifiniture dell'applicazione; inglese come lingua principale; modulo 6 sulle singole banche con i dati dell'esercizio di trasparenza EBA 2025 (verificata solo la disponibilità: 119 banche, dati al 30 giugno 2025, nessuna scomposizione per valuta) |
-| 2026-11-25 | Prompt 6 completato (`reports/12_refinements_language_banks.md`): sette rifiniture applicate; indice senza Bybit (in media -0,40 punti per USDT, -0,12 per USDC); cambio unico; applicazione in inglese e italiano con 587 testi per lingua; modulo 6 con 85 banche in 18 paesi e sezione "Banche". Test: 22 Python, 31 dell'applicazione, browser su undici pagine nelle due lingue |
-| 2026-11-25 | Aggiornamento automatico avviato a mano dopo il prompt 6: tutti i passi riusciti su GitHub (dati, 22 test, compilazione, test nel browser, pubblicazione). Indice calcolato su GitHub e indice calcolato in locale identici su 102 settimane; nessuna fonte aggiornata in parte. L'applicazione ora chiede sempre al server se i file di dati sono cambiati, per non mostrare dati vecchi dopo un aggiornamento |
-| 2026-11-26 | Prompt 7. Criteri fissati prima del lavoro: nessun calcolo cambia; nome "Euro Stablecoin Exposure Monitor"; sistema grafico in un unico file; pagina iniziale e pagina About; ridisegno delle dieci sezioni; controlli di contrasto e accessibilità. Salvati gli screenshot "prima" (44, in `reports/figures/app/before`) |
-| 2026-11-26 | Prompt 7 completato (`reports/13_design_and_identity.md`): sistema grafico in `web/src/styles/tokens.css`, nome "Euro Stablecoin Exposure Monitor", pagina iniziale con tre risultati generati dai dati, pagina About, dieci sezioni ridisegnate in parallelo e uniformate, rapporto stampabile di due pagine, navigazione mobile. Nessun calcolo cambiato. Test: 22 Python, 42 dell'applicazione (10 nuovi sul contrasto), browser su 13 pagine nelle due lingue e nei due temi |
-| 2026-11-26 | Aggiornamento automatico avviato a mano dopo il prompt 7. Prima esecuzione: fallito un controllo del test nel browser (chiusura del menu mobile, per una questione di tempi sui server di GitHub), quindi niente pubblicazione da parte dell'Action, come previsto. Corretti il menu, che ora si chiude subito al clic, e il test. Seconda esecuzione: tutti i passi riusciti |
-| 2026-11-26 | Prompt 8. Criteri fissati prima del lavoro: cinque correzioni (indirizzo, primo disegno dei grafici, selezione sulla mappa, avvertenze neutre sotto grafici e tabelle, About), visita guidata, README e nota metodologica in inglese, clone pulito, verifica dell'aggiornamento pianificato, versione 1.0 |
-| 2026-11-26 | Prompt 8 completato (`reports/14_closing.md`) e versione 1.0 etichettata: pagina iniziale come indirizzo predefinito; grafici completi al primo disegno, con un test che confronta punti disegnati e punti dei dati a scheda visibile e in secondo piano; mappa con selezione iniziale; 33 avvertenze in stile neutro sotto grafici e tabelle; visita guidata in cinque passi; README e nota metodologica in inglese; clone pulito riuscito seguendo solo il README. Aggiornamento pianificato da verificare lunedì 30 novembre 2026 |
-| 2026-11-26 | Aggiornamento automatico avviato a mano dopo la versione 1.0: tutti i passi riusciti su GitHub, compresi la generazione della nota metodologica e i nuovi controlli sui grafici |
+| 2026-11-23 | H1 test (`reports/00_h1_feasibility_test.md`): R = 2.16, GO WITH RESERVATIONS |
+| 2026-11-24 | Proxy 3 test (`reports/01_proxy3_test.md`): 38.4%, TREND ONLY; proxies 2 and 3 discarded |
+| 2026-11-24 | Project redefined in four modules; benchmarks verified and ECB series confirmed (`reports/02_benchmarks_and_module3_data.md`) |
+| 2026-11-24 | Section 0 added (non-negotiable objective); every module now has a stated result for the analyst; foreign-currency liabilities recovered from the BIS statistics |
+| 2026-11-24 | Module 2 completed (`reports/03_module2_weekly_index.md`): weekly index in four series, reproducible |
+| 2026-11-24 | Module 3 completed (`reports/04_module3_ranking.md`): ranking of the 21 countries, stable under five weightings |
+| 2026-11-24 | Module 4 completed (`reports/05_module4_scenarios.md`): scenarios by country, thresholds and a tool that accepts any amount. Module 1 remains |
+| 2026-11-24 | Module 1 completed (`reports/06_module1_level.md`): baseline level EUR 16.7 billion, high 33.4. All four modules are complete |
+| 2026-11-24 | Added the single command `src/run_all.py` and the generated summary `SUMMARY.md` |
+| 2026-11-25 | Added module 5 (credit and transmission), the own level, rule R3, the module 2 test and flag, the dashboard and the automated tests. Redefined the three non-promises of section 4 |
+| 2026-11-25 | Module 5 completed; own level: criterion not met, minimum of B1 published; rule R3 added; module 2 test null; dashboard published and automated tests passed |
+| 2026-11-25 | Prompt 5. Section 0: the final product is a complete web application. The reference level becomes the own estimate (15.4; 8.9 - 23.1), by a decision taken after the results and as an exception to the criterion of report 08, which stays on record. Credit: uniform rule as the headline value, continuous variant defined before the calculation. Added the JSON data layer, the automatic update and the application |
+| 2026-11-25 | Application completed (`reports/11_application.md`): nine sections, data layer in 29 JSON files, calculations in the browser matching the scripts on nine scenarios, browser tests passed. Monday automatic update written |
+| 2026-11-25 | Automatic update running: first run on GitHub successful (data, 13 tests, build, browser tests, publication). Bybit does not respond from GitHub's servers: noted in report 11 |
+| 2026-11-25 | Prompt 6. Criteria set before the results: Bybit out of the index for the whole history, with the measurement of the change; a single exchange rate for the whole programme; refinements of the application; English as the main language; module 6 on individual banks with the data of the EBA 2025 transparency exercise (only availability checked: 119 banks, data as at 30 June 2025, no currency breakdown) |
+| 2026-11-25 | Prompt 6 completed (`reports/12_refinements_language_banks.md`): seven refinements applied; index without Bybit (on average -0.40 points for USDT, -0.12 for USDC); single exchange rate; application in English and Italian with 587 texts per language; module 6 with 85 banks in 18 countries and the "Banks" section. Tests: 22 Python, 31 for the application, browser on eleven pages in both languages |
+| 2026-11-25 | Automatic update started by hand after prompt 6: all steps successful on GitHub (data, 22 tests, build, browser tests, publication). Index calculated on GitHub and index calculated locally identical over 102 weeks; no source partly updated. The application now always asks the server whether the data files have changed, so as not to show old data after an update |
+| 2026-11-26 | Prompt 7. Criteria set before the work: no calculation changes; name "Euro Stablecoin Exposure Monitor"; graphic system in a single file; home page and About page; redesign of the ten sections; contrast and accessibility checks. "Before" screenshots saved (44, in `reports/figures/app/before`) |
+| 2026-11-26 | Prompt 7 completed (`reports/13_design_and_identity.md`): graphic system in `web/src/styles/tokens.css`, name "Euro Stablecoin Exposure Monitor", home page with three results generated from the data, About page, ten sections redesigned in parallel and harmonised, two-page printable report, mobile navigation. No calculation changed. Tests: 22 Python, 42 for the application (10 new on contrast), browser on 13 pages in both languages and both themes |
+| 2026-11-26 | Automatic update started by hand after prompt 7. First run: a browser-test check failed (closing of the mobile menu, because of a timing issue on GitHub's servers), so no publication by the Action, as intended. Fixed the menu, which now closes immediately on click, and the test. Second run: all steps successful |
+| 2026-11-26 | Prompt 8. Criteria set before the work: five corrections (address, first drawing of the charts, selection on the map, neutral caveats below charts and tables, About), guided tour, README and methodological note in English, clean clone, verification of the scheduled update, version 1.0 |
+| 2026-11-26 | Prompt 8 completed (`reports/14_closing.md`) and version 1.0 tagged: home page as the default address; charts complete at the first drawing, with a test comparing drawn points and data points with the tab visible and in the background; map with an initial selection; 33 caveats in a neutral style below charts and tables; guided tour in five steps; README and methodological note in English; clean clone successful following only the README. Scheduled update to be verified on Monday 30 November 2026 |
+| 2026-11-26 | Automatic update started by hand after version 1.0: all steps successful on GitHub, including the generation of the methodological note and the new checks on the charts |
