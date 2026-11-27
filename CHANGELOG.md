@@ -25,8 +25,15 @@ Repository ready for delivery. No calculation and no result changes.
   `SUMMARY.md`), code comments and docstrings, workflow names, automatic commit
   messages, file and folder names. Release notes became this changelog.
 - The JSON files of the data layer have English names (for example `simulatore.json` is
-  now `simulator.json`, `paesi/` is now `countries/`). The application keeps English as
-  default and Italian as an option.
+  now `simulator.json`, `paesi/` is now `countries/`) and English keys (data-layer schema
+  3.0.0: `banche` is now `banks`, `generato_il` is now `generated_on`, and so on; the
+  values are identical). Identifiers that appear in shareable addresses keep their
+  names, so links made with version 1.0 still open the same scenario. The application
+  keeps English as default and Italian as an option.
+- The CSV files in `data/raw` and `data/processed` have English column names (for
+  example `paese` is now `country`, `deflusso_mld` is now `outflow_bn`); the values are
+  byte-identical. Extracts stored as the provider publishes them and the archived data
+  keep their names.
 
 **Checks**
 - New workflow "Tests" on every push and pull request: Python formatting and static
