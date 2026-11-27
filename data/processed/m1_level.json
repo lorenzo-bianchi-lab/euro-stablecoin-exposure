@@ -1,5 +1,5 @@
 {
-  "calcolato_il": "2026-11-27T15:07:20+00:00",
+  "calcolato_il": "2026-11-27T15:22:06+00:00",
   "avvertenza": "Application of an external assumption (ESM Working Paper 79), not an estimate.",
   "data_circolazione": "2026-11-27",
   "circolazione_mld_usd": {
@@ -11,10 +11,10 @@
   },
   "controllo_coingecko": {
     "usdt_mld": 174.0163255028594,
-    "usdc_mld": 69.15257485027733,
-    "aggiornato": "2026-11-27T15:05:45.000Z",
+    "usdc_mld": 69.19666619166722,
+    "aggiornato": "2026-11-27T15:20:56.000Z",
     "differenza_usdt": -0.0013933549174696136,
-    "differenza_usdc": 0.0008797669480042902
+    "differenza_usdc": 0.0002420175603026209
   },
   "cambio": {
     "data": "2026-11-27",
