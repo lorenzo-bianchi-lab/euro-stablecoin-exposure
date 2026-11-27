@@ -40,7 +40,7 @@ compare the calculations in the browser with the Python modules, and they pass.
 | "Tests" workflow on GitHub | Passed on its first run (5 minutes); passed again after moving the GitHub actions to their Node 24 versions, which removed the only warning |
 | "Weekly update" workflow on GitHub, started by hand | Passed twice after the renames (data from the sources, tests, note, build, browser tests, publication), the second time on the Node 24 versions of the actions; each run committed "Automatic data update (2026-11-27, complete)" |
 | Clean clone following only the README | Succeeded without corrections: 22 Python tests, 42 application tests, static checks, build and browser tests |
-| Links in the README | LINKS_STATUS |
+| Links in the README | 26 out of 26 respond (HTTP 200): the application and its sections, the note, badges, workflows, release and every file linked on GitHub; the two local addresses (`localhost:5173` and `localhost:8000`) responded in the clean clone |
 
 ## 3. Italian names kept, and why
 
