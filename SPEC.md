@@ -420,7 +420,7 @@ No calculation changes and all tests stay green. Criteria written before the wor
 ### Repository ready for delivery (2026-11-27, prompt 9)
 
 No calculation and no result changes; all tests stay green; the commit history is not
-rewritten. Criteria written before the work.
+rewritten. Criteria as set by the prompt; this section was written during the work.
 
 - **Identity**: (1) the project is described everywhere as an independent university
   project (ESCP Business School), with no statement that it is made for, addressed to or
@@ -446,6 +446,13 @@ rewritten. Criteria written before the work.
   TypeScript, run in the workflow, and an English header for every module in `src/`;
   (10) a run from a clean clone following only the README, every README link
   responding, version 1.1 tagged.
+- **Status**: completed on 2026-11-27 (`reports/15_repository_ready_for_delivery.md`).
+  Points 1 to 10 done; no calculation changed. Data-layer keys (227, schema 3.0.0) and
+  CSV column names (511 header cells in 38 files) renamed with all tests passing;
+  identifiers used in shareable addresses keep their Italian names, listed in the
+  report. The clean clone succeeded without corrections. `DATA_SOURCES.md` closes with
+  points to review on the terms of some providers, left to the author's decision.
+  Version 1.1 tagged (`v1.1`).
 
 ### Update and summary
 
@@ -581,3 +588,6 @@ request. They hold in the form below.
 | 2026-11-26 | Prompt 8. Criteria set before the work: five corrections (address, first drawing of the charts, selection on the map, neutral caveats below charts and tables, About), guided tour, README and methodological note in English, clean clone, verification of the scheduled update, version 1.0 |
 | 2026-11-26 | Prompt 8 completed (`reports/14_closing.md`) and version 1.0 tagged: home page as the default address; charts complete at the first drawing, with a test comparing drawn points and data points with the tab visible and in the background; map with an initial selection; 33 caveats in a neutral style below charts and tables; guided tour in five steps; README and methodological note in English; clean clone successful following only the README. Scheduled update to be verified on Monday 30 November 2026 |
 | 2026-11-26 | Automatic update started by hand after version 1.0: all steps successful on GitHub, including the generation of the methodological note and the new checks on the charts |
+| 2026-11-27 | Prompt 9. Criteria set by the prompt: independent university project (ESCP Business School) with no statement that it is made for the ECB; account `lorenzo-bianchi-lab`; sole author Lorenzo Bianchi, MIT licence, `CITATION.cff`, `DATA_SOURCES.md`; whole repository in English, with data-layer keys and CSV columns renamed only if every test passes; README with screenshots and key findings; continuous checks on every push; clean-up; formatter and static checks; clean clone and version 1.1. Commit messages in English from now on |
+| 2026-11-27 | Prompt 9 completed (`reports/15_repository_ready_for_delivery.md`) and version 1.1 tagged: repository and application in English (Italian kept as an option in the application), data-layer keys and CSV columns renamed with identical values, "Tests" workflow on every push, Ruff, Prettier, ESLint and type checks, new screenshots, data of discarded methods in `data/archive/`. Clean clone successful following only the README |
+| 2026-11-27 | Automatic update started by hand twice after the renames, the second time with the GitHub actions moved to their Node 24 versions: all steps successful both times, with the English column names and the English commit message |
