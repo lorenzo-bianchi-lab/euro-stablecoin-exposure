@@ -1,6 +1,6 @@
-// Genera l'immagine di anteprima per la condivisione del link (public/og.png, 1200×630) e l'icona
-// per i dispositivi Apple (public/icon-180.png), con i colori e i caratteri del sistema grafico.
-// Uso: node tests/og.mjs   (da rieseguire solo se cambiano nome o colori)
+// Generates the preview image for sharing the link (public/og.png, 1200×630) and the icon
+// for Apple devices (public/icon-180.png), with the colours and typefaces of the design system.
+// Usage: node tests/og.mjs   (to be run again only if the name or the colours change)
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,8 +8,11 @@ import { chromium } from "playwright-core";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 const font = async (pkg, file) => (await readFile(join(here, `../node_modules/@fontsource-variable/${pkg}/files/${file}`))).toString("base64");
-const serif = await font("source-serif-4", "source-serif-4-latin-wght-normal.woff2"), sans = await font("inter", "inter-latin-wght-normal.woff2");
-const mark = (size) => `<svg width="${size}" height="${size}" viewBox="0 0 32 32"><path d="M26 16A10 10 0 1 1 16 6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+const serif = await font("source-serif-4", "source-serif-4-latin-wght-normal.woff2"),
+  sans = await font("inter", "inter-latin-wght-normal.woff2");
+const mark = (
+  size,
+) => `<svg width="${size}" height="${size}" viewBox="0 0 32 32"><path d="M26 16A10 10 0 1 1 16 6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
   <rect x="10.5" y="17" width="2.8" height="5.5" rx=".9" fill="#fff"/><rect x="14.9" y="13.5" width="2.8" height="9" rx=".9" fill="#fff"/><rect x="19.3" y="9" width="2.8" height="13.5" rx=".9" fill="#f0a070"/></svg>`;
 const css = `@font-face{font-family:T;src:url(data:font/woff2;base64,${serif}) format("woff2");font-weight:200 900}
 @font-face{font-family:S;src:url(data:font/woff2;base64,${sans}) format("woff2");font-weight:100 900}*{box-sizing:border-box}body{margin:0}`;
@@ -22,7 +25,10 @@ h1{font:600 76px/1.05 T;letter-spacing:-.015em;margin:28px 0 0}p{font-size:30px;
 <div class="f"><span class="a">ESCP Business School</span><span>Independent university project</span></div></div>`;
 const icon = `<style>${css}.i{width:180px;height:180px;background:#163b6e;display:flex;align-items:center;justify-content:center}</style><div class="i">${mark(150)}</div>`;
 const browser = await chromium.launch({ channel: process.env.CHROME_CHANNEL ?? "chrome", headless: true });
-for (const [html, w, h, file] of [[og, 1200, 630, "og.png"], [icon, 180, 180, "icon-180.png"]]) {
+for (const [html, w, h, file] of [
+  [og, 1200, 630, "og.png"],
+  [icon, 180, 180, "icon-180.png"],
+]) {
   const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
   await page.setContent(html);
   await page.evaluate(() => document.fonts.ready);
@@ -30,4 +36,4 @@ for (const [html, w, h, file] of [[og, 1200, 630, "og.png"], [icon, 180, 180, "i
   await page.close();
 }
 await browser.close();
-console.log("scritti public/og.png e public/icon-180.png");
+console.log("wrote public/og.png and public/icon-180.png");

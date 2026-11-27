@@ -1,7 +1,7 @@
-// Genera la nota metodologica in inglese (public/methodological-note.pdf, due pagine A4), scaricabile da
-// "Method and data". Il testo è qui; i numeri vengono dai file di dati dell'applicazione, quindi la nota va
-// rigenerata dopo ogni aggiornamento dei dati (lo fa l'aggiornamento automatico, prima della compilazione).
-// Uso: npm run note
+// Generates the methodological note in English (public/methodological-note.pdf, two A4 pages), which can be
+// downloaded from "Method and data". The text is here; the numbers come from the data files of the application,
+// so the note must be generated again after every data update (the automatic update does it, before the build).
+// Usage: npm run note
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,15 +11,48 @@ const here = fileURLToPath(new URL(".", import.meta.url));
 const data = async (f) => JSON.parse(await readFile(join(here, "../public/data", f), "utf-8"));
 const [ov, sim, mon, bk, meta, lv] = await Promise.all(["overview.json", "simulator.json", "monitor.json", "banks.json", "meta.json", "level.json"].map(data));
 const font = async (pkg, file) => (await readFile(join(here, `../node_modules/@fontsource-variable/${pkg}/files/${file}`))).toString("base64");
-const serif = await font("source-serif-4", "source-serif-4-latin-wght-normal.woff2"), sans = await font("inter", "inter-latin-wght-normal.woff2");
+const serif = await font("source-serif-4", "source-serif-4-latin-wght-normal.woff2"),
+  sans = await font("inter", "inter-latin-wght-normal.woff2");
 
 const n = (x, d = 1) => x.toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d });
 const pct = (x, d = 1) => n(100 * x, d) + "%";
-const day = (iso) => new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(iso.slice(0, 10) + "T00:00:00Z"));
+const day = (iso) =>
+  new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(iso.slice(0, 10) + "T00:00:00Z"));
 const month = (ym) => new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(ym + "-01T00:00:00Z"));
-const NAMES = { AT: "Austria", BE: "Belgium", BG: "Bulgaria", CY: "Cyprus", DE: "Germany", EE: "Estonia", ES: "Spain", FI: "Finland", FR: "France", GR: "Greece", HR: "Croatia", IE: "Ireland", IT: "Italy", LT: "Lithuania", LU: "Luxembourg", LV: "Latvia", MT: "Malta", NL: "Netherlands", PT: "Portugal", SI: "Slovenia", SK: "Slovakia" };
-const top = (f) => [...sim.paesi].sort((a, b) => f(b) - f(a)).slice(0, 3).map((c) => `${NAMES[c.code]} (${pct(f(c))})`).join(", ");
-const k = sim.coefficienti, L = ov.livello, C = ov.scenarioCentrale, stat = mon.statistiche, cmp = bk.confronto;
+const NAMES = {
+  AT: "Austria",
+  BE: "Belgium",
+  BG: "Bulgaria",
+  CY: "Cyprus",
+  DE: "Germany",
+  EE: "Estonia",
+  ES: "Spain",
+  FI: "Finland",
+  FR: "France",
+  GR: "Greece",
+  HR: "Croatia",
+  IE: "Ireland",
+  IT: "Italy",
+  LT: "Lithuania",
+  LU: "Luxembourg",
+  LV: "Latvia",
+  MT: "Malta",
+  NL: "Netherlands",
+  PT: "Portugal",
+  SI: "Slovenia",
+  SK: "Slovakia",
+};
+const top = (f) =>
+  [...sim.paesi]
+    .sort((a, b) => f(b) - f(a))
+    .slice(0, 3)
+    .map((c) => `${NAMES[c.code]} (${pct(f(c))})`)
+    .join(", ");
+const k = sim.coefficienti,
+  L = ov.livello,
+  C = ov.scenarioCentrale,
+  stat = mon.statistiche,
+  cmp = bk.confronto;
 const updated = day(meta.aggiornamento.eseguitoIl ?? meta.generato_il);
 
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Euro Stablecoin Exposure Monitor - Methodological note</title><style>
@@ -103,12 +136,16 @@ const page = await browser.newPage();
 await page.setContent(html);
 await page.evaluate(() => document.fonts.ready);
 const pdf = await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true });
-if (process.env.NOTE_PREVIEW) { // anteprima come immagine, per controllarla a vista: larghezza del foglio meno i margini
+if (process.env.NOTE_PREVIEW) {
+  // preview as an image, to check it by eye: width of the sheet minus the margins
   await page.setViewportSize({ width: 673, height: 1000 });
   await page.screenshot({ path: process.env.NOTE_PREVIEW, fullPage: true });
 }
 await browser.close();
 const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
-if (pages !== 2) { console.error(`la nota metodologica deve essere di due pagine, ne ha ${pages}: accorciare il testo`); process.exit(1); }
+if (pages !== 2) {
+  console.error(`the methodological note must be two pages long, it has ${pages}: shorten the text`);
+  process.exit(1);
+}
 await writeFile(join(here, "../public/methodological-note.pdf"), pdf);
-console.log(`scritta public/methodological-note.pdf: ${pages} pagine, ${Math.round(pdf.length / 1024)} kB`);
+console.log(`wrote public/methodological-note.pdf: ${pages} pages, ${Math.round(pdf.length / 1024)} kB`);

@@ -1,21 +1,21 @@
 {
- "eseguito": "2026-11-26T23:51:16.523Z",
- "sezioni": [
+ "ranAt": "2026-11-27T00:14:18.657Z",
+ "sections": [
   {
-   "sezione": "home",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 1,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 0,
-   "tabelle1280": 0,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 0,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "home",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 1,
+   "chartsWithoutAltText": 0,
+   "caveats": 0,
+   "tables1280": 0,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 0,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -27,20 +27,20 @@
    }
   },
   {
-   "sezione": "overview",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 1,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 4,
-   "tabelle1280": 1,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 0,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "overview",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 1,
+   "chartsWithoutAltText": 0,
+   "caveats": 4,
+   "tables1280": 1,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 0,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -52,20 +52,20 @@
    }
   },
   {
-   "sezione": "simulator",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 2,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 3,
-   "tabelle1280": 1,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 1,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "simulator",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 2,
+   "chartsWithoutAltText": 0,
+   "caveats": 3,
+   "tables1280": 1,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 1,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -77,20 +77,20 @@
    }
   },
   {
-   "sezione": "map",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 4,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 1,
-   "tabelle1280": 1,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 0,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "map",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 4,
+   "chartsWithoutAltText": 0,
+   "caveats": 1,
+   "tables1280": 1,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 0,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -102,20 +102,20 @@
    }
   },
   {
-   "sezione": "country/IT",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 3,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 2,
-   "tabelle1280": 1,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 1,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "country/IT",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 3,
+   "chartsWithoutAltText": 0,
+   "caveats": 2,
+   "tables1280": 1,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 1,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -127,20 +127,20 @@
    }
   },
   {
-   "sezione": "banks",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 1,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 5,
-   "tabelle1280": 2,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 2,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "banks",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 1,
+   "chartsWithoutAltText": 0,
+   "caveats": 5,
+   "tables1280": 2,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 2,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -152,20 +152,20 @@
    }
   },
   {
-   "sezione": "banks/R0MUWSFPU8MPRO8K5P83",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 1,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 3,
-   "tabelle1280": 2,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 1,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "banks/R0MUWSFPU8MPRO8K5P83",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 1,
+   "chartsWithoutAltText": 0,
+   "caveats": 3,
+   "tables1280": 2,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 1,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -177,20 +177,20 @@
    }
   },
   {
-   "sezione": "channels",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 1,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 1,
-   "tabelle1280": 1,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 1,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "channels",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 1,
+   "chartsWithoutAltText": 0,
+   "caveats": 1,
+   "tables1280": 1,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 1,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -202,20 +202,20 @@
    }
   },
   {
-   "sezione": "monitor",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 2,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 4,
-   "tabelle1280": 5,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 2,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "monitor",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 2,
+   "chartsWithoutAltText": 0,
+   "caveats": 4,
+   "tables1280": 5,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 2,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -227,20 +227,20 @@
    }
   },
   {
-   "sezione": "level",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 3,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 5,
-   "tabelle1280": 0,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 0,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "level",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 3,
+   "chartsWithoutAltText": 0,
+   "caveats": 5,
+   "tables1280": 0,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 0,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -252,20 +252,20 @@
    }
   },
   {
-   "sezione": "compare",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 0,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 2,
-   "tabelle1280": 4,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 2,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "compare",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 0,
+   "chartsWithoutAltText": 0,
+   "caveats": 2,
+   "tables1280": 4,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 2,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -277,20 +277,20 @@
    }
   },
   {
-   "sezione": "method",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 0,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 3,
-   "tabelle1280": 5,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 3,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "method",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 0,
+   "chartsWithoutAltText": 0,
+   "caveats": 3,
+   "tables1280": 5,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 3,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -302,20 +302,20 @@
    }
   },
   {
-   "sezione": "about",
-   "erroriConsole": [],
-   "sbordo390": 0,
-   "grafici": 0,
-   "graficiSenzaTestoAlternativo": 0,
-   "avvertenze": 0,
-   "tabelle1280": 2,
-   "tabelleTagliate1280": 0,
-   "tabelleScorrevoli390": 0,
-   "contrastoBasso": {
-    "chiaro": 0,
-    "scuro": 0
+   "section": "about",
+   "consoleErrors": [],
+   "overflow390": 0,
+   "charts": 0,
+   "chartsWithoutAltText": 0,
+   "caveats": 0,
+   "tables1280": 2,
+   "tablesCut1280": 0,
+   "tablesScrolling390": 0,
+   "lowContrast": {
+    "light": 0,
+    "dark": 0
    },
-   "lingua": {
+   "language": {
     "en": {
      "missing": [],
      "foreign": []
@@ -327,80 +327,80 @@
    }
   }
  ],
- "indirizzo": {
-  "importo": "€300.0 bn · $329.3 bn",
-  "regola": "R3",
-  "depositi": "T2",
-  "credito": "continua",
-  "deflusso": "€150.0 bn",
-  "tema": "dark",
-  "dopoNavigazione": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua",
-  "riquadriMappa": 3,
-  "legendaMappa": 6,
-  "dopoCambioLingua": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua&lang=it",
-  "italiano": {
-   "titolo": "Simulatore",
-   "importo": "300,0 mld € · 329,3 mld $",
+ "address": {
+  "amount": "€300.0 bn · $329.3 bn",
+  "rule": "R3",
+  "deposits": "T2",
+  "credit": "continua",
+  "outflow": "€150.0 bn",
+  "theme": "dark",
+  "afterNavigation": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua",
+  "mapInsets": 3,
+  "mapLegend": 6,
+  "afterLanguageSwitch": "/map?imp=300&sost=50&reg=R3&dep=T2&cred=continua&lang=it",
+  "italian": {
+   "title": "Simulatore",
+   "amount": "300,0 mld € · 329,3 mld $",
    "url": "#/simulator?imp=300&sost=50&reg=R3&dep=T2&cred=continua&lang=it"
   },
-  "vecchioIndirizzo": {
-   "titolo": "Simulatore",
-   "importo": "120,0 mld € · 131,7 mld $"
+  "oldAddress": {
+   "title": "Simulatore",
+   "amount": "120,0 mld € · 131,7 mld $"
   }
  },
- "avvertenza": {
-  "righeChiusa": 1,
-  "caratteriDelDettaglio": 274,
-  "siApre": true
+ "caveat": {
+  "closedLines": 1,
+  "detailCharacters": 274,
+  "opens": true
  },
- "indicatoreFonti": {
-  "porta_a": "/method",
-  "testo": "The last run recomputed the results from data already downloaded: no source was queried."
+ "sourceIndicator": {
+  "leadsTo": "/method",
+  "text": "The last run recomputed the results from data already downloaded: no source was queried."
  },
- "rapporto": {
-  "titoloA": "Report on scenario A",
-  "titoloAB": "Report comparing scenarios A and B",
-  "colonneAB": [
+ "report": {
+  "titleA": "Report on scenario A",
+  "titleAB": "Report comparing scenarios A and B",
+  "columnsAB": [
    "Quantity",
    "Scenario A",
    "Scenario B",
    "B relative to A"
   ],
-  "inStampa": {
-   "visibili": [
+  "inPrint": {
+   "visible": [
     "card report"
    ],
-   "comandi": 0,
-   "pagine": 2,
-   "intestazioni": [
+   "controls": 0,
+   "pages": 2,
+   "headers": [
     "Euro Stablecoin Exposure MonitorData updated on 26 November 2026Bank balance she",
     "Euro Stablecoin Exposure MonitorData updated on 26 November 2026Bank balance she"
    ],
-   "pagineDelPdf": 2
+   "pdfPages": 2
   },
-  "indirizzo": "/compare?rep=ab"
+  "address": "/compare?rep=ab"
  },
- "banche": {
-  "banche": 85,
-  "righePrimaPagina": 20,
-  "righeSecondaPagina": 20,
-  "righeItalia": 12,
-  "righeRicerca": 1,
-  "scheda": "UNICREDIT, SOCIETA' PER AZIONI",
-  "indirizzo": "/banks/549300TRUWO2CD2G5692?bc=IT"
+ "banks": {
+  "banks": 85,
+  "firstPageRows": 20,
+  "secondPageRows": 20,
+  "italyRows": 12,
+  "searchRows": 1,
+  "sheet": "UNICREDIT, SOCIETA' PER AZIONI",
+  "address": "/banks/549300TRUWO2CD2G5692?bc=IT"
  },
- "tastiera": {
+ "keyboard": {
   "home": {
-   "raggiunti": 27,
-   "tipi": [
+   "reached": 27,
+   "types": [
     "a",
     "button"
    ],
-   "senzaFuocoVisibile": []
+   "withoutVisibleFocus": []
   },
   "simulator": {
-   "raggiunti": 45,
-   "tipi": [
+   "reached": 45,
+   "types": [
     "a",
     "button",
     "input",
@@ -409,11 +409,11 @@
     "div",
     "tr"
    ],
-   "senzaFuocoVisibile": []
+   "withoutVisibleFocus": []
   },
   "map": {
-   "raggiunti": 45,
-   "tipi": [
+   "reached": 45,
+   "types": [
     "a",
     "button",
     "select",
@@ -422,11 +422,11 @@
     "div",
     "tr"
    ],
-   "senzaFuocoVisibile": []
+   "withoutVisibleFocus": []
   },
   "banks": {
-   "raggiunti": 45,
-   "tipi": [
+   "reached": 45,
+   "types": [
     "a",
     "button",
     "select",
@@ -434,11 +434,11 @@
     "div",
     "tr"
    ],
-   "senzaFuocoVisibile": []
+   "withoutVisibleFocus": []
   },
   "compare": {
-   "raggiunti": 43,
-   "tipi": [
+   "reached": 43,
+   "types": [
     "a",
     "button",
     "input",
@@ -446,450 +446,450 @@
     "summary",
     "div"
    ],
-   "senzaFuocoVisibile": []
+   "withoutVisibleFocus": []
   },
-  "saltoAlContenuto": "content"
+  "skipToContent": "content"
  },
- "movimento": {
-  "normale": {
-   "animazioneValori": "settle",
-   "transizionePulsanti": "0.12s, 0.12s",
-   "grafici": [
+ "motion": {
+  "normal": {
+   "valueAnimation": "settle",
+   "buttonTransition": "0.12s, 0.12s",
+   "charts": [
     "on"
    ]
   },
-  "ridotto": {
-   "animazioneValori": "none",
-   "transizionePulsanti": "0s",
-   "grafici": [
+  "reduced": {
+   "valueAnimation": "none",
+   "buttonTransition": "0s",
+   "charts": [
     "off"
    ]
   }
  },
  "mobile": {
-  "voci": 4,
-  "vociMenu": 12,
-  "chiusoConEsc": true,
-  "dopoIlMenu": {
-   "sezione": "/monitor",
-   "menuAperto": 0
+  "items": 4,
+  "menuItems": 12,
+  "closedWithEsc": true,
+  "afterMenu": {
+   "section": "/monitor",
+   "menuOpen": 0
   },
-  "dopoLaBarra": "/banks"
+  "afterTabBar": "/banks"
  },
- "chiusura": {
-  "senzaSezione": {
-   "titolo": "Euro Stablecoin Exposure Monitor",
-   "risultati": 3,
-   "attiva": "home"
+ "closing": {
+  "noSection": {
+   "title": "Euro Stablecoin Exposure Monitor",
+   "findings": 3,
+   "active": "home"
   },
-  "mappa": {
-   "piuAlto": "Slovenia",
-   "selezionato": true,
-   "indirizzo": "/map",
-   "dopoLaDeselezione": {
-    "collegamenti": 0,
-    "indirizzo": "/map?sel=none"
+  "map": {
+   "highest": "Slovenia",
+   "selected": true,
+   "address": "/map",
+   "afterDeselection": {
+    "links": 0,
+    "address": "/map?sel=none"
    }
   },
-  "avvertenze": {
+  "caveats": {
    "home": {
-    "posizione": {},
-    "gialle": [],
-    "attive": 0
+    "position": {},
+    "yellow": [],
+    "active": 0
    },
    "overview": {
-    "posizione": {
-     "risultato": 2,
-     "tabella": 1,
-     "grafico": 1
+    "position": {
+     "result": 2,
+     "table": 1,
+     "chart": 1
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "simulator": {
-    "posizione": {
-     "risultato": 1,
-     "grafico": 2
+    "position": {
+     "result": 1,
+     "chart": 2
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "map": {
-    "posizione": {
-     "grafico": 1
+    "position": {
+     "chart": 1
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "country/IT": {
-    "posizione": {
-     "grafico": 1,
-     "tabella": 1
+    "position": {
+     "chart": 1,
+     "table": 1
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "banks": {
-    "posizione": {
-     "tabella": 5
+    "position": {
+     "table": 5
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "banks/R0MUWSFPU8MPRO8K5P83": {
-    "posizione": {
-     "grafico": 1,
-     "tabella": 2
+    "position": {
+     "chart": 1,
+     "table": 2
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "channels": {
-    "posizione": {
-     "grafico": 1
+    "position": {
+     "chart": 1
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "monitor": {
-    "posizione": {
-     "grafico": 3,
-     "tabella": 1
+    "position": {
+     "chart": 3,
+     "table": 1
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "level": {
-    "posizione": {
-     "risultato": 1,
-     "grafico": 3,
-     "elenco": 1
+    "position": {
+     "result": 1,
+     "chart": 3,
+     "list": 1
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "compare": {
-    "posizione": {
-     "tabella": 2
+    "position": {
+     "table": 2
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "method": {
-    "posizione": {
-     "tabella": 3
+    "position": {
+     "table": 3
     },
-    "gialle": [],
-    "attive": 0
+    "yellow": [],
+    "active": 0
    },
    "about": {
-    "posizione": {},
-    "gialle": [],
-    "attive": 0
+    "position": {},
+    "yellow": [],
+    "active": 0
    }
   },
-  "avvertenzePerPosizione": {
-   "risultato": 4,
-   "tabella": 15,
-   "grafico": 13,
-   "elenco": 1
+  "caveatsByPosition": {
+   "result": 4,
+   "table": 15,
+   "chart": 13,
+   "list": 1
   },
-  "about_en": "Authors [NAMES TO BE INSERTED] Course Economics and finance University ESCP Business School",
-  "about_it": "Autori [NOMI DA INSERIRE] Corso Economia e finanza Università ESCP Business School",
-  "visitaGuidata": {
-   "passi": [
+  "about_en": "Author Lorenzo Bianchi Course Economics and finance University ESCP Business School",
+  "about_it": "Autore Lorenzo Bianchi Corso Economia e finanza Università ESCP Business School",
+  "tour": {
+   "steps": [
     {
-     "passo": 1,
-     "sezione": "home",
-     "titolo": "Three results at a glance"
+     "step": 1,
+     "section": "home",
+     "title": "Three results at a glance"
     },
     {
-     "passo": 2,
-     "sezione": "simulator",
-     "titolo": "Build a scenario"
+     "step": 2,
+     "section": "simulator",
+     "title": "Build a scenario"
     },
     {
-     "passo": 3,
-     "sezione": "map",
-     "titolo": "See it on the map"
+     "step": 3,
+     "section": "map",
+     "title": "See it on the map"
     },
     {
-     "passo": 4,
-     "sezione": "banks",
-     "titolo": "Down to the single bank"
+     "step": 4,
+     "section": "banks",
+     "title": "Down to the single bank"
     },
     {
-     "passo": 5,
-     "sezione": "monitor",
-     "titolo": "Watch it week by week"
+     "step": 5,
+     "section": "monitor",
+     "title": "Watch it week by week"
     }
    ],
-   "saltataConIlPulsante": true,
-   "saltataConEsc": true,
-   "chiusaDallaNavigazione": true
+   "skippedWithButton": true,
+   "skippedWithEsc": true,
+   "closedByNavigation": true
   },
-  "notaMetodologica": {
-   "collegamento": "./methodological-note.pdf",
-   "pagine": 2,
-   "kB": 157
+  "methodNote": {
+   "link": "./methodological-note.pdf",
+   "pages": 2,
+   "kB": 295
   }
  },
- "graficiCompleti": {
+ "completeCharts": {
   "home": {
-   "visibile": {
-    "grafici": 1,
-    "puntiDeiDati": 21,
-    "puntiDisegnati": 21
+   "visible": {
+    "charts": 1,
+    "dataPoints": 21,
+    "drawnPoints": 21
    },
-   "secondoPiano": {
-    "grafici": 1,
-    "puntiDeiDati": 21,
-    "puntiDisegnati": 21
+   "background": {
+    "charts": 1,
+    "dataPoints": 21,
+    "drawnPoints": 21
    }
   },
   "overview": {
-   "visibile": {
-    "grafici": 1,
-    "puntiDeiDati": 21,
-    "puntiDisegnati": 21
+   "visible": {
+    "charts": 1,
+    "dataPoints": 21,
+    "drawnPoints": 21
    },
-   "secondoPiano": {
-    "grafici": 1,
-    "puntiDeiDati": 21,
-    "puntiDisegnati": 21
+   "background": {
+    "charts": 1,
+    "dataPoints": 21,
+    "drawnPoints": 21
    }
   },
   "simulator": {
-   "visibile": {
-    "grafici": 2,
-    "puntiDeiDati": 84,
-    "puntiDisegnati": 84
+   "visible": {
+    "charts": 2,
+    "dataPoints": 84,
+    "drawnPoints": 84
    },
-   "secondoPiano": {
-    "grafici": 2,
-    "puntiDeiDati": 84,
-    "puntiDisegnati": 84
+   "background": {
+    "charts": 2,
+    "dataPoints": 84,
+    "drawnPoints": 84
    }
   },
   "map": {
-   "visibile": {
-    "grafici": 4,
-    "puntiDeiDati": 84,
-    "puntiDisegnati": 84
+   "visible": {
+    "charts": 4,
+    "dataPoints": 84,
+    "drawnPoints": 84
    },
-   "secondoPiano": {
-    "grafici": 4,
-    "puntiDeiDati": 84,
-    "puntiDisegnati": 84
+   "background": {
+    "charts": 4,
+    "dataPoints": 84,
+    "drawnPoints": 84
    }
   },
   "country/IT": {
-   "visibile": {
-    "grafici": 3,
-    "puntiDeiDati": 3432,
-    "puntiDisegnati": 3432
+   "visible": {
+    "charts": 3,
+    "dataPoints": 3432,
+    "drawnPoints": 3432
    },
-   "secondoPiano": {
-    "grafici": 3,
-    "puntiDeiDati": 3432,
-    "puntiDisegnati": 3432
+   "background": {
+    "charts": 3,
+    "dataPoints": 3432,
+    "drawnPoints": 3432
    }
   },
   "banks": {
-   "visibile": {
-    "grafici": 1,
-    "puntiDeiDati": 85,
-    "puntiDisegnati": 85
+   "visible": {
+    "charts": 1,
+    "dataPoints": 85,
+    "drawnPoints": 85
    },
-   "secondoPiano": {
-    "grafici": 1,
-    "puntiDeiDati": 85,
-    "puntiDisegnati": 85
+   "background": {
+    "charts": 1,
+    "dataPoints": 85,
+    "drawnPoints": 85
    }
   },
   "banks/R0MUWSFPU8MPRO8K5P83": {
-   "visibile": {
-    "grafici": 1,
-    "puntiDeiDati": 8,
-    "puntiDisegnati": 8
+   "visible": {
+    "charts": 1,
+    "dataPoints": 8,
+    "drawnPoints": 8
    },
-   "secondoPiano": {
-    "grafici": 1,
-    "puntiDeiDati": 8,
-    "puntiDisegnati": 8
+   "background": {
+    "charts": 1,
+    "dataPoints": 8,
+    "drawnPoints": 8
    }
   },
   "channels": {
-   "visibile": {
-    "grafici": 1,
-    "puntiDeiDati": 21,
-    "puntiDisegnati": 21
+   "visible": {
+    "charts": 1,
+    "dataPoints": 21,
+    "drawnPoints": 21
    },
-   "secondoPiano": {
-    "grafici": 1,
-    "puntiDeiDati": 21,
-    "puntiDisegnati": 21
+   "background": {
+    "charts": 1,
+    "dataPoints": 21,
+    "drawnPoints": 21
    }
   },
   "monitor": {
-   "visibile": {
-    "grafici": 2,
-    "puntiDeiDati": 156,
-    "puntiDisegnati": 156
+   "visible": {
+    "charts": 2,
+    "dataPoints": 156,
+    "drawnPoints": 156
    },
-   "secondoPiano": {
-    "grafici": 2,
-    "puntiDeiDati": 156,
-    "puntiDisegnati": 156
+   "background": {
+    "charts": 2,
+    "dataPoints": 156,
+    "drawnPoints": 156
    }
   },
   "level": {
-   "visibile": {
-    "grafici": 3,
-    "puntiDeiDati": 110,
-    "puntiDisegnati": 110
+   "visible": {
+    "charts": 3,
+    "dataPoints": 110,
+    "drawnPoints": 110
    },
-   "secondoPiano": {
-    "grafici": 3,
-    "puntiDeiDati": 110,
-    "puntiDisegnati": 110
+   "background": {
+    "charts": 3,
+    "dataPoints": 110,
+    "drawnPoints": 110
    }
   },
   "compare": {
-   "visibile": {
-    "grafici": 0,
-    "puntiDeiDati": 0,
-    "puntiDisegnati": 0
+   "visible": {
+    "charts": 0,
+    "dataPoints": 0,
+    "drawnPoints": 0
    },
-   "secondoPiano": {
-    "grafici": 0,
-    "puntiDeiDati": 0,
-    "puntiDisegnati": 0
+   "background": {
+    "charts": 0,
+    "dataPoints": 0,
+    "drawnPoints": 0
    }
   },
   "method": {
-   "visibile": {
-    "grafici": 0,
-    "puntiDeiDati": 0,
-    "puntiDisegnati": 0
+   "visible": {
+    "charts": 0,
+    "dataPoints": 0,
+    "drawnPoints": 0
    },
-   "secondoPiano": {
-    "grafici": 0,
-    "puntiDeiDati": 0,
-    "puntiDisegnati": 0
+   "background": {
+    "charts": 0,
+    "dataPoints": 0,
+    "drawnPoints": 0
    }
   },
   "about": {
-   "visibile": {
-    "grafici": 0,
-    "puntiDeiDati": 0,
-    "puntiDisegnati": 0
+   "visible": {
+    "charts": 0,
+    "dataPoints": 0,
+    "drawnPoints": 0
    },
-   "secondoPiano": {
-    "grafici": 0,
-    "puntiDeiDati": 0,
-    "puntiDisegnati": 0
+   "background": {
+    "charts": 0,
+    "dataPoints": 0,
+    "drawnPoints": 0
    }
   }
  },
- "condivisione": {
-  "titolo": true,
-  "mancanti": [],
-  "icona": true,
-  "og.png": 60575,
+ "sharing": {
+  "title": true,
+  "missing": [],
+  "icon": true,
+  "og.png": 61230,
   "favicon.svg": 445,
   "icon-180.png": 2224
  },
- "peso": {
+ "weight": {
   "home": {
-   "codice": 858,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 139,
-   "totale": 1121,
-   "file": [
+   "code": 858,
+   "style": 25,
+   "fonts": 97,
+   "data": 139,
+   "total": 1122,
+   "files": [
     "index",
     "react",
     "en",
-    "shared",
     "Home",
     "model",
+    "shared",
     "EuroMap",
     "Chart"
    ]
   },
   "overview": {
-   "codice": 773,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 17,
-   "totale": 914,
-   "file": [
+   "code": 773,
+   "style": 25,
+   "fonts": 97,
+   "data": 17,
+   "total": 914,
+   "files": [
     "index",
     "react",
     "en",
-    "shared",
     "model",
+    "shared",
     "Overview",
     "Chart"
    ]
   },
   "simulator": {
-   "codice": 772,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 17,
-   "totale": 913,
-   "file": [
+   "code": 773,
+   "style": 25,
+   "fonts": 97,
+   "data": 17,
+   "total": 913,
+   "files": [
     "index",
     "react",
     "en",
-    "model",
     "shared",
+    "model",
     "Simulator",
     "Chart"
    ]
   },
   "map": {
-   "codice": 859,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 139,
-   "totale": 1123,
-   "file": [
+   "code": 859,
+   "style": 25,
+   "fonts": 97,
+   "data": 139,
+   "total": 1123,
+   "files": [
     "index",
     "react",
     "en",
     "model",
-    "MapEurope",
     "shared",
+    "MapEurope",
     "EuroMap",
     "Chart"
    ]
   },
   "country/IT": {
-   "codice": 775,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 57,
-   "totale": 957,
-   "file": [
+   "code": 776,
+   "style": 25,
+   "fonts": 97,
+   "data": 57,
+   "total": 957,
+   "files": [
     "index",
     "react",
     "en",
-    "model",
     "shared",
+    "model",
     "CountrySheet",
     "Chart"
    ]
   },
   "banks": {
-   "codice": 781,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 52,
-   "totale": 957,
-   "file": [
+   "code": 781,
+   "style": 25,
+   "fonts": 97,
+   "data": 52,
+   "total": 958,
+   "files": [
     "index",
     "react",
     "en",
@@ -900,28 +900,28 @@
    ]
   },
   "banks/R0MUWSFPU8MPRO8K5P83": {
-   "codice": 781,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 52,
-   "totale": 957,
-   "file": [
+   "code": 781,
+   "style": 25,
+   "fonts": 97,
+   "data": 52,
+   "total": 958,
+   "files": [
     "index",
     "react",
     "en",
-    "Banks",
     "model",
     "shared",
+    "Banks",
     "Chart"
    ]
   },
   "channels": {
-   "codice": 774,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 17,
-   "totale": 915,
-   "file": [
+   "code": 774,
+   "style": 25,
+   "fonts": 97,
+   "data": 17,
+   "total": 915,
+   "files": [
     "index",
     "react",
     "en",
@@ -932,28 +932,28 @@
    ]
   },
   "monitor": {
-   "codice": 775,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 64,
-   "totale": 963,
-   "file": [
+   "code": 775,
+   "style": 25,
+   "fonts": 97,
+   "data": 64,
+   "total": 963,
+   "files": [
     "index",
     "react",
     "en",
-    "shared",
     "model",
+    "shared",
     "Monitor",
     "Chart"
    ]
   },
   "level": {
-   "codice": 773,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 20,
-   "totale": 918,
-   "file": [
+   "code": 774,
+   "style": 25,
+   "fonts": 97,
+   "data": 20,
+   "total": 918,
+   "files": [
     "index",
     "react",
     "en",
@@ -963,12 +963,12 @@
    ]
   },
   "compare": {
-   "codice": 239,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 17,
-   "totale": 379,
-   "file": [
+   "code": 239,
+   "style": 25,
+   "fonts": 97,
+   "data": 17,
+   "total": 380,
+   "files": [
     "index",
     "react",
     "en",
@@ -978,12 +978,12 @@
    ]
   },
   "method": {
-   "codice": 230,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 32,
-   "totale": 386,
-   "file": [
+   "code": 230,
+   "style": 25,
+   "fonts": 97,
+   "data": 32,
+   "total": 386,
+   "files": [
     "index",
     "react",
     "en",
@@ -991,12 +991,12 @@
    ]
   },
   "about": {
-   "codice": 226,
-   "stile": 25,
-   "caratteri": 97,
-   "dati": 17,
-   "totale": 367,
-   "file": [
+   "code": 226,
+   "style": 25,
+   "fonts": 97,
+   "data": 17,
+   "total": 367,
+   "files": [
     "index",
     "react",
     "en",
@@ -1004,5 +1004,5 @@
    ]
   }
  },
- "falliti": []
+ "failures": []
 }

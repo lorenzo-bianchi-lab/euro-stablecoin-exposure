@@ -9,7 +9,11 @@
     "test": "vitest run",
     "e2e": "node tests/e2e.mjs",
     "note": "node tests/note.mjs",
-    "shots": "node tests/shots.mjs"
+    "shots": "node tests/shots.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -20,11 +24,17 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "10.15.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.14.0",
     "playwright-core": "^1.47.0",
+    "prettier": "3.10.1",
     "typescript": "^5.5.4",
+    "typescript-eslint": "8.74.0",
     "vite": "^5.4.3",
     "vitest": "^2.0.5"
   }

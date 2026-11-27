@@ -1,5 +1,5 @@
 import { createContext } from "react";
 import type { Theme } from "../lib/util";
 
-// Fuori da Chart.tsx, così l'intelaiatura dell'applicazione non si porta dietro la libreria dei grafici.
+// Outside Chart.tsx, so that the application shell does not pull in the charting library.
 export const ThemeContext = createContext<Theme>("light");

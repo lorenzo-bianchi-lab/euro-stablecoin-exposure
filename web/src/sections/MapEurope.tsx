@@ -19,11 +19,12 @@ const INDICATORS: Record<string, Ind> = {
   usd: { scen: false, get: (c) => 100 * c.usd, digits: 1 },
   quotaPossessori: { scen: false, get: (c) => 100 * c.quotaPossessori, digits: 1 },
 };
-/** Indicatori mostrati nel pannello del paese selezionato, oltre a quello colorato sulla mappa. */
+/** Indicators shown in the panel of the selected country, besides the one coloured on the map. */
 const SIDE = ["effettoPp", "creditoPct", "c1", "usd"];
 
 const median = (xs: number[]) => {
-  const s = [...xs].sort((a, b) => a - b), m = s.length >> 1;
+  const s = [...xs].sort((a, b) => a - b),
+    m = s.length >> 1;
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 };
 
@@ -36,15 +37,18 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
   const valueOf = (k: string, i: number) => INDICATORS[k].get(sim.paesi[i], rows[i]);
   const values: MapValue[] = sim.paesi.map((c, i) => ({ code: c.code, value: valueOf(key, i) }));
   const ranked = [...values].sort((a, b) => b.value - a.value);
-  const top = ranked[0], low = ranked[ranked.length - 1], n = values.length;
+  const top = ranked[0],
+    low = ranked[ranked.length - 1],
+    n = values.length;
   const med = median(values.map((v) => v.value));
   const area = ind.area?.(tot);
   const byCode = Object.fromEntries(values.map((v) => [v.code, v.value]));
   const selParam = route.params.get("sel");
-  // senza scelta nell'indirizzo è selezionato il paese con il valore più alto; "none" è la deselezione esplicita
-  const sel = selParam === "none" ? null : selParam && selParam in byCode ? selParam : ranked[0]?.code ?? null;
+  // with no choice in the address the country with the highest value is selected; "none" is the explicit deselection
+  const sel = selParam === "none" ? null : selParam && selParam in byCode ? selParam : (ranked[0]?.code ?? null);
   const select = (code: string) => route.setParams({ sel: code });
-  const label = t(`map.ind.${key}`), unit = t(`map.unit.${key}`);
+  const label = t(`map.ind.${key}`),
+    unit = t(`map.unit.${key}`);
   const f = (x: number, d = ind.digits) => nf(x, d);
   const summary = describe(scenario, sim.cambioUsdPerEur);
   const heroText = ind.scen
@@ -66,32 +70,75 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
       <div className="split">
         <div className="stack">
           <aside className="panel" aria-label={t("map.indicator")}>
-            <div className="panel-head"><h2>{t("map.indicator")}</h2></div>
+            <div className="panel-head">
+              <h2>{t("map.indicator")}</h2>
+            </div>
             <div className="controls">
-              <Select id="ind" label={t("map.color")} value={key} options={Object.keys(INDICATORS).map((k) => [k, t(`map.ind.${k}`)])} onChange={(v) => route.setParams({ ind: v })} />
+              <Select
+                id="ind"
+                label={t("map.color")}
+                value={key}
+                options={Object.keys(INDICATORS).map((k) => [k, t(`map.ind.${k}`)])}
+                onChange={(v) => route.setParams({ ind: v })}
+              />
             </div>
             <p className="muted tiny" style={{ margin: "var(--space-3) 0 0" }}>
               {ind.scen ? t("map.scenario", { s: summary }) : t("map.static")}
             </p>
           </aside>
-          <ScenarioPanel title={ind.scen ? t("map.linked") : t("map.linkedOff")} summary={summary} scenario={scenario} set={route.setParams} presets={sim.predefiniti} fx={sim.cambioUsdPerEur} />
+          <ScenarioPanel
+            title={ind.scen ? t("map.linked") : t("map.linkedOff")}
+            summary={summary}
+            scenario={scenario}
+            set={route.setParams}
+            presets={sim.predefiniti}
+            fx={sim.cambioUsdPerEur}
+          />
         </div>
         <div>
           <Card>
-            <EuroMap title={label} unit={unit} source={t("src.map", { m: month(sim.meseBilanci) })} values={values} digits={ind.digits} height={460}
-              selected={sel} onSelect={select} alt={alt} />
+            <EuroMap
+              title={label}
+              unit={unit}
+              source={t("src.map", { m: month(sim.meseBilanci) })}
+              values={values}
+              digits={ind.digits}
+              height={460}
+              selected={sel}
+              onSelect={select}
+              alt={alt}
+            />
             <div className="insets" aria-label={t("map.insets")}>
               {INSET_CODES.map((code) => (
                 <div className="inset" key={code}>
-                  <EuroMap inset={code} title={country(code)} unit={f(byCode[code])} values={values} digits={ind.digits} height={110} selected={sel} onSelect={select}
-                    alt={t("map.insetAlt", { c: country(code), v: f(byCode[code]), u: unit })} />
-                </div>))}
+                  <EuroMap
+                    inset={code}
+                    title={country(code)}
+                    unit={f(byCode[code])}
+                    values={values}
+                    digits={ind.digits}
+                    height={110}
+                    selected={sel}
+                    onSelect={select}
+                    alt={t("map.insetAlt", { c: country(code), v: f(byCode[code]), u: unit })}
+                  />
+                </div>
+              ))}
             </div>
             <Note id={ind.scen ? "note.map.scen" : "note.map.struct"} />
           </Card>
           <div className="grid2">
-            <Card title={sel ? country(sel) : t("map.sel.title")}
-              actions={sel ? <button className="btn small" onClick={() => route.setParams({ sel: "none" })}><X className="icon" aria-hidden="true" />{t("map.sel.clear")}</button> : undefined}>
+            <Card
+              title={sel ? country(sel) : t("map.sel.title")}
+              actions={
+                sel ? (
+                  <button className="btn small" onClick={() => route.setParams({ sel: "none" })}>
+                    <X className="icon" aria-hidden="true" />
+                    {t("map.sel.clear")}
+                  </button>
+                ) : undefined
+              }
+            >
               {sel && selIdx >= 0 ? (
                 <div aria-live="polite">
                   <div className="kpis">
@@ -101,19 +148,40 @@ export default function MapEurope({ data, scenario }: { data: AppData; scenario:
                     {others.map((k) => (
                       <div key={k} style={{ display: "contents" }}>
                         <dt>{t(`map.ind.${k}`)}</dt>
-                        <dd>{nf(valueOf(k, selIdx), INDICATORS[k].digits)} <span className="muted tiny">{t(`map.unit.${k}`)}</span></dd>
-                      </div>))}
+                        <dd>
+                          {nf(valueOf(k, selIdx), INDICATORS[k].digits)} <span className="muted tiny">{t(`map.unit.${k}`)}</span>
+                        </dd>
+                      </div>
+                    ))}
                   </dl>
                   <a className="btn primary" style={{ marginTop: "var(--space-4)" }} href={route.href(`country/${sel}`, { sel: null })}>
-                    {t("map.sel.open")}<ArrowRight className="icon" aria-hidden="true" />
+                    {t("map.sel.open")}
+                    <ArrowRight className="icon" aria-hidden="true" />
                   </a>
                 </div>
-              ) : <p className="muted" style={{ margin: 0 }}>{t("map.sel.none")}</p>}
+              ) : (
+                <p className="muted" style={{ margin: 0 }}>
+                  {t("map.sel.none")}
+                </p>
+              )}
             </Card>
             <Card title={t("map.values")}>
-              <DataTable compact columns={[{ key: "nome", label: t("col.country"), value: (r: MapValue) => country(r.code), format: (r) => (r.code === sel ? <strong>{country(r.code)}</strong> : country(r.code)) },
-                { key: "value", label: unit, numeric: true, value: (r) => r.value, format: (r) => f(r.value) }]}
-                rows={values} csvName={`map_${key}.csv`} initialSort={{ key: "value", dir: -1 }} onRow={(r) => select(r.code)} />
+              <DataTable
+                compact
+                columns={[
+                  {
+                    key: "nome",
+                    label: t("col.country"),
+                    value: (r: MapValue) => country(r.code),
+                    format: (r) => (r.code === sel ? <strong>{country(r.code)}</strong> : country(r.code)),
+                  },
+                  { key: "value", label: unit, numeric: true, value: (r) => r.value, format: (r) => f(r.value) },
+                ]}
+                rows={values}
+                csvName={`map_${key}.csv`}
+                initialSort={{ key: "value", dir: -1 }}
+                onRow={(r) => select(r.code)}
+              />
             </Card>
           </div>
         </div>

@@ -1,0 +1,6 @@
+# Generated, data or externally maintained files: not formatted
+public/
+src/i18n/**/*.json
+tests/fixtures.json
+package-lock.json
+index.html
