@@ -19,7 +19,7 @@ held × dollar share, from the ECB consumer survey. The programme estimates a ra
 | **Centre** | **15.4** | Reference level of the programme |
 | Maximum | 23.1 | High assumptions on amounts and dollar share |
 | Declared upper extreme | 42.0 | Individuals variant: counts the same household more than once |
-| Comparison: ESM assumption, 7.5% share | 16.6 | Share assumed by the ESM × circulation of USDT and USDC on 26 November 2026 (USD 243.3 bn) |
+| Comparison: ESM assumption, 7.5% share | 16.6 | Share assumed by the ESM × circulation of USDT and USDC on 27 November 2026 (USD 243.0 bn) |
 | Comparison: ESM assumption, 15% share | 33.3 | As above, double share |
 
 The survey covers 11 countries and is described as experimental by the ECB; the extension to 21 countries is an assumption.
@@ -74,14 +74,14 @@ The ranking orders the funding structure, not the probability that deposits leav
 | Scenario | Stablecoins held (USD bn) | Deposits to replace (EUR bn) | Sight deposits lost | Additional wholesale funding | Credit reduction (EUR bn) |
 |---|---|---|---|---|---|
 | Own estimate, minimum | 9.8 | 8.9 | 0.11% | 0.07% | 4.5 (from 1.5 to 10.8) |
-| **Own estimate, centre** | 16.9 | 15.4 | 0.19% | 0.12% | 7.7 (from 2.7 to 18.6) |
+| **Own estimate, centre** | 16.8 | 15.4 | 0.19% | 0.12% | 7.7 (from 2.7 to 18.6) |
 | Own estimate, maximum | 25.4 | 23.1 | 0.28% | 0.18% | 11.6 (from 4.0 to 28.0) |
 | Comparison: ESM assumption today (7.5%) | 18.2 | 16.6 | 0.20% | 0.13% | 8.3 (from 2.9 to 20.1) |
-| ESM base 2030 | 143 | 130.3 | 1.6% | 1.0% | 65.1 (from 22.5 to 157.7) |
-| ESM high 2030 | 300 | 273.3 | 3.3% | 2.2% | 136.7 (from 47.2 to 330.7) |
-| ESM high 2030, 15% share | 600 | 546.7 | 6.7% | 4.4% | 273.3 (from 94.4 to 661.5) |
+| ESM base 2030 | 143 | 130.5 | 1.6% | 1.0% | 65.3 (from 22.5 to 157.9) |
+| ESM high 2030 | 300 | 273.8 | 3.4% | 2.2% | 136.9 (from 47.3 to 331.3) |
+| ESM high 2030, 15% share | 600 | 547.6 | 6.7% | 4.4% | 273.8 (from 94.6 to 662.6) |
 
-For the area to lose 5% of its sight deposits, USD 448 billion of stablecoins held by residents would
+For the area to lose 5% of its sight deposits, USD 447 billion of stablecoins held by residents would
 be needed, 27 times the centre of the own estimate.
 In the ESM high scenario the required increase in wholesale funding is highest in
 Latvia (+39%), Lithuania (+27%), Slovenia (+25%) and lowest in France (+0.7%).
@@ -129,14 +129,14 @@ Public bank-level data, not supervisory data: the ordering of banks is not a jud
 
 | Module | Data as at | Last run | Details |
 |---|---|---|---|
-| 1 - Level | 26 November 2026 | succeeded | [06_module1_level.md](reports/06_module1_level.md) |
+| 1 - Level | 27 November 2026 | succeeded | [06_module1_level.md](reports/06_module1_level.md) |
 | 2 - Trend | week 16-22 November 2026 | succeeded | [03_module2_weekly_index.md](reports/03_module2_weekly_index.md) |
 | 3 - Vulnerability | October 2026 | succeeded | [04_module3_ranking.md](reports/04_module3_ranking.md) |
 | 4 - Scenarios | balance sheets of October 2026 | succeeded | [05_module4_scenarios.md](reports/05_module4_scenarios.md) |
 | 5 - Credit and transmission | balance sheets of October 2026 | succeeded | [07_module5_credit.md](reports/07_module5_credit.md) |
 | 6 - Individual banks | 30 June 2025 | succeeded | [12_refinements_language_banks.md](reports/12_refinements_language_banks.md) |
 
-Last full update: 27 November 2026, mode: offline.
+Last full update: 27 November 2026, mode: online.
 Definitions, sources, limits and discarded methods: [SPEC.md](SPEC.md).
 
 ---

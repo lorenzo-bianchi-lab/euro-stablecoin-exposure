@@ -238,7 +238,7 @@
   "stabilita_varianti": {
     "A1_pesi_uguali": {
       "paesi": 21,
-      "spearman": 0.9961038961038964,
+      "spearman": 0.996103896103896,
       "paesi_spostati_piu_di_3_posizioni": 0,
       "spostamento_massimo": 1,
       "primi_cinque_in_comune": 5
@@ -252,14 +252,14 @@
     },
     "A3_solo_famiglie": {
       "paesi": 21,
-      "spearman": 0.9779220779220783,
+      "spearman": 0.9779220779220777,
       "paesi_spostati_piu_di_3_posizioni": 0,
       "spostamento_massimo": 3,
       "primi_cinque_in_comune": 4
     },
     "A4_ranghi": {
       "paesi": 21,
-      "spearman": 0.9928527112178479,
+      "spearman": 0.9928527112178477,
       "paesi_spostati_piu_di_3_posizioni": 0,
       "spostamento_massimo": 2,
       "primi_cinque_in_comune": 5
@@ -306,11 +306,11 @@
   "stabilita_nel_tempo": {
     "1_anno": {
       "paesi": 21,
-      "spearman": 0.9974025974025976
+      "spearman": 0.9974025974025973
     },
     "5_anni": {
       "paesi": 21,
-      "spearman": 0.9051948051948053
+      "spearman": 0.9051948051948051
     },
     "10_anni": {
       "paesi": 21,

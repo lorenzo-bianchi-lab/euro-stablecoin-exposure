@@ -1,7 +1,7 @@
 {
   "mese_bilanci": "2026-10",
-  "cambio_usd_per_eur": 1.0975,
-  "data_cambio": "2026-11-26",
+  "cambio_usd_per_eur": 1.0957,
+  "data_cambio": "2026-11-27",
   "anno_popolazione": "2025",
   "tasso_di_sostituzione": 1.0,
   "area_euro": {
@@ -13,7 +13,7 @@
   },
   "scenari_area_euro_R1_T1": {
     "P_minimo": {
-      "importo_mld_usd": 9.80957151491803,
+      "importo_mld_usd": 9.793482923822948,
       "importo_mld_eur": 8.938106163934425,
       "deflusso_mld_eur": 8.938106163934426,
       "perdita_depositi_a_vista": 0.001095308677192131,
@@ -23,8 +23,8 @@
       "eccedenza_mld": 0.0
     },
     "P_centrale": {
-      "importo_mld_usd": 16.860966058285054,
-      "importo_mld_eur": 15.363067023494356,
+      "importo_mld_usd": 16.833312537642765,
+      "importo_mld_eur": 15.363067023494358,
       "deflusso_mld_eur": 15.36306702349436,
       "perdita_depositi_a_vista": 0.0018826472085346681,
       "perdita_depositi_clientela": 0.00111297463548725,
@@ -33,7 +33,7 @@
       "eccedenza_mld": 0.0
     },
     "P_massimo": {
-      "importo_mld_usd": 25.396399717954925,
+      "importo_mld_usd": 25.354747308394725,
       "importo_mld_eur": 23.140227533444126,
       "deflusso_mld_eur": 23.14022753344413,
       "perdita_depositi_a_vista": 0.002835689299804066,
@@ -43,63 +43,63 @@
       "eccedenza_mld": 0.0
     },
     "M1_oggi_base": {
-      "importo_mld_usd": 18.248805225,
-      "importo_mld_eur": 16.62761296127563,
-      "deflusso_mld_eur": 16.627612961275634,
-      "perdita_depositi_a_vista": 0.0020376093574458872,
-      "perdita_depositi_clientela": 0.0012045844391811791,
-      "effetto_sulla_raccolta_pp": 0.0372226761332132,
-      "aumento_raccolta_ingrosso": 0.0013282160080973521,
+      "importo_mld_usd": 18.224045399999998,
+      "importo_mld_eur": 16.632331295062517,
+      "deflusso_mld_eur": 16.63233129506252,
+      "perdita_depositi_a_vista": 0.0020381875595665466,
+      "perdita_depositi_clientela": 0.0012049262580262402,
+      "effetto_sulla_raccolta_pp": 0.03723323862410391,
+      "aumento_raccolta_ingrosso": 0.0013285929092485807,
       "eccedenza_mld": 0.0
     },
     "M1_oggi_alto": {
-      "importo_mld_usd": 36.49761045,
-      "importo_mld_eur": 33.25522592255126,
-      "deflusso_mld_eur": 33.25522592255127,
-      "perdita_depositi_a_vista": 0.0040752187148917745,
-      "perdita_depositi_clientela": 0.0024091688783623583,
-      "effetto_sulla_raccolta_pp": 0.0744453522664264,
-      "aumento_raccolta_ingrosso": 0.0026564320161947042,
+      "importo_mld_usd": 36.448090799999996,
+      "importo_mld_eur": 33.264662590125035,
+      "deflusso_mld_eur": 33.26466259012504,
+      "perdita_depositi_a_vista": 0.004076375119133093,
+      "perdita_depositi_clientela": 0.0024098525160524803,
+      "effetto_sulla_raccolta_pp": 0.07446647724820782,
+      "aumento_raccolta_ingrosso": 0.0026571858184971614,
       "eccedenza_mld": 0.0
     },
     "S0_oggi": {
       "importo_mld_usd": 19.0,
-      "importo_mld_eur": 17.3120728929385,
-      "deflusso_mld_eur": 17.3120728929385,
-      "perdita_depositi_a_vista": 0.0021214856158601933,
-      "perdita_depositi_clientela": 0.0012541700161875884,
-      "effetto_sulla_raccolta_pp": 0.03875491232500952,
-      "aumento_raccolta_ingrosso": 0.0013828907614881773,
+      "importo_mld_eur": 17.34051291411883,
+      "deflusso_mld_eur": 17.340512914118833,
+      "perdita_depositi_a_vista": 0.002124970761528304,
+      "perdita_depositi_clientela": 0.0012562303484219023,
+      "effetto_sulla_raccolta_pp": 0.0388185783304718,
+      "aumento_raccolta_ingrosso": 0.0013851625542879208,
       "eccedenza_mld": 0.0
     },
     "S1_base_2030": {
       "importo_mld_usd": 143.0,
-      "importo_mld_eur": 130.29612756264237,
-      "deflusso_mld_eur": 130.2961275626424,
-      "perdita_depositi_a_vista": 0.015966970687789878,
-      "perdita_depositi_clientela": 0.009439279595517113,
-      "effetto_sulla_raccolta_pp": 0.2916817085513875,
-      "aumento_raccolta_ingrosso": 0.010408072573305758,
+      "importo_mld_eur": 130.51017614310487,
+      "deflusso_mld_eur": 130.51017614310487,
+      "perdita_depositi_a_vista": 0.015993200994660388,
+      "perdita_depositi_clientela": 0.009454786306543788,
+      "effetto_sulla_raccolta_pp": 0.29216087901355087,
+      "aumento_raccolta_ingrosso": 0.010425170803324876,
       "eccedenza_mld": 0.0
     },
     "S2_alto_2030": {
       "importo_mld_usd": 300.0,
-      "importo_mld_eur": 273.34851936218683,
-      "deflusso_mld_eur": 273.3485193621869,
-      "perdita_depositi_a_vista": 0.03349714130305569,
-      "perdita_depositi_clientela": 0.01980268446611982,
-      "effetto_sulla_raccolta_pp": 0.6119196682896242,
-      "aumento_raccolta_ingrosso": 0.021835117286655437,
+      "importo_mld_eur": 273.7975723281921,
+      "deflusso_mld_eur": 273.79757232819213,
+      "perdita_depositi_a_vista": 0.03355216991886796,
+      "perdita_depositi_clientela": 0.01983521602771425,
+      "effetto_sulla_raccolta_pp": 0.6129249210074497,
+      "aumento_raccolta_ingrosso": 0.021870987699282963,
       "eccedenza_mld": 0.0
     },
     "S3_alto_2030_quota_doppia": {
       "importo_mld_usd": 600.0,
-      "importo_mld_eur": 546.6970387243737,
-      "deflusso_mld_eur": 546.6970387243738,
-      "perdita_depositi_a_vista": 0.06699428260611139,
-      "perdita_depositi_clientela": 0.03960536893223964,
-      "effetto_sulla_raccolta_pp": 1.2238393365792484,
-      "aumento_raccolta_ingrosso": 0.04367023457331087,
+      "importo_mld_eur": 547.5951446563842,
+      "deflusso_mld_eur": 547.5951446563843,
+      "perdita_depositi_a_vista": 0.06710433983773592,
+      "perdita_depositi_clientela": 0.0396704320554285,
+      "effetto_sulla_raccolta_pp": 1.2258498420148993,
+      "aumento_raccolta_ingrosso": 0.043741975398565926,
       "eccedenza_mld": 0.0
     }
   },
@@ -107,29 +107,29 @@
     {
       "perdita_depositi_a_vista_area": 0.01,
       "importo_mld_eur": 81.60353651947348,
-      "importo_mld_usd": 89.55988133012214,
-      "multiplo_di_S0": 4.713677964743271,
-      "quota_circolazione_T3_2025": 0.3611285537504925,
-      "quota_circolazione_base_2030": 0.0471367796474327,
-      "quota_circolazione_alto_2030": 0.022389970332530533
+      "importo_mld_usd": 89.41299496438708,
+      "multiplo_di_S0": 4.705947103388794,
+      "quota_circolazione_T3_2025": 0.36053627001768984,
+      "quota_circolazione_base_2030": 0.04705947103388794,
+      "quota_circolazione_alto_2030": 0.02235324874109677
     },
     {
       "perdita_depositi_a_vista_area": 0.05,
       "importo_mld_eur": 408.0176825973674,
-      "importo_mld_usd": 447.7994066506107,
-      "multiplo_di_S0": 23.568389823716352,
-      "quota_circolazione_T3_2025": 1.8056427687524625,
-      "quota_circolazione_base_2030": 0.23568389823716354,
-      "quota_circolazione_alto_2030": 0.11194985166265267
+      "importo_mld_usd": 447.06497482193544,
+      "multiplo_di_S0": 23.52973551694397,
+      "quota_circolazione_T3_2025": 1.8026813500884493,
+      "quota_circolazione_base_2030": 0.2352973551694397,
+      "quota_circolazione_alto_2030": 0.11176624370548385
     },
     {
       "perdita_depositi_a_vista_area": 0.1,
       "importo_mld_eur": 816.0353651947348,
-      "importo_mld_usd": 895.5988133012214,
-      "multiplo_di_S0": 47.136779647432704,
-      "quota_circolazione_T3_2025": 3.611285537504925,
-      "quota_circolazione_base_2030": 0.4713677964743271,
-      "quota_circolazione_alto_2030": 0.22389970332530534
+      "importo_mld_usd": 894.1299496438709,
+      "multiplo_di_S0": 47.05947103388794,
+      "quota_circolazione_T3_2025": 3.6053627001768986,
+      "quota_circolazione_base_2030": 0.4705947103388794,
+      "quota_circolazione_alto_2030": 0.2235324874109677
     }
   ],
   "regola_R3": {
@@ -139,7 +139,7 @@
     "paesi_imputati": [
       "BG"
     ],
-    "correlazione_di_rango_R3_R1": 0.9233766233766233,
+    "correlazione_di_rango_R3_R1": 0.9233766233766234,
     "correlazione_di_rango_R3_R2": 0.9688311688311686,
     "primi_cinque_R3": [
       "BG",
@@ -150,11 +150,11 @@
     ],
     "variazione_massima_rispetto_a_R1": {
       "paese": "BG",
-      "rapporto": 2.7297544703999588
+      "rapporto": 2.729754470399959
     },
     "variazione_minima_rispetto_a_R1": {
       "paese": "LU",
-      "rapporto": 0.2356596568035306
+      "rapporto": 0.23565965680353057
     }
   },
   "confronto_regole_S2": {
@@ -163,47 +163,47 @@
     "eccedenza_R2_mld": 0.0,
     "tipi_di_deposito_area_euro": {
       "T1": {
-        "deflusso_mld_eur": 273.3485193621869,
-        "perdita_depositi_a_vista": 0.03349714130305569,
-        "perdita_depositi_clientela": 0.01980268446611982
+        "deflusso_mld_eur": 273.79757232819213,
+        "perdita_depositi_a_vista": 0.03355216991886796,
+        "perdita_depositi_clientela": 0.01983521602771425
       },
       "T2": {
-        "deflusso_mld_eur": 273.3485193621869,
-        "perdita_depositi_a_vista": 0.03349714130305569,
-        "perdita_depositi_clientela": 0.01980268446611982
+        "deflusso_mld_eur": 273.79757232819213,
+        "perdita_depositi_a_vista": 0.03355216991886796,
+        "perdita_depositi_clientela": 0.01983521602771425
       },
       "T3": {
-        "deflusso_mld_eur": 273.3485193621868,
-        "perdita_depositi_a_vista": 0.019802684466119817,
-        "perdita_depositi_clientela": 0.01980268446611981
+        "deflusso_mld_eur": 273.797572328192,
+        "perdita_depositi_a_vista": 0.01983521602771425,
+        "perdita_depositi_clientela": 0.01983521602771424
       }
     },
     "correlazione_di_rango_T1_T2": 0.9636363636363637,
-    "correlazione_di_rango_T1_T3": 0.9285714285714287
+    "correlazione_di_rango_T1_T3": 0.9285714285714284
   },
   "sensibilita_S2_area_euro": {
     "sostituzione_50_per_cento": {
-      "deflusso_mld_eur": 136.67425968109345,
-      "perdita_depositi_a_vista": 0.016748570651527846,
-      "perdita_depositi_clientela": 0.00990134223305991,
-      "effetto_sulla_raccolta_pp": 0.3059598341448121,
-      "aumento_raccolta_ingrosso": 0.010917558643327718,
+      "deflusso_mld_eur": 136.89878616409607,
+      "perdita_depositi_a_vista": 0.01677608495943398,
+      "perdita_depositi_clientela": 0.009917608013857125,
+      "effetto_sulla_raccolta_pp": 0.30646246050372483,
+      "aumento_raccolta_ingrosso": 0.010935493849641481,
       "eccedenza_mld": 0.0
     },
     "cambio_piu_10": {
-      "deflusso_mld_eur": 248.49865396562444,
-      "perdita_depositi_a_vista": 0.03045194663914154,
-      "perdita_depositi_clientela": 0.01800244042374529,
-      "effetto_sulla_raccolta_pp": 0.556290607536022,
-      "aumento_raccolta_ingrosso": 0.019850106624232217,
+      "deflusso_mld_eur": 248.90688393472007,
+      "perdita_depositi_a_vista": 0.030501972653516323,
+      "perdita_depositi_clientela": 0.018032014570649315,
+      "effetto_sulla_raccolta_pp": 0.5572044736431359,
+      "aumento_raccolta_ingrosso": 0.019882716090257237,
       "eccedenza_mld": 0.0
     },
     "cambio_meno_10": {
-      "deflusso_mld_eur": 303.7205770690964,
-      "perdita_depositi_a_vista": 0.037219045892284086,
-      "perdita_depositi_clientela": 0.022002982740133122,
-      "effetto_sulla_raccolta_pp": 0.6799107425440265,
-      "aumento_raccolta_ingrosso": 0.024261241429617143,
+      "deflusso_mld_eur": 304.2195248091023,
+      "perdita_depositi_a_vista": 0.037280188798742175,
+      "perdita_depositi_clientela": 0.022039128919682495,
+      "effetto_sulla_raccolta_pp": 0.6810276900082772,
+      "aumento_raccolta_ingrosso": 0.024301097443647734,
       "eccedenza_mld": 0.0
     }
   }

@@ -1,5 +1,5 @@
 series,description,code,euro_area_countries,countries,missing,earliest_start,latest_start,last_observation,countries_at_last_observation
-passivo_totale,"Passività totali, tutte le valute",Q.S.L.A.TO1.A.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2009-Q3,2026-Q2,13
-passivo_valuta_nazionale,Passività in valuta nazionale (euro),Q.S.L.A.TO1.D.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2011-Q2,2026-Q2,13
-passivo_valuta_estera,"Passività in valuta estera, totale",Q.S.L.A.TO1.F.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2009-Q3,2026-Q2,13
-passivo_usd,Passività in dollari,Q.S.L.A.USD.F.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2014-Q4,2026-Q2,13
+passivo_totale,"Total liabilities, all currencies",Q.S.L.A.TO1.A.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2009-Q3,2026-Q2,13
+passivo_valuta_nazionale,Liabilities in domestic currency (euro),Q.S.L.A.TO1.D.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2011-Q2,2026-Q2,13
+passivo_valuta_estera,"Liabilities in foreign currency, total",Q.S.L.A.TO1.F.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2009-Q3,2026-Q2,13
+passivo_usd,Liabilities in US dollars,Q.S.L.A.USD.F.5J.A.{paese}.A.5J.A,13,AT BE CY DE ES FI FR GR IE IT LU NL PT,BG EE HR LT LV MT SI SK,1977-Q4,2014-Q4,2026-Q2,13

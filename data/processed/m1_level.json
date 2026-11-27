@@ -1,24 +1,24 @@
 {
-  "calcolato_il": "2026-11-27T01:01:27+00:00",
+  "calcolato_il": "2026-11-27T15:07:20+00:00",
   "avvertenza": "Application of an external assumption (ESM Working Paper 79), not an estimate.",
-  "data_circolazione": "2026-11-26",
+  "data_circolazione": "2026-11-27",
   "circolazione_mld_usd": {
-    "tutte_le_stablecoin_in_dollari": 282.71482,
-    "usdt": 173.935359,
-    "usdc": 69.382044,
-    "usdt_piu_usdc": 243.317403,
-    "quota_usdt_usdc": 0.8606460849841548
+    "tutte_le_stablecoin_in_dollari": 282.366107,
+    "usdt": 173.773859,
+    "usdc": 69.213413,
+    "usdt_piu_usdc": 242.987272,
+    "quota_usdt_usdc": 0.8605397955923938
   },
   "controllo_coingecko": {
     "usdt_mld": 174.0163255028594,
-    "usdc_mld": 69.28716589141833,
-    "aggiornato": "2026-11-26T16:37:52.000Z",
-    "differenza_usdt": -0.0004652810742061808,
-    "differenza_usdc": 0.0013693460738508634
+    "usdc_mld": 69.15257485027733,
+    "aggiornato": "2026-11-27T15:05:45.000Z",
+    "differenza_usdt": -0.0013933549174696136,
+    "differenza_usdc": 0.0008797669480042902
   },
   "cambio": {
-    "data": "2026-11-26",
-    "usd_per_eur": 1.0975
+    "data": "2026-11-27",
+    "usd_per_eur": 1.0957
   },
   "quote_esm": {
     "base": 0.075,
@@ -26,16 +26,16 @@
   },
   "base_di_calcolo": "USDT + USDC, the same base as the ESM (WP 79, section 4.4.1)",
   "livello": {
-    "base_mld_usd": 18.248805225,
-    "alto_mld_usd": 36.49761045,
-    "base_mld_eur": 16.62761296127563,
-    "alto_mld_eur": 33.25522592255126
+    "base_mld_usd": 18.224045399999998,
+    "alto_mld_usd": 36.448090799999996,
+    "base_mld_eur": 16.632331295062517,
+    "alto_mld_eur": 33.264662590125035
   },
   "variante_tutte_le_stablecoin_in_dollari": {
-    "base_mld_usd": 21.203611499999997,
-    "alto_mld_usd": 42.407222999999995,
-    "base_mld_eur": 19.319919362186788,
-    "alto_mld_eur": 38.639838724373575
+    "base_mld_usd": 21.177458025,
+    "alto_mld_usd": 42.35491605,
+    "base_mld_eur": 19.32778865109063,
+    "alto_mld_eur": 38.65557730218126
   },
   "convalida_esm": {
     "data": "2025-09-30",
@@ -46,7 +46,7 @@
     "differenza_con_tutte": 0.18121586290322567,
     "livello_base_ricalcolato_mld_usd": 18.586665375,
     "livello_esm_mld_usd": 19.0,
-    "crescita_circolazione_da_allora": -0.01817755596194448
+    "crescita_circolazione_da_allora": -0.019509684372310376
   },
   "rapporto_con_i_depositi": {
     "mese_depositi": "2026-10",

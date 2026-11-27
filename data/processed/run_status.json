@@ -1,34 +1,34 @@
 {
-  "eseguito_il": "2026-11-27T01:01:25+00:00",
-  "modalita": "senza rete",
+  "eseguito_il": "2026-11-27T15:06:37+00:00",
+  "modalita": "con scarico dalle fonti",
   "moduli": {
     "modulo3": {
       "esito": "ok",
-      "secondi": 1.5
+      "secondi": 40.2
     },
     "modulo1": {
       "esito": "ok",
-      "secondi": 0.7
+      "secondi": 3.3
     },
     "modulo2": {
       "esito": "ok",
-      "secondi": 2.3
+      "secondi": 75.7
     },
     "livello_proprio": {
       "esito": "ok",
-      "secondi": 0.1
+      "secondi": 1.7
     },
     "modulo4": {
       "esito": "ok",
-      "secondi": 0.9
+      "secondi": 1.6
     },
     "modulo5": {
       "esito": "ok",
-      "secondi": 0.8
+      "secondi": 33.3
     },
     "modulo6": {
       "esito": "ok",
-      "secondi": 0.4
+      "secondi": 0.5
     },
     "test_modulo2": {
       "esito": "ok",
