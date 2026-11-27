@@ -32,7 +32,7 @@ An independent university project (ESCP Business School) by Lorenzo Bianchi.
 
 ## Key findings
 
-At the data of 26 November 2026 (bank balance sheets of October 2026). The application and
+At the data of 27 November 2026 (bank balance sheets of October 2026). The application and
 [SUMMARY.md](SUMMARY.md) always show the latest figures.
 
 1. **Level.** Euro area residents hold an estimated **EUR 15.4 billion** of dollar
@@ -46,8 +46,8 @@ At the data of 26 November 2026 (bank balance sheets of October 2026). The appli
 3. **Central scenario.** At the central level, euro area banks would have to replace
    0.19% of their sight deposits, with about EUR 7.7 billion less credit over two years
    (range 2.7 to 18.6): small for the area as a whole.
-4. **High scenario.** At the ESM high assumption for 2030 (about EUR 273 billion), the
-   area would replace about 3.3% of its sight deposits, with about EUR 137 billion less
+4. **High scenario.** At the ESM high assumption for 2030 (about EUR 274 billion), the
+   area would replace about 3.4% of its sight deposits, with about EUR 137 billion less
    credit over two years: an order of magnitude, not a forecast.
 5. **Banks.** Applied bank by bank to 85 banks (61% of the assets of resident banks), the
    coefficients of ECB Working Paper 3199 give EUR 0.45 of credit per euro of outflow,
